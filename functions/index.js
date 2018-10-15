@@ -16,3 +16,6 @@ exports.updateTurn = require('./database/updateTurn');
 
 exports.updateTurns = require('./database/updateTurns');
 
+exports.cnpj = require('./apis/cnpj');
+
+exports.fnesol = require('./apis/fnesol');
