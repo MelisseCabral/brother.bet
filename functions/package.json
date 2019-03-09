@@ -14,7 +14,9 @@
     "firebase-functions": "^2.2.0",
     "request": "2.88.0",
     "cheerio": "1.0.0-rc.2",
-    "request-promise": "4.2.2"
+    "request-promise": "4.2.2",
+    "betfair": "0.7.8",
+    "async": "2.6.2"
   },
   "devDependencies": {
     "eslint": "^5.12.0",

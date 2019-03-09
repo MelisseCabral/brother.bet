@@ -2,6 +2,8 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const request = require('request');
 const cheerio = require('cheerio');
+const betfair = require('betfair');
+const async = require('async');
 
 admin.initializeApp(functions.config().firebase);
 admin.firestore().settings({ timestampsInSnapshots: true });
@@ -15,3 +17,5 @@ exports.updateTable = require('./database/updateTable');
 exports.updateTurn = require('./database/updateTurn');
 
 exports.updateTurns = require('./database/updateTurns');
+
+exports.readableBetfair = require('./betfair/readable');
