@@ -1,10 +1,16 @@
 const betfair = require('betfair');
 const async = require('async');
 const session = new betfair.BetfairSession('WlyzyQfAXOW76Xr5');
+
 const name = 'juloko';
 const password = 'h1dr4t4nt3';
 
-async.series([login, keepAlive, getAllMarkets, logout], function (err) {
+var haha = 'getAccountFunds'
+var response;
+
+async.series([login, keepAlive, () => {
+    response = getReadable()
+}, logout], function (err) {
     console.log(err ? "Error " + err : "Done!");
     process.exit(0);
 });
@@ -26,21 +32,19 @@ function keepAlive(callback) {
 function logout(callback) {
     session.logout(function (err, res) {
         console.log(err ? "Logout failed " + err : "Logout OK");
+        console.log(response);
         callback(err, res);
     });
 }
 
-function getAllMarkets(callback) {
-    session.getAccountFunds({ filter: {} }, function (err, res) {
+function getReadable() {
+    session[haha]({ filter: {} }, function (err, res) {
         if (err) {
             console.log('listCountries failed');
         } else {
-            console.log(JSON.stringify(res))
             console.log(res)
-            // for (var index in res.response.result) {
-            //     var item = res.response.result[index];
-            //     console.log("country:%s markets:%s", item.countryCode, item.marketCount)
-            // }
+            return res;
         }
     });
 }
+

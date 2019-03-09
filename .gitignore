@@ -34,10 +34,13 @@ build/Release
 
 # Dependency directories
 node_modules/
-node_modules/.
+node_modules/.bin
 node_modules/*
 jspm_packages/
-/functions/node_modules/
+functions/node_modules/
+functions/node_modules
+
+
 
 
 # TypeScript v1 declaration files
@@ -63,3 +66,5 @@ typings/
 
 # next.js build output
 .next
+node_modules
+node_modules

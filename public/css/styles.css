@@ -1,8 +1,8 @@
 /* Fonts */
 
 @font-face {
-  font-family: "Cinzel";
-  src: url('font/eurofencia.tff') format('truetype');
+  font-family: "eurofurence";
+  src: url('font/eurofurence.tff') format('truetype');
 }
 
 h4 {

@@ -13,7 +13,8 @@
   <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
 
   <!-- Page styles -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-indigo.min.css" />
   <link rel="stylesheet" href="css/styles.css">
@@ -29,10 +30,12 @@
 
         <div class='init-box-position'>
           <div class="init-box mdl-shadow--4dp">
-            <button id="btnCloseRobot" class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+            <button id="btnCloseRobot"
+              class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class=" material-icons">close</i>
             </button>
-            <button id="btnSaveTicket" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+            <button id="btnSaveTicket"
+              class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class="material-icons">save</i>
             </button>
             <h4>Let's cook a robot!</h4>
@@ -82,7 +85,8 @@
                   <label class="mdl-textfield__label" for="sample3">Stake</label>
                 </div>
                 <span>
-                  <input id="sliderStake" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="0" tabindex="0">
+                  <input id="sliderStake" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="0"
+                    tabindex="0">
                 </span>
                 <span class="values amount">$
                   <span id="valueStake">0.0</span>
@@ -117,11 +121,12 @@
           <nav class="android-navigation mdl-navigation">
             <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">
               <span>$ </span>
-              <span id="valueBudget">100000</span>
+              <span id="valueBudget"></span>
             </a>
           </nav>
         </div>
-        <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+        <div
+          class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
           <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
             <i onselectstart="return false;" ondragstart="return false" class="material-icons">search</i>
           </label>
@@ -131,7 +136,8 @@
         </div>
 
         <!-- Navigation -->
-        <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+        <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect"
+          id="more-button">
           <i onselectstart="return false;" ondragstart="return false" class="material-icons">arrow_upward</i>
         </button>
         <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
@@ -159,28 +165,46 @@
     </div>
 
     <div id="home" class="android-content mdl-layout__content">
-      <div class=" mdl-typography--text-center">
-        <div class="logo-font android-slogan">be together. not the same.</div>
-        <div class="logo-font android-sub-slogan">welcome to brother bet. do your thing. see what's going on.</div>
+      <div id="tchanTiped" class=" mdl-typography--text-center">
+        <div id="tchanTiped" class="logo-font android-slogan">
+          <span class="typed"></span>
+          <span class="typed-cursor"></span>
+          <div class="logo-font android-sub-slogan">welcome to brother bet. do your thing. see what's going on.</div>
+        </div>
+        <div style="display:none" class="mdl-grid portfolio-max-width">
+          <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
+            <div class="mdl-card__media article-image"> </div>
+            <div class="mdl-card__supporting-text">
+              <spam style="float: left; color:rgba(64, 50, 148, 1)" id="txtBudget" class="font-title">Information</spam>
 
+
+            </div>
+          </div>
+        </div>
         <div class="automations ">
-          <button id='btnRobot' class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnRobot'
+            class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">android</i>
           </button>
-          <button id='btnBug' class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnBug'
+            class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">bug_report</i>
           </button>
-          <button id='btnCode' class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnCode'
+            class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">code</i>
           </button>
-          <button id='btnUp' class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnUp'
+            class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">trending_up</i>
           </button>
-          <button id='btnFire' class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnFire'
+            class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">whatshot</i>
           </button>
 
-          <button id="btnSend" class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id="btnSend"
+            class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">send</i>
           </button>
         </div>
@@ -265,31 +289,58 @@
                   <li>(Back and lay for all ones.) </li>
                 </ul>
               </div>
-              <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Martingale</h3>
+              <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Under 2.5 HT</h3>
               <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding">
-                <p>
-                  Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod labore sit amet. Voluptate
-                  voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla reprehenderit
-                  qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis enim
-                  deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt pariatur
-                  duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
-                </p>
+                <ol>
+                  <li>Find markets.</li>
+                  <li>If FH and have a goal and odd > 1.4, UNDER 2.5 HT</li>
+                  <li>If FH and have another goal and odd > 1.4, UNDER 2.5 HT</li>
+                  <li>If second half, close bet.</li>
+                </ol>
               </div>
+              <div class="mdl-cell mdl-cell--6-col">
+                <img class="article-image" src=" images/under-two-half.jpg" border="0" alt="">
+              </div>
+              <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Martingale</h3>
               <div class="mdl-cell mdl-cell--6-col">
                 <img class="article-image" src=" images/martingale.png" border="0" alt="">
               </div>
+              <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding">
+                <p>
+                  Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod
+                  labore sit amet. Voluptate
+                  voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla
+                  reprehenderit
+                  qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis
+                  enim
+                  deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt
+                  pariatur
+                  duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
+                </p>
+              </div>
+
               <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Final Concept</h3>
+              <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding ">
+                <p>
+                  Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod
+                  labore sit amet. Voluptate
+                  voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla
+                  reprehenderit
+                  qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis
+                  enim
+                  deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt
+                  pariatur
+                  duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
+                </p>
+                <ul>
+                  <li>1 - Match odds, the winner.</li>
+                  <li>2 - Under/over, mais/menos goals.</li>
+                  <li>3 - Match result.</li>
+                  <li>(Back and lay for all ones.) </li>
+                </ul>
+              </div>
               <div class="mdl-cell mdl-cell--6-col">
                 <img class="article-image" src=" images/trump.jpg" border="0" alt="">
-              </div>
-              <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding ">
-                <p>Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod labore
-                  sit amet. Voluptate voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit
-                  ex nulla reprehenderit qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident
-                  nulla veniam. Duis enim deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit
-                  labore est deserunt pariatur duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing
-                  ipsum enim irure.
-                </p>
               </div>
             </div>
           </div>
@@ -307,11 +358,13 @@
             </div>
             <div class="mdl-card__supporting-text">
               <p>
-                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur
+                Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim
+                nostrud aliqua consectetur
                 ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
               </p>
               <p>
-                Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod labore sit amet.
+                Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod
+                labore sit amet.
               </p>
               <form action="#" class="">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
@@ -328,7 +381,8 @@
                   <label class="mdl-textfield__label" for="note">Enter note</label>
                 </div>
                 <p>
-                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                    type="submit">
                     Submit
                     <span class="mdl-button__ripple-container ">
                       <span class="mdl-ripple "></span>
@@ -349,6 +403,10 @@
       <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
       <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
       <script src="js/firebase.js"></script>
+      <!-- jQuery -->
+      <script src="js/jquery.min.js"></script>
+
+      <script src="js/typed.js"></script>
     </footer>
 </body>
 

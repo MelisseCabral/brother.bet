@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     // User is signed in.
                     // Reporting status.
                     console.log("Signed in.");
-                    // Redirect to home.
-                    window.location.href = '/home.html';
+                                        // Redirect to home.
+                                        window.location.href = '/home.html';
                 }
             } else {
                 if (!(document.URL === "https://brother-bet.firebaseapp.com/")) {
@@ -173,8 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         console.log("Signed out.");
                     }
-                    // Redirect to login.
-                    window.location.href = '/';
                 }
             }
         });

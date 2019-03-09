@@ -1,5 +1,4 @@
 // Shared constants.
-typeMarket
 const overlayView = document.querySelector(".overlay");
 const homeView = document.querySelector("#home");
 const accountView = document.querySelector("#account");
@@ -30,6 +29,7 @@ var stakeSlider = document.querySelector("#sliderStake");
 var budgetValue = document.querySelector("#valueBudget");
 var stakeValue = document.querySelector("#valueStake");
 var percStakeValue = document.querySelector("#valuePercStake");
+var tchanTiped = document.querySelector("#tchanTiped")
 
 
 // Actions functions.
@@ -331,4 +331,55 @@ function drawerHide() {
     }, false);
 }
 
+//Timers
+async function updateMoney() {
+    setInterval(() => {
+        //budgetValue.value = readableBetfair('getAccountFunds')
+        //console.log(readableBetfair('getAccountFunds'))
+    }, 60000);
+}
+
+//Prototype
+async function readableBetfair(methodName) {
+    let dataReturn;
+    await $.ajax({
+        url: 'https://us-central1-minevideo-2ceee.cloudfunctions.net/readableBetfair',
+        dataType: "json",
+        method: 'GET',
+        crossDomain: true,
+        headers: {
+            'Accept': 'application/json'
+        },
+
+        data: {
+            "method": methodName,
+        },
+        success: function (data) {
+            console.log(JSON.stringify(data));
+            dataReturn = data;
+        }
+    });
+
+    return dataReturn;
+}
+
+//Typed
+function typedTchan() {
+    Typed.new('.typed', {
+        strings: ["Hey BRO, lets bet!!",
+            "odds are going up",
+            "or down, so go by LAY",
+            "goaaaaaaaaal!!!!",
+            "improve your assets",],
+        typeSpeed: 100,
+        backDelay: 500,
+    });
+    setTimeout(() => {
+    }, 10000)
+}
+
+
 // Main.
+document.addEventListener('DOMContentLoaded', async function () {
+    await updateMoney();
+});
