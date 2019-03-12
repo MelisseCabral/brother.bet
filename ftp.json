@@ -1,0 +1,18 @@
+{
+    "git-ftp-commands": [
+        "access Git bash",
+        "cd c:>program files> git",
+        "curl https://raw.githubusercontent.com/git-ftp/git-ftp/master/git-ftp > /bin/git-ftp",
+        "chmod 755 /bin/git-ftp"
+    ],
+    "git-commands": [
+        "git config git-ftp.url 'br.tplinkdns.com'",
+        "git config git-ftp.user 'julio'",
+        "git config git-ftp.password 'jfl'",
+        "git config git-ftp.syncroot  path/dir"
+    ],
+    "host": "br.tplinkdns.com",
+    "name": "julio",
+    "password": "jfl",
+    "program": "filezilla"
+}
