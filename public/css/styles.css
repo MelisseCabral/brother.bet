@@ -188,7 +188,7 @@ a img {
 .automations {
   animation-duration: 1s;
   animation-delay: 2s;
-  position: absolute;
+  position: fixed;
   right: 1vw;
   bottom: 1vw;
   z-index: 3;
@@ -220,18 +220,18 @@ a img {
 }
 
 .init-box-position {
-  padding-top: 20vh !important;
+  padding: 5vh 0 5vh 0 !important;
 }
 
 .init-box {
-  width: 30vw;
-  position: absolute;
+  position: relative;
+  min-height: 70vh;
   height: auto;
   border-radius: 10px;
   background: white;
   text-align: center;
-  padding-bottom: 2%;
-  padding-top: 2%;
+  padding-bottom: 5vh;
+  padding-top: 5vh;
   z-index: 10;
 }
 
@@ -318,10 +318,10 @@ a img {
 }
 
 .mdl-slider__container {
-  width: 50% !important;
-  left: 65px;
-  float: left;
+  width: calc(100% + 50px)!important;
   border: 2%;
+  float: left;
+  left: -25px;
   margin-top: 1.5%;
 }
 
@@ -342,7 +342,6 @@ a img {
 }
 
 #home {
-  overflow: hidden;
 }
 
 #account {
@@ -372,7 +371,7 @@ a img {
 }
 
 #robot .mdl-textfield {
-  width: 400px !important;
+  max-width: 400px !important;
   margin-bottom: 1%
 }
 
@@ -382,8 +381,7 @@ a img {
 }
 
 #stake {
-  padding-bottom: 10%;
-  align-self: center;
+  padding-bottom: 3%;
 }
 
 #stake .btn-close:hover {
@@ -391,17 +389,14 @@ a img {
 }
 
 #stake .amount {
-  position: sticky;
-  right: 44.5%;
+  margin-left: 10px;
   float: right;
   text-align: right;
   z-index: 999;
+  padding-left: 10px
 }
 
 #stake .perc {
-  position: sticky;
-  right: 40.5%;
-  text-align: right;
   float: right;
 }
 
@@ -416,13 +411,13 @@ a img {
 }
 
 #typeMarket .mdl-textfield {
-  width: 25px !important;
+  width: 70px !important;
   margin: 0 !important;
   text-align: center !important;
   
 }
 
-#typeMarket input {
+#typeMarket input, label {
   text-align: center !important;
   cursor: text !important;
 }

@@ -23,13 +23,14 @@
 
 <body>
   <div id="robot">
-    <div class="overlay"></div>
-    <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--4-col"></div>
-      <div class="mdl-cell mdl-cell--4-col">
+    <div class="overlay"> </div>
 
-        <div class='init-box-position'>
-          <div class="init-box mdl-shadow--4dp">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--3-col"></div>
+      <div class="mdl-cell mdl-cell--6-col">
+
+        <div class='init-box-position' style="        margin: auto;">
+          <div class=" init-box mdl-shadow--4dp">
             <button id="btnCloseRobot"
               class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class=" material-icons">close</i>
@@ -44,7 +45,7 @@
                 <input class="mdl-textfield__input label-float" type="text" id="txtGame" autocomplete="off">
                 <label class="mdl-textfield__label" for="sample3">Game</label>
               </div>
-              <div>
+              <div id="position">
                 <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
                   <label class="mdl-textfield__label" for="sample3">Position</label>
                 </div>
@@ -59,7 +60,7 @@
                   </span>
                 </div>
               </div>
-              <div>
+              <div id="market">
                 <div class="market-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
                   <label class="mdl-textfield__label" for="sample3">Market</label>
                 </div>
@@ -79,29 +80,83 @@
                 </div>
               </div>
               <div id="typeMarket">
-              </div>
-              <div id="stake">
-                <div class="stake-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
-                  <label class="mdl-textfield__label" for="sample3">Stake</label>
+                <div class="correct_score" style="display: none">
+                  <span id="homeName" class="first-team">Barcelona </span>
+                  <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused" data-upgraded=",MaterialTextfield">
+                    <input id="homeScore" class="mdl-textfield__input" type="number" id="sample2">
+                    <label class="mdl-textfield__label" for="sample2"></label>
+                  </div>
+                  <span class="second-team"> VS </span>
+                  <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused" data-upgraded=",MaterialTextfield">
+                    <input id="awayScore" class="mdl-textfield__input" type="number" id="sample2">
+                    <label class="mdl-textfield__label" for="sample2"></label>
+                  </div>
+                  <span id="awayName" class="second-team"> Fluminence</span>
                 </div>
-                <span>
-                  <input id="sliderStake" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="0"
-                    tabindex="0">
-                </span>
-                <span class="values amount">$
-                  <span id="valueStake">0.0</span>
-                </span>
-                <span class="values perc">
-                  <span id="valuePercStake">0.0</span>%</span>
+                <div class="match_odds" style="display: none">
+                  <br>
+                  <span id="chipHome" class="class-chipHome mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">H</span>
+                    <span class="mdl-chip__text">home</span>
+                  </span>
+                  <span id="chipAway" class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">A</span>
+                    <span class="mdl-chip__text">away</span>
+                  </span>
+                  <span id="chipDraw" class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">D</span>
+                    <span class="mdl-chip__text">draw</span>
+                  </span>
+                </div>
+                <div class="under_or_over" style="display: none">
+                  <div>
+                    <br>
+                    <span id="chipUnder" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">U</span>
+                      <span class="mdl-chip__text">under</span>
+                    </span>
+                    <span id="chipOver" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">O</span>
+                      <span class="mdl-chip__text">over</span>
+                    </span>
+                  </div>
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <input id="operator" class="mdl-textfield__input" type="text" id="sample2">
+                    <label class="mdl-textfield__label" for="sample2">operator</label>
+                  </div>
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <input id="odd" class="mdl-textfield__input" type="number" id="sample2">
+                    <label class="mdl-textfield__label" for="sample2"> odd</label>
+                  </div>
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <input id="closeMinute" class="mdl-textfield__input" type="number" id="sample2">
+                    <label class="mdl-textfield__label" for="sample2">close min</label>
+                  </div>
+                </div>
               </div>
             </div>
+            <div id="stake">
+              <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Stake</label>
+                <br>
+                <br>
+                <span>
+                  <span class="values amount">$ <span id="valueStake">0.0</span></span>
+                  <span class="values perc"> <span id="valuePercStake">0.0</span>%</span>
+                </span>
+                <input id="sliderStake" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="0"
+                  tabindex="0">
+              </div>
+
+            </div>
+
             <button id="btnBuild" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Build</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
+  </div>
 
   <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
     <div class="mdl-snackbar__text"></div>
@@ -121,7 +176,7 @@
           <nav class="android-navigation mdl-navigation">
             <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">
               <span>$ </span>
-              <span id="valueBudget"></span>
+              <span id="valueBudget">100000</span>
             </a>
           </nav>
         </div>
@@ -169,15 +224,16 @@
         <div id="tchanTiped" class="logo-font android-slogan">
           <span class="typed"></span>
           <span class="typed-cursor"></span>
-          <div class="logo-font android-sub-slogan">welcome to brother bet. do your thing. see what's going on.</div>
+          <div class="logo-font android-sub-slogan">welcome to brother bet. do your thing. see what's going on.
+          </div>
         </div>
+
         <div style="display:none" class="mdl-grid portfolio-max-width">
           <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
             <div class="mdl-card__media article-image"> </div>
             <div class="mdl-card__supporting-text">
-              <spam style="float: left; color:rgba(64, 50, 148, 1)" id="txtBudget" class="font-title">Information</spam>
-
-
+              <spam style="float: left; color:rgba(64, 50, 148, 1)" id="txtBudget" class="font-title">Information
+              </spam>
             </div>
           </div>
         </div>
@@ -307,30 +363,36 @@
               </div>
               <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding">
                 <p>
-                  Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod
+                  Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim
+                  eiusmod
                   labore sit amet. Voluptate
                   voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla
                   reprehenderit
                   qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis
                   enim
-                  deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt
+                  deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est
+                  deserunt
                   pariatur
-                  duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
+                  duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim
+                  irure.
                 </p>
               </div>
 
               <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Final Concept</h3>
               <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding ">
                 <p>
-                  Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod
+                  Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim
+                  eiusmod
                   labore sit amet. Voluptate
                   voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla
                   reprehenderit
                   qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis
                   enim
-                  deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt
+                  deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est
+                  deserunt
                   pariatur
-                  duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
+                  duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim
+                  irure.
                 </p>
                 <ul>
                   <li>1 - Match odds, the winner.</li>
@@ -397,16 +459,16 @@
     </div>
 
     <footer>
+      <!-- jQuery -->
+      <script src="js/jquery.min.js"></script>
       <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
       <script src="js/side_effect.js"></script>
       <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js "></script>
       <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
       <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
       <script src="js/firebase.js"></script>
-      <!-- jQuery -->
-      <script src="js/jquery.min.js"></script>
-
       <script src="js/typed.js"></script>
+      <script src="js/robots.js"></script>
     </footer>
 </body>
 

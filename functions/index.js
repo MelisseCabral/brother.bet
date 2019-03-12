@@ -18,4 +18,4 @@ exports.updateTurn = require('./database/updateTurn');
 
 exports.updateTurns = require('./database/updateTurns');
 
-exports.readableBetfair = require('./betfair/readable');
+exports.readableBetfair = require('../src/readable');

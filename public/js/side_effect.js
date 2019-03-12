@@ -102,7 +102,6 @@ if (contactButton) {
 if (robotButton) {
     robotButton.addEventListener("click", function () {
         document.querySelector("#robot").style.display = "block";
-        stakeSlider.change();
     })
 }
 
@@ -126,6 +125,7 @@ if (overlayView) {
 
 if (backChip) {
     backChip.addEventListener("click", function () {
+        $('#position').val('back');
         // Display components.
         backChip.style.backgroundColor = '#FAFAFA';
         layChip.style.backgroundColor = '#dedede';
@@ -134,6 +134,7 @@ if (backChip) {
 
 if (layChip) {
     layChip.addEventListener("click", function () {
+        $('#position').val('lay');
         // Display components.
         backChip.style.backgroundColor = '#dedede';
         layChip.style.backgroundColor = '#FAFAFA';
@@ -142,25 +143,15 @@ if (layChip) {
 
 if (correctScoreChip) {
     correctScoreChip.addEventListener("click", function () {
+        $('#market').val('correct_score');
         // Display components.
         correctScoreChip.style.backgroundColor = '#FAFAFA';
         matchOddsChip.style.backgroundColor = '#dedede';
         underOverChip.style.backgroundColor = '#dedede';
         // Fill options panel.
-        document.querySelector('#typeMarket').innerHTML = '\
-        <div class="match_odds">\
-            <span class="first-team">Barcelona </span>\
-            <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused" data-upgraded=",MaterialTextfield">\
-                <input class="mdl-textfield__input" type="number" id="sample2">\
-                <label class="mdl-textfield__label" for="sample2"></label>\
-            </div>\
-            <span class="second-team"> VS </span>\
-            <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused" data-upgraded=",MaterialTextfield">\
-                <input class="mdl-textfield__input" type="number" id="sample2">\
-                <label class="mdl-textfield__label" for="sample2"></label>\
-            </div>\
-            <span class="second-team"> Fluminence</span>\
-        </div>';
+        document.querySelector('.correct_score').style.display = 'block';
+        document.querySelector('.match_odds').style.display = 'none';
+        document.querySelector('.under_or_over').style.display = 'none';
         // Add Event Listener;
         initMarket();
     });
@@ -168,29 +159,15 @@ if (correctScoreChip) {
 
 if (matchOddsChip) {
     matchOddsChip.addEventListener("click", function () {
+        $('#market').val('match_odds');
         // Display components.
         correctScoreChip.style.backgroundColor = '#dedede';
         matchOddsChip.style.backgroundColor = '#FAFAFA';
         underOverChip.style.backgroundColor = '#dedede';
         // Fill options panel.
-        document.querySelector('#typeMarket').innerHTML = '\
-        <div class="match_odds">\
-            <br>\
-            <div>\
-                <span id="chipHome" class="class-chipHome mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">H</span>\
-                    <span class="mdl-chip__text">home</span>\
-                </span>\
-                <span id="chipAway" class="mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">A</span>\
-                    <span class="mdl-chip__text">away</span>\
-                </span>\
-                <span id="chipDraw" class="mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">D</span>\
-                    <span class="mdl-chip__text">draw</span>\
-                </span>\
-            <div>\
-        </div>';
+        document.querySelector('.correct_score').style.display = 'none';
+        document.querySelector('.match_odds').style.display = 'block';
+        document.querySelector('.under_or_over').style.display = 'none';
         // Add Event Listener;
         initMarket();
     });
@@ -198,44 +175,15 @@ if (matchOddsChip) {
 
 if (underOverChip) {
     underOverChip.addEventListener("click", function () {
+        $('#market').val('under_or_over');
         // Display components.
         correctScoreChip.style.backgroundColor = '#dedede';
         matchOddsChip.style.backgroundColor = '#dedede';
         underOverChip.style.backgroundColor = '#FAFAFA';
         // Fill options panel.
-        document.querySelector('#typeMarket').innerHTML = '\
-        <div class="under-over">\
-            <br>\
-            <div>\
-                <span id="chipHome" class="mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">H</span>\
-                    <span class="mdl-chip__text">home</span>\
-                </span>\
-                <span id="chipAway" class="mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">A</span>\
-                    <span class="mdl-chip__text">away</span>\
-                </span>\
-                <span id="chipDraw" class="mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">D</span>\
-                    <span class="mdl-chip__text">draw</span>\
-                </span>\
-            </div>\
-            <div>\
-                <br>\
-                <span id="chipUnder" class="mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">U</span>\
-                    <span class="mdl-chip__text">under</span>\
-                </span>\
-                <span id="chipOver" class="mdl-chip mdl-chip--contact">\
-                    <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">O</span>\
-                    <span class="mdl-chip__text">over</span>\
-                </span>\
-            </div>\
-            <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused" data-upgraded=",MaterialTextfield">\
-                <input class="mdl-textfield__input" type="number" id="sample2">\
-                <label class="mdl-textfield__label" for="sample2"></label>\
-            </div>\
-        </div>';
+        document.querySelector('.correct_score').style.display = 'none';
+        document.querySelector('.match_odds').style.display = 'none';
+        document.querySelector('.under_or_over').style.display = 'block';
         // Add Event Listener;
         initMarket();
     });
@@ -246,11 +194,10 @@ if (stakeSlider) {
         var budgetFloat = parseFloat(budgetValue.innerHTML);
         var partBudget = (budgetFloat * stakeSlider.value) / stakeSlider.max;
         var percBudget = (partBudget / budgetFloat) * 100;
-        partBudget = partBudget.toFixed(1);
-        percBudget = percBudget.toFixed(1);
+        partBudget = partBudget.toFixed(2);
+        percBudget = percBudget.toFixed(2);
         stakeValue.innerHTML = partBudget;
         percStakeValue.innerHTML = percBudget;
-        console.log(partBudget + "  " + percBudget);
 
     }, false);
 }
@@ -273,6 +220,7 @@ function initMarket() {
 
     if (homeChip) {
         homeChip.addEventListener("click", function () {
+            $('#chipCorrectScore').val('home');
             // Display components.
             homeChip.style.backgroundColor = '#FAFAFA';
             awayChip.style.backgroundColor = '#dedede';
@@ -282,6 +230,7 @@ function initMarket() {
 
     if (awayChip) {
         awayChip.addEventListener("click", function () {
+            $('#chipCorrectScore').val('away');
             // Display components.
             homeChip.style.backgroundColor = '#dedede';
             awayChip.style.backgroundColor = '#FAFAFA';
@@ -291,6 +240,7 @@ function initMarket() {
 
     if (drawChip) {
         drawChip.addEventListener("click", function () {
+            $('#chipCorrectScore').val('draw');
             // Display components.
             homeChip.style.backgroundColor = '#dedede';
             awayChip.style.backgroundColor = '#dedede';
@@ -300,6 +250,7 @@ function initMarket() {
 
     if (underChip) {
         underChip.addEventListener("click", function () {
+            $('#chipUnderOver').val('under');
             // Display components.
             underChip.style.backgroundColor = '#FAFAFA';
             overChip.style.backgroundColor = '#dedede';
@@ -308,6 +259,7 @@ function initMarket() {
 
     if (overChip) {
         overChip.addEventListener("click", function () {
+            $('#chipUnderOver').val('over');
             // Display components.
             underChip.style.backgroundColor = '#dedede';
             overChip.style.backgroundColor = '#FAFAFA';
@@ -378,8 +330,13 @@ function typedTchan() {
     }, 10000)
 }
 
+//Update overlay
+$('body').click(function () {
+    document.querySelector(".overlay").style.height = document.querySelector("body").scrollHeight + 'px'
+});
 
 // Main.
 document.addEventListener('DOMContentLoaded', async function () {
     await updateMoney();
+    typedTchan()
 });
