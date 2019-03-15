@@ -35,7 +35,7 @@ if (!(document.URL === "http://127.0.0.1:5500/web/home.html")) {
     const closeButton = document.querySelector("#btnClose");
     const logoutButton = document.querySelector("#btnLogout");
 
-    // Shared variables. 
+    // Shared variables.
     var email = null;
     var displayName = null;
     var photoURL = null;
@@ -81,6 +81,9 @@ if (!(document.URL === "http://127.0.0.1:5500/web/home.html")) {
             } else {
                 firebase.auth().signInWithEmailAndPassword(emailText.value, passText.value).then(function () {
                     window.location.href = '/home.html';
+                }).then(function () {
+                    post('/home');
+
                 }).catch(function (error) {
                     console.log("Got an error", error);
                     snackbar(error);
@@ -293,3 +296,26 @@ function snackbar(string) {
     };
     snackbarContainer.MaterialSnackbar.showSnackbar(data);
 };
+
+function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    let form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for (let key in params) {
+        if (params.hasOwnProperty(key)) {
+            let hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
+    document.body.appendChild(form);
+    form.submit();
+}
