@@ -267,15 +267,6 @@ function initMarket() {
     }
 }
 
-// Snackbar function.
-function snackbar(string) {
-    var snackbarContainer = document.querySelector('#demo-snackbar-example');
-    var data = {
-        message: string,
-    };
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-};
-
 function drawerHide() {
     document.querySelector('.mdl-layout__drawer').addEventListener('click', function () {
         document.querySelector('.mdl-layout__obfuscator').classList.remove('is-visible');
@@ -332,7 +323,7 @@ function typedTchan() {
 }
 
 //Update overlay
-$('body').click(function () {
+document.querySelector('body').click(function () {
     document.querySelector(".overlay").style.height = document.querySelector("body").scrollHeight + 'px'
 });
 

@@ -9,7 +9,6 @@
 /* Fonts */
 
 h4 {
-    font-size: 2.7em;
     font-weight: 100;
     line-height: 1em;
     letter-spacing: 0.1em;
@@ -25,7 +24,6 @@ h4 {
 
 body {
     background: linear-gradient(30deg, var(--secondary_color_3), var(--primary_color_1));
-    font-size: 48px;
 }
 
 /* Material */
