@@ -25,7 +25,7 @@ exports.getReadable = require('./getter/getReadable');
 
 app.post('/home', (req, res) => {
     res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
-    res.render('budget');
+    res.render('home');
 });
 
 app.get('/', (req, res) => {
