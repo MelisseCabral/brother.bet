@@ -6,7 +6,7 @@
         "chmod 755 /bin/git-ftp"
     ],
     "git-commands": [
-        "git config git-ftp.url '187.19.164.236'",
+        "git config git-ftp.url 'br.tplinkdns.com'",
         "git config git-ftp.user 'julio'",
         "git config git-ftp.password 'jfl'",
         "git config git-ftp.syncroot  path/dir"
