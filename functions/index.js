@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 admin.initializeApp(functions.config().firebase);
 admin.firestore().settings({ timestampsInSnapshots: true });
 
-exports.getReadable = require('./getter/getReadable');
 
 app.post('/home', (req, res) => {
     res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
@@ -31,5 +30,7 @@ app.post('/home', (req, res) => {
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+exports.getReadable = require('./getter/getReadable');
 
 exports.app = functions.https.onRequest(app);

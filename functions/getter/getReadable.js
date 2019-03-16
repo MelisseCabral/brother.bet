@@ -14,14 +14,14 @@ exports = module.exports = functions.https.onRequest((req, res) => {
     let funcRead = result.funcRead;
     const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9';
     let options = {
-        url: 'http://187.19.164.236:9001/readable/',
+        url: 'http://187.19.164.236:9001/readable',
         method: 'POST',
         headers: {
             'User-Agent': userAgent,
             'accept': 'application/json'
         },
         data: {
-            'funcRead': funcRead
+            'funcRead': "listEvents"
         }
     };
     request(options, (error, response, html) => {
@@ -30,7 +30,8 @@ exports = module.exports = functions.https.onRequest((req, res) => {
             dataReceived = JSON.parse(page.text());
             res.send(dataReceived);
         } else {
-            console.log(error);
+            console.log(error,response,html);
+            res.send(error,response,html);
         }
     });
 });
