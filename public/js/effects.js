@@ -315,7 +315,7 @@ function typedTchan() {
             "goaaaaaaaaal!!!!",
             "improve your assets",],
         typeSpeed: 100,
-        backDelay: 500,
+        backDelay: 0,
     });
 }
 

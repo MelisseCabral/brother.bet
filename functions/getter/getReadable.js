@@ -1,10 +1,17 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
-const functions = require('firebase-functions');
-const axios = require('axios');
+const express = require('express')
+const router = express.Router()
+const axios = require('axios')
 const https = require('https')
 
-exports = module.exports = functions.https.onRequest((req, res) => {
+// middleware that is specific to this router
+router.use(function timeLog(req, res, next) {
+    console.log('Time: ', Date.now())
+    next()
+})
+
+module.exports = router.post("/", ((req, res) => {
     res.set("Access-Control-Allow-Origin", "*");
     if (req.query.funcRead === undefined) {
         result = req.body;
@@ -26,4 +33,4 @@ exports = module.exports = functions.https.onRequest((req, res) => {
         }).catch(error => {
             throw console.log(error);
         });
-});
+}));

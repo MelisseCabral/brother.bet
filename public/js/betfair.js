@@ -1,9 +1,10 @@
 function getReadable(dataIn) {
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: 'https://us-central1-brother-bet.cloudfunctions.net/getReadable',
+            url: 'https://brotherbet.ga/getReadable',
             dataType: "json",
             method: 'POST',
+            cache: false,
             crossDomain: true,
             headers: {
                 'Accept': 'application/json'
@@ -20,14 +21,48 @@ function getReadable(dataIn) {
         });
     });
 }
-function receiveGames() {
+
+function receiveBetters() {
+    return new Promise((resolve, reject) => {
+        getReadable({
+            funcRead: "listEventTypes",
+            filter: {},
+            locale: "en"
+        }).then(data => {
+            data[2].result.forEach(element => {
+                $('#betters').append(
+                    `<span id="${element.eventType.id}" class="mdl-chip mdl-chip--contact">
+                        <span style="background-color: #0091ea"class="mdl-chip__contact   mdl-color-text--white">${element.eventType.name.substring(0, 2)}</span>
+                        <span class="mdl-chip__text">${element.eventType.name.split(" ")[0]}</span>
+                    </span>
+                    <div id="${element.eventType.id}-tooltip"class="mdl-tooltip" for="${element.eventType.id}">
+                    ${element.eventType.name}
+                    </div>`
+                )
+                componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}-tooltip`));
+                componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}`));
+            });
+            $(".mdl-chip--contact").off('click').click(function () {
+                $('#betters .mdl-chip__contact').css("background-color", "#0091ea")
+                $('#' + this.id + ' .mdl-chip__contact').css("background-color", "#00c853")
+                // $('#games').hide();
+                $('#tchanTiped').show();
+                receiveGames(this.id)
+            });
+            return resolve("Done Better!");
+        })
+    });
+};
+
+function receiveGames(game) {
     getReadable({
         funcRead: "listEvents",
-        filter: { "eventTypeIds": ["1"] },
+        filter: { "eventTypeIds": [game.toString()] },
         locale: "en"
     }).then(data => {
+        $('#games').find('table tbody').html("");
         data[2].result.forEach(element => {
-            $('#games').find('table tr:last').after(
+            $('#games').find('table tbody').append(
                 `<tr>
                     <td>
                         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select mdl-js-ripple-effect--ignore-events is-upgraded"
@@ -53,31 +88,24 @@ function receiveGames() {
     });
 }
 
-// Main.
-(() => {
-    //Get betters.
+$("#valueBudget").off('click').click(function () {
     getReadable({
-        funcRead: "listEventTypes",
+        funcRead: "getAccountFunds",
         filter: {},
         locale: "en"
     }).then(data => {
-        data[2].result.forEach(element => {
-            $('#betters').append(
-                `<span id="${element.eventType.id}" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact  mdl-color--purple-500 mdl-color-text--white">${element.eventType.name.substring(0, 2)}</span>
-                    <span class="mdl-chip__text">${element.eventType.name.split(" ")[0]}</span>
-                </span>
-                <div id="${element.eventType.id}-tooltip"class="mdl-tooltip" for="${element.eventType.id}">
-                ${element.eventType.name}
-                </div>`
-            )
-            componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}-tooltip`));
-            componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}`));
-            $(" ").click(function () {
-                console.log(this.id);
-                $('#' + this.id + ' .mdl-chip--contact').css("background-color", "green")
-            });
-        });
+        console.log(data[2].result.availableToBetBalance)
+        $("#valueBudget").html(`$ ${data[2].result.availableToBetBalance}`)
+    });
+});
+
+// Main.
+(() => {
+    //Get money.
+    $("#valueBudget").click();
+    //Get betters.
+    receiveBetters().then(() => {
+        $("#betters #1").click()
     });
 }).call()
 

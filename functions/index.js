@@ -4,12 +4,17 @@ const express = require('express');
 const engine = require('consolidate');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const request = require('request');
-const cheerio = require('cheerio');
-const betfair = require('betfair');
-const async = require('async');
+const cors = require('cors');
 
 const app = express();
+
+// Automatically allow cross-origin requests
+app.use(cors());
+
+//Routers requires and calls.
+app.use('/testRead', require('./getter/testRead'))
+app.use('/birds', require('./getter/birds'))
+app.use('/getReadable', require('./getter/getReadable'))
 
 app.engine('html', engine.handlebars);
 app.set('views', './views');
