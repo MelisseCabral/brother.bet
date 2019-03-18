@@ -23,7 +23,8 @@
     "firebase-functions": "^2.2.0",
     "handlebars": "^4.1.0",
     "request": "2.88.0",
-    "request-promise": "4.2.2"
+    "request-promise": "4.2.2",
+    "axios":"0.18.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
