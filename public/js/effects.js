@@ -5,6 +5,8 @@ const accountView = document.querySelector("#account");
 const methodsView = document.querySelector("#methods");
 const profitsView = document.querySelector("#profits");
 const contactView = document.querySelector("#contact");
+const gamesView = document.querySelector("#game");
+const robotsView = document.querySelector("#robot");
 const homeButton = document.querySelector("#btnHome");
 const accountButton = document.querySelector("#btnAccount");
 const methodsButton = document.querySelector("#btnMethods");
@@ -41,7 +43,42 @@ if (homeButton) {
         methodsView.style.display = "none";
         profitsView.style.display = "none";
         contactView.style.display = "none";
+        gamesView.style.display = "none";
+        robotsView.style.display = "none";
         budgetText.innerHTML = "brother.bet";
+    });
+    setViewHome();
+    drawerHide();
+}
+
+if (gamesView) {
+    gamesView.addEventListener("click", function () {
+        // Display components.
+        homeView.style.display = "none";
+        accountView.style.display = "none";
+        methodsView.style.display = "none";
+        profitsView.style.display = "none";
+        contactView.style.display = "none";
+        gamesView.style.display = "inline-block";
+        robotsView.style.display = "none";
+        budgetText.innerHTML = "brother.bet";
+        setViewGames();
+    });
+    drawerHide();
+}
+
+if (robotsView) {
+    robotsView.addEventListener("click", function () {
+        // Display components.
+        homeView.style.display = "none";
+        accountView.style.display = "none";
+        methodsView.style.display = "none";
+        profitsView.style.display = "none";
+        contactView.style.display = "none";
+        gamesView.style.display = "none";
+        robotsView.style.display = "inline-block";
+        budgetText.innerHTML = "brother.bet";
+        setViewRobots();
     });
     drawerHide();
 }

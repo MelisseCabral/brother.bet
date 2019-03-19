@@ -165,33 +165,12 @@ function cheboxes() {
     Array.apply(0, new Array(localStorage.length)).map(function (o, i) {
         return localStorage.key(i);
     })
-
-
 }
 
 $("#valueBudget").off().click(function (e) {
     e.stopImmediatePropagation();
     getMoney();
 });
-
-$("btnFire").off().click(function (e) {
-    e.stopImmediatePropagation();
-    setViewHome();
-
-});
-
-$("game").off().click(function (e) {
-    e.stopImmediatePropagation();
-    setViewGames();
-
-});
-
-$("robot").off().click(function (e) {
-    e.stopImmediatePropagation();
-    setViewRobots();
-
-});
-
 
 $("btnDelete").off().click(function (e) {
     e.stopImmediatePropagation();
@@ -203,13 +182,15 @@ $("btnDelete").off().click(function (e) {
     var keys = Array.apply(0, new Array(localStorage.length)).map(function (o, i) {
         return localStorage.key(i);
     })
-    keys.forEach(key => {
-        views.forEach(view => {
+    views.forEach(view => {
+        keys.forEach(key => {
             if (key.str.search(`${view}:`)) {
                 localStorage.removeItem(key);
             }
         });
-    })
+        $(view).click();
+    });
+    $("home").click();
 });
 
 function setViewHome() {
