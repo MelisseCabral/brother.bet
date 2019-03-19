@@ -223,11 +223,26 @@ a img {
   animation-delay: calc(var(--delay)s / 1024);
 }
 
+.container{
+  padding: 5vh 0 5vh 0 !important;
+}
+
 .init-box-position {
   padding: 5vh 0 5vh 0 !important;
 }
 
 .init-box {
+  position: relative;
+  min-height: 50vh;
+  height: auto;
+  border-radius: 10px;
+  background: white;
+  text-align: center;
+  padding-bottom: 5vh;
+  padding-top: 5vh;
+  z-index: 1;
+}
+.init-box-robot {
   position: relative;
   min-height: 70vh;
   height: auto;
@@ -241,7 +256,7 @@ a img {
 
 .profile-circle {
   position: absolute;
-  top: 5%;
+  top: 10vh;
   height: 15vh !important;
   width: 15vh !important;
   border-radius: 50%;

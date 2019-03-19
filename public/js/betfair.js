@@ -17,6 +17,7 @@ function getReadable(dataIn) {
         }).done((response) => {
             resolve(response);
         }).fail((error) => {
+            console.log(`Error getReadable(${JSON.stringify(dataIn)}).`, error);
             reject(error);
         });
     });
@@ -38,20 +39,23 @@ function receiveBetters() {
                     <div id="${element.eventType.id}-tooltip"class="mdl-tooltip" for="${element.eventType.id}">
                     ${element.eventType.name}
                     </div>`
-                ).fadeIn(500).delay(5000);
-                componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}-tooltip`));
-                componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}`));
+                )
             });
-            $(".mdl-chip--contact").click(function (e) {
+            componentHandler.upgradeAllRegistered();
+            $(".mdl-chip--contact").off().click(function (e) {
                 e.preventDefault();
-                $('#betters .mdl-chip__contact').css("background-color", "#0091ea")
-                $('#' + this.id + ' .mdl-chip__contact').css("background-color", "#00c853")
-                // $('#games').hide();
+                $('#betters .mdl-chip__contact').css("background-color", "#0091ea");
+                $('#' + this.id + ' .mdl-chip__contact').css("background-color", "#00c853");
+                $('#games').hide();
                 $('#tchanTiped').show();
                 receiveGames(this.id)
             });
-            return resolve("Done Better!");
-        })
+            $("#betters #1").click();
+            resolve("I'm done!")
+        }).catch(error => {
+            console.log("Error receiveBetters().", error);
+            receiveBetters();
+        });
     });
 };
 
@@ -63,51 +67,65 @@ function receiveGames(game) {
     }).then(data => {
         $('#games').find('table tbody').html("");
         $('#tchanTiped').hide();
-            $('#games').show();
+        $('#games').show();
         data[2].result.forEach(element => {
-                       
             var newId = element.event.name.split(" ").join("_")
-            var newRow =
+            $('#games').find('table tbody').append(
                 `<tr>
-                    <td>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="${newId}-checkbox">
-                            <input type="checkbox" id="${newId}-checkbox" class="mdl-checkbox__input">    
-                        </label>
-                    </td>
-                    <td id="${element.event.id}" class="mdl-data-table__cell--non-numeric">${element.event.name}</td>                    
-                    <td>${element.event.countryCode || ""}</td>   
-                    <td>${element.event.openDate || ""}</td>
-                    <td>${element.event.timezone || ""}</td>
-                    <td>${element.event.venue || ""}</td>
-                    <td>${element.marketCount || ""}</td>
-            </tr>`
-            $('#games').find('table tbody').append(newRow).fadeIn(500).delay(5000);
-            componentHandler.upgradeAllRegistered();
+                        <td>
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="${newId}-checkbox">
+                                <input type="checkbox" id="${newId}-checkbox" class="mdl-checkbox__input">    
+                            </label>
+                        </td>
+                        <td id="${element.event.id}" class="mdl-data-table__cell--non-numeric">${element.event.name}</td>                    
+                        <td>${element.event.countryCode || ""}</td>   
+                        <td>${element.event.openDate || ""}</td>
+                        <td>${element.event.timezone || ""}</td>
+                        <td>${element.event.venue || ""}</td>
+                        <td>${element.marketCount || ""}</td>
+                    </tr>`
+            )
         });
+        componentHandler.upgradeAllRegistered();
+        $('#games').find('th:first label').off().click(function (e) {
+            e.preventDefault();
+            if ($('#games').find('th:first label').hasClass("is-checked") === false) {
+                $('#games label').addClass("is-checked");
+            } else {
+                $('#games label').removeClass("is-checked");
+            }
+        });
+    }).catch(error => {
+        console.log(`Error receiveGames(${game}).`, error);
+        receiveGames(game);
     });
 }
 
-$("#valueBudget").click(function (e) {
-    e.preventDefault();
+function getMoney() {
     getReadable({
         funcRead: "getAccountFunds",
         filter: {},
         locale: "en"
     }).then(data => {
-        console.log(data[2].result.availableToBetBalance);
-        $("#valueBudget").html(`$ ${data[2].result.availableToBetBalance}`)
+        $("#valueBudget").html(`${data[2].result.availableToBetBalance}`)
+    }).catch(error => {
+        console.log("Error getMoney().", error);
+        getMoney();
     });
+}
+
+$("#valueBudget").off().click(function (e) {
+    e.preventDefault();
+    getMoney();
 });
+
 
 // Main.
 (() => {
-    //Get money.
-    $("#valueBudget").click();
-    //Get betters.
-    receiveBetters().then(() => {
-        $("#betters #1").click()
-    });
+    getMoney();
+    receiveBetters();
 }).call()
+
 
 
 

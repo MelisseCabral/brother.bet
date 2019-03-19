@@ -329,13 +329,3 @@ document.addEventListener('DOMContentLoaded', async function () {
     await updateMoney();
     typedTchan()
 });
-
-
-$('#games').find('th:first label').click(function (e) {
-    e.preventDefault();
-    if ($('#games').find('th:first label').hasClass("is-checked") === false) {
-        $('#games label').find('th label').addClass("is-checked");
-    } else {
-        $('#games').find('th label').removeClass("is-checked");
-    }
-});
