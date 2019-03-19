@@ -366,3 +366,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     await updateMoney();
     typedTchan()
 });
+
+function myAccount(){
+    $("#account").click();
+}

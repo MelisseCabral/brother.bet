@@ -188,9 +188,9 @@ $("btnDelete").off().click(function (e) {
                 localStorage.removeItem(key);
             }
         });
-        $(view).click();
+        $(`#${view}`).click();
     });
-    $("home").click();
+    $("#home").click();
 });
 
 function setViewHome() {
