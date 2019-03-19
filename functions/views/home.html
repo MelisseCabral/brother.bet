@@ -8,10 +8,8 @@
   <meta name="description" content="Introducing Lollipop, a sweet new take on Android.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <title>Brother Bet</title>
-
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
-
   <!-- Page styles -->
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -19,7 +17,6 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-indigo.min.css" />
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/animate.css">
-
   <!-- Offline-->
   <link rel="shortcut icon" type="image/png" href="../../public/images/favicon.png" />
   <link rel="stylesheet" href="../../public/css/styles.css">
@@ -27,20 +24,18 @@
 </head>
 
 <body>
-  <div id="robot">
-    <div class="overlay"> </div>
-
+  <div id="robotFactory">
+    <div style="display: none" class="overlay"> </div>
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--3-col"></div>
       <div class="mdl-cell mdl-cell--6-col">
-
-        <div class='init-box-position' style="        margin: auto;">
+        <div class='init-box-position' style="margin: auto;">
           <div class=" init-box-robot mdl-shadow--4dp">
             <button id="btnCloseRobot"
               class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class=" material-icons">close</i>
             </button>
-            <button id="btnSaveTicket"
+            <button id="btnSaveRobot"
               class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class="material-icons">save</i>
             </button>
@@ -80,7 +75,7 @@
                   </span>
                   <span id="chipUnderOver" class="mdl-chip mdl-chip--contact">
                     <span class="mdl-chip__contact mdl-color--blue-A400 mdl-color-text--white">UO</span>
-                    <span class="mdl-chip__text">under_or_over</span>
+                    <span class="mdl-chip__text">under_over</span>
                   </span>
                 </div>
               </div>
@@ -113,7 +108,7 @@
                     <span class="mdl-chip__text">draw</span>
                   </span>
                 </div>
-                <div class="under_or_over" style="display: none">
+                <div class="under_over" style="display: none">
                   <div>
                     <br>
                     <span id="chipUnder" class="mdl-chip mdl-chip--contact">
@@ -162,12 +157,10 @@
     </div>
   </div>
   </div>
-
   <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
     <div class="mdl-snackbar__text"></div>
     <button class="mdl-snackbar__action" type="button"></button>
   </div>
-
   <!-- Container -->
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <div class="android-header mdl-layout__header mdl-layout__header--waterfall">
@@ -181,18 +174,19 @@
           <nav class="android-navigation mdl-navigation">
             <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <span>$ &nbsp</span>
-              <span id="valueBudget">...</span>
+              <span id="valueBudget">100000</span>
             </button>
           </nav>
         </div>
-
         <!-- Navigation -->
         <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect"
           id="more-button">
           <i onselectstart="return false;" ondragstart="return false" class="material-icons">arrow_upward</i>
         </button>
         <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-          <li class="mdl-menu__item">Betfair account.</li>
+          <li >
+            <a class="mdl-menu__item" href="#betfairAccount" id="btnBetfairAccount">Betfair account</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -201,22 +195,43 @@
       <span class="mdl-layout-title">
         <img class="logo-image" src="images/name_w.png">
         <img class="logo-image-2" src="images/logo_alone.png">
-
       </span>
       <nav class="mdl-navigation">
-        <a id="btnHome" class="mdl-navigation__link">Home</a>
+        <a id="btnHomes" class="mdl-navigation__link">Home</a>
         <div class="android-drawer-separator"></div>
-        <a id="btnAccount" class="mdl-navigation__link">Account</a>
-        <a id="btnMethods" class="mdl-navigation__link">Methods</a>
-        <a id="btnProfits" class="mdl-navigation__link">Profits</a>
-        <a id="btnContact" class="mdl-navigation__link">Contact</a>
+        <a id="btnAccounts" class="mdl-navigation__link">Account</a>
+        <a id="btnMethods" class="mdl-navigation__link">Method</a>
+        <a id="btnProfits" class="mdl-navigation__link">Profit</a>
+        <a id="btnContacts" class="mdl-navigation__link">Contact</a>
         <div class="android-drawer-separator"></div>
         <a id="btnLogout" class="mdl-navigation__link">Logout</a>
       </nav>
     </div>
-
+    <div class="automations ">
+      <button id='btnRobot'
+        class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">android</i>
+      </button>
+      </button>
+      <button id='btnGames'
+        class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">games</i>
+      </button>
+      <button id='btnRobots'
+        class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">adb</i>
+      </button>
+      <button id='btnDelete'
+        class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">delete</i>
+      </button>
+      <button id="btnLogoutFun"
+        class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">accessible_forward</i>
+      </button>
+    </div>
     <div id="home" class="android-content mdl-layout__content">
-      <div id="tchanTiped" class=" mdl-typography--text-center">
+      <div id="tchanTiped" class="init-content mdl-typography--text-center">
         <div id="tchanTiped" class="logo-font android-slogan">
           <span class="typed"></span>
           <span class="typed-cursor"></span>
@@ -225,7 +240,7 @@
         </div>
       </div>
       <div id="betters"></div>
-      <div id="games" style="display:none" class="mdl-grid portfolio-max-width">
+      <div id="games" style="display:none" class="mdl-grid ">
         <table
           class="mdl-data-dynamictable mdl-data-table__row--selectable mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
           <thead>
@@ -244,34 +259,6 @@
         </table>
       </div>
     </div>
-
-    <div class="automations ">
-      <button id='btnRobot'
-        class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">android</i>
-      </button>
-      <button id='btnFire'
-        class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">whatshot</i>
-      </button>
-      <button id='game'
-        class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">games</i>
-      </button>
-      <button id='robot'
-        class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">adb</i>
-      </button>
-      <button id='btnDelete'
-        class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">delete</i>
-      </button>
-      <button id="btnLogoutFun"
-        class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">accessible_forward</i>
-      </button>
-    </div>
-  </div>
   </div>
   <div id="account" class="android-content mdl-layout__content">
     <div class="mdl-grid">
@@ -305,15 +292,16 @@
                 <input class="mdl-textfield__input sign-sample" type="password" id="txtRePassword" autocomplete="off">
                 <label class="mdl-textfield__label" for="txtRePassword">re-password</label>
               </div>
-              <div class="init-box-bet mdl-shadow--4dp">
+              <div id="betfairAccount" class="init-box-bet mdl-shadow--4dp">
                 <div id='mdl-cell mdl-cell--1-col '>
                   <div class="email-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input class="mdl-textfield__input label-float" type="email" id="txtEmailBet" autocomplete="on">
                     <label class="mdl-textfield__label" for="txtEmailBet">email betfair</label>
                   </div>
                   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input label-float" type="password" id="txtPasswordBet" autocomplete="on">
-                    <label class="mdl-textfield__label" for="txtPasswordBet">password</label>
+                    <input class="mdl-textfield__input label-float" type="password" id="txtPasswordBet"
+                      autocomplete="on">
+                    <label class="mdl-textfield__label" for="txtPasswordBet">password betfair</label>
                   </div>
                   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input class="mdl-textfield__input label-float" type="text" id="txtApiKey" autocomplete="on">
@@ -330,9 +318,8 @@
       </div>
     </div>
   </div>
-
-  <div id="methods" class="android-content mdl-layout__content">
-    <main class="mdl-layout__content">
+  <div id="method" class="android-content mdl-layout__content">
+    <main class="init-content mdl-layout__content">
       <div class="mdl-grid portfolio-max-width">
         <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
           <div class="mdl-grid portfolio-copy">
@@ -399,7 +386,6 @@
                 irure.
               </p>
             </div>
-
             <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Final Concept</h3>
             <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding ">
               <p>
@@ -431,11 +417,11 @@
       </div>
     </main>
   </div>
-
-  <div id="profits" class="android-content mdl-layout__content"></div>
-
+  <div id="game" class="android-content mdl-layout__content"></div>
+  <div id="robot" class="android-content mdl-layout__content"></div>
+  <div id="profit" class="android-content mdl-layout__content"></div>
   <div id="contact" class="android-content mdl-layout__content">
-    <main class="mdl-layout__content">
+    <main class="init-content mdl-layout__content">
       <div class="mdl-grid portfolio-max-width portfolio-contact">
         <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
           <div class="mdl-card__media article-image">
@@ -445,10 +431,6 @@
               Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim
               nostrud aliqua consectetur
               ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-            </p>
-            <p>
-              Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod
-              labore sit amet.
             </p>
             <form action="#" class="">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
@@ -479,28 +461,25 @@
       </div>
     </main>
   </div>
-
   <footer>
     <!-- jQuery -->
     <script src="js/jquery.min.js"></script>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <script src="js/effects.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js "></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
     <script src="js/firebase.js"></script>
-    <script src="js/typed.js"></script>
-    <script src="js/robots.js"></script>
     <script src="js/betfair.js"></script>
-
+    <script src="js/robots.js"></script>
+    <script src="js/typed.js"></script>
+    <script src="js/effects.js"></script>
     <!-- Offline-->
     <script src="../../public/js/jquery.min.js"></script>
-    <script src="../../public/js/effects.js"></script>
     <script src="../../public/js/firebase.js"></script>
-    <script src="../../public/js/typed.js"></script>
-    <script src="../../public/js/robots.js"></script>
     <script src="../../public/js/betfair.js"></script>
-
+    <script src="../../public/js/robots.js"></script>
+    <script src="../../public/js/typed.js"></script>
+    <script src="../../public/js/effects.js"></script>
   </footer>
 </body>
 

@@ -42,12 +42,13 @@ function receiveBetters() {
                 )
             });
             componentHandler.upgradeAllRegistered();
-            $(".mdl-chip--contact").off().click(function (e) {
+            $("#betters .mdl-chip--contact").off().click(function (e) {
                 e.stopImmediatePropagation();
                 $('#betters .mdl-chip__contact').css("background-color", "#0091ea");
                 $('#' + this.id + ' .mdl-chip__contact').css("background-color", "#00c853");
                 $('#games').hide();
                 $('#tchanTiped').show();
+                console.log(this.id)
                 receiveGames(this.id)
             });
             $("#betters #1").click();
@@ -193,21 +194,19 @@ $("btnDelete").off().click(function (e) {
     $("#home").click();
 });
 
-function setViewHome() {
-    localStorage.setItem("view", "home");
-}
-function setViewRobots() {
-    localStorage.setItem("view", "robot");
-}
-function setViewGames() {
-    localStorage.setItem("view", "game");
+//Timers
+async function updateMoney() {
+    console.log("test");
+    setInterval(() => {
+        //budgetValue.value = readableBetfair('getAccountFunds')
+        //console.log(readableBetfair('getAccountFunds'))
+    }, 60000);
 }
 
 // Main.
 (() => {
     getMoney();
     receiveBetters();
-    setViewHome();
 }).call()
 
 

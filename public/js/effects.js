@@ -1,346 +1,144 @@
-// Shared constants.
-const overlayView = document.querySelector(".overlay");
-const homeView = document.querySelector("#home");
-const accountView = document.querySelector("#account");
-const methodsView = document.querySelector("#methods");
-const profitsView = document.querySelector("#profits");
-const contactView = document.querySelector("#contact");
-const gamesView = document.querySelector("#game");
-const robotsView = document.querySelector("#robot");
-const homeButton = document.querySelector("#btnHome");
-const accountButton = document.querySelector("#btnAccount");
-const methodsButton = document.querySelector("#btnMethods");
-const profitsButton = document.querySelector("#btnProfits");
-const contactButton = document.querySelector("#btnContact");
-const closeButton = document.querySelector(".btn-close");
-const robotButton = document.querySelector("#btnRobot");
-const sendButton = document.querySelector("#btnSend");
-const budgetText = document.querySelector("#txtBudget");
-const typeMarketLocus = document.querySelector("#mrktType");
-const correctScoreChip = document.querySelector("#chipCorrectScore");
-const matchOddsChip = document.querySelector("#chipMatchOdds");
-const underOverChip = document.querySelector("#chipUnderOver");
-const backChip = document.querySelector("#chipBack");
-const layChip = document.querySelector("#chipLay");
-var homeChip = document.querySelector("chipHome");
-var awayChip = document.querySelector("#chipAway");
-var drawChip = document.querySelector("#chipDraw");
-var underChip = document.querySelector("#chipUnder");
-var overChip = document.querySelector("#chipOver");
-var stakeSlider = document.querySelector("#sliderStake");
-var budgetValue = document.querySelector("#valueBudget");
-var stakeValue = document.querySelector("#valueStake");
-var percStakeValue = document.querySelector("#valuePercStake");
-var tchanTiped = document.querySelector("#tchanTiped")
-
-
 // Actions functions.
-if (homeButton) {
-    homeButton.addEventListener("click", function () {
-        // Display components.
-        homeView.style.display = "inline-block";
-        accountView.style.display = "none";
-        methodsView.style.display = "none";
-        profitsView.style.display = "none";
-        contactView.style.display = "none";
-        gamesView.style.display = "none";
-        robotsView.style.display = "none";
-        budgetText.innerHTML = "brother.bet";
-    });
-    setViewHome();
-    drawerHide();
-}
+$("#btnRobot").off().click(function (e) {
+    e.stopImmediatePropagation();
+    $("#robotFactory").css("display", "block");
+    $(".overlay").css("display", "block");
+    //openRobotModel();
+})
 
-if (gamesView) {
-    gamesView.addEventListener("click", function () {
-        // Display components.
-        homeView.style.display = "none";
-        accountView.style.display = "none";
-        methodsView.style.display = "none";
-        profitsView.style.display = "none";
-        contactView.style.display = "none";
-        gamesView.style.display = "inline-block";
-        robotsView.style.display = "none";
-        budgetText.innerHTML = "brother.bet";
-        setViewGames();
-    });
-    drawerHide();
-}
+$("#btnBetfairAccount").off().click(function (e) {
+    e.stopImmediatePropagation();
+    $("#btnAccounts").click();
+});
 
-if (robotsView) {
-    robotsView.addEventListener("click", function () {
-        // Display components.
-        homeView.style.display = "none";
-        accountView.style.display = "none";
-        methodsView.style.display = "none";
-        profitsView.style.display = "none";
-        contactView.style.display = "none";
-        gamesView.style.display = "none";
-        robotsView.style.display = "inline-block";
-        budgetText.innerHTML = "brother.bet";
-        setViewRobots();
-    });
-    drawerHide();
-}
+$("#btnCloseRobot").off().click(function (e) {
+    e.stopImmediatePropagation();
+    $('#robotFactory').css("display", "none");
+});
 
-if (accountButton) {
-    accountButton.addEventListener("click", function () {
-        // Display components.
-        homeView.style.display = "none";
-        accountView.style.display = "inline-block";
-        methodsView.style.display = "none";
-        profitsView.style.display = "none";
-        contactView.style.display = "none";
-        budgetText.innerHTML = "account";
-    });
-    drawerHide();
+$("#btnSaveRobot").off().click(function (e) {
+    e.stopImmediatePropagation();
+    $(this).animate({ bottom: '1000px' }, "slow");
+    $(this).animate({ opacity: '0' }, "slow");
+    $(this).animate({ bottom: '0px' }, "slow");
+    $(this).animate({ opacity: '1' }, "slow");
+    saveRobotModel();
+});
 
-}
+$("#btnLogout").off().click(function (e) {
+    e.stopImmediatePropagation();
+    logout()
+});
 
-if (methodsButton) {
-    methodsButton.addEventListener("click", function () {
-        // Display components.
-        homeView.style.display = "none";
-        accountView.style.display = "none";
-        methodsView.style.display = "inline-block";
-        profitsView.style.display = "none";
-        contactView.style.display = "none";
-        budgetText.innerHTML = "methods";
-    });
-    drawerHide();
-}
+$("#btnLogout").off().click(function (e) {
+    e.stopImmediatePropagation();
+    logout()
+});
 
-if (profitsButton) {
-    profitsButton.addEventListener("click", function () {
-        // Display components.
-        homeView.style.display = "none";
-        accountView.style.display = "none";
-        methodsView.style.display = "none";
-        profitsView.display = "inline-block";
-        contactView.style.display = "none";
-        budgetText.innerHTML = "profits";
-    });
-    drawerHide();
-}
+$("#btnLogoutFun").off().click(function (e) {
+    e.stopImmediatePropagation();
+    logout()
+});
 
-if (contactButton) {
-    contactButton.addEventListener("click", function () {
-        // Display components.
-        homeView.style.display = "none";
-        accountView.style.display = "none";
-        methodsView.style.display = "none";
-        profitsView.style.display = "none";
-        contactView.style.display = "inline-block";
-        budgetText.innerHTML = "contact";
-    });
-    drawerHide();
-}
-
-if (robotButton) {
-    robotButton.addEventListener("click", function () {
-        document.querySelector("#robot").style.display = "block";
-    })
-}
-
-if (sendButton) {
-    sendButton.addEventListener("click", function () {
-        insertFirebase();
-    });
-}
-
-if (closeButton) {
-    closeButton.addEventListener("click", function () {
-        document.querySelector('#robot').style.display = "none";
-    });
-}
-
-if (overlayView) {
-    overlayView.addEventListener("click", function () {
-        closeButton.click();
-    });
-}
-
-if (backChip) {
-    backChip.addEventListener("click", function () {
-        $('#position').val('back');
-        // Display components.
-        backChip.style.backgroundColor = '#FAFAFA';
-        layChip.style.backgroundColor = '#dedede';
-    });
-}
-
-if (layChip) {
-    layChip.addEventListener("click", function () {
-        $('#position').val('lay');
-        // Display components.
-        backChip.style.backgroundColor = '#dedede';
-        layChip.style.backgroundColor = '#FAFAFA';
-    });
-}
-
-if (correctScoreChip) {
-    correctScoreChip.addEventListener("click", function () {
-        $('#market').val('correct_score');
-        // Display components.
-        correctScoreChip.style.backgroundColor = '#FAFAFA';
-        matchOddsChip.style.backgroundColor = '#dedede';
-        underOverChip.style.backgroundColor = '#dedede';
-        // Fill options panel.
-        document.querySelector('.correct_score').style.display = 'block';
-        document.querySelector('.match_odds').style.display = 'none';
-        document.querySelector('.under_or_over').style.display = 'none';
-        // Add Event Listener;
-        initMarket();
-    });
-}
-
-if (matchOddsChip) {
-    matchOddsChip.addEventListener("click", function () {
-        $('#market').val('match_odds');
-        // Display components.
-        correctScoreChip.style.backgroundColor = '#dedede';
-        matchOddsChip.style.backgroundColor = '#FAFAFA';
-        underOverChip.style.backgroundColor = '#dedede';
-        // Fill options panel.
-        document.querySelector('.correct_score').style.display = 'none';
-        document.querySelector('.match_odds').style.display = 'block';
-        document.querySelector('.under_or_over').style.display = 'none';
-        // Add Event Listener;
-        initMarket();
-    });
-}
-
-if (underOverChip) {
-    underOverChip.addEventListener("click", function () {
-        $('#market').val('under_or_over');
-        // Display components.
-        correctScoreChip.style.backgroundColor = '#dedede';
-        matchOddsChip.style.backgroundColor = '#dedede';
-        underOverChip.style.backgroundColor = '#FAFAFA';
-        // Fill options panel.
-        document.querySelector('.correct_score').style.display = 'none';
-        document.querySelector('.match_odds').style.display = 'none';
-        document.querySelector('.under_or_over').style.display = 'block';
-        // Add Event Listener;
-        initMarket();
-    });
-}
-
-if (stakeSlider) {
+//Stake
+function stake() {
+    var stakeSlider = document.querySelector("#sliderStake");
     stakeSlider.addEventListener("change", function () {
-        var budgetFloat = parseFloat(budgetValue.innerHTML);
-        var partBudget = (budgetFloat * stakeSlider.value) / stakeSlider.max;
+        var budgetFloat = parseFloat($("#valueBudget").html());
+        var partBudget = (budgetFloat * $("#sliderStake").val()) / $("#sliderStake").max();
         var percBudget = (partBudget / budgetFloat) * 100;
         partBudget = partBudget.toFixed(2);
         percBudget = percBudget.toFixed(2);
-        stakeValue.innerHTML = partBudget;
-        percStakeValue.innerHTML = percBudget;
-
+        $("valueStake").html(partBudget);
+        $("valuePercStake").html(percBudget);
     }, false);
 }
 
+// Views
+function views() {
+    var viewsList = ["home", "account", "method", "profit", "contact", "game", "robot"]
 
-// General functions.
-function main() {
-    document.querySelector('.mdl-layout__obfuscator').classList.remove('is-visible');
-    robotButton.click();
+    viewsList.forEach(showElement => {
+        var key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
+        $(key).off().click(function (e) {
+            e.stopImmediatePropagation();
+            viewsList.forEach(hideElement => {
+                $(`#${hideElement}`).css("display", "none");
+            });
+            $('.mdl-layout__obfuscator').removeClass('is-visible');
+            $('.mdl-layout__drawer').removeClass('is-visible');
+            $(`#${showElement}`).css("display", "inline-block");
+            showElement === "home" ? $('#txtBudget').html(`brother.bet`) : $('#txtBudget').html(showElement);
+            localStorage.setItem("view:", showElement);
+        });
+    });
+}
+
+//Market
+function market() {
+    var marketWinList = ["chipCorrectScore", "chipMatchOdds", "chipUnderOver"]
+
+    marketWinList.forEach(showElement => {
+        $(`#${showElement}`).off().click(function (e) {
+            e.stopImmediatePropagation();
+            var key = showElement.split("chip")[1].split(/(?=[A-Z])/).join("_").toLowerCase();
+            $('#market').val(key);
+            marketWinList.forEach(hideElement => {
+                var hiden = hideElement.split("chip")[1].split(/(?=[A-Z])/).join("_").toLowerCase();
+                $(`.${hiden}`).css("display", 'none');
+                console.log(hiden);
+                $(`#${hideElement}`).css("background-color", '#dedede');
+            });
+            $(`.${key}`).css("display", 'block');
+            $(`#${showElement}`).css("background-color", '#FAFAFA');
+            initMarket();
+            $(".overlay").css("height", $(".init-box-robot").outerHeight()*1.13 + 'px')
+        });
+
+    });
+
+    var marketPositionList = ["chipBack", "chipLay"]
+
+    marketPositionList.forEach(showElement => {
+        $(`#${showElement}`).off().click(function (e) {
+            e.stopImmediatePropagation();
+            var key = showElement.split("chip")[1].toLowerCase();
+            $('#position').val('back');
+            marketPositionList.forEach(hideElement => {
+                $(`#${hideElement}`).css("background-color", '#dedede');
+            });
+            $(`#${showElement}`).css("background-color", '#FAFAFA');
+        });
+    });
 }
 
 function initMarket() {
-    // Update chips.
-    homeChip = document.querySelector("#chipHome");
-    awayChip = document.querySelector("#chipAway");
-    drawChip = document.querySelector("#chipDraw");
-    underChip = document.querySelector("#chipUnder");
-    overChip = document.querySelector("#chipOver");
+    var marketWinList = ["chipHome", "chipAway", "chipDraw"]
 
-
-    if (homeChip) {
-        homeChip.addEventListener("click", function () {
-            $('#chipCorrectScore').val('home');
-            // Display components.
-            homeChip.style.backgroundColor = '#FAFAFA';
-            awayChip.style.backgroundColor = '#dedede';
-            drawChip.style.backgroundColor = '#dedede';
+    marketWinList.forEach(showElement => {
+        $(`#${showElement}`).off().click(function (e) {
+            e.stopImmediatePropagation();
+            marketWinList.forEach(hideElement => {
+                $(`#${hideElement}`).css("background-color", '#dedede');
+            });
+            $(`#${showElement}`).css("background-color", '#FAFAFA');
         });
-    }
-
-    if (awayChip) {
-        awayChip.addEventListener("click", function () {
-            $('#chipCorrectScore').val('away');
-            // Display components.
-            homeChip.style.backgroundColor = '#dedede';
-            awayChip.style.backgroundColor = '#FAFAFA';
-            drawChip.style.backgroundColor = '#dedede';
-        });
-    }
-
-    if (drawChip) {
-        drawChip.addEventListener("click", function () {
-            $('#chipCorrectScore').val('draw');
-            // Display components.
-            homeChip.style.backgroundColor = '#dedede';
-            awayChip.style.backgroundColor = '#dedede';
-            drawChip.style.backgroundColor = '#FAFAFA';
-        });
-    }
-
-    if (underChip) {
-        underChip.addEventListener("click", function () {
-            $('#chipUnderOver').val('under');
-            // Display components.
-            underChip.style.backgroundColor = '#FAFAFA';
-            overChip.style.backgroundColor = '#dedede';
-        });
-    }
-
-    if (overChip) {
-        overChip.addEventListener("click", function () {
-            $('#chipUnderOver').val('over');
-            // Display components.
-            underChip.style.backgroundColor = '#dedede';
-            overChip.style.backgroundColor = '#FAFAFA';
-        });
-    }
-}
-
-function drawerHide() {
-    document.querySelector('.mdl-layout__drawer').addEventListener('click', function () {
-        document.querySelector('.mdl-layout__obfuscator').classList.remove('is-visible');
-        this.classList.remove('is-visible');
-    }, false);
-}
-
-//Timers
-async function updateMoney() {
-    setInterval(() => {
-        //budgetValue.value = readableBetfair('getAccountFunds')
-        //console.log(readableBetfair('getAccountFunds'))
-    }, 60000);
-}
-
-//Prototype
-async function readableBetfair(methodName) {
-    let dataReturn;
-    await $.ajax({
-        url: 'https://us-central1-minevideo-2ceee.cloudfunctions.net/readableBetfair',
-        dataType: "json",
-        method: 'GET',
-        crossDomain: true,
-        headers: {
-            'Accept': 'application/json'
-        },
-
-        data: {
-            "method": methodName,
-        },
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            dataReturn = data;
-        }
     });
 
-    return dataReturn;
+    var marketTypeList = ["chipUnder", "chipOver"]
+
+    marketTypeList.forEach(showElement => {
+        $(`#${showElement}`).off().click(function (e) {
+            e.stopImmediatePropagation();
+            marketTypeList.forEach(hideElement => {
+                $(`#${hideElement}`).css("background-color", '#dedede');
+            });
+            $(`#${showElement}`).css("background-color", '#FAFAFA');
+        });
+    });
+}
+
+function updateOverlayHeight() {
 }
 
 //Typed
@@ -356,17 +154,16 @@ function typedTchan() {
     });
 }
 
-//Update overlay
-document.querySelector('body').click(function () {
-    document.querySelector(".overlay").style.height = document.querySelector("body").scrollHeight + 'px'
-});
-
-// Main.
-document.addEventListener('DOMContentLoaded', async function () {
-    await updateMoney();
-    typedTchan()
-});
-
-function myAccount(){
-    $("#account").click();
+//Main.
+function main() {
+    $('.mdl-layout__obfuscator').removeClass('is-visible');
+    $("#btnHomes").click();
 }
+
+$(document).ready(function () {
+    views();
+    market();
+    typedTchan();
+    stake();
+    main();
+});

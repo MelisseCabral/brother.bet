@@ -1,33 +1,59 @@
-$('#btnBuild').click(() => {
-
+function takeRobot() {
     robot = {
         "game": $('#txtGame').val(),
         "position": $('#position').val(),
         "stake": $('#sliderStake').val(),
         "market": {
-            "name": $('#market').val(),
-            "options": ""
+            "under_over": {
+                "position": $('#chipUnderOver').val(),
+                "operator": $('#operator').val(),
+                "odd": $('#odd').val(),
+                "close_min": $('#closeMinute').val()
+            },
+            "match_odds": $('#chipCorrectScore').val(),
+            "correct_score": {
+                "home": $('#homeScore').val(),
+                "away": $('#awayScore').val()
+            }
         }
     }
+    return robot;
+};
 
-    robot.market.options = (() => {
-        switch (robot.market.name) {
-            case "under_or_over":
-                return {
-                    "position": $('#chipUnderOver').val(),
-                    "operator": $('#operator').val(),
-                    "odd": $('#odd').val(),
-                    "close_min": $('#closeMinute').val()
-                }
-            case "match_odds":
-                return $('#chipCorrectScore').val()
-            case "correct_score":
-                return {
-                    "home": $('#homeScore').val(),
-                    "away": $('#awayScore').val()
-                }
+function castRobot() {
+    robot = {
+        "game": "",
+        "position": "",
+        "stake": "",
+        "market": {
+            "under_over": {
+                "position": "",
+                "operator": "",
+                "odd": "",
+                "close_min": ""
+            },
+            "match_odds": "",
+            "correct_score": {
+                "home": "",
+                "away": ""
+            }
         }
-    }).call();
+    }
+    return robot;
+};
 
-    console.log(JSON.stringify(robot));
-});
+$('#btnBuild').click(() => {
+    var robot = takeRobotModel();
+})
+
+function saveRobotModel() {
+    robot = delete takeRobotModel().game;
+    localStorage.setItem("model:", robot);
+}
+
+function openRobotModel() {
+    var robot = localStorage.getItem("model:");
+    $('#position').val(robot.position || "");
+    $('#sliderStake').val(robot.stake || "");
+    $('#market').val(robot.name || "");
+}

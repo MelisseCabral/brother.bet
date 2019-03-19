@@ -124,26 +124,20 @@ if (!(document.URL === "http://127.0.0.1:5500/web/home.html")) {
         });
     }
 
-
-
     if (sendButton) {
         sendButton.addEventListener("click", function () { });
     }
 
-    if (logoutButton) {
-        logoutButton.addEventListener("click", function () {
-            firebase.auth().signOut().then(function () {
-                // Handle errors.
-            }).catch(function (error) {
-                console.log("Sign out error", error);
-                snackbar(error);
-            });
-
+    function logout() {
+        firebase.auth().signOut().then(function () {
+            // Handle errors.
+            signedout = true;
+            window.location = "/"
+        }).catch(function (error) {
+            console.log("Sign out error", error);
+            snackbar(error);
         });
-        signedout = true;
     }
-
-
 
     // Shared functions.
     firebase.auth().onAuthStateChanged(function (user) {
