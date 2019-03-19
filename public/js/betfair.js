@@ -38,11 +38,12 @@ function receiveBetters() {
                     <div id="${element.eventType.id}-tooltip"class="mdl-tooltip" for="${element.eventType.id}">
                     ${element.eventType.name}
                     </div>`
-                )
+                ).fadeIn(500).delay(5000);
                 componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}-tooltip`));
                 componentHandler.upgradeElement(document.getElementById(`${element.eventType.id}`));
             });
-            $(".mdl-chip--contact").off('click').click(function () {
+            $(".mdl-chip--contact").click(function (e) {
+                e.preventDefault();
                 $('#betters .mdl-chip__contact').css("background-color", "#0091ea")
                 $('#' + this.id + ' .mdl-chip__contact').css("background-color", "#00c853")
                 // $('#games').hide();
@@ -61,17 +62,16 @@ function receiveGames(game) {
         locale: "en"
     }).then(data => {
         $('#games').find('table tbody').html("");
+        $('#tchanTiped').hide();
+            $('#games').show();
         data[2].result.forEach(element => {
-            $('#games').find('table tbody').append(
+                       
+            var newId = element.event.name.split(" ").join("_")
+            var newRow =
                 `<tr>
                     <td>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select mdl-js-ripple-effect--ignore-events is-upgraded"
-                        data-upgraded=",MaterialCheckbox,MaterialRipple">
-                            <input type="checkbox" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__focus-helper"></span><span class="mdl-checkbox__box-outline">
-                            <span class="mdl-checkbox__tick-outline"></span></span>
-                            <span class="mdl-checkbox__ripple-container mdl-js-ripple-effect mdl-ripple--center" data-upgraded=",MaterialRipple">
-                            <span class="mdl-ripple"></span></span>
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="${newId}-checkbox">
+                            <input type="checkbox" id="${newId}-checkbox" class="mdl-checkbox__input">    
                         </label>
                     </td>
                     <td id="${element.event.id}" class="mdl-data-table__cell--non-numeric">${element.event.name}</td>                    
@@ -80,21 +80,21 @@ function receiveGames(game) {
                     <td>${element.event.timezone || ""}</td>
                     <td>${element.event.venue || ""}</td>
                     <td>${element.marketCount || ""}</td>
-                </tr>`
-            );
-            $('#tchanTiped').hide();
-            $('#games').show();
+            </tr>`
+            $('#games').find('table tbody').append(newRow).fadeIn(500).delay(5000);
+            componentHandler.upgradeAllRegistered();
         });
     });
 }
 
-$("#valueBudget").off('click').click(function () {
+$("#valueBudget").click(function (e) {
+    e.preventDefault();
     getReadable({
         funcRead: "getAccountFunds",
         filter: {},
         locale: "en"
     }).then(data => {
-        console.log(data[2].result.availableToBetBalance)
+        console.log(data[2].result.availableToBetBalance);
         $("#valueBudget").html(`$ ${data[2].result.availableToBetBalance}`)
     });
 });

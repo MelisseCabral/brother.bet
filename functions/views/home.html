@@ -23,7 +23,6 @@
   <link rel="shortcut icon" type="image/png" href="../../public/images/favicon.png" />
   <link rel="stylesheet" href="../../public/css/styles.css">
   <link rel="stylesheet" href="../../public/css/animate.css">
-
 </head>
 
 <body>
@@ -177,102 +176,98 @@
         <div class="android-header-spacer mdl-layout-spacer"></div>
         <div class="android-navigation-container">
           <nav class="android-navigation mdl-navigation">
-            <a class="mdl-navigation__link mdl-typography--text-uppercase">
+            <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <span id="valueBudget"></span>
-            </a>
+            </button>
           </nav>
         </div>
-        div class="email-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-        <input class="mdl-textfield__input label-float" type="text" id="txtEmail" autocomplete="off">
-        <label class="mdl-textfield__label" for="sample3">email</label>
+        <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+          <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+            <i onselectstart="return false;" ondragstart="return false" class="material-icons">search</i>
+          </label>
+          <div class="mdl-textfield__expandable-holder">
+            <input class="mdl-textfield__input" type="text" id="search-field" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+          <i onselectstart="return false;" ondragstart="return false" class="material-icons">arrow_upward</i>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+          <li class="mdl-menu__item">Conta do BetFair</li>
+        </ul>
       </div>
-      <div class="android-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
-        <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
-          <i onselectstart="return false;" ondragstart="return false" class="material-icons">search</i>
-        </label>
-        <div class="mdl-textfield__expandable-holder">
-          <input class="mdl-textfield__input" type="text" id="search-field" autocomplete="off">
+    </div>
+
+    <div class="android-drawer mdl-layout__drawer">
+      <span class="mdl-layout-title">
+        <img class="logo-image" src="images/name_w.png">
+        <img class="logo-image-2" src="images/logo_alone.png">
+
+      </span>
+      <nav class="mdl-navigation">
+        <a id="btnHome" class="mdl-navigation__link">Home</a>
+        <div class="android-drawer-separator"></div>
+        <a id="btnAccount" class="mdl-navigation__link">Account</a>
+        <a id="btnMethods" class="mdl-navigation__link">Methods</a>
+        <a id="btnProfits" class="mdl-navigation__link">Profits</a>
+        <a id="btnContact" class="mdl-navigation__link">Contact</a>
+        <div class="android-drawer-separator"></div>
+        <a id="btnLogout" class="mdl-navigation__link">Logout</a>
+      </nav>
+    </div>
+
+    <div id="home" class="android-content mdl-layout__content">
+      <div id="tchanTiped" class=" mdl-typography--text-center">
+        <div id="tchanTiped" class="logo-font android-slogan">
+          <span class="typed"></span>
+          <span class="typed-cursor"></span>
+          <div class="logo-font android-sub-slogan">welcome to brother bet. do your thing. see what's going on.
+          </div>
         </div>
       </div>
+      <div id="betters"></div>
+      <div id="games" style="display:block" class="mdl-grid portfolio-max-width">
+        <table class="mdl-data-dynamictable mdl-data-table__row--selectable mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+          <thead>
+            <tr>
+              <th id="checkbox-all-games" class="mdl-data-table__cell--non-numeric">Game</th>
+              <th>Country</th>
+              <th>Time Begin</th>
+              <th>Timezone</th>
+              <th>Venue</th>
+              <th>Market</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        </table>
+      </div>
+    </div>
 
-      <!-- Navigation -->
-      <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
-        <i onselectstart="return false;" ondragstart="return false" class="material-icons">arrow_upward</i>
+    <div class="automations ">
+      <button id='btnRobot' class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">android</i>
       </button>
-      <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
-        <li class="mdl-menu__item">Conta do BetFair</li>
-      </ul>
+      <button id='btnBug' class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">bug_report</i>
+      </button>
+      <button id='btnCode' class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">code</i>
+      </button>
+      <button id='btnUp' class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">trending_up</i>
+      </button>
+      <button id='btnFire' class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">whatshot</i>
+      </button>
+
+      <button id="btnSend" class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">send</i>
+      </button>
     </div>
-  </div>
-
-  <div class="android-drawer mdl-layout__drawer">
-    <span class="mdl-layout-title">
-      <img class="logo-image" src="images/name_w.png">
-      <img class="logo-image-2" src="images/logo_alone.png">
-
-    </span>
-    <nav class="mdl-navigation">
-      <a id="btnHome" class="mdl-navigation__link">Home</a>
-      <div class="android-drawer-separator"></div>
-      <a id="btnAccount" class="mdl-navigation__link">Account</a>
-      <a id="btnMethods" class="mdl-navigation__link">Methods</a>
-      <a id="btnProfits" class="mdl-navigation__link">Profits</a>
-      <a id="btnContact" class="mdl-navigation__link">Contact</a>
-      <div class="android-drawer-separator"></div>
-      <a id="btnLogout" class="mdl-navigation__link">Logout</a>
-    </nav>
-  </div>
-
-  <div id="home" class="android-content mdl-layout__content">
-    <div id="tchanTiped" class=" mdl-typography--text-center">
-      <div id="tchanTiped" class="logo-font android-slogan">
-        <span class="typed"></span>
-        <span class="typed-cursor"></span>
-        <div class="logo-font android-sub-slogan">welcome to brother bet. do your thing. see what's going on.
-        </div>
-      </div>
-    </div>
-    <div id="betters"></div>
-    <div id="games" style="display:none" class="mdl-grid portfolio-max-width">
-      <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-        <thead>
-          <tr>
-            <th class="mdl-data-table__cell--non-numeric">Game</th>
-            <th>Country</th>
-            <th>Time Begin</th>
-            <th>Timezone</th>
-            <th>Venue</th>
-            <th>Market</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-      </table>
-    </div>
-  </div>
-
-  <div class="automations ">
-    <button id='btnRobot' class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">android</i>
-    </button>
-    <button id='btnBug' class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">bug_report</i>
-    </button>
-    <button id='btnCode' class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">code</i>
-    </button>
-    <button id='btnUp' class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">trending_up</i>
-    </button>
-    <button id='btnFire' class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">whatshot</i>
-    </button>
-
-    <button id="btnSend" class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-      <i class="material-icons">send</i>
-    </button>
-  </div>
   </div>
   </div>
 
@@ -490,5 +485,4 @@
 
   </footer>
 </body>
-
 </html>

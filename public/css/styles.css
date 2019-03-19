@@ -1,8 +1,8 @@
 /* Fonts */
-
 @font-face {
   font-family: "eurofurence";
-  src: url('font/eurofurence.tff') format('truetype');
+  src: url('../font/eurofurence.ttf') format('truetype');
+  src: url('../font/eurofurence.ttf') format('truetype');
 }
 
 h4 {
@@ -41,7 +41,6 @@ a img {
 }
 
 ::selection {
-  background-color: var(--primary_color_1);
   color: #fff;
   user-select: none
 }
@@ -247,7 +246,6 @@ a img {
   width: 15vh !important;
   border-radius: 50%;
   z-index: 3;
-  color: var(--primary_color_1);
   font-size: 5vh;
   background-repeat: no-repeat;
   background-size: cover;
@@ -315,7 +313,7 @@ a img {
 
 .mdl-button--fab.mdl-button--colored {
   background: white !important;
-  color: rgb(103, 58, 183) !important;
+  color: #0091ea !important;
   margin-left: 5px;
 }
 
@@ -609,4 +607,12 @@ main#ty-container > .mdl-grid:first-child {
 main#ty-container #addCustomerAction {
   width: 100% !important;
   max-width: inherit;
+} */
+
+.mdl-checkbox            .mdl-checkbox__tick-outline {
+  padding-left: 1px !important;
+}
+
+.mdl-checkbox.is-checked .mdl-checkbox__tick-outline {
+    padding-left: 1px !important;
 }
