@@ -43,7 +43,7 @@ function receiveBetters() {
             });
             componentHandler.upgradeAllRegistered();
             $(".mdl-chip--contact").off().click(function (e) {
-                e.preventDefault();
+                e.stopImmediatePropagation();
                 $('#betters .mdl-chip__contact').css("background-color", "#0091ea");
                 $('#' + this.id + ' .mdl-chip__contact').css("background-color", "#00c853");
                 $('#games').hide();
@@ -69,15 +69,15 @@ function receiveGames(game) {
         $('#tchanTiped').hide();
         $('#games').show();
         data[2].result.forEach(element => {
-            var newId = element.event.name.split(" ").join("_")
+            var newId = `${element.event.id}`
             $('#games').find('table tbody').append(
-                `<tr>
+                `<tr id="${newId}-event">
                         <td>
                             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="${newId}-checkbox">
                                 <input type="checkbox" id="${newId}-checkbox" class="mdl-checkbox__input">    
                             </label>
                         </td>
-                        <td id="${element.event.id}" class="mdl-data-table__cell--non-numeric">${element.event.name}</td>                    
+                        <td class="mdl-data-table__cell--non-numeric">${element.event.name}</td>                    
                         <td>${element.event.countryCode || ""}</td>   
                         <td>${element.event.openDate || ""}</td>
                         <td>${element.event.timezone || ""}</td>
@@ -87,17 +87,58 @@ function receiveGames(game) {
             )
         });
         componentHandler.upgradeAllRegistered();
-        $('#games').find('th:first label').off().click(function (e) {
-            e.preventDefault();
-            if ($('#games').find('th:first label').hasClass("is-checked") === false) {
-                $('#games label').addClass("is-checked");
-            } else {
-                $('#games label').removeClass("is-checked");
-            }
-        });
+        fireAllChecks();
+        defineCheck();
     }).catch(error => {
         console.log(`Error receiveGames(${game}).`, error);
         receiveGames(game);
+    });
+}
+
+function fireAllChecks() {
+    $('#games').find('th:first label').off().click(function (e) {
+        e.stopImmediatePropagation();
+        if ($('#games').find('th:first label').hasClass("is-checked") === true) {
+            $('#games label').addClass("is-checked");
+        } else {
+            $('#games label').removeClass("is-checked");
+        }
+        var checkedIds = Array();
+        $('#games .mdl-checkbox__input').each(function (i, v) {
+            checkedIds.push($(this).attr('id'));
+        });
+        checkedIds.shift();
+        checkedIds.forEach(element => {
+            id = element.split("-checkbox")[0]
+            fireCheck(id)
+        })
+    });
+}
+
+function fireCheck(id) {
+    var key = `game:${id}`
+    if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
+        $(`#${id}-event`).find('td:first label').addClass("is-checked");
+        var value = {
+            "id": id,
+            "name": $(`#${id}-event`).find('td:eq(1)').html(),
+            "country": $(`#${id}-event`).find('td:eq(2)').html(),
+            "openGame": $(`#${id}-event`).find('td:eq(3)').html(),
+            "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
+            "venue": $(`#${id}-event`).find('td:eq(5)').html(),
+            "marketCount": $(`#${id - event}`).find('td:eq(6)').html(),
+        }
+        localStorage.setItem(key, JSON.stringify(value));
+    } else {
+        $(`#${id}-event`).find('td:first label').removeClass("is-checked");
+        localStorage.removeItem(key);
+    }
+}
+function defineCheck() {
+    $('input[type="checkbox"]').off().click(function (e) {
+        e.stopImmediatePropagation();
+        var id = $(this).attr('id').split("-checkbox")[0]
+        fireCheck(id);
     });
 }
 
@@ -114,16 +155,78 @@ function getMoney() {
     });
 }
 
+function cheboxes() {
+    var checkedIds = Array();
+    $('#games .mdl-data-table__cell--non-numeric').each(function (i, v) {
+        checkedIds.push($(this).attr('id'));
+    });
+    checkedIds.shift();
+
+    Array.apply(0, new Array(localStorage.length)).map(function (o, i) {
+        return localStorage.key(i);
+    })
+
+
+}
+
 $("#valueBudget").off().click(function (e) {
-    e.preventDefault();
+    e.stopImmediatePropagation();
     getMoney();
 });
 
+$("btnFire").off().click(function (e) {
+    e.stopImmediatePropagation();
+    setViewHome();
+
+});
+
+$("game").off().click(function (e) {
+    e.stopImmediatePropagation();
+    setViewGames();
+
+});
+
+$("robot").off().click(function (e) {
+    e.stopImmediatePropagation();
+    setViewRobots();
+
+});
+
+
+$("btnDelete").off().click(function (e) {
+    e.stopImmediatePropagation();
+    var views = Array();
+    views.push(localStorage.getItem("view"))
+    if (views = "home") {
+        views = ["game", "robot"]
+    }
+    var keys = Array.apply(0, new Array(localStorage.length)).map(function (o, i) {
+        return localStorage.key(i);
+    })
+    keys.forEach(key => {
+        views.forEach(view => {
+            if (key.str.search(`${view}:`)) {
+                localStorage.removeItem(key);
+            }
+        });
+    })
+});
+
+function setViewHome() {
+    localStorage.setItem("view", "home");
+}
+function setViewRobots() {
+    localStorage.setItem("view", "robot");
+}
+function setViewGames() {
+    localStorage.setItem("view", "game");
+}
 
 // Main.
 (() => {
     getMoney();
     receiveBetters();
+    setViewHome();
 }).call()
 
 

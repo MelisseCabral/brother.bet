@@ -250,31 +250,29 @@
         class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
         <i class="material-icons">android</i>
       </button>
-      <button id='btnBug'
-        class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">bug_report</i>
-      </button>
-      <button id='btnCode'
-        class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">code</i>
-      </button>
-      <button id='btnUp'
-        class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">trending_up</i>
-      </button>
       <button id='btnFire'
-        class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
         <i class="material-icons">whatshot</i>
       </button>
-
-      <button id="btnSend"
+      <button id='game'
+        class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">games</i>
+      </button>
+      <button id='robot'
+        class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">adb</i>
+      </button>
+      <button id='btnDelete'
+        class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+        <i class="material-icons">delete</i>
+      </button>
+      <button id="btnLogoutFun"
         class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-        <i class="material-icons">send</i>
+        <i class="material-icons">accessible_forward</i>
       </button>
     </div>
   </div>
   </div>
-
   <div id="account" class="android-content mdl-layout__content">
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--4-col"></div>
@@ -289,23 +287,39 @@
             <div id='mdl-cell mdl-cell--1-col '>
               <div class="username-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
                 <input class="mdl-textfield__input label-float" type="text" id="txtUsername" autocomplete="off">
-                <label class="mdl-textfield__label" for="sample3">username</label>
+                <label class="mdl-textfield__label" for="txtUsername">username</label>
               </div>
               <div class="email-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input label-float" type="email" id="txtEmail" autocomplete="on">
-                <label class="mdl-textfield__label" for="sample3">email</label>
+                <label class="mdl-textfield__label" for="txtEmail">email</label>
               </div>
               <div class="photo-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input label-float" type="text" id="txtphotoURL" autocomplete="off">
-                <label class="mdl-textfield__label" for="sample3">photo url</label>
+                <label class="mdl-textfield__label" for="txtphotoURL">photo url</label>
               </div>
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input label-float" type="password" id="txtPassword" autocomplete="on">
-                <label class="mdl-textfield__label" for="sample3">password</label>
+                <label class="mdl-textfield__label" for="txtPassword">password</label>
               </div>
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="keyEnter">
                 <input class="mdl-textfield__input sign-sample" type="password" id="txtRePassword" autocomplete="off">
-                <label class="mdl-textfield__label" for="sample3">re-password</label>
+                <label class="mdl-textfield__label" for="txtRePassword">re-password</label>
+              </div>
+              <div class="init-box-bet mdl-shadow--4dp">
+                <div id='mdl-cell mdl-cell--1-col '>
+                  <div class="email-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input label-float" type="email" id="txtEmailBet" autocomplete="on">
+                    <label class="mdl-textfield__label" for="txtEmailBet">email betfair</label>
+                  </div>
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input label-float" type="password" id="txtPasswordBet" autocomplete="on">
+                    <label class="mdl-textfield__label" for="txtPasswordBet">password</label>
+                  </div>
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input label-float" type="text" id="txtApiKey" autocomplete="on">
+                    <label class="mdl-textfield__label" for="txtApiKey">apiKey</label>
+                  </div>
+                </div>
               </div>
             </div>
             <button id='btnUpdate' class="mdl-button mdl-js-button mdl-js-ripple-effect">

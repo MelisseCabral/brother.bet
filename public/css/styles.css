@@ -242,6 +242,16 @@ a img {
   padding-top: 5vh;
   z-index: 1;
 }
+.init-box-bet {
+  position: relative;
+  min-height: 30vh;
+  height: auto;
+  border-radius: 10px;
+  background: #ffb80c;
+  text-align: center;
+  margin: 5vh 5vh 5vh 5vh;
+  z-index: 1;
+}
 .init-box-robot {
   position: relative;
   min-height: 70vh;
