@@ -1,22 +1,38 @@
 // Actions functions.
-$("#btnRobot").off().click(function (e) {
+$("#btnRobot").off().click((e) => {
     e.stopImmediatePropagation();
     $("#robotFactory").css("display", "block");
     $(".overlay").css("display", "block");
-    //openRobotModel();
+    openRobotModel();
 })
 
-$("#btnBetfairAccount").off().click(function (e) {
+$("#valueBudget").off().click((e) => {
+    e.stopImmediatePropagation();
+    getMoney();
+});
+
+$("btnDelete").off().click((e) => {
+    e.stopImmediatePropagation();
+    deleteAll();
+});
+
+$("#btnGames").off().click((e) => {
+    e.stopImmediatePropagation();
+    getGames();
+    //alert("founded")
+});
+
+$("#btnBetfairAccount").off().click((e) => {
     e.stopImmediatePropagation();
     $("#btnAccounts").click();
 });
 
-$("#btnCloseRobot").off().click(function (e) {
+$("#btnCloseRobot").off().click((e) => {
     e.stopImmediatePropagation();
     $('#robotFactory').css("display", "none");
 });
 
-$("#btnSaveRobot").off().click(function (e) {
+$("#btnSaveRobot").off().click((e) => {
     e.stopImmediatePropagation();
     $(this).animate({ bottom: '1000px' }, "slow");
     $(this).animate({ opacity: '0' }, "slow");
@@ -25,17 +41,17 @@ $("#btnSaveRobot").off().click(function (e) {
     saveRobotModel();
 });
 
-$("#btnLogout").off().click(function (e) {
+$("#btnLogout").off().click((e) => {
     e.stopImmediatePropagation();
     logout()
 });
 
-$("#btnLogout").off().click(function (e) {
+$("#btnLogout").off().click((e) => {
     e.stopImmediatePropagation();
     logout()
 });
 
-$("#btnLogoutFun").off().click(function (e) {
+$("#btnLogoutFun").off().click((e) => {
     e.stopImmediatePropagation();
     logout()
 });
@@ -43,14 +59,14 @@ $("#btnLogoutFun").off().click(function (e) {
 //Stake
 function stake() {
     var stakeSlider = document.querySelector("#sliderStake");
-    stakeSlider.addEventListener("change", function () {
+    stakeSlider.addEventListener("change", () => {
         var budgetFloat = parseFloat($("#valueBudget").html());
-        var partBudget = (budgetFloat * $("#sliderStake").val()) / $("#sliderStake").max();
+        var partBudget = budgetFloat * parseFloat(stakeSlider.value / stakeSlider.max);
         var percBudget = (partBudget / budgetFloat) * 100;
         partBudget = partBudget.toFixed(2);
         percBudget = percBudget.toFixed(2);
-        $("valueStake").html(partBudget);
-        $("valuePercStake").html(percBudget);
+        $("#valueStake").html(partBudget);
+        $("#valuePercStake").html(percBudget);
     }, false);
 }
 
@@ -60,7 +76,7 @@ function views() {
 
     viewsList.forEach(showElement => {
         var key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
-        $(key).off().click(function (e) {
+        $(key).off().click((e) => {
             e.stopImmediatePropagation();
             viewsList.forEach(hideElement => {
                 $(`#${hideElement}`).css("display", "none");
@@ -79,7 +95,7 @@ function market() {
     var marketWinList = ["chipCorrectScore", "chipMatchOdds", "chipUnderOver"]
 
     marketWinList.forEach(showElement => {
-        $(`#${showElement}`).off().click(function (e) {
+        $(`#${showElement}`).off().click((e) => {
             e.stopImmediatePropagation();
             var key = showElement.split("chip")[1].split(/(?=[A-Z])/).join("_").toLowerCase();
             $('#market').val(key);
@@ -92,7 +108,7 @@ function market() {
             $(`.${key}`).css("display", 'block');
             $(`#${showElement}`).css("background-color", '#FAFAFA');
             initMarket();
-            $(".overlay").css("height", $(".init-box-robot").outerHeight()*1.13 + 'px')
+            $(".overlay").css("height", $(".init-box-robot").outerHeight() * 1.13 + 'px')
         });
 
     });
@@ -100,7 +116,7 @@ function market() {
     var marketPositionList = ["chipBack", "chipLay"]
 
     marketPositionList.forEach(showElement => {
-        $(`#${showElement}`).off().click(function (e) {
+        $(`#${showElement}`).off().click((e) => {
             e.stopImmediatePropagation();
             var key = showElement.split("chip")[1].toLowerCase();
             $('#position').val('back');
@@ -116,7 +132,7 @@ function initMarket() {
     var marketWinList = ["chipHome", "chipAway", "chipDraw"]
 
     marketWinList.forEach(showElement => {
-        $(`#${showElement}`).off().click(function (e) {
+        $(`#${showElement}`).off().click((e) => {
             e.stopImmediatePropagation();
             marketWinList.forEach(hideElement => {
                 $(`#${hideElement}`).css("background-color", '#dedede');
@@ -128,7 +144,7 @@ function initMarket() {
     var marketTypeList = ["chipUnder", "chipOver"]
 
     marketTypeList.forEach(showElement => {
-        $(`#${showElement}`).off().click(function (e) {
+        $(`#${showElement}`).off().click((e) => {
             e.stopImmediatePropagation();
             marketTypeList.forEach(hideElement => {
                 $(`#${hideElement}`).css("background-color", '#dedede');
@@ -136,9 +152,6 @@ function initMarket() {
             $(`#${showElement}`).css("background-color", '#FAFAFA');
         });
     });
-}
-
-function updateOverlayHeight() {
 }
 
 //Typed
@@ -160,7 +173,7 @@ function main() {
     $("#btnHomes").click();
 }
 
-$(document).ready(function () {
+$(document).ready(() => {
     views();
     market();
     typedTchan();

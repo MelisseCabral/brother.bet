@@ -30,35 +30,15 @@ function receiveBetters() {
             filter: {},
             locale: "en"
         }).then(data => {
-            data[2].result.forEach(element => {
-                $('#betters').append(
-                    `<span id="${element.eventType.id}" class="mdl-chip mdl-chip--contact">
-                        <span style="background-color: #0091ea"class="mdl-chip__contact   mdl-color-text--white">${element.eventType.name.substring(0, 2)}</span>
-                        <span class="mdl-chip__text">${element.eventType.name.split(" ")[0]}</span>
-                    </span>
-                    <div id="${element.eventType.id}-tooltip"class="mdl-tooltip" for="${element.eventType.id}">
-                    ${element.eventType.name}
-                    </div>`
-                )
-            });
-            componentHandler.upgradeAllRegistered();
-            $("#betters .mdl-chip--contact").off().click(function (e) {
-                e.stopImmediatePropagation();
-                $('#betters .mdl-chip__contact').css("background-color", "#0091ea");
-                $('#' + this.id + ' .mdl-chip__contact').css("background-color", "#00c853");
-                $('#games').hide();
-                $('#tchanTiped').show();
-                console.log(this.id)
-                receiveGames(this.id)
-            });
+            fillBetters(data)
             $("#betters #1").click();
-            resolve("I'm done!")
+            return resolve("I'm done!")
         }).catch(error => {
             console.log("Error receiveBetters().", error);
             receiveBetters();
         });
     });
-};
+}
 
 function receiveGames(game) {
     getReadable({
@@ -66,30 +46,10 @@ function receiveGames(game) {
         filter: { "eventTypeIds": [game.toString()] },
         locale: "en"
     }).then(data => {
-        $('#games').find('table tbody').html("");
-        $('#tchanTiped').hide();
-        $('#games').show();
-        data[2].result.forEach(element => {
-            var newId = `${element.event.id}`
-            $('#games').find('table tbody').append(
-                `<tr id="${newId}-event">
-                        <td>
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="${newId}-checkbox">
-                                <input type="checkbox" id="${newId}-checkbox" class="mdl-checkbox__input">    
-                            </label>
-                        </td>
-                        <td class="mdl-data-table__cell--non-numeric">${element.event.name}</td>                    
-                        <td>${element.event.countryCode || ""}</td>   
-                        <td>${element.event.openDate || ""}</td>
-                        <td>${element.event.timezone || ""}</td>
-                        <td>${element.event.venue || ""}</td>
-                        <td>${element.marketCount || ""}</td>
-                    </tr>`
-            )
-        });
-        componentHandler.upgradeAllRegistered();
+        fillEvents(data)
         fireAllChecks();
         defineCheck();
+        return "I'm done!"
     }).catch(error => {
         console.log(`Error receiveGames(${game}).`, error);
         receiveGames(game);
@@ -97,7 +57,7 @@ function receiveGames(game) {
 }
 
 function fireAllChecks() {
-    $('#games').find('th:first label').off().click(function (e) {
+    $('#games').find('th:first label').off().click((e) => {
         e.stopImmediatePropagation();
         if ($('#games').find('th:first label').hasClass("is-checked") === true) {
             $('#games label').addClass("is-checked");
@@ -105,7 +65,7 @@ function fireAllChecks() {
             $('#games label').removeClass("is-checked");
         }
         var checkedIds = Array();
-        $('#games .mdl-checkbox__input').each(function (i, v) {
+        $('#games .mdl-checkbox__input').each((i, v) => {
             checkedIds.push($(this).attr('id'));
         });
         checkedIds.shift();
@@ -123,8 +83,8 @@ function fireCheck(id) {
         var value = {
             "id": id,
             "name": $(`#${id}-event`).find('td:eq(1)').html(),
-            "country": $(`#${id}-event`).find('td:eq(2)').html(),
-            "openGame": $(`#${id}-event`).find('td:eq(3)').html(),
+            "countryCode": $(`#${id}-event`).find('td:eq(2)').html(),
+            "openDate": $(`#${id}-event`).find('td:eq(3)').html(),
             "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
             "venue": $(`#${id}-event`).find('td:eq(5)').html(),
             "marketCount": $(`#${id - event}`).find('td:eq(6)').html(),
@@ -135,8 +95,9 @@ function fireCheck(id) {
         localStorage.removeItem(key);
     }
 }
+
 function defineCheck() {
-    $('input[type="checkbox"]').off().click(function (e) {
+    $('input[type="checkbox"]').off().click((e) => {
         e.stopImmediatePropagation();
         var id = $(this).attr('id').split("-checkbox")[0]
         fireCheck(id);
@@ -150,6 +111,7 @@ function getMoney() {
         locale: "en"
     }).then(data => {
         $("#valueBudget").html(`${data[2].result.availableToBetBalance}`)
+        return "I'm done!"
     }).catch(error => {
         console.log("Error getMoney().", error);
         getMoney();
@@ -158,29 +120,43 @@ function getMoney() {
 
 function cheboxes() {
     var checkedIds = Array();
-    $('#games .mdl-data-table__cell--non-numeric').each(function (i, v) {
+    $('#games .mdl-data-table__cell--non-numeric').each((i, v) => {
         checkedIds.push($(this).attr('id'));
     });
     checkedIds.shift();
-
-    Array.apply(0, new Array(localStorage.length)).map(function (o, i) {
+    stored = Array.apply(0, new Array(localStorage.length)).map((o, i) => {
         return localStorage.key(i);
     })
+    var data = Array();
+    stored.forEach(element => {
+        if (element.search("game:") > -1) {
+            data.push(element)
+        }
+    });
+    fillGames(data)
 }
 
-$("#valueBudget").off().click(function (e) {
-    e.stopImmediatePropagation();
-    getMoney();
-});
+function getGames() {
+    stored = Array.apply(0, new Array(localStorage.length)).map((o, i) => {
+        return localStorage.key(i);
+    })
+    var data = Array();
+    stored.forEach(element => {
+        if (element.search("game:") > -1) {
+            eventContent = localStorage.getItem(element)
+            data.push(eventContent)
+        }
+    });
+    fillGames(data);
+}
 
-$("btnDelete").off().click(function (e) {
-    e.stopImmediatePropagation();
-    var views = Array();
-    views.push(localStorage.getItem("view"))
-    if (views = "home") {
-        views = ["game", "robot"]
-    }
-    var keys = Array.apply(0, new Array(localStorage.length)).map(function (o, i) {
+function deleteAll() {
+    var views = [];
+    views.push(localStorage.getItem("view"));
+    // if (views = "home") {
+    //     views = ["game", "robot"]
+    // }
+    var keys = Array.apply(0, new Array(localStorage.length)).map((o, i) => {
         return localStorage.key(i);
     })
     views.forEach(view => {
@@ -192,11 +168,12 @@ $("btnDelete").off().click(function (e) {
         $(`#${view}`).click();
     });
     $("#home").click();
-});
+}
 
 //Timers
-async function updateMoney() {
-    console.log("test");
+function updateMoney() {
+    console.log("test")
+        ;
     setInterval(() => {
         //budgetValue.value = readableBetfair('getAccountFunds')
         //console.log(readableBetfair('getAccountFunds'))
