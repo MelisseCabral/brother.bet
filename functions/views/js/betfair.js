@@ -59,27 +59,27 @@ function receiveGames(game) {
 function fireAllChecks() {
     $('#games').find('th:first label').off().click((e) => {
         e.stopImmediatePropagation();
-        if ($('#games').find('th:first label').hasClass("is-checked") === false) {
-            $('#games label').addClass("is-checked");
-        } else {
-            $('#games label').removeClass("is-checked");
-        }
-        var checkedIds = Array();
-        $('#games .mdl-checkbox__input').each((i, v) => {
-            checkedIds.push($(this).attr('id'));
-        });
-        checkedIds.shift();
-        checkedIds.forEach(element => {
-            id = element.split("-checkbox")[0]
-            fireCheck(id)
+        var checkIds = Object.values($('#games tr'))
+        checkIds.shift(1);
+        checkIds.forEach(element => {
+            fireCheck(element.id.split("-event")[0])
         })
+        if ($('#games').find('th:first label').hasClass("is-checked") === false) {
+            $('#games th:first label').addClass("is-checked")
+            $('#games th:first label').removeClass("is-focused");
+        } else {
+            $('#games th:first label').removeClass("is-checked");
+        }
     });
+    
 }
 
 function fireCheck(id) {
     var key = `game:${id}`
     if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
         $(`#${id}-event`).find('td:first label').addClass("is-checked");
+        $(`#${id}-event`).find('td:first label').removeClass("is-focused");
+
         var value = {
             "id": id,
             "name": $(`#${id}-event`).find('td:eq(1)').html(),
@@ -94,11 +94,11 @@ function fireCheck(id) {
         $(`#${id}-event`).find('td:first label').removeClass("is-checked");
         localStorage.removeItem(key);
     }
+    componentHandler.upgradeAllRegistered();
 }
 
 function defineCheck() {
     $('input[type="checkbox"]').off().click(function (e) {
-        e.stopImmediatePropagation();
         var id = $(this).attr('id').split("-checkbox")[0]
         fireCheck(id);
     });
