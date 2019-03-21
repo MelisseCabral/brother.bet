@@ -1,60 +1,67 @@
 // Actions functions.
-$("#btnRobot").off().click((e) => {
-    e.stopImmediatePropagation();
-    $("#robotFactory").css("display", "block");
-    $(".overlay").css("display", "block");
-    openRobotModel();
-})
+function actions() {
+    $("#btnRobot").off().click((e) => {
+        e.stopImmediatePropagation();
+        $("#robotFactory").css("display", "block");
+        $(".overlay").css("display", "block");
+        openRobotModel();
+    })
 
-$("#valueBudget").off().click((e) => {
-    e.stopImmediatePropagation();
-    getMoney();
-});
+    $("#btnHome").off().click((e) => {
+        e.stopImmediatePropagation();
+        $("#btnHomes").click()
+    })
 
-$("btnDelete").off().click((e) => {
-    e.stopImmediatePropagation();
-    deleteAll();
-});
+    $("btnDelete").off().click((e) => {
+        e.stopImmediatePropagation();
+        deleteAll();
+    });
 
-$("#btnGames").off().click((e) => {
-    e.stopImmediatePropagation();
-    getGames();
-    //alert("founded")
-});
+    $("#btnGames").off().click((e) => {
+        e.stopImmediatePropagation();
+        getGames();
+        //alert("founded")
+    });
 
-$("#btnBetfairAccount").off().click((e) => {
-    e.stopImmediatePropagation();
-    $("#btnAccounts").click();
-});
+    $("#valueBudget").off().click((e) => {
+        e.stopImmediatePropagation();
+        getMoney();
+    });
 
-$("#btnCloseRobot").off().click((e) => {
-    e.stopImmediatePropagation();
-    $('#robotFactory').css("display", "none");
-});
+    $("#btnBetfairAccount").off().click((e) => {
+        e.stopImmediatePropagation();
+        $("#btnAccounts").click();
+    });
 
-$("#btnSaveRobot").off().click((e) => {
-    e.stopImmediatePropagation();
-    $(this).animate({ bottom: '1000px' }, "slow");
-    $(this).animate({ opacity: '0' }, "slow");
-    $(this).animate({ bottom: '0px' }, "slow");
-    $(this).animate({ opacity: '1' }, "slow");
-    saveRobotModel();
-});
+    $("#btnCloseRobot").off().click((e) => {
+        e.stopImmediatePropagation();
+        $('#robotFactory').css("display", "none");
+    });
 
-$("#btnLogout").off().click((e) => {
-    e.stopImmediatePropagation();
-    logout()
-});
+    $("#btnSaveRobot").off().click((e) => {
+        e.stopImmediatePropagation();
+        $(this).animate({ bottom: '1000px' }, "slow");
+        $(this).animate({ opacity: '0' }, "slow");
+        $(this).animate({ bottom: '0px' }, "slow");
+        $(this).animate({ opacity: '1' }, "slow");
+        saveRobotModel();
+    });
 
-$("#btnLogout").off().click((e) => {
-    e.stopImmediatePropagation();
-    logout()
-});
+    $("#btnLogout").off().click((e) => {
+        e.stopImmediatePropagation();
+        logout()
+    });
 
-$("#btnLogoutFun").off().click((e) => {
-    e.stopImmediatePropagation();
-    logout()
-});
+    $("#btnLogout").off().click((e) => {
+        e.stopImmediatePropagation();
+        logout()
+    });
+
+    $("#btnLogoutFun").off().click((e) => {
+        e.stopImmediatePropagation();
+        logout()
+    });
+}
 
 //Stake
 function stake() {
@@ -168,15 +175,11 @@ function typedTchan() {
 }
 
 //Main.
-function main() {
-    $('.mdl-layout__obfuscator').removeClass('is-visible');
-    $("#btnHomes").click();
-}
-
 $(document).ready(() => {
     views();
     market();
     typedTchan();
     stake();
-    main();
+    actions()
+    $("#btnHomes").click();
 });
