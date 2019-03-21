@@ -71,15 +71,12 @@ function fireAllChecks() {
             $('#games th:first label').removeClass("is-checked");
         }
     });
-    
 }
 
 function fireCheck(id) {
     var key = `game:${id}`
     if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
         $(`#${id}-event`).find('td:first label').addClass("is-checked");
-        $(`#${id}-event`).find('td:first label').removeClass("is-focused");
-
         var value = {
             "id": id,
             "name": $(`#${id}-event`).find('td:eq(1)').html(),
@@ -94,7 +91,6 @@ function fireCheck(id) {
         $(`#${id}-event`).find('td:first label').removeClass("is-checked");
         localStorage.removeItem(key);
     }
-    componentHandler.upgradeAllRegistered();
 }
 
 function defineCheck() {
