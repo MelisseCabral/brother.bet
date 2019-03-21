@@ -59,7 +59,7 @@ function receiveGames(game) {
 function fireAllChecks() {
     $('#games').find('th:first label').off().click((e) => {
         e.stopImmediatePropagation();
-        if ($('#games').find('th:first label').hasClass("is-checked") === true) {
+        if ($('#games').find('th:first label').hasClass("is-checked") === false) {
             $('#games label').addClass("is-checked");
         } else {
             $('#games label').removeClass("is-checked");
@@ -94,14 +94,6 @@ function fireCheck(id) {
         $(`#${id}-event`).find('td:first label').removeClass("is-checked");
         localStorage.removeItem(key);
     }
-}
-
-function defineCheck() {
-    $('input[type="checkbox"]').off().click((e) => {
-        e.stopImmediatePropagation();
-        var id = $(this).attr('id').split("-checkbox")[0]
-        fireCheck(id);
-    });
 }
 
 function getMoney() {
