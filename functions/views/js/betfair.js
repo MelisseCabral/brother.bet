@@ -96,6 +96,14 @@ function fireCheck(id) {
     }
 }
 
+function defineCheck() {
+    $('input[type="checkbox"]').off().click(function (e) {
+        e.stopImmediatePropagation();
+        var id = $(this).attr('id').split("-checkbox")[0]
+        fireCheck(id);
+    });
+}
+
 function getMoney() {
     getReadable({
         funcRead: "getAccountFunds",
