@@ -44,6 +44,7 @@ function fillEvents(data){
         )
     });
     componentHandler.upgradeAllRegistered();
+    componentHandler.upgradeDom()
 }
 
 function fillGames(data){
@@ -69,6 +70,7 @@ function fillGames(data){
         )
     });
     componentHandler.upgradeAllRegistered();
+    componentHandler.upgradeDom()
 }
 
 function fillRobots(){

@@ -41,6 +41,7 @@ function receiveBetters() {
 }
 
 function receiveGames(game) {
+
     getReadable({
         funcRead: "listEvents",
         filter: { "eventTypeIds": [game.toString()] },
@@ -48,7 +49,7 @@ function receiveGames(game) {
     }).then(data => {
         fillEvents(data)
         fireAllChecks();
-        defineCheck();
+        toggleCheck();
         return "I'm done!"
     }).catch(error => {
         console.log(`Error receiveGames(${game}).`, error);
@@ -59,44 +60,71 @@ function receiveGames(game) {
 function fireAllChecks() {
     $('#games').find('th:first label').off().click((e) => {
         e.stopImmediatePropagation();
-        var checkIds = Object.values($('#games tr'))
+        var allCheck;
+        if (!$('#games').find('th:first label').hasClass("is-upgraded") && !$('#games').find('th:first label').hasClass("is-check")) {
+            $('#games th:first label').addClass("is-upgraded");
+            allCheck = true;
+        } else if ($('#games').find('th:first label').hasClass("is-upgraded") && !$('#games').find('th:first label').hasClass("is-check")) {
+            $('#games th:first label').removeClass("is-upgraded");
+        } else if (!$('#games').find('th:first label').hasClass("is-upgraded") && $('#games').find('th:first label').hasClass("is-check")) {
+            $('#games th:first label').removeClass("is-upgraded");
+            allCheck = false;
+        } else if ($('#games').find('th:first label').hasClass("is-upgraded") && $('#games').find('th:first label').hasClass("is-check")) {
+            $('#games th:first label').removeClass("is-upgraded");
+        }
+        var checkIds = Object.values($('#games tr'));
         checkIds.shift(1);
         checkIds.forEach(element => {
-            fireCheck(element.id.split("-event")[0])
+            var id= element.id.split("-event")[0];
+            if(!$(`#${id}-event`).find('td:first label').hasClass("is-checked") === allCheck){
+                $(`#${id}-event`).find('td:first label').click()
+            }
         })
-        if ($('#games').find('th:first label').hasClass("is-checked") === false) {
-            $('#games th:first label').addClass("is-checked")
-            $('#games th:first label').removeClass("is-focused");
-        } else {
-            $('#games th:first label').removeClass("is-checked");
-        }
     });
+    componentHandler.upgradeAllRegistered();
+    componentHandler.upgradeDom()
 }
 
-function fireCheck(id) {
+function updateGame(id) {
     var key = `game:${id}`
-    if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
+    localStorage.setItem(key, JSON.stringify({
+        "id": id,
+        "name": $(`#${id}-event`).find('td:eq(1)').html(),
+        "countryCode": $(`#${id}-event`).find('td:eq(2)').html(),
+        "openDate": $(`#${id}-event`).find('td:eq(3)').html(),
+        "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
+        "venue": $(`#${id}-event`).find('td:eq(5)').html(),
+        "marketCount": $(`#${id} - event`).find('td:eq(6)').html(),
+    }));
+}
+
+function fireCheck(id, allCheck) {
+    var key = `game:${id}`
+    if (allCheck === true) {
         $(`#${id}-event`).find('td:first label').addClass("is-checked");
-        var value = {
-            "id": id,
-            "name": $(`#${id}-event`).find('td:eq(1)').html(),
-            "countryCode": $(`#${id}-event`).find('td:eq(2)').html(),
-            "openDate": $(`#${id}-event`).find('td:eq(3)').html(),
-            "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
-            "venue": $(`#${id}-event`).find('td:eq(5)').html(),
-            "marketCount": $(`#${id - event}`).find('td:eq(6)').html(),
-        }
-        localStorage.setItem(key, JSON.stringify(value));
+        $(`#${id}-event`).find('td:first label').addClass("is-upgraded");
+        updateGame(id)
     } else {
         $(`#${id}-event`).find('td:first label').removeClass("is-checked");
         localStorage.removeItem(key);
     }
+    componentHandler.upgradeElement($(`#${id}-event`).find('td:first label')[0]);
 }
 
-function defineCheck() {
+function toggleCheck() {
+    //big picture
+    //  add these event in creating, not generic one
+    //  fire by clicking with just one function listener
+    //  remove this event when dismised  x.removeEventListener("mousemove", myFunction);
+    e.stopImmediatePropagation();
     $('input[type="checkbox"]').off().click(function (e) {
         var id = $(this).attr('id').split("-checkbox")[0]
-        fireCheck(id);
+        var key = `game:${id}`
+        if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
+            updateGame(id)
+        } else {
+            localStorage.removeItem(key);
+        }
     });
 }
 
