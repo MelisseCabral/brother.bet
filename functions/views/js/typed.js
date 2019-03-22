@@ -35,10 +35,10 @@
 
 		// options
 		this.options = {};
-		Object.keys(defaults).forEach(function(key) {
+		Object.keys(defaults).forEach((key)=> {
 			self.options[key] = defaults[key];
 		});
-		Object.keys(options).forEach(function(key) {
+		Object.keys(options).forEach((key)=> {
 			self.options[key] = options[key];
 		});
 
@@ -116,7 +116,7 @@
 			// begin the loop w/ first current string (global self.strings)
 			// current string will be passed as an argument each time after this
 			var self = this;
-			self.timeout = setTimeout(function() {
+			self.timeout = setTimeout(() =>{
 				for (var i=0;i<self.strings.length;++i) self.sequence[i]=i;
 
 				// shuffle the array if true
@@ -140,7 +140,7 @@
 				this.strings = [];
 				this.stringsElement.style.display = 'none';
 				var strings = Array.prototype.slice.apply(this.stringsElement.children);
-				strings.forEach(function(stringElement){
+				strings.forEach((stringElement)=>{
 					self.strings.push(stringElement.innerHTML);
 				});
 			}
@@ -168,7 +168,7 @@
 			// else{ self.backDelay = 500; }
 
 			// contain typing function in a timeout humanize'd delay
-			self.timeout = setTimeout(function() {
+			self.timeout = setTimeout(() =>{
 				// check for an escape character before a pause value
 				// format: \^\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^
 				// single ^ are removed from string
@@ -209,7 +209,7 @@
 				}
 
 				// timeout for any pause after a character
-				self.timeout = setTimeout(function() {
+				self.timeout = setTimeout(() =>{
 					if (curStrPos === curString.length) {
 						// fires callback function
 						self.options.onStringTyped(self.arrayPos);
@@ -226,7 +226,7 @@
 								return;
 						}
 
-						self.timeout = setTimeout(function() {
+						self.timeout = setTimeout(()=> {
 							self.backspace(curString, curStrPos);
 						}, self.backDelay);
 
@@ -276,7 +276,7 @@
 			var humanize = Math.round(Math.random() * (100 - 30)) + this.backSpeed;
 			var self = this;
 
-			self.timeout = setTimeout(function() {
+			self.timeout = setTimeout(() =>{
 
 				// ----- this part is optional ----- //
 				// check string array position
@@ -402,12 +402,12 @@
 
 	Typed.new = function(selector, option) {
 		var elements = Array.prototype.slice.apply(document.querySelectorAll(selector));
-		elements.forEach(function(element) {
+		elements.forEach((element) =>{
 			var instance = element._typed,
-			    options = typeof option == 'object' && option;
+			    options = typeof option === 'object' && option;
 			if (instance) { instance.reset(); }
 			element._typed = instance = new Typed(element, options);
-			if (typeof option == 'string') instance[option]();
+			if (typeof option === 'string') instance[option]();
 		});
 	};
 
@@ -416,10 +416,10 @@
 			return this.each(function() {
 				var $this = $(this),
 				    data = $this.data('typed'),
-				    options = typeof option == 'object' && option;
+				    options = typeof option === 'object' && option;
 				if (data) { data.reset(); }
 				$this.data('typed', (data = new Typed(this, options)));
-				if (typeof option == 'string') data[option]();
+				if (typeof option === 'string') data[option]();
 			});
 		};
 	}
