@@ -30,7 +30,7 @@ function fillEvents(data){
         $('#games').find('table tbody').append(
             `<tr id="${newId}-event">
                     <td>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="${newId}-checkbox">
+                        <label class="mdl-checkbox mdl-js-checkbox  mdl-data-table__select" for="${newId}-checkbox">
                             <input type="checkbox" id="${newId}-checkbox" class="mdl-checkbox__input">    
                         </label>
                     </td>
@@ -55,7 +55,7 @@ function fillGames(data){
         $('#game').find('table tbody').append(
             `<tr id="${newId}-game">
                     <td>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="${newId}-game-checkbox">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-data-table__select" for="${newId}-game-checkbox">
                             <input type="checkbox" id="${newId}-game-checkbox" class="mdl-checkbox__input">    
                         </label>
                     </td>

@@ -193,7 +193,7 @@ a img {
   animation-delay: 2s;
   position: fixed;
   right: 1vw;
-  bottom: 1vw;
+  bottom: 2vw;
   z-index: 3;
   display: block;
 }

@@ -2,8 +2,8 @@
 function actions() {
     $("#btnRobot").off().click((e) => {
         e.stopImmediatePropagation();
-        $("#robotFactory").css("display", "block");
-        $(".overlay").css("display", "block");
+        $("#robotFactory").show();
+        $(".overlay").show();
         openRobotModel();
     })
 
@@ -17,11 +17,11 @@ function actions() {
         deleteAll();
     });
 
-    $("#btnGames").off().click((e) => {
-        e.stopImmediatePropagation();
-        getGames();
-        //alert("founded")
-    });
+    // $("#btnGames").off().click((e) => {
+    //     e.stopImmediatePropagation();
+    //     getGames();
+    //     //alert("founded")
+    // });
 
     $("#valueBudget").off().click((e) => {
         e.stopImmediatePropagation();
@@ -35,7 +35,7 @@ function actions() {
 
     $("#btnCloseRobot").off().click((e) => {
         e.stopImmediatePropagation();
-        $('#robotFactory').css("display", "none");
+        $('#robotFactory').hide();
     });
 
     $("#btnSaveRobot").off().click((e) => {
@@ -86,13 +86,14 @@ function views() {
         $(key).off().click((e) => {
             e.stopImmediatePropagation();
             viewsList.forEach(hideElement => {
-                $(`#${hideElement}`).css("display", "none");
+                $(`#${hideElement}`).hide();
             });
             $('.mdl-layout__obfuscator').removeClass('is-visible');
             $('.mdl-layout__drawer').removeClass('is-visible');
-            $(`#${showElement}`).css("display", "inline-block");
-            showElement === "home" ? $('#txtBudget').html(`brother.bet`) : $('#txtBudget').html(showElement);
             localStorage.setItem("view:", showElement);
+            $(`#${showElement}`).toggle();
+            showElement === "home" ? $('#txtBudget').html(`brother.bet`) : $('#txtBudget').html(showElement);
+            if(showElement === "game") getGames(); 
         });
     });
 }
@@ -109,10 +110,9 @@ function market() {
             marketWinList.forEach(hideElement => {
                 var hiden = hideElement.split("chip")[1].split(/(?=[A-Z])/).join("_").toLowerCase();
                 $(`.${hiden}`).css("display", 'none');
-                console.log(hiden);
                 $(`#${hideElement}`).css("background-color", '#dedede');
             });
-            $(`.${key}`).css("display", 'block');
+            $(`.${key}`).show();
             $(`#${showElement}`).css("background-color", '#FAFAFA');
             initMarket();
             $(".overlay").css("height", $(".init-box-robot").outerHeight() * 1.13 + 'px')

@@ -59,20 +59,17 @@ function receiveGames(game) {
 function fireAllChecks() {
     $('#games').find('th:first label').off().click((e) => {
         e.stopImmediatePropagation();
-        if ($('#games').find('th:first label').hasClass("is-checked") === true) {
-            $('#games label').addClass("is-checked");
-        } else {
-            $('#games label').removeClass("is-checked");
-        }
-        var checkedIds = Array();
-        $('#games .mdl-checkbox__input').each((i, v) => {
-            checkedIds.push($(this).attr('id'));
-        });
-        checkedIds.shift();
-        checkedIds.forEach(element => {
-            id = element.split("-checkbox")[0]
-            fireCheck(id)
+        var checkIds = Object.values($('#games tr'))
+        checkIds.shift(1);
+        checkIds.forEach(element => {
+            fireCheck(element.id.split("-event")[0])
         })
+        if ($('#games').find('th:first label').hasClass("is-checked") === false) {
+            $('#games th:first label').addClass("is-checked")
+            $('#games th:first label').removeClass("is-focused");
+        } else {
+            $('#games th:first label').removeClass("is-checked");
+        }
     });
 }
 
@@ -97,8 +94,7 @@ function fireCheck(id) {
 }
 
 function defineCheck() {
-    $('input[type="checkbox"]').off().click((e) => {
-        e.stopImmediatePropagation();
+    $('input[type="checkbox"]').off().click(function (e) {
         var id = $(this).attr('id').split("-checkbox")[0]
         fireCheck(id);
     });
