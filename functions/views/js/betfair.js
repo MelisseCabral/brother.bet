@@ -85,32 +85,6 @@ function fireAllChecks() {
     componentHandler.upgradeDom()
 }
 
-function updateGame(id) {
-    var key = `game:${id}`
-    localStorage.setItem(key, JSON.stringify({
-        "id": id,
-        "name": $(`#${id}-event`).find('td:eq(1)').html(),
-        "countryCode": $(`#${id}-event`).find('td:eq(2)').html(),
-        "openDate": $(`#${id}-event`).find('td:eq(3)').html(),
-        "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
-        "venue": $(`#${id}-event`).find('td:eq(5)').html(),
-        "marketCount": $(`#${id} - event`).find('td:eq(6)').html(),
-    }));
-}
-
-function fireCheck(id, allCheck) {
-    var key = `game:${id}`
-    if (allCheck === true) {
-        $(`#${id}-event`).find('td:first label').addClass("is-checked");
-        $(`#${id}-event`).find('td:first label').addClass("is-upgraded");
-        updateGame(id)
-    } else {
-        $(`#${id}-event`).find('td:first label').removeClass("is-checked");
-        localStorage.removeItem(key);
-    }
-    componentHandler.upgradeElement($(`#${id}-event`).find('td:first label')[0]);
-}
-
 function toggleCheck() {
     //big picture
     //  add these event in creating, not generic one
@@ -121,7 +95,15 @@ function toggleCheck() {
         var id = $(this).attr('id').split("-checkbox")[0]
         var key = `game:${id}`
         if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
-            updateGame(id)
+            localStorage.setItem(key, JSON.stringify({
+                "id": id,
+                "name": $(`#${id}-event`).find('td:eq(1)').html(),
+                "countryCode": $(`#${id}-event`).find('td:eq(2)').html(),
+                "openDate": $(`#${id}-event`).find('td:eq(3)').html(),
+                "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
+                "venue": $(`#${id}-event`).find('td:eq(5)').html(),
+                "marketCount": $(`#${id} - event`).find('td:eq(6)').html(),
+            }));
         } else {
             localStorage.removeItem(key);
         }
@@ -140,24 +122,6 @@ function getMoney() {
         console.log("Error getMoney().", error);
         getMoney();
     });
-}
-
-function cheboxes() {
-    var checkedIds = Array();
-    $('#games .mdl-data-table__cell--non-numeric').each((i, v) => {
-        checkedIds.push($(this).attr('id'));
-    });
-    checkedIds.shift();
-    stored = Array.apply(0, new Array(localStorage.length)).map((o, i) => {
-        return localStorage.key(i);
-    })
-    var data = Array();
-    stored.forEach(element => {
-        if (element.search("game:") > -1) {
-            data.push(element)
-        }
-    });
-    fillGames(data)
 }
 
 function getGames() {
