@@ -31,8 +31,6 @@
 </head>
 
 <body>
-
-
     <!-- Snackbar -->
     <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
         <div class="mdl-snackbar__text"></div>
@@ -40,60 +38,56 @@
     </div>
 
     <!-- Container -->
-    <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--4-col"></div>
-        <div class="mdl-cell mdl-cell--4-col">
-            <div id="container-icon">
-                <img class="icon" src="images/logo_alone.png" onselectstart="return false;" ondragstart="return false">
-            </div>
+    <div class="mdl-grid init-position">
+        <div class="mdl-cell mdl-cell--3-col"></div>
 
-            <div id='init-box-position'>
-                <div class="init-box mdl-shadow--2dp">
-                    <button id="btnClose"
-                        class=" mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
-                        <i class=" material-icons">close</i>
-                    </button>
+        <div id="container" class="container mdl-cell mdl-cell--6-col ">
+            <img class="icon" src="images/logo_alone.png" onselectstart="return false;" ondragstart="return false">
+            <div class="init-box mdl-shadow--2dp">
 
-                    <h2 id="report">
-                        Congratzzz!!!
-                    </h2>
+                <h2 id="report">
+                    Congratzzz!!!
+                </h2>
 
-                    <div id="container-box">
-                        <div id="sign-up-text">
-                            <h4 id="title">
-                                Sign In
-                            </h4>
+                <div id="container-box">
+                    <div id="sign-up-text">
+                        <h4 id="title">
+                            Sign In
+                        </h4>
+                    </div>
+
+                    <div id='mdl-cell mdl-cell--1-col '>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input label-float" type="text" id="txtEmail">
+                            <label class="mdl-textfield__label" for="txtEmail">email</label>
                         </div>
-
-                        <div id='mdl-cell mdl-cell--1-col '>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input label-float" type="text" id="txtEmail">
-                                <label class="mdl-textfield__label" for="txtEmail">email</label>
-                            </div>
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="keyEnter">
-                                <input class="mdl-textfield__input sign-sample" type="password" id="txtPassword">
-                                <label class="mdl-textfield__label" for="txtPassword">password</label>
-                            </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="keyEnter">
+                            <input class="mdl-textfield__input sign-sample" type="password" id="txtPassword">
+                            <label class="mdl-textfield__label" for="txtPassword">password</label>
                         </div>
+                    </div>
 
-                        <div id='actions-sign-up'>
-                            <button id='btnEnter' class="mdl-button mdl-js-button mdl-js-ripple-effect">
-                                enter
-                            </button>
-                            <button id='btnSingUp' type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">
-                                Sign Up
-                            </button>
-                        </div>
+                    <div id='actions-sign-up'>
+                        <button id='btnEnter' class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                            enter
+                        </button>
+                        <button id='btnSingUp' type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+                            Sign Up
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <footer>
-            <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
-            <script src="js/firebase.js"></script>
-        </footer>
+        <div class="mdl-cell mdl-cell--3-col"></div>
+    </div>
+    </div>
+    <footer>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
+        <script src="js/firebase.js"></script>
+        <script src="js/sign.js"></script>
+    </footer>
     </div>
 </body>
 

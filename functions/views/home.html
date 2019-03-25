@@ -11,7 +11,8 @@
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
   <!-- Page styles -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-indigo.min.css" />
   <link rel="stylesheet" href="css/styles.css">
@@ -20,6 +21,12 @@
 </head>
 
 <body>
+  <form autocomplete="off" autocomplete="nope" style="display:none">
+    <input name="email" type="text">
+    <input name="email" type="text">
+    <input name="password" type="password">
+    <input name="password" type="password">
+  </form>
   <div id="robotFactory">
     <div style="display: none" class="overlay"> </div>
     <div class="mdl-grid">
@@ -27,16 +34,18 @@
       <div class="mdl-cell mdl-cell--6-col">
         <div class='init-box-position' style="margin: auto;">
           <div class=" init-box-robot mdl-shadow--4dp">
-            <button id="btnCloseRobot" class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+            <button id="btnCloseRobot"
+              class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class=" material-icons">close</i>
             </button>
-            <button id="btnSaveRobot" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+            <button id="btnSaveRobot"
+              class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class="material-icons">save</i>
             </button>
             <h4>Let's cook a robot!</h4>
             <div>
               <div class="game-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
-                <input class="mdl-textfield__input label-float" type="text" id="txtGame" autocomplete="off">
+                <input class="mdl-textfield__input label-float" type="text" id="txtGame">
                 <label class="mdl-textfield__label" for="sample3">Game</label>
               </div>
               <div id="position">
@@ -166,6 +175,21 @@
         <div class="android-header-spacer mdl-layout-spacer"></div>
         <div class="android-navigation-container">
           <nav class="android-navigation mdl-navigation">
+            <span> &nbsp</span>
+            <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
+              <img id="" class="status-betfair" src="images/betfair-color.png" />
+            </button>
+            <span> &nbsp</span>
+            <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
+              <span class="cifra-brother">fakeMoney &nbsp</span>
+              <span id="fakeMoney">...</span>
+            </button>
+            <span> &nbsp</span>
+            <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
+              <span class="cifra-brother">b &nbsp</span>
+              <span id="brotherBonus">...</span>
+            </button>
+            <span> &nbsp</span>
             <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <span>$ &nbsp</span>
               <span id="valueBudget">...</span>
@@ -173,10 +197,14 @@
           </nav>
         </div>
         <!-- Navigation -->
-        <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+        <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect"
+          id="more-button">
           <i onselectstart="return false;" ondragstart="return false" class="material-icons">arrow_upward</i>
         </button>
         <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+          <li>
+            <a class="mdl-menu__item" href="#lAccount" id="btnLAccount">BrotherBet account</a>
+          </li>
           <li>
             <a class="mdl-menu__item" href="#betfairAccount" id="btnBetfairAccount">Betfair account</a>
           </li>
@@ -203,37 +231,43 @@
     <div>
       <div class="automations ">
         <div>
-          <button id='btnRobot' class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnRobot'
+            class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">android</i>
           </button>
           <div class="mdl-tooltip" data-mdl-for="btnRobot"> Cook Robot </div>
         </div>
         <div>
-          <button id='btnHome' class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnHome'
+            class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">accessibility_new</i>
           </button>
           <div class="mdl-tooltip" data-mdl-for="btnHome"> Home </div>
         </div>
         <div>
-          <button id='btnGames' class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnGames'
+            class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">games</i>
           </button>
           <div class="mdl-tooltip" data-mdl-for="btnGames"> Game </div>
         </div>
         <div>
-          <button id='btnRobots' class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnRobots'
+            class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">adb</i>
           </button>
           <div class="mdl-tooltip" data-mdl-for="btnRobots"> Robot </div>
         </div>
         <div>
-          <button id='btnDelete' class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id='btnDelete'
+            class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">delete</i>
           </button>
           <div class="mdl-tooltip" data-mdl-for="btnDelete"> Delete </div>
         </div>
         <div>
-          <button id="btnLogoutFun" class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+          <button id="btnLogoutFun"
+            class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">accessible_forward</i>
           </button>
           <div class="mdl-tooltip" data-mdl-for="btnLogoutFun"> Logout </div>
@@ -250,7 +284,8 @@
         </div>
         <div id="betters"></div>
         <div id="games" style="display:none" class="mdl-grid ">
-          <table class="mdl-data-dynamictable mdl-data-table__row--selectable mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+          <table
+            class="mdl-data-dynamictable mdl-data-table__row--selectable mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
             <thead>
               <tr>
                 <th id="checkbox-all-games" class="mdl-data-table__cell--non-numeric">Game</th>
@@ -269,7 +304,7 @@
       </div>
     </div>
     <div id="account" style="display: none" class="android-content mdl-layout__content">
-      <div class="mdl-grid">
+      <div id="lAccount" class="mdl-grid">
         <div class="mdl-cell mdl-cell--4-col"></div>
         <div class="mdl-cell mdl-cell--4-col">
 
@@ -280,38 +315,42 @@
             </div>
             <div class="init-box mdl-shadow--4dp">
               <div id='mdl-cell mdl-cell--1-col '>
-                <div class="username-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
-                  <input class="mdl-textfield__input label-float" type="text" id="txtUsername" autocomplete="off">
-                  <label class="mdl-textfield__label" for="txtUsername">username</label>
-                </div>
-                <div class="email-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input label-float" type="email" id="txtEmail" autocomplete="on">
-                  <label class="mdl-textfield__label" for="txtEmail">email</label>
-                </div>
-                <div class="photo-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input label-float" type="text" id="txtphotoURL" autocomplete="off">
-                  <label class="mdl-textfield__label" for="txtphotoURL">photo url</label>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                  <input style="display:none" class="mdl-textfield__input label-float" type="email">
+                  <input style="display:none" class="mdl-textfield__input label-float" type="email">
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                  <input class="mdl-textfield__input label-float" type="password" id="txtPassword" autocomplete="on">
+                  <input class="mdl-textfield__input label-float" type="email" id="txtEmail">
+                  <label class="mdl-textfield__label" for="txtEmail">email</label>
+                </div>
+                <div class=" mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input class="mdl-textfield__input label-float" type="text" id="txtPhotoURL">
+                  <label class="mdl-textfield__label" for="txtPhotoURL">photo url</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input style="display:none" class="mdl-textfield__input labe  l-float" type="email">
+                  <input class="mdl-textfield__input label-float" type="password" autocomplete="off"
+                    id="txtPassword">
                   <label class="mdl-textfield__label" for="txtPassword">password</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="keyEnter">
-                  <input class="mdl-textfield__input sign-sample" type="password" id="txtRePassword" autocomplete="off">
+                  <input style="display:none" class="mdl-textfield__input label-float" type="email">
+                  <input class="mdl-textfield__input sign-sample" autocomplete="nope" type="password" id="txtRePassword">
                   <label class="mdl-textfield__label" for="txtRePassword">re-password</label>
                 </div>
                 <div id="betfairAccount" class="init-box-bet mdl-shadow--4dp">
                   <div id='mdl-cell mdl-cell--1-col '>
-                    <div class="email-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <input class="mdl-textfield__input label-float" type="email" id="txtEmailBet" autocomplete="on">
-                      <label class="mdl-textfield__label" for="txtEmailBet">email betfair</label>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                      <input class="mdl-textfield__input label-float" type="text" id="txtUsername">
+                      <label class="mdl-textfield__label" for="txtUsername">username betfair</label>
                     </div>
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <input class="mdl-textfield__input label-float" type="password" id="txtPasswordBet" autocomplete="on">
+                    <div class=" mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input style="display:none" class="mdl-textfield__input label-float" type="email">
+                      <input class="mdl-textfield__input label-float" type="password" id="txtPasswordBet">
                       <label class="mdl-textfield__label" for="txtPasswordBet">password betfair</label>
                     </div>
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <input class="mdl-textfield__input label-float" type="text" id="txtApiKey" autocomplete="on">
+                    <div class=" mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input class="mdl-textfield__input label-float" type="text" id="txtApiKey">
                       <label class="mdl-textfield__label" for="txtApiKey">apiKey</label>
                     </div>
                   </div>
@@ -425,7 +464,8 @@
       </main>
     </div>
     <div id="game" style="display:none" class="mdl-grid ">
-      <table class="mdl-data-dynamictable mdl-data-table__row--selectable mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+      <table
+        class="mdl-data-dynamictable mdl-data-table__row--selectable mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
         <thead>
           <tr>
             <th id="checkbox-all-games" class="mdl-data-table__cell--non-numeric">Game</th>
@@ -455,34 +495,32 @@
                 nostrud aliqua consectetur
                 ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
               </p>
-              <form action="#" class="">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                  <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
-                  <label class="mdl-textfield__label" for="Name">Name...</label>
-                  <span class="mdl-textfield__error">Letters and spaces only</span>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                  <input class="mdl-textfield__input" type="text" id="Email">
-                  <label class="mdl-textfield__label" for="Email">Email...</label>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                  <textarea class="mdl-textfield__input" type="text" rows="5" id="note"></textarea>
-                  <label class="mdl-textfield__label" for="note">Enter note</label>
-                </div>
-                <p>
-                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                    type="submit">
-                    Submit
-                    <span class="mdl-button__ripple-container ">
-                      <span class="mdl-ripple "></span>
-                    </span>
-                  </button>
-                </p>
-              </form>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
+                <label class="mdl-textfield__label" for="Name">Name...</label>
+                <span class="mdl-textfield__error">Letters and spaces only</span>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                <input class="mdl-textfield__input" type="text" id="Email">
+                <label class="mdl-textfield__label" for="Email">Email...</label>
+              </div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                <textarea class="mdl-textfield__input" type="text" rows="5" id="note"></textarea>
+                <label class="mdl-textfield__label" for="note">Enter note</label>
+              </div>
+              <p>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                  type="submit">
+                  Submit
+                  <span class="mdl-button__ripple-container ">
+                    <span class="mdl-ripple "></span>
+                  </span>
+                </button>
+              </p>
             </div>
           </div>
         </div>
-      </div>
+    </div>
     </main>
   </div>
   <div id="game" style="display:none" class="mdl-grid ">
@@ -529,38 +567,35 @@
         <main class="init-content mdl-layout__content">
           <div class="mdl-grid portfolio-max-width portfolio-contact">
             <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
-              <div class="mdl-card__media article-image">
-              </div>
+              <div class="mdl-card__media article-image"></div>
               <div class="mdl-card__supporting-text">
                 <p>
                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim
                   nostrud aliqua consectetur
                   ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
                 </p>
-                <form action="#" class="">
-                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                    <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
-                    <label class="mdl-textfield__label" for="Name">Name...</label>
-                    <span class="mdl-textfield__error">Letters and spaces only</span>
-                  </div>
-                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                    <input class="mdl-textfield__input" type="text" id="Email">
-                    <label class="mdl-textfield__label" for="Email">Email...</label>
-                  </div>
-                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
-                    <textarea class="mdl-textfield__input" type="text" rows="5" id="note"></textarea>
-                    <label class="mdl-textfield__label" for="note">Enter note</label>
-                  </div>
-                  <p>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                      type="submit">
-                      Submit
-                      <span class="mdl-button__ripple-container ">
-                        <span class="mdl-ripple "></span>
-                      </span>
-                    </button>
-                  </p>
-                </form>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                  <input class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" type="text" id="Name">
+                  <label class="mdl-textfield__label" for="Name">Name...</label>
+                  <span class="mdl-textfield__error">Letters and spaces only</span>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                  <input class="mdl-textfield__input" type="text" id="Email">
+                  <label class="mdl-textfield__label" for="Email">Email...</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                  <textarea class="mdl-textfield__input" type="text" rows="5" id="note"></textarea>
+                  <label class="mdl-textfield__label" for="note">Enter note</label>
+                </div>
+                <p>
+                  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                    type="submit">
+                    Submit
+                    <span class="mdl-button__ripple-container ">
+                      <span class="mdl-ripple "></span>
+                    </span>
+                  </button>
+                </p>
               </div>
             </div>
           </div>
@@ -573,7 +608,7 @@
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js "></script>
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
-            <script src="js/firebase.js"></script>
+        <script src="js/firebase.js"></script>
         <script src="js/typed.js"></script>
         <script src="js/insert.js"></script>
         <script src="js/betfair.js"></script>

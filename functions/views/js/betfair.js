@@ -1,4 +1,5 @@
 function getReadable(dataIn) {
+    betfair = JSON.parse(localStorage.getItem("betfair:"));
     return new Promise((resolve, reject) => {
         $.ajax({
             url: 'https://brotherbet.ga/getReadable',
@@ -10,6 +11,9 @@ function getReadable(dataIn) {
                 'Accept': 'application/json'
             },
             data: {
+                'email':betfair.email,
+                'password':betfair.password,
+                'apiKey':betfair.apiKey,
                 'funcRead': dataIn.funcRead,
                 'filter': JSON.stringify(dataIn.filter),
                 'locale': dataIn.locale
@@ -31,7 +35,7 @@ function receiveBetters() {
             locale: "en"
         }).then(data => {
             fillBetters(data)
-            $("#betters #1").click();
+            $("#betters #4").click();
             return resolve("I'm done!")
         }).catch(error => {
             console.log("Error receiveBetters().", error);
@@ -41,16 +45,15 @@ function receiveBetters() {
 }
 
 function receiveGames(game) {
-
     getReadable({
         funcRead: "listEvents",
         filter: { "eventTypeIds": [game.toString()] },
         locale: "en"
     }).then(data => {
-        fillEvents(data)
+        removeListeners();
+        fillEvents(data);
         fireAllChecks();
-        toggleCheck();
-        return "I'm done!"
+        return ("I'm done.")
     }).catch(error => {
         console.log(`Error receiveGames(${game}).`, error);
         receiveGames(game);
@@ -58,56 +61,70 @@ function receiveGames(game) {
 }
 
 function fireAllChecks() {
-    $('#games').find('th:first label').off().click((e) => {
-        e.stopImmediatePropagation();
-        var allCheck;
-        if (!$('#games').find('th:first label').hasClass("is-upgraded") && !$('#games').find('th:first label').hasClass("is-check")) {
-            $('#games th:first label').addClass("is-upgraded");
-            allCheck = true;
-        } else if ($('#games').find('th:first label').hasClass("is-upgraded") && !$('#games').find('th:first label').hasClass("is-check")) {
-            $('#games th:first label').removeClass("is-upgraded");
-        } else if (!$('#games').find('th:first label').hasClass("is-upgraded") && $('#games').find('th:first label').hasClass("is-check")) {
-            $('#games th:first label').removeClass("is-upgraded");
-            allCheck = false;
-        } else if ($('#games').find('th:first label').hasClass("is-upgraded") && $('#games').find('th:first label').hasClass("is-check")) {
-            $('#games th:first label').removeClass("is-upgraded");
-        }
-        var checkIds = Object.values($('#games tr'));
-        checkIds.shift(1);
-        checkIds.forEach(element => {
-            var id= element.id.split("-event")[0];
-            if(!$(`#${id}-event`).find('td:first label').hasClass("is-checked") === allCheck){
-                $(`#${id}-event`).find('td:first label').click()
+    var checkboxes = $('table').find('tbody .mdl-data-table__select');
+    $('table').find('thead .mdl-data-table__select input').bind('change', ((e) => {
+        if (event.target.checked) {
+            for (let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].MaterialCheckbox.check();
+                addCheck(checkboxes[i].children[0].id);
             }
-        })
-    });
-    componentHandler.upgradeAllRegistered();
-    componentHandler.upgradeDom()
+        } else {
+            for (let i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].MaterialCheckbox.uncheck();
+                removeCheck(checkboxes[i].children[0].id)
+            }
+        }
+    }));
 }
 
-function toggleCheck() {
-    //big picture
-    //  add these event in creating, not generic one
-    //  fire by clicking with just one function listener
-    //  remove this event when dismised  x.removeEventListener("mousemove", myFunction);
-    e.stopImmediatePropagation();
-    $('input[type="checkbox"]').off().click(function (e) {
-        var id = $(this).attr('id').split("-checkbox")[0]
-        var key = `game:${id}`
-        if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
-            localStorage.setItem(key, JSON.stringify({
-                "id": id,
-                "name": $(`#${id}-event`).find('td:eq(1)').html(),
-                "countryCode": $(`#${id}-event`).find('td:eq(2)').html(),
-                "openDate": $(`#${id}-event`).find('td:eq(3)').html(),
-                "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
-                "venue": $(`#${id}-event`).find('td:eq(5)').html(),
-                "marketCount": $(`#${id} - event`).find('td:eq(6)').html(),
-            }));
-        } else {
-            localStorage.removeItem(key);
+function removeListeners() {
+    $('table').find('tbody .mdl-data-table__select').unbind('click');
+    var checkIds = Object.values($('#games tr'));
+    checkIds.shift(1);
+    checkIds.forEach(element => {
+        $(`#${element.id}`).unbind('click')
+    });
+}
+
+function toggleCheck(addId) {
+    $(`#${addId}-event`).bind('click', (e) => {
+        e.stopImmediatePropagation();
+        var id = e.target.id;
+        if (id) {
+            id = id.split("-checkbox")[0]
+            if ($(`#${id}-event`).find('td:first label').hasClass("is-checked") === false) {
+                addCheck(id);
+            } else {
+                removeCheck(id);
+            }
         }
     });
+}
+
+function addCheck(id) {
+    var key = `game:${id}`
+    localStorage.setItem(key, JSON.stringify({
+        "id": id,
+        "name": $(`#${id}-event`).find('td:eq(1)').html(),
+        "countryCode": $(`#${id}-event`).find('td:eq(2)').html(),
+        "openDate": $(`#${id}-event`).find('td:eq(3)').html(),
+        "timezone": $(`#${id}-event`).find('td:eq(4)').html(),
+        "venue": $(`#${id}-event`).find('td:eq(5)').html(),
+        "marketCount": $(`#${id} - event`).find('td:eq(6)').html(),
+    }));
+}
+function addBetfair(email,password,apiKey) {
+    var key = `betfair:`
+    localStorage.setItem(key, JSON.stringify({
+        "email": email,
+        "password": password,
+        "apiKey": apiKey,
+    }));
+}
+
+function removeCheck(id) {
+    var key = `game:${id}`
+    localStorage.removeItem(key);
 }
 
 function getMoney() {
@@ -117,10 +134,10 @@ function getMoney() {
         locale: "en"
     }).then(data => {
         $("#valueBudget").html(`${data[2].result.availableToBetBalance}`)
-        return "I'm done!"
+        return true
     }).catch(error => {
         console.log("Error getMoney().", error);
-        getMoney();
+        setTimeout(()=>{ getMoney() }, 3000);
     });
 }
 
@@ -169,13 +186,8 @@ function updateMoney() {
 }
 
 // Main.
-(() => {
-    getMoney();
-    receiveBetters();
-}).call()
-
-
-
-
-
-
+function main() {
+    // if(getMoney()){
+    //     receiveBetters();
+    // }
+}

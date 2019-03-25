@@ -1,4 +1,4 @@
-function fillBetters(data){
+function fillBetters(data) {
     data[2].result.forEach(element => {
         $('#betters').append(
             `<span id="${element.eventType.id}" class="mdl-chip mdl-chip--contact">
@@ -21,7 +21,7 @@ function fillBetters(data){
     });
 }
 
-function fillEvents(data){
+function fillEvents(data) {
     $('#games').find('table tbody').html("");
     $('#tchanTiped').hide();
     $('#games').show();
@@ -42,12 +42,13 @@ function fillEvents(data){
                     <td>${element.marketCount || ""}</td>
                 </tr>`
         )
+        toggleCheck(newId);
     });
     componentHandler.upgradeAllRegistered();
     componentHandler.upgradeDom()
 }
 
-function fillGames(data){
+function fillGames(data) {
     $('#game').find('table tbody').html("");
     $('#tchanTiped').hide();
     $('#game').show();
@@ -73,6 +74,7 @@ function fillGames(data){
     componentHandler.upgradeDom()
 }
 
-function fillRobots(){
-    
+function fillRobots() {
+
 }
+

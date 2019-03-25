@@ -28,6 +28,11 @@ function actions() {
         getMoney();
     });
 
+    $("#btnLAccount").off().click((e) => {
+        e.stopImmediatePropagation();
+        $("#btnAccounts").click();
+    });
+
     $("#btnBetfairAccount").off().click((e) => {
         e.stopImmediatePropagation();
         $("#btnAccounts").click();
@@ -82,6 +87,7 @@ function views() {
     var viewsList = ["home", "account", "method", "profit", "contact", "game", "robot"]
 
     viewsList.forEach(showElement => {
+        removeListeners();
         var key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
         $(key).off().click((e) => {
             e.stopImmediatePropagation();
@@ -93,7 +99,7 @@ function views() {
             localStorage.setItem("view:", showElement);
             $(`#${showElement}`).toggle();
             showElement === "home" ? $('#txtBudget').html(`brother.bet`) : $('#txtBudget').html(showElement);
-            if(showElement === "game") getGames(); 
+            if (showElement === "game") getGames();
         });
     });
 }
@@ -183,3 +189,4 @@ $(document).ready(() => {
     actions()
     $("#btnHomes").click();
 });
+

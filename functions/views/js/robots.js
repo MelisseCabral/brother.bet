@@ -67,6 +67,7 @@ function saveRobotModel() {
     robot = takeRobotModel();
     delete robot.game;
     localStorage.setItem("model:", JSON.stringify(robot));
+    saveRobot(robot);
 }
 
 function openRobotModel() {
@@ -84,3 +85,4 @@ function openRobotModel() {
         $('#awayScore').val(robot.market.away)
     }
 }
+

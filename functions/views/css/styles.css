@@ -50,6 +50,14 @@ a img {
 }
 
 /* Class */
+.status-betfair{
+  height: 35%;
+}
+  .cifra-brother{
+  font-family: "eurofurence" !important;
+  text-transform: none !important; 
+  font-size: 17px !important;
+}
 
 .android-header .mdl-menu__container {
   z-index: 50;
