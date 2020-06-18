@@ -14,9 +14,7 @@ admin.firestore().settings({ timestampsInSnapshots: true });
 app.use(cors());
 
 //Routers requires and calls.
-app.use('/testRead', require('./routers/test/testRead'))
-app.use('/birds', require('./routers/test/birds'))
-app.use('/getReadable', require('./routers/betfair/getReadable'))
+app.use('/getCsv', require('./src/routers/fifa/getCsv'))
 
 //Define of browser request.
 app.engine('html', engine.handlebars);
@@ -28,7 +26,7 @@ app.use(bodyParser.json());
 
 //Render the htmls.
 app.post('/home', (req, res) => {
-    res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+    // res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
     res.render('home');
 });
 
