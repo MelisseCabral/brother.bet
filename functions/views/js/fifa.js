@@ -1,20 +1,28 @@
+/* eslint-disable no-shadow */
+/* eslint-disable max-len */
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
+/* eslint-disable func-names */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
+
+const dataSet = [];
+
 const fifa = async () => {
   const data = {
     key: '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A',
     sheetId: '',
   };
 
-  const dataSet = [];
   try {
     idsTabelas.forEach(async (each, indexOf) => {
       data.sheetId = each;
       const response = await getCsv(data);
       if (response.data) {
-        dataSet.push(JSON.stringify(response));
+        dataSet.push(response);
         if (indexOf === idsTabelas.length - 1) {
-          createDb('dataSet', dataSet);
+          dataTooler(dataSet);
         }
       } else {
         console.log(each, response);
@@ -46,139 +54,238 @@ function getCsv(data) {
   });
 }
 
-const createDb = (dbName, dataSet) => {
-  const request = indexedDB.open('brotherbet', 2);
-
-  request.onerror = (event) => {
-    console.log(event);
-  };
+const createTableDB = async (data, tableName, indexName = '', key = '') => {
+  const request = indexedDB.open(tableName, 2);
 
   request.onupgradeneeded = (event) => {
     const db = event.target.result;
 
-    const objectStore = db.createObjectStore(dbName, { keyPath: 'id' });
+    const configObjectStore = { autoIncrement: true };
 
-    objectStore.createIndex('date', 'date', { unique: true });
+    if (key) configObjectStore.keyPath = key;
 
-    objectStore.createIndex('id', 'id', { unique: true });
+    const objectStore = db.createObjectStore(tableName, configObjectStore);
 
-    objectStore.transaction.oncomplete = (event) => {
-      const dbObjectStore = db.transaction(dbName, 'readwrite').objectStore(dbName);
-      dataSet.forEach((each) => {
-        dbObjectStore.add(each);
-      });
+    if (indexName) objectStore.createIndex(indexName, indexName, { unique: true });
+
+    objectStore.transaction.oncomplete = () => {
+      const store = db.transaction(tableName, 'readwrite').objectStore(tableName);
+      data.forEach(async (each) => store.add(each));
     };
   };
+
+  request.onerror = console.error;
 };
 
-const saveJsonFile = (dataSet) => {
+const getTable = async (tableName) => new Promise((resolve) => {
+  const request = indexedDB.open(tableName, 2);
+  request.onsuccess = (event) => {
+    const db = event.target.result;
+    const objectStore = db.transaction(tableName, 'readonly').objectStore(tableName);
+    const allRecords = objectStore.getAll();
+    allRecords.onsuccess = () => {
+      if (allRecords.result.length === 1) resolve(allRecords.result[0]);
+      resolve(allRecords.result);
+    };
+  };
+});
+
+const getIndexed = async (tableName, indexName) => new Promise((resolve) => {
+  const request = indexedDB.open(tableName, 2);
+  request.onsuccess = (event) => {
+    const db = event.target.result;
+    const objectStore = db.transaction(tableName, 'readonly').objectStore(tableName);
+    const allRecords = objectStore.index(indexName).getAll();
+    allRecords.onsuccess = () => {
+      resolve(allRecords.result);
+    };
+  };
+});
+
+const getAllGames = async () => {
+  const data = await getIndexed('dataSet', 'date');
+  let arr = [];
+  data.forEach((each) => each.data.forEach((each2) => {
+    arr = [...arr, each2];
+  }));
+  return arr;
+};
+
+const getGameOutput = (game) => {
+  const goalsTeamA = parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10);
+  const goalsTeamB = parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10);
+
+  const output = [0, 0, 0, goalsTeamA, goalsTeamB];
+
+  if (goalsTeamA > goalsTeamB) {
+    output[0] = 1;
+  } else if (goalsTeamA === goalsTeamB) {
+    output[1] = 1;
+  } else {
+    output[2] = 1;
+  }
+  return output;
+};
+
+const getGameInput = (games, teams, lastIndex) => {
+  const game = games[lastIndex];
+  let teamA = {};
+  let teamB = {};
+
+  const teamIsPresent = (eachGame, user, team) => {
+    if (user === eachGame.teamA.user) {
+      const res = getGameOutput(eachGame);
+      return {
+        games: (team.games || 0) + 1,
+        wins: (team.wins || 0) + res[0],
+        ties: (team.ties || 0) + res[1],
+        loses: (team.loses || 0) + res[2],
+        goalsPro: (team.goalsPro || 0) + res[3],
+        goalsCon: (team.goalsCon || 0) + res[4],
+      };
+    }
+    if (user === eachGame.teamB.user) {
+      const res = getGameOutput(eachGame);
+      return {
+        games: (team.games || 0) + 1,
+        wins: (team.games || 0) + res[2],
+        ties: (team.games || 0) + res[1],
+        loses: (team.games || 0) + res[0],
+        goalsPro: (team.games || 0) + res[3],
+        goalsCon: (team.games || 0) + res[4],
+      };
+    }
+    return team;
+  };
+
+  for (let i = 0; i < lastIndex + 1; i += 1) {
+    teamA = teamIsPresent(games[i], game.teamA.user, teamA);
+    teamB = teamIsPresent(games[i], game.teamB.user, teamB);
+  }
+
+  arrTeamA = [...Object.values(teams[game.teamA.team]), ...Object.values(teamA)];
+  arrTeamB = [...Object.values(teams[game.teamB.team]), ...Object.values(teamB)];
+
+  const tensorA = tf.tensor(arrTeamA);
+  const tensorB = tf.tensor(arrTeamB);
+  const tensorInput = tensorA.sub(tensorB);
+  const input = Array.from(tensorInput.dataSync());
+
+  tensorA.dispose();
+  tensorB.dispose();
+  tensorInput.dispose();
+
+  return input;
+};
+
+const getRankTeams = (games) => {
+  const teams = {};
+  games.forEach((each) => {
+    const goalsTeamA = (parseInt(each.teamA.firstHalf, 10) + parseInt(each.teamA.secondHalf, 10)) || 0;
+    const goalsTeamB = (parseInt(each.teamB.firstHalf, 10) + parseInt(each.teamB.secondHalf, 10)) || 0;
+    let prevGoalsProTeamA = 0;
+    let prevGoalsConTeamA = 0;
+    let prevGamesCountTeamA = 0;
+    let prevGoalsProTeamB = 0;
+    let prevGoalsConTeamB = 0;
+    let prevGamesCountTeamB = 0;
+
+    if (teams[each.teamA.team]) {
+      prevGoalsProTeamA = teams[each.teamA.team].goalsPro;
+      prevGoalsConTeamA = teams[each.teamA.team].goalsCon;
+      prevGamesCountTeamA = teams[each.teamA.team].gamesCount;
+    }
+
+    if (teams[each.teamB.team]) {
+      prevGoalsProTeamB = teams[each.teamB.team].goalsPro;
+      prevGoalsConTeamB = teams[each.teamB.team].goalsCon;
+      prevGamesCountTeamB = teams[each.teamB.team].gamesCount;
+    }
+
+    teams[each.teamA.team] = {
+      goalsPro: prevGoalsProTeamA + goalsTeamA,
+      goalsCon: prevGoalsConTeamA + goalsTeamB,
+      gamesCount: prevGamesCountTeamA + 1,
+    };
+
+    teams[each.teamB.team] = {
+      goalsPro: prevGoalsConTeamB + goalsTeamB,
+      goalsCon: prevGoalsConTeamB + goalsTeamA,
+      gamesCount: prevGamesCountTeamB + 1,
+    };
+  });
+  return teams;
+};
+
+const aggregationTrain = (games) => {
+  const agg = [];
+  const teams = getRankTeams(games);
+  games.forEach((each, indexof) => {
+    const output = getGameOutput(each);
+    const input = getGameInput(games, teams, indexof);
+    agg.push({ input, output });
+  });
+  return agg;
+};
+
+const getTrainData = (data, percentTrainSet) => {
+  const trainSet = [];
+  const validationSet = [];
+
+  let max = data.length;
+
+  const maxTrainSamples = Math.floor(max * percentTrainSet);
+  const maxValidationSamples = max - maxTrainSamples;
+
+  for (let i = maxTrainSamples; i > 0; i -= 1) {
+    const rand = Math.floor(Math.random() * Math.floor(max));
+    trainSet.push(data[rand]);
+    data.splice(rand, 1);
+    max -= 1;
+  }
+
+  for (let i = maxValidationSamples; i > 0; i -= 1) {
+    const rand = Math.floor(Math.random() * Math.floor(max));
+    validationSet.push(data[rand]);
+    max -= 1;
+  }
+
+  return { trainSet, validationSet };
+};
+
+const splitInputOutput = (dataSet) => {
+  const data = Object.values(dataSet);
+  const keys = Object.keys(dataSet);
+
+  const dataArray = data.map((eachSet) => {
+    const input = [];
+    const output = [];
+    eachSet.forEach((each) => {
+      input.push(each.input);
+      output.push(each.output);
+    });
+    return { input, output };
+  });
+
+  const dataOutput = {};
+  keys.forEach((key, indexOf) => { dataOutput[key] = dataArray[indexOf]; });
+
+  return dataOutput;
+};
+const dataTooler = async (dataSet) => {
+  createTableDB(dataSet, 'dataSet', 'date', 'id');
+  const games = await getAllGames();
+  const gamesSet = aggregationTrain(games);
+  createTableDB(gamesSet, 'gamesSet');
+  const trainSet = await getTable('gamesSet');
+  const trainValidationSets = getTrainData(trainSet, 0.7);
+  const splitedSets = splitInputOutput(trainValidationSets);
+  createTableDB([splitedSets], 'trainSet');
+};
+
+const saveJsonFile = (data) => {
   const a = document.createElement('a');
-  a.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(dataSet))}`);
+  a.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`);
   a.setAttribute('download', 'filename.json');
   a.click();
-}
-
-let idsTabelas = [
-  '2142102868',
-  '831947300',
-  '29771886',
-  '1561166611',
-  '1342777524',
-  '1732294506',
-  '1360687816',
-  '2143234053',
-  '426693712',
-  '706046854',
-  '1823441290',
-  '1636160298',
-  '1245276041',
-  '101125808',
-  '24822662',
-  '831063963',
-  '743805214',
-  '294586944',
-  '800365827',
-  '795108071',
-  '1653572724',
-  '908751891',
-  '7275885',
-  '690945532',
-  '1021103014',
-  '812275314',
-  '1285956889',
-  '22208882',
-  '798668504',
-  '829967459',
-  '810135418',
-  '476705515',
-  '62524068',
-  '190566713',
-  '2090563235',
-  '531952521',
-  '58291296',
-  '771339771',
-  '808487729',
-  '1376301728',
-  '816202328',
-  '516416968',
-  '2103110450',
-  '787897977',
-  '1657997336',
-  '541384094',
-  '1320559540',
-  '99940413',
-  '1772281208',
-  '181508402',
-  '1675355205',
-  '2133682780',
-  '963560610',
-  '1000337942',
-  '984616743',
-  '1587884644',
-  '1977689777',
-  '44156993',
-  '1339627639',
-  '1558496269',
-  '1319623306',
-  '1616340696',
-  '911893431',
-  '473368820',
-  '571089104',
-  '789221817',
-  '568090900',
-  '682897144',
-  '977612081',
-  '53647551',
-  '1680405087',
-  '782454864',
-  '656471722',
-  '2131698999',
-  '1175590910',
-  '1214431363',
-  '72963459',
-  '1843065733',
-  '1496708822',
-  '36360484',
-  '1053560111',
-  '1275428752',
-  '1858170508',
-  '1931562535',
-  '623409378',
-  '1575882671',
-  '2078815180',
-  '1414937918',
-  '165886382',
-  '1183724316',
-  '460112835',
-  '1734567226',
-  '1088241856',
-  '542470642',
-  '1987590564',
-  '1459073109',
-  '741994942',
-  '1296621401',
-  '1689505366',
-  '1674690575',
-  '1457528313',
-  '558544080',
-];
+};

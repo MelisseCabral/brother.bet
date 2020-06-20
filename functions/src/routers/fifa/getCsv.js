@@ -1,3 +1,4 @@
+/* eslint-disable no-extend-native */
 /* eslint-disable no-use-before-define */
 const express = require('express');
 const axios = require('axios');
@@ -46,9 +47,9 @@ const getBeforeParentesis = (line) => {
 };
 
 const getScores = (line) => {
-  const firstGame = getBeforeParentesis(line).split(' - ');
-  const secondGame = getInParentesis(line).split(' - ');
-  return { firstGame, secondGame };
+  const firstHalf = getInParentesis(line).split(' - ');
+  const secondHalf = getBeforeParentesis(line).split(' - ');
+  return { firstHalf, secondHalf };
 };
 
 const removeKeys = (arr) => arr.map((each) => {
@@ -65,24 +66,25 @@ const struture = (arr) => {
   arr.forEach((each) => {
     const scores = getScores(each[1]);
     const obj = {
-
       teamA: {
-        user: getInParentesis(each[0]),
-        team: getBeforeParentesis(each[0]),
-        firstGame: scores.firstGame[0],
-        secondGame: scores.secondGame[0],
+        user: trim(getInParentesis(each[0])),
+        team: trim(getBeforeParentesis(each[0])),
+        firstHalf: scores.firstHalf[0],
+        secondHalf: scores.secondHalf[0] - scores.firstHalf[0],
       },
       teamB: {
-        user: getInParentesis(each[2]),
-        team: getBeforeParentesis(each[2]),
-        firstGame: scores.firstGame[1],
-        secondGame: scores.secondGame[1],
+        user: trim(getInParentesis(each[2])),
+        team: trim(getBeforeParentesis(each[2])),
+        firstHalf: scores.firstHalf[1],
+        secondHalf: scores.secondHalf[1] - scores.firstHalf[1],
       },
     };
     newArray.push(obj);
   });
   return newArray;
 };
+
+const trim = (str) => str.replace(/^\s+|\s+$/g, '');
 
 const build = (date, id, data) => ({
   date,
