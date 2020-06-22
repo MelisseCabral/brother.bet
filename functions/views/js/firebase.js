@@ -1,3 +1,8 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 // Initialize Firebase.
 const config = {
@@ -24,32 +29,58 @@ const passText = document.querySelector('#txtPassword');
 const enterButton = document.querySelector('#btnEnter');
 const accountButton = document.querySelector('#btnAccount');
 const updateButton = document.querySelector('#btnUpdate');
-const sign_upButton = document.querySelector('#btnSingUp');
+const signUpButton = document.querySelector('#btnSingUp');
 const closeButton = document.querySelector('#btnClose');
-const _displayName = document.querySelector('#txtUsername');
-const _email = document.querySelector('#txtEmail');
-const _photoURL = document.querySelector('#txtPhotoURL');
-const _password = document.querySelector('#txtPassword');
-const _re_password = document.querySelector('#txtRePassword');
-const _password_betfair = document.querySelector('#txtPasswordBet');
-const _apiKey = document.querySelector('#txtApiKey');
+const txtDisplayName = document.querySelector('#txtUsername');
+const txtEmail = document.querySelector('#txtEmail');
+const txtPhotoURL = document.querySelector('#txtPhotoURL');
+const txtPassword = document.querySelector('#txtPassword');
+const txtRePassword = document.querySelector('#txtRePassword');
+const txtPasswordBetfair = document.querySelector('#txtPasswordBet');
+const txtApiKey = document.querySelector('#txtApiKey');
 
 // Shared variables.
 let email = null;
 let displayName = null;
 let photoURL = null;
-let password_betfair = null;
-let apiKey = null;
 
 // Firestore variables and constants.
 const firestore = firebase.firestore();
 const dbUser = firestore.collection('users/');
 
+// Snackbar function.
+function snackbar(string) {
+  const snackbarContainer = document.querySelector('#demo-snackbar-example');
+  const data = {
+    message: string,
+  };
+  snackbarContainer.MaterialSnackbar.showSnackbar(data);
+}
+
+function post(path, params, method) {
+  method = method || 'post';
+  const form = document.createElement('form');
+  form.setAttribute('method', method);
+  form.setAttribute('action', path);
+
+  for (const key in params) {
+    if (params.hasOwnProperty(key)) {
+      const hiddenField = document.createElement('input');
+      hiddenField.setAttribute('type', 'hidden');
+      hiddenField.setAttribute('name', key);
+      hiddenField.setAttribute('value', params[key]);
+      form.appendChild(hiddenField);
+    }
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+
 // Login functions.
 if (closeButton) {
   closeButton.addEventListener('click', () => {
     // Display components.
-    sign_upButton.style.display = 'inline-block';
+    signUpButton.style.display = 'inline-block';
     titleText.innerHTML = 'Sign In';
     closeButton.style.display = 'none';
     enterButton.innerHTML = 'enter';
@@ -61,12 +92,10 @@ if (closeButton) {
 if (enterButton) {
   enterButton.addEventListener('click', () => {
     if (titleText.innerHTML === 'Sign Up') {
-      firebase.auth().createUserWithEmailAndPassword(emailText.value, passText.value).then(() => firebase.auth().signInWithEmailAndPassword(emailText.value, passText.value)
-        .catch((error) => {
-          snackbar(`Login${error}`);
-        })).catch((error) => {
-        snackbar(`SingUp${error}`);
-      });
+      firebase.auth().createUserWithEmailAndPassword(emailText.value, passText.value)
+        .then(() => firebase.auth().signInWithEmailAndPassword(emailText.value, passText.value)
+          .catch((error) => snackbar(`Login${error}`)))
+        .catch((error) => snackbar(`SingUp${error}`));
     } else {
       firebase.auth().signInWithEmailAndPassword(emailText.value, passText.value)
         .catch((error) => {
@@ -101,9 +130,13 @@ if (accountButton) {
 
 if (updateButton) {
   updateButton.addEventListener('click', () => {
-    if (_displayName.value) {
-      const updateDisplay = firebase.auth().currentUser.updateProfile({
-        displayName: _displayName.value,
+    let updateDisplay;
+    let updatePhoto;
+    let updateEmail;
+    let updatePassword;
+    if (txtDisplayName.value) {
+      updateDisplay = firebase.auth().currentUser.updateProfile({
+        displayName: txtDisplayName.value,
       }).then(() => {
         snackbar('Username updated.');
         return 'Username updated.';
@@ -115,9 +148,9 @@ if (updateButton) {
     }
 
     // Update photoURL.
-    if (_photoURL.value) {
-      var updatePhoto = firebase.auth().currentUser.updateProfile({
-        photoURL: _photoURL.value,
+    if (txtPhotoURL.value) {
+      updatePhoto = firebase.auth().currentUser.updateProfile({
+        photoURL: txtPhotoURL.value,
       }).then(() => {
         snackbar('Profile photo updated.');
         return 'Profile photo updated.';
@@ -129,8 +162,8 @@ if (updateButton) {
     }
 
     // Update email.
-    if (_email.value) {
-      var updateEmail = firebase.auth().currentUser.updateEmail(_email.value)
+    if (txtEmail.value) {
+      updateEmail = firebase.auth().currentUser.updateEmail(txtEmail.value)
         .then(() => {
           // Handle errors.
           snackbar('Email updated.');
@@ -143,8 +176,8 @@ if (updateButton) {
     }
 
     // Update password.
-    if (_password.value === _re_password.value && _password.value) {
-      var updatePassword = firebase.auth().updatePassword(_password.value)
+    if (txtPassword.value === txtRePassword.value && txtPassword.value) {
+      updatePassword = firebase.auth().updatePassword(txtPassword.value)
         .then(() => {
           snackbar('Password updated.');
           return 'Password updated.';
@@ -157,12 +190,12 @@ if (updateButton) {
 
     // Updade database.
     const updateDatabase = dbUser.doc(firebase.auth().currentUser.uid).update({
-      email: _email.value,
-      displayName: _displayName.value,
-      photoURL: _photoURL.value,
+      email: txtEmail.value,
+      displayName: txtDisplayName.value,
+      photoURL: txtPhotoURL.value,
       uid: firebase.auth().currentUser.uid,
-      password_betfair: _password_betfair.value,
-      apiKey: _apiKey.value,
+      password_betfair: txtPasswordBetfair.value,
+      apiKey: txtApiKey.value,
     }).then(() => {
       snackbar('Updated BrotherBet user.');
       return 'Updated user.';
@@ -171,24 +204,21 @@ if (updateButton) {
     });
 
     // Reload.
-    Promise.all([updatePhoto, updateEmail, updatePassword, updateDatabase])
+    Promise.all([updateDisplay, updatePhoto, updateEmail, updatePassword, updateDatabase])
       .then(() => firebase.auth().signOut()
         .then(() => firebase.auth().signInWithEmailAndPassword(emailText.value, passText.value)
           .then(() => snackbar('Updated BrotherBet user.'))
           .catch((error) => {
             snackbar(error);
-          })).catch((error) => {
-          snackbar(error);
-        })).catch((error) => {
-        snackbar(`Database${error}`);
-      });
+          })).catch((error) => snackbar(error)))
+      .catch((error) => snackbar(`Database${error}`));
   });
 }
 
 // Shared functions.
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    if (_displayName) {
+    if (txtDisplayName) {
       dbUser.doc(firebase.auth().currentUser.uid).get()
         .then((doc) => {
           if (doc.exists) {
@@ -197,20 +227,20 @@ firebase.auth().onAuthStateChanged((user) => {
             if (!doc.data().displayName) {
               snackbar("Username it's missing, fill your user.");
             } else {
-              _displayName.value = doc.data().displayName || '';
-              _displayName.parentElement.classList.add('is-dirty');
+              txtDisplayName.value = doc.data().displayName || '';
+              txtDisplayName.parentElement.classList.add('is-dirty');
             }
             if (!doc.data().email) {
               snackbar("Email it's missing, fill your user.");
             } else {
-              _email.value = doc.data().email || '';
-              _email.parentElement.classList.add('is-dirty');
+              txtEmail.value = doc.data().email || '';
+              txtEmail.parentElement.classList.add('is-dirty');
             }
             if (!doc.data().photoURL) {
               snackbar("URL of photo it's missing, fill your user.");
             } else {
-              _photoURL.value = doc.data().photoURL || '';
-              _photoURL.parentElement.classList.add('is-dirty');
+              txtPhotoURL.value = doc.data().photoURL || '';
+              txtPhotoURL.parentElement.classList.add('is-dirty');
             }
             if (!doc.data().password_betfair) {
               snackbar("Password Betfair it's missing, fill your user.");
@@ -255,7 +285,7 @@ firebase.auth().onAuthStateChanged((user) => {
     email = null;
     photoURL = null;
     uid = null;
-    password_betfair = null;
+    passwordBetfair = null;
     apiKey = null;
   }
   return user;
@@ -265,65 +295,10 @@ function logout() {
   firebase.auth().signOut()
     .then(() => {
       if (window.location.href === 'http://127.0.0.1:5500/functions/views/home.html') {
-        return window.location.href = '/';
+        window.location.href = '/';
       }
       return post('home');
     }).catch((error) => {
       snackbar(error);
     });
-}
-
-function testDB() {
-  dbUser.doc('Joao').set({
-    displayName: 'jhjhjhj',
-    email: 'joana@gmail',
-    photoURL: 'https://',
-    uid: 'kjgjksldfhfkaksdfsd4fga6sfd',
-  }).then(() => {
-    // Handle errors.
-    snackbar('Stored user.');
-    return 'Stored user.';
-  }).catch((error) => {
-    snackbar(error);
-  });
-}
-
-// Snackbar function.
-function snackbar(string) {
-  const snackbarContainer = document.querySelector('#demo-snackbar-example');
-  const data = {
-    message: string,
-  };
-  snackbarContainer.MaterialSnackbar.showSnackbar(data);
-}
-
-function post(path, params, method) {
-  method = method || 'post';
-  const form = document.createElement('form');
-  form.setAttribute('method', method);
-  form.setAttribute('action', path);
-
-  for (const key in params) {
-    if (params.hasOwnProperty(key)) {
-      const hiddenField = document.createElement('input');
-      hiddenField.setAttribute('type', 'hidden');
-      hiddenField.setAttribute('name', key);
-      hiddenField.setAttribute('value', params[key]);
-      form.appendChild(hiddenField);
-    }
-  }
-  document.body.appendChild(form);
-  form.submit();
-}
-
-function saveRobot(robot) {
-  dbUser.doc(firebase.auth().currentUser.uid).set({
-    robotModel: JSON.stringify(robot),
-  }).then(() => {
-    snackbar('Robot model saved.');
-    return 'Updated user.';
-  }).catch((error) => {
-    snackbar(`Error saving robot${error}`);
-    saveRobot(robot);
-  });
 }

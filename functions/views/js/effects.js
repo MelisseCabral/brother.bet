@@ -1,4 +1,7 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
+
 // Actions functions.
 function actions() {
   $('#btnCloud').off().click((e) => {
@@ -96,7 +99,11 @@ function views() {
       $('.mdl-layout__drawer').removeClass('is-visible');
       localStorage.setItem('view:', showElement);
       $(`#${showElement}`).toggle();
-      showElement === 'home' ? $('#txtBudget').html('brother.bet') : $('#txtBudget').html(showElement);
+      if (showElement === 'home') {
+        $('#txtBudget').html('brother.bet');
+      } else {
+        $('#txtBudget').html(showElement);
+      }
       if (showElement === 'game') getGames();
     });
   });
@@ -129,7 +136,7 @@ function market() {
   marketPositionList.forEach((showElement) => {
     $(`#${showElement}`).off().click((e) => {
       e.stopImmediatePropagation();
-      const key = showElement.split('chip')[1].toLowerCase();
+      showElement.split('chip')[1].toLowerCase();
       $('#position').val('back');
       marketPositionList.forEach((hideElement) => {
         $(`#${hideElement}`).css('background-color', '#dedede');

@@ -4,6 +4,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
+
 const randomizeIO = (max, percentTrain) => {
   const generate = () => {
     const input = [];
