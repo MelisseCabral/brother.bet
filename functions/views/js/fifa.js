@@ -54,16 +54,14 @@ function getCsv(data) {
   });
 }
 
-const createTableDB = async (data, tableName, indexName = '', key = '') => {
+const createTableDB = (data, tableName, indexName = '', key = '') => {
   const request = indexedDB.open(tableName, 2);
 
   request.onupgradeneeded = (event) => {
     const db = event.target.result;
 
     const configObjectStore = { autoIncrement: true };
-
     if (key) configObjectStore.keyPath = key;
-
     const objectStore = db.createObjectStore(tableName, configObjectStore);
 
     if (indexName) objectStore.createIndex(indexName, indexName, { unique: true });
@@ -74,7 +72,16 @@ const createTableDB = async (data, tableName, indexName = '', key = '') => {
     };
   };
 
+  request.onsuccess = (event) => {
+    db = event.target.result;
+    db.close();
+  };
+
   request.onerror = console.error;
+};
+
+let deleteTableDB = async (tableName) => {
+  indexedDB.deleteDatabase(tableName);
 };
 
 const getTable = async (tableName) => new Promise((resolve) => {
@@ -85,6 +92,7 @@ const getTable = async (tableName) => new Promise((resolve) => {
     const allRecords = objectStore.getAll();
     allRecords.onsuccess = () => {
       if (allRecords.result.length === 1) resolve(allRecords.result[0]);
+      db.close();
       resolve(allRecords.result);
     };
   };
@@ -97,13 +105,13 @@ const getIndexed = async (tableName, indexName) => new Promise((resolve) => {
     const objectStore = db.transaction(tableName, 'readonly').objectStore(tableName);
     const allRecords = objectStore.index(indexName).getAll();
     allRecords.onsuccess = () => {
+      db.close();
       resolve(allRecords.result);
     };
   };
 });
 
-const getAllGames = async () => {
-  const data = await getIndexed('dataSet', 'date');
+const getJustData = (data) => {
   let arr = [];
   data.forEach((each) => each.data.forEach((each2) => {
     arr = [...arr, each2];
@@ -228,59 +236,92 @@ const aggregationTrain = (games) => {
   return agg;
 };
 
-const getTrainData = (data, percentTrainSet) => {
-  const trainSet = [];
-  const validationSet = [];
+const splitInputOutput = (dataSet) => {
+  const input = [];
+  const output = [];
+  dataSet.forEach((each) => {
+    input.push(each.input);
+    output.push(each.output);
+  });
+  return { input, output };
+};
 
-  let max = data.length;
+const getTrainValidation = (data, percentTrainSet) => {
+  const trainSet = {
+    input: [],
+    output: [],
+  };
+
+  const validationSet = {
+    input: [],
+    output: [],
+  };
+
+  let max = data.input.length;
 
   const maxTrainSamples = Math.floor(max * percentTrainSet);
   const maxValidationSamples = max - maxTrainSamples;
 
   for (let i = maxTrainSamples; i > 0; i -= 1) {
     const rand = Math.floor(Math.random() * Math.floor(max));
-    trainSet.push(data[rand]);
-    data.splice(rand, 1);
+    trainSet.input.push(data.input[rand]);
+    trainSet.output.push(data.output[rand]);
+    data.input.splice(rand, 1);
+    data.output.splice(rand, 1);
     max -= 1;
   }
 
   for (let i = maxValidationSamples; i > 0; i -= 1) {
     const rand = Math.floor(Math.random() * Math.floor(max));
-    validationSet.push(data[rand]);
+    validationSet.input.push(data.input[rand]);
+    validationSet.output.push(data.output[rand]);
     max -= 1;
   }
 
   return { trainSet, validationSet };
 };
 
-const splitInputOutput = (dataSet) => {
-  const data = Object.values(dataSet);
-  const keys = Object.keys(dataSet);
-
-  const dataArray = data.map((eachSet) => {
-    const input = [];
-    const output = [];
-    eachSet.forEach((each) => {
-      input.push(each.input);
-      output.push(each.output);
-    });
-    return { input, output };
-  });
-
-  const dataOutput = {};
-  keys.forEach((key, indexOf) => { dataOutput[key] = dataArray[indexOf]; });
-
-  return dataOutput;
+let dataTooler = async (dataSet) => {
+  const datedSet = await saveGetDataSet(dataSet);
+  const gamesSet = await saveGetGamesSet(datedSet);
+  const aggTrainSet = await saveGetTrainAggregatedSet(gamesSet);
+  const trainSet = await saveGetTrainSet(aggTrainSet);
+  const trainValidationSet = await saveGetTrainValidationSet(trainSet);
+  return trainValidationSet;
 };
-const dataTooler = async (dataSet) => {
+
+const saveGetDataSet = async (dataSet) => {
+  deleteTableDB('dataSet');
   createTableDB(dataSet, 'dataSet', 'date', 'id');
-  const games = await getAllGames();
-  const gamesSet = aggregationTrain(games);
+  return getIndexed('dataSet', 'date');
+};
+
+const saveGetGamesSet = async (dataSet) => {
+  deleteTableDB('gamesSet');
+  const gamesSet = getJustData(dataSet);
   createTableDB(gamesSet, 'gamesSet');
-  const trainSet = await getTable('gamesSet');
-  const trainValidationSets = getTrainData(trainSet, 0.7);
-  const splitedSets = splitInputOutput(trainValidationSets);
-  createTableDB([splitedSets], 'trainSet');
+  return getTable('gamesSet');
+};
+
+const saveGetTrainAggregatedSet = async (dataSet) => {
+  deleteTableDB('aggregatedTrainSet');
+  const aggSet = aggregationTrain(dataSet);
+  createTableDB(aggSet, 'aggregatedTrainSet');
+  return getTable('aggregatedTrainSet');
+};
+
+const saveGetTrainSet = async (dataSet) => {
+  deleteTableDB('trainSet');
+  const trainSet = splitInputOutput(dataSet);
+  createTableDB([trainSet], 'trainSet');
+  return getTable('trainSet');
+};
+
+const saveGetTrainValidationSet = async (dataSet) => {
+  deleteTableDB('trainValidationSet');
+  const trainValidationSets = getTrainValidation(dataSet, 0.7);
+  createTableDB([trainValidationSets], 'trainValidationSet');
+  return getTable('trainValidationSet');
 };
 
 const saveJsonFile = (data) => {

@@ -1,36 +1,29 @@
+/* eslint-disable no-undef */
 // Actions functions.
 function actions() {
-  $('#btnRobot').off().click((e) => {
+  $('#btnCloud').off().click((e) => {
     e.stopImmediatePropagation();
-    $('#robotFactory').show();
-    $('.overlay').show();
-    openRobotModel();
+    if (confirm('The whole database gonna be deleted! Do you wanna proceed?')) fifa();
   });
 
-  $('#btnHome').off().click((e) => {
+  $('#btnNeural').off().click((e) => {
     e.stopImmediatePropagation();
-    $('#btnHomes').click();
   });
 
-  $('#btnRobots').off().click((e) => {
+  $('#btnDownload').off().click((e) => {
     e.stopImmediatePropagation();
-    fifa();
   });
 
-  $('btnDelete').off().click((e) => {
+  $('#btnPredict').off().click((e) => {
     e.stopImmediatePropagation();
-    deleteAll();
   });
 
-  // $("#btnGames").off().click((e) => {
-  //     e.stopImmediatePropagation();
-  //     getGames();
-  //     //alert("founded")
-  // });
+  $('#btnDelete').off().click((e) => {
+    e.stopImmediatePropagation();
+  });
 
   $('#valueBudget').off().click((e) => {
     e.stopImmediatePropagation();
-    getMoney();
   });
 
   $('#btnLAccount').off().click((e) => {

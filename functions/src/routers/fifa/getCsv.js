@@ -69,13 +69,13 @@ const struture = (arr) => {
       teamA: {
         user: trim(getInParentesis(each[0])),
         team: trim(getBeforeParentesis(each[0])),
-        firstHalf: scores.firstHalf[0],
+        firstHalf: +scores.firstHalf[0],
         secondHalf: scores.secondHalf[0] - scores.firstHalf[0],
       },
       teamB: {
         user: trim(getInParentesis(each[2])),
         team: trim(getBeforeParentesis(each[2])),
-        firstHalf: scores.firstHalf[1],
+        firstHalf: +scores.firstHalf[1],
         secondHalf: scores.secondHalf[1] - scores.firstHalf[1],
       },
     };
