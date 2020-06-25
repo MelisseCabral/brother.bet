@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable vars-on-top */
@@ -9,7 +10,7 @@
 
 const dataSet = [];
 
-const fifa = async () => {
+const getFifaCloud = async () => {
   const data = {
     key: '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A',
     sheetId: '',
@@ -18,7 +19,7 @@ const fifa = async () => {
   try {
     idsTabelas.forEach(async (each, indexOf) => {
       data.sheetId = each;
-      const response = await getCsv(data);
+      const response = await getCSV(data);
       if (response.data) {
         dataSet.push(response);
         if (indexOf === idsTabelas.length - 1) {
@@ -33,10 +34,10 @@ const fifa = async () => {
   }
 };
 
-function getCsv(data) {
+function getCSV(data) {
   return new Promise((resolve, reject) => {
     $.ajax({
-      url: 'http://localhost:5001/brother-bet/us-central1/app/getCsv',
+      url: 'https://brother-bet.web.app/getCsv',
       dataType: 'json',
       method: 'get',
       cache: false,
@@ -80,8 +81,33 @@ const createTableDB = (data, tableName, indexName = '', key = '') => {
   request.onerror = console.error;
 };
 
-let deleteTableDB = async (tableName) => {
+const deleteTableDB = async (tableName) => {
   indexedDB.deleteDatabase(tableName);
+};
+
+const deleteAllDB = async () => {
+  const dbs = await window.indexedDB.databases();
+  dbs.filter((each) => each.name !== 'firebaseLocalStorageDb')
+    .forEach((db) => window.indexedDB.deleteDatabase(db.name));
+};
+
+const downloadDb = async () => {
+  const tables = await window.indexedDB.databases();
+
+  tables.forEach(async (each) => {
+    const data = await getTable(each.name);
+    downloadJSON(data, each.name);
+  });
+};
+
+const downloadJSON = (data, name) => {
+  const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`;
+  const downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute('href', dataStr);
+  downloadAnchorNode.setAttribute('download', `${name}.json`);
+  document.body.appendChild(downloadAnchorNode);
+  downloadAnchorNode.click();
+  downloadAnchorNode.remove();
 };
 
 const getTable = async (tableName) => new Promise((resolve) => {
@@ -283,7 +309,8 @@ const getTrainValidation = (data, percentTrainSet) => {
 
 let dataTooler = async (dataSet) => {
   const datedSet = await saveGetDataSet(dataSet);
-  const gamesSet = await saveGetGamesSet(datedSet);
+  const newDatedSet = await saveGetDatedDataSet(datedSet);
+  const gamesSet = await saveGetGamesSet(newDatedSet);
   const aggTrainSet = await saveGetTrainAggregatedSet(gamesSet);
   const trainSet = await saveGetTrainSet(aggTrainSet);
   const trainValidationSet = await saveGetTrainValidationSet(trainSet);
@@ -294,6 +321,12 @@ const saveGetDataSet = async (dataSet) => {
   deleteTableDB('dataSet');
   createTableDB(dataSet, 'dataSet', 'date', 'id');
   return getIndexed('dataSet', 'date');
+};
+
+const saveGetDatedDataSet = async (dataSet) => {
+  deleteTableDB('datedSet');
+  createTableDB(dataSet, 'datedSet');
+  return getTable('datedSet');
 };
 
 const saveGetGamesSet = async (dataSet) => {
@@ -329,4 +362,24 @@ const saveJsonFile = (data) => {
   a.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`);
   a.setAttribute('download', 'filename.json');
   a.click();
+};
+
+const getNeuralNetwork = async () => {
+  const dataTrain = getTable('trainSet');
+
+  for (let index = 10; index < data.input.length; index += 1) {
+    console.log(index);
+    const response = await machineLearning({
+      trainSet: dataTrain,
+      validationSet: '',
+      batches: index,
+      learningRate: 0.1,
+      start: 0,
+      end: index,
+      randomize: false,
+      validationPercent: 0.3,
+    });
+
+    console.log(response);
+  }
 };

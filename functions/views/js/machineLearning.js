@@ -102,7 +102,5 @@ const machineLearning = (sets) => {
     }
   };
 
-  (train().then((data) => {
-    console.log(data);
-  }));
+  return train();
 };

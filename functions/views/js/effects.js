@@ -6,23 +6,26 @@
 function actions() {
   $('#btnCloud').off().click((e) => {
     e.stopImmediatePropagation();
-    if (confirm('The whole database gonna be deleted! Do you wanna proceed?')) fifa();
+    if (confirm('The whole database gonna be deleted to be updated! Do you wanna proceed?')) getFifaCloud();
   });
 
   $('#btnNeural').off().click((e) => {
     e.stopImmediatePropagation();
   });
 
-  $('#btnDownload').off().click((e) => {
+  $('#btnDownload').off().click(async (e) => {
     e.stopImmediatePropagation();
+    await downloadDb();
   });
 
-  $('#btnPredict').off().click((e) => {
+  $('#btnPredict').off().click(async (e) => {
     e.stopImmediatePropagation();
+    await getNeuralNetwork();
   });
 
   $('#btnDelete').off().click((e) => {
     e.stopImmediatePropagation();
+    if (confirm('The whole database gonna be deleted! Do you wanna proceed?')) deleteAllDB();
   });
 
   $('#valueBudget').off().click((e) => {
