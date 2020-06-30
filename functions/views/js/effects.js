@@ -3,7 +3,14 @@
 /* eslint-disable no-undef */
 
 // Actions functions.
+
+$(document).ready(() => {
+  setMachineLearning();
+});
+
 function actions() {
+  autoUpdateLabel();
+
   $('#btnCloud').off().click((e) => {
     e.stopImmediatePropagation();
     if (confirm('The whole database gonna be deleted to be updated! Do you wanna proceed?')) getFifaCloud();
@@ -11,6 +18,8 @@ function actions() {
 
   $('#btnNeural').off().click((e) => {
     e.stopImmediatePropagation();
+    $('#trainFactory').show();
+    prepareTrain();
   });
 
   $('#btnDownload').off().click(async (e) => {
@@ -20,12 +29,32 @@ function actions() {
 
   $('#btnPredict').off().click(async (e) => {
     e.stopImmediatePropagation();
-    await getNeuralNetwork();
+    alert('Predict MotherFocker');
   });
 
   $('#btnDelete').off().click((e) => {
     e.stopImmediatePropagation();
     if (confirm('The whole database gonna be deleted! Do you wanna proceed?')) deleteAllDB();
+  });
+
+  $('#btnLogoutFun').off().click((e) => {
+    e.stopImmediatePropagation();
+    logout();
+  });
+
+  $('#btnCloseTrain').off().click((e) => {
+    e.stopImmediatePropagation();
+    $('#trainFactory').hide();
+  });
+
+  $('#btnSaveTrain').off().click((e) => {
+    e.stopImmediatePropagation();
+    saveConfig();
+  });
+
+  $('#btnCookTrain').off().click((e) => {
+    e.stopImmediatePropagation();
+    getNeuralNetwork(getConfig());
   });
 
   $('#valueBudget').off().click((e) => {
@@ -49,10 +78,6 @@ function actions() {
 
   $('#btnSaveRobot').off().click((e) => {
     e.stopImmediatePropagation();
-    $(this).animate({ bottom: '1000px' }, 'slow');
-    $(this).animate({ opacity: '0' }, 'slow');
-    $(this).animate({ bottom: '0px' }, 'slow');
-    $(this).animate({ opacity: '1' }, 'slow');
     saveRobotModel();
   });
 
@@ -60,16 +85,82 @@ function actions() {
     e.stopImmediatePropagation();
     logout();
   });
+}
 
-  $('#btnLogout').off().click((e) => {
-    e.stopImmediatePropagation();
-    logout();
-  });
+// Snackbar function.
+function snackbar(string) {
+  const snackbarContainer = document.querySelector('#demo-snackbar-example');
+  const data = {
+    message: string,
+  };
+  snackbarContainer.MaterialSnackbar.showSnackbar(data);
+}
 
-  $('#btnLogoutFun').off().click((e) => {
-    e.stopImmediatePropagation();
-    logout();
-  });
+function setBtnsState(propName, option) {
+  let pos = 1;
+  if (option === true) pos = 0;
+  document.getElementById(propName).querySelectorAll('.mdl-chip')[pos].click();
+}
+
+function getBtnsState(propName) {
+  truly = document.getElementById(propName).querySelector('.mdl-chip');
+  if (truly.style.backgroundColor === 'rgb(250, 250, 250)') return true;
+  return false;
+}
+
+function saveConfig() {
+  localStorage.setItem('machineLearning', JSON.stringify(getConfig()));
+}
+
+function getConfig() {
+  const { max } = JSON.parse(localStorage.getItem('machineLearning'));
+  return {
+    max,
+    nameDataSet: 'trainSet',
+    validationSet: '',
+    batches: $('#sldBatches').val(),
+    learningRate: $('#sldLearningRate').val(),
+    start: $('#sldStart').val(),
+    end: $('#sldEnd').val(),
+    randomize: getBtnsState('btnsShuffle'),
+    normalization: getBtnsState('btnsNormalization'),
+    validationPercent: $('#sldPercentValidation').val(),
+    step: $('#sldStep').val(),
+    plotPercent: $('#sldPlotPercent').val(),
+  };
+}
+
+// Cook Train
+function prepareTrain() {
+  const {
+    batches,
+    learningRate,
+    start,
+    end,
+    max,
+    randomize,
+    normalization,
+    validationPercent,
+    step,
+    plotPercent,
+  } = JSON.parse(localStorage.getItem('machineLearning'));
+
+  document.getElementById('sldStart').max = max;
+  document.getElementById('sldEnd').max = max;
+  document.getElementById('sldStep').max = max;
+
+  $('#sldBatches').val(batches);
+  $('#sldLearningRate').val(learningRate);
+  $('#sldStart').val(start);
+  $('#sldEnd').val(end);
+  $('#sldPercentValidation').val(validationPercent);
+  $('#sldStep').val(step);
+  $('#sldPlotPercent').val(plotPercent);
+
+  updateLabel();
+
+  setBtnsState('btnsNormalization', normalization);
+  setBtnsState('btnsShuffle', randomize);
 }
 
 // Stake
@@ -111,6 +202,25 @@ function views() {
     });
   });
   $('#btnHome').click();
+}
+
+// Slider
+function autoUpdateLabel() {
+  document.querySelectorAll('.slider').forEach((wrap) => {
+    const range = wrap.querySelector('.mdl-slider');
+    wrap.addEventListener('input', () => {
+      const values = wrap.querySelector('.values');
+      values.innerHTML = range.value;
+    });
+  });
+}
+
+function updateLabel() {
+  document.querySelectorAll('.slider').forEach((wrap) => {
+    const range = wrap.querySelector('.mdl-slider');
+    const values = wrap.querySelector('.values');
+    values.innerHTML = range.value;
+  });
 }
 
 // Market

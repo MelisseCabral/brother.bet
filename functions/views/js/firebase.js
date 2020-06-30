@@ -48,17 +48,10 @@ let photoURL = null;
 const firestore = firebase.firestore();
 const dbUser = firestore.collection('users/');
 
-// Snackbar function.
-function snackbar(string) {
-  const snackbarContainer = document.querySelector('#demo-snackbar-example');
-  const data = {
-    message: string,
-  };
-  snackbarContainer.MaterialSnackbar.showSnackbar(data);
-}
+async function post(path, params = {}, method = 'post') {
+  const token = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
+  if (token) params['Header-Autorization'] = token;
 
-function post(path, params, method) {
-  method = method || 'post';
   const form = document.createElement('form');
   form.setAttribute('method', method);
   form.setAttribute('action', path);
@@ -74,6 +67,29 @@ function post(path, params, method) {
   }
   document.body.appendChild(form);
   form.submit();
+}
+
+async function api(route, data = '', method = 'get') {
+  const authorization = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: window.location.origin + route,
+      dataType: 'json',
+      cache: false,
+      crossDomain: true,
+      headers: {
+        Accept: 'application/json',
+        Autorization: authorization,
+      },
+      method,
+      data,
+    }).done((response) => {
+      resolve(response);
+    }).fail((error) => {
+      console.log(error);
+      reject(error);
+    });
+  });
 }
 
 // Login functions.
@@ -262,23 +278,15 @@ firebase.auth().onAuthStateChanged((user) => {
         return dbUser.doc(firebase.auth().currentUser.uid).set({
           email: emailText.value,
           uid: firebase.auth().currentUser.uid,
-        }).then(() => {
+        }).then(async () => {
           loginBox.style.display = 'none';
           reportText.style.display = 'block';
-          if (window.location.href === 'http://127.0.0.1:5500/functions/views/index.html') {
-            window.location.href = 'http://127.0.0.1:5500/functions/views/home.html';
-          } else {
-            post('/home');
-          }
-          return snackbar('Init');
+          return post('/home');
         }).catch((error) => {
           snackbar(`Auth${error}`);
         });
-      } if (window.location.href === 'http://127.0.0.1:5500/functions/views/index.html') {
-        window.location.href = 'http://127.0.0.1:5500/functions/views/home.html';
-      } else {
-        post('/home');
       }
+      return post('/home');
     }
   } else {
     displayName = null;
@@ -293,12 +301,6 @@ firebase.auth().onAuthStateChanged((user) => {
 
 function logout() {
   firebase.auth().signOut()
-    .then(() => {
-      if (window.location.href === 'http://127.0.0.1:5500/functions/views/home.html') {
-        window.location.href = '/';
-      }
-      return post('home');
-    }).catch((error) => {
-      snackbar(error);
-    });
+    .then(() => post('/index'))
+    .catch((error) => snackbar(error));
 }

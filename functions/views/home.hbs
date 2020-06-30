@@ -27,8 +27,146 @@
     <input name="password" type="password">
     <input name="password" type="password">
   </form>
-  <div id="robotFactory">
-    <div style="display: none" class="overlay"> </div>
+  <div id="trainFactory"  style="display: none" class="boxes">
+    <div style="display: block" class="overlay"> </div>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--3-col"></div>
+      <div class="mdl-cell mdl-cell--6-col">
+        <div class='init-box-position' style="margin: auto;">
+          <div class=" init-box-robot mdl-shadow--4dp">
+            <button id="btnCloseTrain"
+              class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+              <i class=" material-icons">close</i>
+            </button>
+            <button id="btnSaveTrain"
+              class="btn-save mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+              <i class=" material-icons">save</i>
+            </button>
+            <h4>Let's cook a train!</h4>
+            <div class="btns">
+              <div id="btnsNormalization">
+                <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                  <label class="mdl-textfield__label" for="sample3">Normalization</label>
+                </div>
+                <div>
+                  <span id="chipBack" class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--pink-400 mdl-color-text--white">T</span>
+                    <span class="mdl-chip__text">true</span>
+                  </span>
+                  <span id="chipLay" class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--pink-400 mdl-color-text--white">F</span>
+                    <span class="mdl-chip__text">false</span>
+                  </span>
+                </div>
+              </div>
+              <div id="btnsShuffle">
+                <div class="market-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                  <label class="mdl-textfield__label" for="sample3">Shuffle</label>
+                </div>
+                <div>
+                  <span id="chipCorrectScore" class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--blue-A400	mdl-color-text--white">T</span>
+                    <span class="mdl-chip__text">true</span>
+                  </span>
+                  <span id="chipMatchOdds" class="mdl-chip mdl-chip--contact">
+                    <span class="mdl-chip__contact mdl-color--blue-A400 mdl-color-text--white">F</span>
+                    <span class="mdl-chip__text">false</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+                <label class="mdl-textfield__label" for="sample3">Learning Rate</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount"><input id="sldLearningRate" class="mdl-slider mdl-js-slider"
+                      type="range" min="0.001" max="5.0" step="0.001" value="-1"></span></span>
+                </span>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Percent Validation</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount"><input id="sldPercentValidation"
+                      class="mdl-slider mdl-js-slider" type="range" min="0.00" max="1.0" step="0.01" value="-1"></span>
+                </span>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Batches</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount"><input id="sldBatches" class="mdl-slider mdl-js-slider"
+                      type="range" min="0" max="100" step="1" value="-1" tabindex="0"></span></span>
+                </span>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Step</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount"><input id="sldStep" class="mdl-slider mdl-js-slider"
+                      type="range" min="1" max="100" step="1" value="-1" tabindex="0"></span></span>
+                </span>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Start</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount">
+                    <input id="sldStart" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="-1"
+                      tabindex="0">
+                  </span></span>
+                </span>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">End</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount">
+                    <input id="sldEnd" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="-1"
+                      tabindex="0">
+                  </span></span>
+                </span>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Plot Percent</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount"><input id="sldPlotPercent" class="mdl-slider mdl-js-slider"
+                      type="range" min="0.00" max="1.0" step="0.01" value="-1"></span></span>
+                </span>
+              </div>
+            </div>
+            <br>
+            <br>
+            <button id="btnCookTrain" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Lets
+              cook!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="robotFactory" style="display: none">
+    <div style="display: block" class="overlay"> </div>
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--3-col"></div>
       <div class="mdl-cell mdl-cell--6-col">
@@ -39,7 +177,7 @@
               <i class=" material-icons">close</i>
             </button>
             <button id="btnSaveRobot"
-              class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+              class="btn-save mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class="material-icons">save</i>
             </button>
             <h4>Let's cook a robot!</h4>
@@ -150,10 +288,9 @@
                 <input id="sliderStake" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="0"
                   tabindex="0">
               </div>
-
             </div>
-
-            <button id="btnBuild" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Build</button>
+            <button id="btnBuild" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Lets
+              cook!</button>
           </div>
         </div>
       </div>
@@ -176,11 +313,13 @@
         <div class="android-navigation-container">
           <nav class="android-navigation mdl-navigation">
             <span> &nbsp</span>
-            <button style="display:none; line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
+            <button style="display:none; line-height: 0"
+              class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <img id="" class="status-betfair" src="images/betfair-color.png" />
             </button>
             <span> &nbsp</span>
-            <button style="display:none;  line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
+            <button style="display:none;  line-height: 0"
+              class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <span class="cifra-brother">fakeMoney &nbsp</span>
               <span id="fakeMoney">...</span>
             </button>
@@ -259,11 +398,11 @@
           <div class="mdl-tooltip" data-mdl-for="btnPredict"> Predict </div>
         </div>
         <div>
-          <button id='btnDelete'
+          <button id='btnTrain'
             class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-            <i class="material-icons">delete</i>
+            <i class="material-icons">self_improvement</i>
           </button>
-          <div class="mdl-tooltip" data-mdl-for="btnDelete"> Delete DataSets</div>
+          <div class="mdl-tooltip" data-mdl-for="btnDelete">Mine Brother Coins</div>
         </div>
         <div>
           <button id="btnLogoutFun"
@@ -328,13 +467,13 @@
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                   <input style="display:none" class="mdl-textfield__input labe  l-float" type="email">
-                  <input class="mdl-textfield__input label-float" type="password" autocomplete="off"
-                    id="txtPassword">
+                  <input class="mdl-textfield__input label-float" type="password" autocomplete="off" id="txtPassword">
                   <label class="mdl-textfield__label" for="txtPassword">password</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="keyEnter">
                   <input style="display:none" class="mdl-textfield__input label-float" type="email">
-                  <input class="mdl-textfield__input sign-sample" autocomplete="nope" type="password" id="txtRePassword">
+                  <input class="mdl-textfield__input sign-sample" autocomplete="nope" type="password"
+                    id="txtRePassword">
                   <label class="mdl-textfield__label" for="txtRePassword">re-password</label>
                 </div>
                 <div id="betfairAccount" class="init-box-bet mdl-shadow--4dp">

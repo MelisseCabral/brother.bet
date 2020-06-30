@@ -45,6 +45,33 @@ a img {
   user-select: none
 }
 
+.no-border{
+  border: none !important;
+}
+
+.slider-padding {
+  padding: 0 0 0 0 ;
+  height: 40px;
+}
+
+.boxes .mdl-textfield__label{
+  top:10px !important;
+}
+
+.btns .mdl-textfield__label{
+  top:-10px !important;
+}
+
+.btns .mdl-textfield{
+  padding: 5px 0 0 0 ;
+}
+
+.boxes{
+  position: absolute;
+  z-index: 99999;
+  width: 100%;
+}
+
 .android-search-box .mdl-textfield__input {
   color: rgba(0, 0, 0, 0.87);
 }
@@ -237,9 +264,6 @@ a img {
   padding: 10vh 0 5vh 0 !important;
 
 }
-.init-box-position {
-  padding: 5vh 0 5vh 0 !important;
-}
 
 .init-box {
   position: relative;
@@ -269,8 +293,8 @@ a img {
   border-radius: 10px;
   background: white;
   text-align: center;
-  padding-bottom: 5vh;
-  padding-top: 5vh;
+  padding-bottom: 1vh;
+  padding-top: 1vh;
   z-index: 10;
 }
 
@@ -335,6 +359,15 @@ a img {
 }
 
 .btn-close:hover {
+  transform: rotate(180deg);
+}
+
+.btn-save {
+  transition: transform 1s;
+  z-index: 999;
+}
+
+.btn-save:hover {
   transform: rotate(180deg);
 }
 
@@ -430,31 +463,41 @@ a img {
   padding-top: 20vh !important; 
 }
 
-#stake {
-  padding-bottom: 3%;
+.slider{
+  height: 40px;
 }
-
-#stake .btn-close:hover {
+.slider .btn-close:hover {
   transform: none;
 }
 
-#stake .amount {
-  margin-left: 10px;
+.slider .amount {
+  margin-left: 30px;
   float: right;
   text-align: right;
   z-index: 999;
   padding-left: 10px
 }
 
-#stake .perc {
+.slider-value {
+    float: right;
+    text-align: right;
+    z-index: 999;
+    padding-left: 10px;
+    min-width: 40px;
+}
+
+.slider-above{
+  display: flex;
+    flex-direction: column;
+}
+
+.slider .perc {
   float: right;
 }
 
 .values {
   text-align: right;
   font-size: 16px;
-  width: fit-content;
-  border: 1px solid rebeccapurple;
   border-radius: 5px;
   padding: 5px;
   text-align: right;
@@ -490,6 +533,10 @@ div {
 
 #products.mdl-data-tabledynamic {
   width: 100%;
+}
+
+h4{
+  margin: 24px  0 !important;
 }
 
 .mdl-data-tabledynamic {

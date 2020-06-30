@@ -5,36 +5,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 
-const randomizeIO = (max, percentTrain) => {
-  const generate = () => {
-    const input = [];
-    const output = [];
-
-    for (let i = 0; i < max; i += 1) {
-      const intResult = [
-        ...tf.randomUniform([1, 3], -800, +800).dataSync(),
-        ...tf.randomUniform([1, 6], -100, +100).dataSync(),
-      ];
-      intResult.forEach((each, indexOf) => { intResult[indexOf] = Math.floor(each); });
-      input.push(intResult);
-
-      const outResult = [
-        ...tf.multinomial(tf.tensor([0.8, 0.0]), 3, 0, true).dataSync(),
-        ...tf.randomUniform([1, 2], 800).dataSync(),
-      ];
-      outResult.forEach((each, indexOf) => { outResult[indexOf] = Math.floor(each); });
-      output.push(outResult);
-    }
-    return { input, output };
-  };
-
-  const trainSet = generate(max * percentTrain);
-  const validationSet = generate(1 - max * percentTrain);
-
-  return { trainSet, validationSet };
-};
-
-const machineLearning = (sets) => {
+const machineLearning = async (sets) => {
   const {
     trainSet,
     validationSet,
@@ -42,6 +13,7 @@ const machineLearning = (sets) => {
     learningRate,
     start,
     end,
+    normalization,
     randomize,
     validationPercent,
   } = sets;
@@ -53,8 +25,15 @@ const machineLearning = (sets) => {
     },
   };
 
-  const input = tf.tensor2d(dataSplice.trainSet.input);
-  const output = tf.tensor2d(dataSplice.trainSet.output);
+  const inputSplice = dataSplice.trainSet.input;
+  const outputSplice = dataSplice.trainSet.output;
+
+  const input = tf.variable(tf.tensor2d(inputSplice), false);
+  const output = tf.tensor2d(outputSplice);
+
+  if (normalization) {
+    input.assign(input.softmax());
+  }
 
   const fitConfig = {
     validationSplit: validationPercent,
@@ -84,23 +63,33 @@ const machineLearning = (sets) => {
   model.add(hiddenLayers);
   model.add(outputLayers);
 
+  const optimizer = tf.train.sgd(learningRate);
+
   model.compile({
-    optimizer: tf.train.sgd(learningRate),
+    optimizer,
     loss: tf.losses.meanSquaredError,
   });
 
   const train = async () => {
-    let plotPercent = 0.1;
+    const logs = [];
     for (let i = 0; i < batches; i += 1) {
       const response = await model.fit(input, output, fitConfig);
-      if (i > batches * plotPercent) {
-        plotPercent += 0.1;
-        console.log('loss: ', response.history.loss[0], 'endData', batches);
-      }
 
-      if (i - batches === -1) return response;
+      const log = {
+        endData: end,
+        loss: response.history.loss[0],
+      };
+      logs.push(log);
+
+      return { logs, response };
     }
   };
+  const response = await train();
 
-  return train();
+  input.dispose();
+  output.dispose();
+  model.dispose();
+  optimizer.dispose();
+
+  return response;
 };

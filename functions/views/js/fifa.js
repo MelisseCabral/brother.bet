@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-loop-func */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-shadow */
 /* eslint-disable max-len */
@@ -9,6 +11,8 @@
 /* eslint-disable no-use-before-define */
 
 const dataSet = [];
+let logs = [];
+const truncatedLogs = [];
 
 const getFifaCloud = async () => {
   const data = {
@@ -17,43 +21,32 @@ const getFifaCloud = async () => {
   };
 
   try {
-    idsTabelas.forEach(async (each, indexOf) => {
-      data.sheetId = each;
-      const response = await getCSV(data);
+    for (let i = 0; i < idsTabelas.length; i += 1) {
+      data.sheetId = idsTabelas[i];
+      const response = await api('/getCSV', data);
       if (response.data) {
         dataSet.push(response);
-        if (indexOf === idsTabelas.length - 1) {
-          dataTooler(dataSet);
+        if (i === idsTabelas.length - 1) {
+          const trainVal = await dataTooler(dataSet);
+          alert(JSON.stringify({
+            nDataTrainSet: trainVal.trainSet.input.length,
+            nDataValidationSet: trainVal.validationSet.input.length,
+          }));
         }
       } else {
-        console.log(each, response);
+        await delay(2);
+        i -= 1;
+        console.log(idsTabelas[i], response);
       }
-    });
+    }
   } catch (error) {
-    localStorage.setItem('dataError', JSON.stringify({ error }));
+    console.log('dataError', JSON.stringify({ error }));
   }
 };
 
-function getCSV(data) {
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: 'https://brother-bet.web.app/getCsv',
-      dataType: 'json',
-      method: 'get',
-      cache: false,
-      crossDomain: true,
-      headers: {
-        Accept: 'application/json',
-      },
-      data,
-    }).done((response) => {
-      resolve(response);
-    }).fail((error) => {
-      console.log(error);
-      reject(error);
-    });
-  });
-}
+const delay = (timeSeconds) => new Promise((resolve) => {
+  setTimeout(resolve, timeSeconds * 1000);
+});
 
 const createTableDB = (data, tableName, indexName = '', key = '') => {
   const request = indexedDB.open(tableName, 2);
@@ -364,22 +357,113 @@ const saveJsonFile = (data) => {
   a.click();
 };
 
-const getNeuralNetwork = async () => {
-  const dataTrain = getTable('trainSet');
+const isTruncated = () => {
+  getTable('datedSet').then((data) => {
+    data.forEach((eachA) => {
+      eachA.data.forEach((eachB, indexOf) => {
+        let objContext = {
+          date: eachA.date,
+          id: eachA.id,
+          position: indexOf,
+          data: eachB,
+          problems: {},
+        };
+        objContext = validate(eachB.teamA.firstHalf, objContext, 'teamA.firstHalf');
+        objContext = validate(eachB.teamA.secondHalf, objContext, 'teamA.secondHalf');
+        objContext = validate(eachB.teamB.firstHalf, objContext, 'teamB.firstHalf');
+        objContext = validate(eachB.teamB.secondHalf, objContext, 'teamB.secondHalf');
 
-  for (let index = 10; index < data.input.length; index += 1) {
-    console.log(index);
+        if (Object.keys(objContext.problems).length) truncatedLogs.push(objContext);
+      });
+    });
+  });
+
+  const validate = (data, obj, context) => {
+    const testValidation = isValid(data);
+    if (isValid(data)) {
+      obj.problems[context] = testValidation;
+      return obj;
+    }
+    return obj;
+  };
+
+  return truncatedLogs;
+};
+
+const isValid = (data) => {
+  if (Number.isNaN(data)) return 'Is NaN!';
+  if (data === true) return 'Is true!';
+  if (data === false) return 'Is false!';
+  if (data === null) return 'Is null!';
+  if (data === undefined) return 'Is undefined!';
+  if (data === '') return 'Is \'\'!';
+  return false;
+};
+
+const setMachineLearning = async () => {
+  const dbs = await window.indexedDB.databases();
+  if (dbs.names) {
+    if (dbs.names.includes('trainSet')) {
+      const trainSet = await getTable('trainSet');
+      if (!localStorage.getItem('machineLearning')) {
+        return localStorage.setItem('machineLearning', JSON.stringify({
+          nameDataSet: 'trainSet',
+          validationSet: '',
+          batches: 1,
+          learningRate: 0.001,
+          start: 0,
+          end: trainSet.input.length,
+          max: trainSet.input.length,
+          randomize: false,
+          normalization: false,
+          validationPercent: 0.3,
+          step: 1,
+          plotPercent: 1,
+        }));
+      }
+    }
+  }
+  return console.log('The database is not downloaded.');
+};
+
+const getNeuralNetwork = async (assets) => {
+  const {
+    nameDataSet,
+    validationSet,
+    batches,
+    learningRate,
+    start,
+    end,
+    randomize,
+    normalization,
+    validationPercent,
+    step,
+    plotPercent,
+  } = assets;
+
+  const trainSet = await getTable(nameDataSet);
+
+  let percentPlot = +plotPercent;
+
+  for (let index = 10; index < +end; index += +step) {
     const response = await machineLearning({
-      trainSet: dataTrain,
-      validationSet: '',
-      batches: index,
-      learningRate: 0.1,
-      start: 0,
+      trainSet,
+      validationSet,
+      batches: +batches,
+      learningRate: +learningRate,
+      start: +start,
+      randomize,
+      normalization,
+      validationPercent: +validationPercent,
       end: index,
-      randomize: false,
-      validationPercent: 0.3,
     });
 
-    console.log(response);
+    logs = [...logs, ...response.logs];
+    response.logs.forEach((each) => console.log(each));
+
+    if (index > trainSet.input.length * plotPercent) {
+      percentPlot += plotPercent;
+      downloadJSON(logs, new Date());
+    }
   }
 };

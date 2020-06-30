@@ -42,13 +42,13 @@ const getInParentesis = (line) => {
 };
 
 const getBeforeParentesis = (line) => {
-  const endFileNameIndex = line.indexOf('(') - 1;
+  const endFileNameIndex = line.indexOf('(');
   return line.substring(0, endFileNameIndex);
 };
 
 const getScores = (line) => {
-  const firstHalf = getInParentesis(line).split(' - ');
-  const secondHalf = getBeforeParentesis(line).split(' - ');
+  const firstHalf = getInParentesis(line).split('-').map((each) => Number.parseInt(each, 10));
+  const secondHalf = getBeforeParentesis(line).split('-').map((each) => Number.parseInt(each, 10));
   return { firstHalf, secondHalf };
 };
 
