@@ -25,7 +25,7 @@
     "engine": "0.1.12",
     "express": "4.16.4",
     "express-session": "1.15.6",
-    "firebase-admin": "^8.12.1",
+    "firebase-admin": "^8.13.0",
     "firebase-functions": "^3.7.0",
     "fs": "0.0.1-security",
     "handlebars": "^4.1.0",

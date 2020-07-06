@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-bitwise */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-await-in-loop */
@@ -14,6 +16,8 @@ const dataSet = [];
 let logs = [];
 const truncatedLogs = [];
 
+const vHash = 1619170660;
+
 const getFifaCloud = async () => {
   const data = {
     key: '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A',
@@ -27,11 +31,7 @@ const getFifaCloud = async () => {
       if (response.data) {
         dataSet.push(response);
         if (i === idsTabelas.length - 1) {
-          const trainVal = await dataTooler(dataSet);
-          alert(JSON.stringify({
-            nDataTrainSet: trainVal.trainSet.input.length,
-            nDataValidationSet: trainVal.validationSet.input.length,
-          }));
+          await dataTooler(dataSet);
         }
       } else {
         await delay(2);
@@ -400,30 +400,47 @@ const isValid = (data) => {
   return false;
 };
 
-const setMachineLearning = async () => {
+const trainSetAvailable = async () => {
   const dbs = await window.indexedDB.databases();
-  if (dbs.names) {
-    if (dbs.names.includes('trainSet')) {
+  if (dbs) {
+    if (dbs.map((each) => each.name).includes('trainSet')) {
       const trainSet = await getTable('trainSet');
-      if (!localStorage.getItem('machineLearning')) {
-        return localStorage.setItem('machineLearning', JSON.stringify({
-          nameDataSet: 'trainSet',
-          validationSet: '',
-          batches: 1,
-          learningRate: 0.001,
-          start: 0,
-          end: trainSet.input.length,
-          max: trainSet.input.length,
-          randomize: false,
-          normalization: false,
-          validationPercent: 0.3,
-          step: 1,
-          plotPercent: 1,
-        }));
-      }
+      const newHash = hash(JSON.stringify(trainSet));
+      if (newHash === vHash) return trainSet;
     }
   }
-  return console.log('The database is not downloaded.');
+  return false;
+};
+
+const setMachineLearning = async () => {
+  const trainSet = await trainSetAvailable();
+  if (trainSet) {
+    if (!localStorage.getItem('machineLearning')) {
+      localStorage.setItem('machineLearning', JSON.stringify({
+        nameDataSet: 'trainSet',
+        validationSet: '',
+        batches: 1,
+        learningRate: 0.001,
+        start: 0,
+        end: trainSet.input.length,
+        max: trainSet.input.length,
+        randomize: false,
+        normalization: false,
+        validationPercent: 0.3,
+        step: 1,
+        plotPercent: 1,
+      }));
+    }
+    return true;
+  }
+  await getFifaCloud();
+  return setMachineLearning();
+};
+
+const hash = (s) => {
+  let h = 0; const l = s.length; let i = 0;
+  if (l > 0) while (i < l) h = (h << 5) - h + s.charCodeAt(i++) | 0;
+  return h;
 };
 
 const getNeuralNetwork = async (assets) => {

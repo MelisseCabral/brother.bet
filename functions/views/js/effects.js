@@ -1,30 +1,48 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
 
 // Actions functions.
 
-$(document).ready(() => {
-  setMachineLearning();
+let statusCloud = false;
+
+$(document).ready(async () => {
+  statusCloud = await setMachineLearning();
+  if (statusCloud) {
+    return $('#statusCloud').css('color', '#ffb80c');
+  }
+  return $('#statusCloud').css('color', '#767777');
 });
 
 function actions() {
   autoUpdateLabel();
 
-  $('#btnCloud').off().click((e) => {
+  $('#btnCloud').off().click(async (e) => {
     e.stopImmediatePropagation();
-    if (confirm('The whole database gonna be deleted to be updated! Do you wanna proceed?')) getFifaCloud();
+    if (confirm('The whole database gonna be deleted to be updated! Do you wanna proceed?')) {
+      await getFifaCloud();
+      console.log('done');
+    }
   });
 
   $('#btnNeural').off().click((e) => {
     e.stopImmediatePropagation();
-    $('#trainFactory').show();
-    prepareTrain();
+    if (statusCloud) {
+      $('#trainFactory').show();
+      prepareTrain();
+    } else {
+      alert('Wait for it...');
+    }
   });
 
   $('#btnDownload').off().click(async (e) => {
     e.stopImmediatePropagation();
-    await downloadDb();
+    if (statusCloud) {
+      await downloadDb();
+    } else {
+      alert('Wait for it...');
+    }
   });
 
   $('#btnPredict').off().click(async (e) => {
@@ -32,9 +50,14 @@ function actions() {
     alert('Predict MotherFocker');
   });
 
-  $('#btnDelete').off().click((e) => {
+  $('#btnTrain').off().click((e) => {
     e.stopImmediatePropagation();
-    if (confirm('The whole database gonna be deleted! Do you wanna proceed?')) deleteAllDB();
+    if (statusCloud) {
+      $('#trainFactory').show();
+      prepareTrain();
+    } else {
+      alert('Wait for it...');
+    }
   });
 
   $('#btnLogoutFun').off().click((e) => {

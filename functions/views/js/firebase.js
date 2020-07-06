@@ -70,7 +70,7 @@ async function post(path, params = {}, method = 'post') {
 }
 
 async function api(route, data = '', method = 'get') {
-  const authorization = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
+  // const authorization = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
   return new Promise((resolve, reject) => {
     $.ajax({
       url: window.location.origin + route,
@@ -79,7 +79,7 @@ async function api(route, data = '', method = 'get') {
       crossDomain: true,
       headers: {
         Accept: 'application/json',
-        Autorization: authorization,
+        Autorization: 'authorization',
       },
       method,
       data,

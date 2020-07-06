@@ -27,7 +27,7 @@
     <input name="password" type="password">
     <input name="password" type="password">
   </form>
-  <div id="trainFactory"  style="display: none" class="boxes">
+  <div id="trainFactory" style="display: none" class="boxes">
     <div style="display: block" class="overlay"> </div>
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--3-col"></div>
@@ -312,6 +312,9 @@
         <div class="android-header-spacer mdl-layout-spacer"></div>
         <div class="android-navigation-container">
           <nav class="android-navigation mdl-navigation">
+            <div class="mdl-navigation__link mdl-typography--text-uppercase">
+              <i id="statusCloud" style="color: #767777" class="material-icons">cloud</i>
+            </div>
             <span> &nbsp</span>
             <button style="display:none; line-height: 0"
               class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
@@ -370,13 +373,6 @@
     <div>
       <div class="automations ">
         <div>
-          <button id='btnCloud'
-            class="animated bounceInUp actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-            <i class="material-icons">cloud_download</i>
-          </button>
-          <div class="mdl-tooltip" data-mdl-for="btnCloud"> Get DataSets </div>
-        </div>
-        <div>
           <button id='btnNeural'
             class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">psychology</i>
@@ -391,6 +387,13 @@
           <div class="mdl-tooltip" data-mdl-for="btnDownload"> Download DataSets </div>
         </div>
         <div>
+          <button id='btnTrain'
+            class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+            <i class="material-icons">self_improvement</i>
+          </button>
+          <div class="mdl-tooltip" data-mdl-for="btnTrain">Mine Brother Coins</div>
+        </div>
+        <div>
           <button id='btnPredict'
             class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">insights</i>
@@ -398,14 +401,7 @@
           <div class="mdl-tooltip" data-mdl-for="btnPredict"> Predict </div>
         </div>
         <div>
-          <button id='btnTrain'
-            class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-            <i class="material-icons">self_improvement</i>
-          </button>
-          <div class="mdl-tooltip" data-mdl-for="btnDelete">Mine Brother Coins</div>
-        </div>
-        <div>
-          <button id="btnLogoutFun"
+          <button style="display:none" id="btnLogoutFun"
             class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
             <i class="material-icons">accessible_forward</i>
           </button>
