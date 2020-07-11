@@ -104,7 +104,7 @@
                 <span class="values slider-value">0</span>
                 <span class="slider-above">
                   <span class="no-border values amount"><input id="sldBatches" class="mdl-slider mdl-js-slider"
-                      type="range" min="0" max="100" step="1" value="-1" tabindex="0"></span></span>
+                      type="range" min="1" max="1000" step="1" value="-1" tabindex="0"></span></span>
                 </span>
               </div>
             </div>
@@ -115,7 +115,7 @@
                 <span class="values slider-value">0</span>
                 <span class="slider-above">
                   <span class="no-border values amount"><input id="sldStep" class="mdl-slider mdl-js-slider"
-                      type="range" min="1" max="100" step="1" value="-1" tabindex="0"></span></span>
+                      type="range" min="0" max="100" step="1" value="-1" tabindex="0"></span></span>
                 </span>
               </div>
             </div>
@@ -380,18 +380,11 @@
           <div class="mdl-tooltip" data-mdl-for="btnNeural">Neural Network </div>
         </div>
         <div>
-          <button id='btnDownload'
-            class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-            <i class="material-icons">arrow_downward</i>
-          </button>
-          <div class="mdl-tooltip" data-mdl-for="btnDownload"> Download DataSets </div>
-        </div>
-        <div>
           <button id='btnTrain'
-            class="animated bounceInUp animated-delay-4 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-            <i class="material-icons">self_improvement</i>
+            class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+            <i class="material-icons">model_training</i>
           </button>
-          <div class="mdl-tooltip" data-mdl-for="btnTrain">Mine Brother Coins</div>
+          <div class="mdl-tooltip" data-mdl-for="btnDownload"> Train </div>
         </div>
         <div>
           <button id='btnPredict'
@@ -743,7 +736,8 @@
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js "></script>
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
-        <script src="js/firebase.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="js/api.js"></script>
         <script src="js/typed.js"></script>
         <script src="js/insert.js"></script>
         <script src="js/betfair.js"></script>
@@ -751,6 +745,7 @@
         <script src="js/gids.js"></script>
         <script src="js/fifa.js"></script>
         <script src="js/machineLearning.js"></script>
+        <script src="js/mL.js"></script>
         <script src="js/effects.js"></script>
       </footer>
 </body>

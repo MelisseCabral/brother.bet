@@ -13,6 +13,8 @@ app.use(cors());
 
 // Routers requires and calls.
 app.use('/getCsv', require('./src/routers/fifa/getCSV'));
+app.use('/create', require('./src/routers/database/create'));
+app.use('/index', require('./src/routers/database/index'));
 
 exports.app = functions.https.onRequest(app);
 

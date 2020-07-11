@@ -13,10 +13,13 @@
 /* eslint-disable no-use-before-define */
 
 const dataSet = [];
-let logs = [];
 const truncatedLogs = [];
 
+// let logs = [];
+
 const vHash = 1619170660;
+
+let defaultML;
 
 const getFifaCloud = async () => {
   const data = {
@@ -415,21 +418,22 @@ const trainSetAvailable = async () => {
 const setMachineLearning = async () => {
   const trainSet = await trainSetAvailable();
   if (trainSet) {
-    if (!localStorage.getItem('machineLearning')) {
-      localStorage.setItem('machineLearning', JSON.stringify({
-        nameDataSet: 'trainSet',
-        validationSet: '',
-        batches: 1,
-        learningRate: 0.001,
-        start: 0,
-        end: trainSet.input.length,
-        max: trainSet.input.length,
-        randomize: false,
-        normalization: false,
-        validationPercent: 0.3,
-        step: 1,
-        plotPercent: 1,
-      }));
+    defaultML = {
+      nameDataSet: 'trainSet',
+      validationSet: '',
+      batches: 1000,
+      learningRate: 0.001,
+      start: 0,
+      end: trainSet.input.length,
+      max: trainSet.input.length,
+      randomize: true,
+      normalization: true,
+      validationPercent: 0.3,
+      step: trainSet.input.length,
+      plotPercent: 1,
+    };
+    if (!localStorage.getItem('machineLearning') || localStorage.getItem('machineLearning')) {
+      localStorage.setItem('machineLearning', JSON.stringify(defaultML));
     }
     return true;
   }
@@ -462,8 +466,11 @@ const getNeuralNetwork = async (assets) => {
 
   let percentPlot = +plotPercent;
 
-  for (let index = 10; index < +end; index += +step) {
-    const response = await machineLearning({
+  let index = 10;
+  if (+end - +start === +end && +step === +end) index = +end - 1;
+
+  while (index < +end) {
+    const result = await machineLearning({
       trainSet,
       validationSet,
       batches: +batches,
@@ -475,12 +482,30 @@ const getNeuralNetwork = async (assets) => {
       end: index,
     });
 
-    logs = [...logs, ...response.logs];
-    response.logs.forEach((each) => console.log(each));
-
     if (index > trainSet.input.length * plotPercent) {
       percentPlot += plotPercent;
-      downloadJSON(logs, new Date());
+      downloadJSON(result, new Date());
     }
+
+    if ((index + +step) >= +end && index !== +end - 1) index = +end - 1;
+    else index += +step;
   }
+};
+
+const getTrain = async (assets) => {
+  const trainSet = await getTable(assets.nameDataSet);
+
+  const { data } = await axios.get('/index');
+
+  const result = await mL({ trainSet, neuralNetwork: data.neuralNetwork, ...assets });
+
+  axios.post('/create', result[result.length - 1])
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  console.log(result);
 };

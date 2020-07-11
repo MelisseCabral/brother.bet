@@ -45,19 +45,18 @@ function actions() {
     }
   });
 
-  $('#btnPredict').off().click(async (e) => {
-    e.stopImmediatePropagation();
-    alert('Predict MotherFocker');
-  });
-
-  $('#btnTrain').off().click((e) => {
+  $('#btnTrain').off().click(async (e) => {
     e.stopImmediatePropagation();
     if (statusCloud) {
-      $('#trainFactory').show();
-      prepareTrain();
+      getTrain(getConfig());
     } else {
       alert('Wait for it...');
     }
+  });
+
+  $('#btnPredict').off().click(async (e) => {
+    e.stopImmediatePropagation();
+    alert('Predict MotherFocker');
   });
 
   $('#btnLogoutFun').off().click((e) => {
@@ -136,21 +135,17 @@ function saveConfig() {
 }
 
 function getConfig() {
-  const { max } = JSON.parse(localStorage.getItem('machineLearning'));
-  return {
-    max,
-    nameDataSet: 'trainSet',
-    validationSet: '',
-    batches: $('#sldBatches').val(),
-    learningRate: $('#sldLearningRate').val(),
-    start: $('#sldStart').val(),
-    end: $('#sldEnd').val(),
-    randomize: getBtnsState('btnsShuffle'),
-    normalization: getBtnsState('btnsNormalization'),
-    validationPercent: $('#sldPercentValidation').val(),
-    step: $('#sldStep').val(),
-    plotPercent: $('#sldPlotPercent').val(),
-  };
+  const obj = JSON.parse(localStorage.getItem('machineLearning'));
+  obj.batches = $('#sldBatches').val();
+  obj.learningRate = $('#sldLearningRate').val();
+  obj.start = $('#sldStart').val();
+  obj.end = $('#sldEnd').val();
+  obj.randomize = getBtnsState('btnsShuffle');
+  obj.normalization = getBtnsState('btnsNormalization');
+  obj.validationPercent = $('#sldPercentValidation').val();
+  obj.step = $('#sldStep').val();
+  obj.plotPercent = $('#sldPlotPercent').val();
+  return obj;
 }
 
 // Cook Train

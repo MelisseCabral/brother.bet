@@ -69,29 +69,6 @@ async function post(path, params = {}, method = 'post') {
   form.submit();
 }
 
-async function api(route, data = '', method = 'get') {
-  // const authorization = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
-  return new Promise((resolve, reject) => {
-    $.ajax({
-      url: window.location.origin + route,
-      dataType: 'json',
-      cache: false,
-      crossDomain: true,
-      headers: {
-        Accept: 'application/json',
-        Autorization: 'authorization',
-      },
-      method,
-      data,
-    }).done((response) => {
-      resolve(response);
-    }).fail((error) => {
-      console.log(error);
-      reject(error);
-    });
-  });
-}
-
 // Login functions.
 if (closeButton) {
   closeButton.addEventListener('click', () => {

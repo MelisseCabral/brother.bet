@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
@@ -5,31 +6,20 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 
-const machineLearning = async (sets) => {
+const mL = async (sets) => {
   const {
-    trainSet,
-    validationSet,
-    batches,
     learningRate,
-    start,
-    end,
+    trainSet,
+    neuralNetwork,
+    batches,
     normalization,
     randomize,
     validationPercent,
   } = sets;
+  neuralNetwork.weightData = str2ab(neuralNetwork.weightDataStr);
 
-  const dataSplice = {
-    trainSet: {
-      input: trainSet.input.slice(start, end),
-      output: trainSet.output.slice(start, end),
-    },
-  };
-
-  const inputSplice = dataSplice.trainSet.input;
-  const outputSplice = dataSplice.trainSet.output;
-
-  const input = tf.variable(tf.tensor2d(inputSplice), false);
-  const output = tf.tensor2d(outputSplice);
+  const input = tf.variable(tf.tensor2d(trainSet.input), false);
+  const output = tf.tensor2d(trainSet.output);
 
   if (normalization) {
     input.assign(input.softmax());
@@ -40,28 +30,7 @@ const machineLearning = async (sets) => {
     shuffle: randomize,
   };
 
-  if (validationSet) {
-    const inputs = tf.tensor2d(validationSet.input);
-    const outputs = tf.tensor2d(validationSet.output);
-    fitConfig.validationData = [inputs, outputs];
-  }
-
-  const model = tf.sequential();
-
-  const hiddenLayers = tf.layers.dense({
-    units: 4,
-    inputShape: [9],
-    activation: 'sigmoid',
-  });
-
-  const outputLayers = tf.layers.dense({
-    units: 5,
-    inputShape: [4],
-    activation: 'sigmoid',
-  });
-
-  model.add(hiddenLayers);
-  model.add(outputLayers);
+  const model = await tf.loadLayersModel(tf.io.fromMemory(neuralNetwork));
 
   const optimizer = tf.train.sgd(learningRate);
 
@@ -76,7 +45,7 @@ const machineLearning = async (sets) => {
       const response = await model.fit(input, output, fitConfig);
 
       const log = {
-        samples: end - start,
+        samples: trainSet.input.lenght,
         loss: response.history.loss[0],
         timestamp: Date.now(),
       };
@@ -102,4 +71,15 @@ const machineLearning = async (sets) => {
   optimizer.dispose();
 
   return response;
+};
+
+const ab2str = (buf) => String.fromCharCode.apply(null, new Uint16Array(buf));
+
+const str2ab = (str) => {
+  const buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
+  const bufView = new Uint16Array(buf);
+  for (let i = 0, strLen = str.length; i < strLen; i += 1) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
 };
