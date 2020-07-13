@@ -7,6 +7,7 @@
 
 const machineLearning = async (sets) => {
   const {
+    nameDataSet,
     trainSet,
     validationSet,
     batches,
@@ -55,7 +56,7 @@ const machineLearning = async (sets) => {
   });
 
   const outputLayers = tf.layers.dense({
-    units: 5,
+    units: outputSplice[0].length,
     inputShape: [4],
     activation: 'sigmoid',
   });
@@ -76,8 +77,10 @@ const machineLearning = async (sets) => {
       const response = await model.fit(input, output, fitConfig);
 
       const log = {
-        samples: end - start,
+        name: nameDataSet,
         loss: response.history.loss[0],
+        batches: i,
+        samples: end - start,
         timestamp: Date.now(),
       };
 

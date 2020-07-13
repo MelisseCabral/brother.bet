@@ -8,6 +8,7 @@
 
 const mL = async (sets) => {
   const {
+    nameDataSet,
     learningRate,
     trainSet,
     neuralNetwork,
@@ -39,14 +40,20 @@ const mL = async (sets) => {
     loss: tf.losses.meanSquaredError,
   });
 
+  await model.save(tf.io.withSaveHandler((artifacts) => {
+    console.log(artifacts)
+  }));
+
   const train = async () => {
     const logs = [];
     for (let i = 0; i < batches; i += 1) {
       const response = await model.fit(input, output, fitConfig);
 
       const log = {
-        samples: trainSet.input.lenght,
+        name: nameDataSet,
         loss: response.history.loss[0],
+        batches: i,
+        samples: trainSet.input.length,
         timestamp: Date.now(),
       };
 
@@ -71,6 +78,16 @@ const mL = async (sets) => {
   optimizer.dispose();
 
   return response;
+};
+
+const mLPrediction = async (input, neuralNetwork) => {
+  const inputTensor = tf.tensor2d(input);
+
+  neuralNetwork.weightData = str2ab(neuralNetwork.weightDataStr);
+
+  const model = await tf.loadLayersModel(tf.io.fromMemory(neuralNetwork));
+
+  return model.predict(inputTensor).dataSync();
 };
 
 const ab2str = (buf) => String.fromCharCode.apply(null, new Uint16Array(buf));

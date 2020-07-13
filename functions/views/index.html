@@ -42,6 +42,12 @@
               class="btn-save mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class=" material-icons">save</i>
             </button>
+            <button class="btnTogether">
+              <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="togetherTrain">
+                <span class="mdl-switch__label">Together</span>
+                <input type="checkbox" id="togetherTrain" class="mdl-switch__input" checked>
+              </label>
+            </button>
             <h4>Let's cook a train!</h4>
             <div class="btns">
               <div id="btnsNormalization">
@@ -104,7 +110,7 @@
                 <span class="values slider-value">0</span>
                 <span class="slider-above">
                   <span class="no-border values amount"><input id="sldBatches" class="mdl-slider mdl-js-slider"
-                      type="range" min="1" max="1000" step="1" value="-1" tabindex="0"></span></span>
+                      type="range" min="1" max="100000" step="1" value="-1" tabindex="0"></span></span>
                 </span>
               </div>
             </div>
@@ -156,146 +162,251 @@
                 </span>
               </div>
             </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Save Every</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount"><input id="sldSaveEvery" class="mdl-slider mdl-js-slider"
+                      type="range" min="10" max="1000" step="10" value="-1"></span></span>
+                </span>
+              </div>
+            </div>
             <br>
             <br>
-            <button id="btnCookTrain" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Lets
-              cook!</button>
+            <button id="btnCookTrain" type="submit"
+              class="mdl-button mdl-js-button mdl-js-ripple-effect">Offline</button>
+            <button id="btnCookTrainReal" type="submit"
+              class="mdl-button mdl-js-button mdl-js-ripple-effect">Online</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div id="robotFactory" style="display: none">
-    <div style="display: block" class="overlay"> </div>
+  <div id="predictFactory" style="display: none" class="boxes">
+    <div class="overlay"> </div>
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--3-col"></div>
       <div class="mdl-cell mdl-cell--6-col">
         <div class='init-box-position' style="margin: auto;">
           <div class=" init-box-robot mdl-shadow--4dp">
-            <button id="btnCloseRobot"
+            <button id="btnCloseTrain"
               class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
               <i class=" material-icons">close</i>
             </button>
-            <button id="btnSaveRobot"
-              class="btn-save mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
-              <i class="material-icons">save</i>
+            <button class="btnTogether">
+              <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="together">
+                <span class="mdl-switch__label">Together</span>
+                <input type="checkbox" id="together" class="mdl-switch__input" checked>
+              </label>
             </button>
-            <h4>Let's cook a robot!</h4>
-            <div>
-              <div class="game-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
-                <input class="mdl-textfield__input label-float" type="text" id="txtGame">
-                <label class="mdl-textfield__label" for="sample3">Game</label>
-              </div>
-              <div id="position">
-                <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
-                  <label class="mdl-textfield__label" for="sample3">Position</label>
-                </div>
-                <div>
-                  <span id="chipBack" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--pink-400 mdl-color-text--white">B</span>
-                    <span class="mdl-chip__text">back</span>
-                  </span>
-                  <span id="chipLay" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--pink-400 mdl-color-text--white">L</span>
-                    <span class="mdl-chip__text">lay</span>
-                  </span>
-                </div>
-              </div>
-              <div id="market">
-                <div class="market-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
-                  <label class="mdl-textfield__label" for="sample3">Market</label>
-                </div>
-                <div>
-                  <span id="chipCorrectScore" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--blue-A400	mdl-color-text--white">CS</span>
-                    <span class="mdl-chip__text">correct_score</span>
-                  </span>
-                  <span id="chipMatchOdds" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--blue-A400 mdl-color-text--white">MO</span>
-                    <span class="mdl-chip__text">match_odds</span>
-                  </span>
-                  <span id="chipUnderOver" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--blue-A400 mdl-color-text--white">UO</span>
-                    <span class="mdl-chip__text">under_over</span>
-                  </span>
-                </div>
+            <h4>Let's predict!</h4>
+            <div id="boxUsers">
+              <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Users</label>
               </div>
               <div id="typeMarket">
-                <div class="correct_score" style="display: none">
-                  <span id="homeName" class="first-team">Barcelona </span>
-                  <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused" data-upgraded=",MaterialTextfield">
-                    <input id="homeScore" class="mdl-textfield__input" type="number" id="sample0">
-                    <label class="mdl-textfield__label" for="sample0"></label>
-                  </div>
+                <div class="correct_score" style="display: block">
+                  <select class="mdl-selectfield__select" id="cmbUserA" name="professsion">
+                    <option value=""></option>
+                  </select>
                   <span class="second-team"> VS </span>
-                  <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused" data-upgraded=",MaterialTextfield">
-                    <input id="awayScore" class="mdl-textfield__input" type="number" id="sample1">
-                    <label class="mdl-textfield__label" for="sample1"></label>
-                  </div>
-                  <span id="awayName" class="second-team"> Fluminence</span>
-                </div>
-                <div class="match_odds" style="display: none">
-                  <br>
-                  <span id="chipHome" class="class-chipHome mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">H</span>
-                    <span class="mdl-chip__text">home</span>
-                  </span>
-                  <span id="chipAway" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">A</span>
-                    <span class="mdl-chip__text">away</span>
-                  </span>
-                  <span id="chipDraw" class="mdl-chip mdl-chip--contact">
-                    <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">D</span>
-                    <span class="mdl-chip__text">draw</span>
-                  </span>
-                </div>
-                <div class="under_over" style="display: none">
-                  <div>
-                    <br>
-                    <span id="chipUnder" class="mdl-chip mdl-chip--contact">
-                      <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">U</span>
-                      <span class="mdl-chip__text">under</span>
-                    </span>
-                    <span id="chipOver" class="mdl-chip mdl-chip--contact">
-                      <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">O</span>
-                      <span class="mdl-chip__text">over</span>
-                    </span>
-                  </div>
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input id="operator" class="mdl-textfield__input" type="text" id="sample2">
-                    <label class="mdl-textfield__label" for="sample2">operator</label>
-                  </div>
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input id="odd" class="mdl-textfield__input" type="number" id="sample3">
-                    <label class="mdl-textfield__label" for="sample3"> odd</label>
-                  </div>
-                  <div class="mdl-textfield mdl-js-textfield">
-                    <input id="closeMinute" class="mdl-textfield__input" type="number" id="sample4">
-                    <label class="mdl-textfield__label" for="sample4">close min</label>
-                  </div>
+                  <select class="mdl-selectfield__select" id="cmbUserB" name="professsion">
+                    <option value=""></option>
+                  </select>
                 </div>
               </div>
             </div>
-            <div id="stake">
+            <div id="boxTeams">
               <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
-                <label class="mdl-textfield__label" for="sample3">Stake</label>
-                <br>
-                <br>
-                <span>
-                  <span class="values amount">$ <span id="valueStake">0.0</span></span>
-                  <span class="values perc"> <span id="valuePercStake">0.0</span>%</span>
-                </span>
-                <input id="sliderStake" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="0"
-                  tabindex="0">
+                <label class="mdl-textfield__label" for="sample3">Teams</label>
+              </div>
+              <div id="typeMarket">
+                <div class="correct_score" style="display: block">
+                  <select class="mdl-selectfield__select" id="cmbTeamA" name="professsion">
+                    <option value=""></option>
+                  </select>
+                  <span class="second-team"> VS </span>
+                  <select class="mdl-selectfield__select" id="cmbTeamB" name="professsion">
+                    <option value=""></option>
+                  </select>
+                </div>
               </div>
             </div>
-            <button id="btnBuild" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Lets
+            <br>
+            <br>
+            <button id="btnCookPredict" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Lets
               cook!</button>
+            <div id="tables" style="display:none">
+              <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <thead>
+                  <tr>
+                    <th>Team A Win</th>
+                    <th>Draw</th>
+                    <th>Team B Win</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="teamAWin">0.615177571773529</td>
+                    <td id="draw">0.2731315493583679</td>
+                    <td id="teamBWin">0.27759283781051636</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <thead>
+                  <tr>
+                    <th>Goals Team A</th>
+                    <th>Goals Team B</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="goalsTeamA">0.9896318316459656</td>
+                    <td id="goalsTeamA">0.9955548644065857</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <div id="robotFactory" style="display: none">
+      <div style="display: block" class="overlay"> </div>
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--3-col"></div>
+        <div class="mdl-cell mdl-cell--6-col">
+          <div class='init-box-position' style="margin: auto;">
+            <div class=" init-box-robot mdl-shadow--4dp">
+              <button id="btnCloseRobot"
+                class="btn-close mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+                <i class=" material-icons">close</i>
+              </button>
+              <button id="btnSaveRobot"
+                class="btn-save mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored   	">
+                <i class="material-icons">save</i>
+              </button>
+              <h4>Let's predict!</h4>
+              <div>
+                <div class="game-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                  <input class="mdl-textfield__input label-float" type="text" id="txtGame">
+                  <label class="mdl-textfield__label" for="sample3">Game</label>
+                </div>
+                <div id="position">
+                  <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                    <label class="mdl-textfield__label" for="sample3">Position</label>
+                  </div>
+                  <div>
+                    <span id="chipBack" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--pink-400 mdl-color-text--white">B</span>
+                      <span class="mdl-chip__text">back</span>
+                    </span>
+                    <span id="chipLay" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--pink-400 mdl-color-text--white">L</span>
+                      <span class="mdl-chip__text">lay</span>
+                    </span>
+                  </div>
+                </div>
+                <div id="market">
+                  <div class="market-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                    <label class="mdl-textfield__label" for="sample3">Market</label>
+                  </div>
+                  <div>
+                    <span id="chipCorrectScore" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--blue-A400	mdl-color-text--white">CS</span>
+                      <span class="mdl-chip__text">correct_score</span>
+                    </span>
+                    <span id="chipMatchOdds" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--blue-A400 mdl-color-text--white">MO</span>
+                      <span class="mdl-chip__text">match_odds</span>
+                    </span>
+                    <span id="chipUnderOver" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--blue-A400 mdl-color-text--white">UO</span>
+                      <span class="mdl-chip__text">under_over</span>
+                    </span>
+                  </div>
+                </div>
+                <div id="typeMarket">
+                  <div class="correct_score" style="display: block">
+                    <span id="homeName" class="first-team">Barcelona </span>
+                    <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused"
+                      data-upgraded=",MaterialTextfield">
+                      <input id="homeScore" class="mdl-textfield__input" type="number" id="sample0">
+                      <label class="mdl-textfield__label" for="sample0"></label>
+                    </div>
+                    <span class="second-team"> VS </span>
+                    <div class="mdl-textfield mdl-js-textfield is-upgraded is-focused"
+                      data-upgraded=",MaterialTextfield">
+                      <input id="awayScore" class="mdl-textfield__input" type="number" id="sample1">
+                      <label class="mdl-textfield__label" for="sample1"></label>
+                    </div>
+                    <span id="awayName" class="second-team"> Fluminence</span>
+                  </div>
+                  <div class="match_odds" style="display: none">
+                    <br>
+                    <span id="chipHome" class="class-chipHome mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">H</span>
+                      <span class="mdl-chip__text">home</span>
+                    </span>
+                    <span id="chipAway" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">A</span>
+                      <span class="mdl-chip__text">away</span>
+                    </span>
+                    <span id="chipDraw" class="mdl-chip mdl-chip--contact">
+                      <span class="mdl-chip__contact mdl-color--purple-500 mdl-color-text--white">D</span>
+                      <span class="mdl-chip__text">draw</span>
+                    </span>
+                  </div>
+                  <div class="under_over" style="display: none">
+                    <div>
+                      <br>
+                      <span id="chipUnder" class="mdl-chip mdl-chip--contact">
+                        <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">U</span>
+                        <span class="mdl-chip__text">under</span>
+                      </span>
+                      <span id="chipOver" class="mdl-chip mdl-chip--contact">
+                        <span class="mdl-chip__contact mdl-color--amber-A200 mdl-color-text--white">O</span>
+                        <span class="mdl-chip__text">over</span>
+                      </span>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield">
+                      <input id="operator" class="mdl-textfield__input" type="text" id="sample2">
+                      <label class="mdl-textfield__label" for="sample2">operator</label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield">
+                      <input id="odd" class="mdl-textfield__input" type="number" id="sample3">
+                      <label class="mdl-textfield__label" for="sample3"> odd</label>
+                    </div>
+                    <div class="mdl-textfield mdl-js-textfield">
+                      <input id="closeMinute" class="mdl-textfield__input" type="number" id="sample4">
+                      <label class="mdl-textfield__label" for="sample4">close min</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="stake">
+                <div class="position-dirty mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                  <label class="mdl-textfield__label" for="sample3">Stake</label>
+                  <br>
+                  <br>
+                  <span>
+                    <span class="values amount">$ <span id="valueStake">0.0</span></span>
+                    <span class="values perc"> <span id="valuePercStake">0.0</span>%</span>
+                  </span>
+                  <input id="sliderStake" class="mdl-slider mdl-js-slider" type="range" min="0" max="10000" value="0"
+                    tabindex="0">
+                </div>
+              </div>
+              <button id="btnBuild" type="submit" class="mdl-button mdl-js-button mdl-js-ripple-effect">Lets
+                cook!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
     <div class="mdl-snackbar__text"></div>
@@ -315,26 +426,17 @@
             <div class="mdl-navigation__link mdl-typography--text-uppercase">
               <i id="statusCloud" style="color: #767777" class="material-icons">cloud</i>
             </div>
-            <span> &nbsp</span>
             <button style="display:none; line-height: 0"
               class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <img id="" class="status-betfair" src="images/betfair-color.png" />
             </button>
-            <span> &nbsp</span>
-            <button style="display:none;  line-height: 0"
-              class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
-              <span class="cifra-brother">fakeMoney &nbsp</span>
-              <span id="fakeMoney">...</span>
-            </button>
-            <span> &nbsp</span>
             <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <span class="cifra-brother">b &nbsp</span>
               <span id="brotherBonus">...</span>
             </button>
-            <span> &nbsp</span>
             <button style="line-height: 0" class="mdl-button  mdl-navigation__link mdl-typography--text-uppercase">
               <span>$ &nbsp</span>
-              <span id="valueBudget">...</span>
+              <span id="money">...</span>
             </button>
           </nav>
         </div>
@@ -379,13 +481,7 @@
           </button>
           <div class="mdl-tooltip" data-mdl-for="btnNeural">Neural Network </div>
         </div>
-        <div>
-          <button id='btnTrain'
-            class="animated bounceInUp animated-delay-2 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
-            <i class="material-icons">model_training</i>
-          </button>
-          <div class="mdl-tooltip" data-mdl-for="btnDownload"> Train </div>
-        </div>
+
         <div>
           <button id='btnPredict'
             class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">

@@ -7,10 +7,15 @@ const router = express.Router();
 const db = admin.firestore();
 
 module.exports = router.post('/', (async (req, res) => {
-  const name = 'neuralNetworks';
+  const nameCol = 'neuralNetworks';
+  const nameDoc = 'indivualsNN';
   const data = req.body;
   const time = data.timestamp;
+  const { nameSet } = req.query;
 
-  const response = await db.collection(name).doc(time.toString()).set(data);
+  const response = await db.collection(nameCol).doc(nameDoc)
+    .collection(nameSet).doc(time.toString())
+    .set(data);
+
   res.send(response);
 }));

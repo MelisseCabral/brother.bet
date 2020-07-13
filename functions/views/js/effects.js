@@ -5,14 +5,11 @@
 
 // Actions functions.
 
-let statusCloud = false;
-
 $(document).ready(async () => {
-  statusCloud = await setMachineLearning();
-  if (statusCloud) {
-    return $('#statusCloud').css('color', '#ffb80c');
-  }
-  return $('#statusCloud').css('color', '#767777');
+  await setMachineLearning();
+  $('#statusCloud').css('color', '#ffb80c');
+  fillComboboxes();
+  initTrain();
 });
 
 function actions() {
@@ -30,7 +27,6 @@ function actions() {
     e.stopImmediatePropagation();
     if (statusCloud) {
       $('#trainFactory').show();
-      prepareTrain();
     } else {
       alert('Wait for it...');
     }
@@ -45,18 +41,13 @@ function actions() {
     }
   });
 
-  $('#btnTrain').off().click(async (e) => {
+  $('#btnPredict').off().click(async (e) => {
     e.stopImmediatePropagation();
     if (statusCloud) {
-      getTrain(getConfig());
+      $('#predictFactory').show();
     } else {
       alert('Wait for it...');
     }
-  });
-
-  $('#btnPredict').off().click(async (e) => {
-    e.stopImmediatePropagation();
-    alert('Predict MotherFocker');
   });
 
   $('#btnLogoutFun').off().click((e) => {
@@ -64,9 +55,10 @@ function actions() {
     logout();
   });
 
-  $('#btnCloseTrain').off().click((e) => {
+  $('.btn-close').off().click((e) => {
     e.stopImmediatePropagation();
     $('#trainFactory').hide();
+    $('#predictFactory').hide();
   });
 
   $('#btnSaveTrain').off().click((e) => {
@@ -74,9 +66,26 @@ function actions() {
     saveConfig();
   });
 
+  $('#btnCookPredict').off().click(async (e) => {
+    e.stopImmediatePropagation();
+    $('#tables').hide();
+    fillPrediction(getGameIsFilled());
+  });
+
+  $('#btnCookTrainReal').off().click(async (e) => {
+    e.stopImmediatePropagation();
+    if (statusCloud) {
+      increaseBrotherBonus();
+      getTrainIsTogether(getTrain);
+    } else {
+      alert('Wait for it...');
+    }
+  });
+
   $('#btnCookTrain').off().click((e) => {
     e.stopImmediatePropagation();
-    getNeuralNetwork(getConfig());
+    increaseMoney();
+    getTrainIsTogether(getNeuralNetwork);
   });
 
   $('#valueBudget').off().click((e) => {
@@ -109,6 +118,71 @@ function actions() {
   });
 }
 
+function increaseBrotherBonus() {
+  $('#brotherBonus').html(Number(Number($('#brotherBonus').html()) || 0) + 1);
+}
+
+function increaseMoney() {
+  $('#money').html(Number(Number($('#money').html()) || 0) + 1);
+}
+
+function getGameIsFilled() {
+  const game = {
+    teamA: { user: $('#cmbUserA').val(), team: $('#cmbTeamA').val() },
+    teamB: { user: $('#cmbUserB').val(), team: $('#cmbTeamB').val() },
+  };
+  if (game.teamA.user && game.teamA.team && game.teamB.user && game.teamB.team) return game;
+  return alert('You need fill all fields to predict.');
+}
+
+async function fillPrediction(game) {
+  if (game) {
+    const prediction = await getPredictionIsTogether(game);
+    const fixed = 7;
+    $('#tables').show();
+    $('#teamAWin').html(prediction[0].toFixed(fixed));
+    $('#draw').html(prediction[1].toFixed(fixed));
+    $('#teamBWin').html(prediction[2].toFixed(fixed));
+    $('#goalsTeamA').html(prediction[3].toFixed(fixed));
+    $('#goalsTeamB').html(prediction[4].toFixed(fixed));
+  }
+}
+
+async function getPredictionIsTogether(game) {
+  if ($('#together').prop('checked')) {
+    const predictionResult = await predict('trainGoalsSet', game);
+    const predictionGoals = await predict('trainResultSet', game);
+    return [...predictionResult, ...predictionGoals];
+  }
+  return predict('trainSet', game);
+}
+
+async function getTrainIsTogether(callback) {
+  const assets = getConfig();
+  if ($('#togetherTrain').prop('checked')) {
+    const assetsResult = JSON.parse(JSON.stringify(assets));
+    assetsResult.nameDataSet = 'trainResultSet';
+    callback(assetsResult);
+
+    const assetsGoals = JSON.parse(JSON.stringify(assets));
+    assetsGoals.nameDataSet = 'trainGoalsSet';
+    callback(assetsGoals);
+  } else {
+    const assetsDefault = JSON.parse(JSON.stringify(assets));
+    assetsDefault.nameDataSet = 'trainSet';
+    callback(assetsDefault);
+  }
+}
+
+async function fillComboboxes() {
+  const { users, teams } = await getUsersTeams();
+  const arrUsers = ['cmbUserA', 'cmbUserB'];
+  const arrTeams = ['cmbTeamA', 'cmbTeamB'];
+
+  users.forEach((each) => arrUsers.forEach((eachSel) => $(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
+  teams.forEach((each) => arrTeams.forEach((eachSel) => $(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
+}
+
 // Snackbar function.
 function snackbar(string) {
   const snackbarContainer = document.querySelector('#demo-snackbar-example');
@@ -129,13 +203,11 @@ function getBtnsState(propName) {
   if (truly.style.backgroundColor === 'rgb(250, 250, 250)') return true;
   return false;
 }
-
 function saveConfig() {
   localStorage.setItem('machineLearning', JSON.stringify(getConfig()));
 }
-
 function getConfig() {
-  const obj = JSON.parse(localStorage.getItem('machineLearning'));
+  const obj = JSON.parse(JSON.stringify(defaultML));
   obj.batches = $('#sldBatches').val();
   obj.learningRate = $('#sldLearningRate').val();
   obj.start = $('#sldStart').val();
@@ -145,11 +217,12 @@ function getConfig() {
   obj.validationPercent = $('#sldPercentValidation').val();
   obj.step = $('#sldStep').val();
   obj.plotPercent = $('#sldPlotPercent').val();
+  obj.saveEvery = $('#sldSaveEvery').val();
   return obj;
 }
 
 // Cook Train
-function prepareTrain() {
+function initTrain() {
   const {
     batches,
     learningRate,
@@ -319,7 +392,7 @@ function typedTchan() {
 // Main.
 $(document).ready(() => {
   views();
-  market();
+  // market();
   typedTchan();
   stake();
   actions();

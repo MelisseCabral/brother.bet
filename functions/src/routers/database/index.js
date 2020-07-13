@@ -6,11 +6,15 @@ const router = express.Router();
 const db = admin.firestore();
 
 module.exports = router.get('/', (async (req, res) => {
-  // const data = req.body;
+  const nameCol = 'neuralNetworks';
+  const nameDoc = 'indivualsNN';
+  const { nameSet } = req.query;
   let result;
 
   const snapshot = await db
-    .collection('neuralNetworks')
+    .collection(nameCol)
+    .doc(nameDoc)
+    .collection(nameSet)
     .orderBy('loss', 'asc')
     .limit(1)
     .get();
