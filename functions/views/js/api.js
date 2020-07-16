@@ -1,9 +1,18 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 // eslint-disable-next-line no-unused-vars
-async function api(route, data = '', method = 'get') {
+const origin = [];
+
+if (window.location.origin === 'http://127.0.0.1:5500') {
+  origin.push('http://localhost:5000');
+} else {
+  origin.push(window.location.origin);
+}
+
+async function OldApi(route, data = '', method = 'get') {
   return new Promise((resolve, reject) => {
     $.ajax({
-      url: window.location.origin + route,
+      url: origin[0] + route,
       dataType: 'json',
       cache: false,
       crossDomain: true,
@@ -22,6 +31,6 @@ async function api(route, data = '', method = 'get') {
   });
 }
 
-axios.create({
-  baseURL: window.location.origin,
+const api = axios.create({
+  baseURL: origin[0],
 });

@@ -39,6 +39,9 @@ const machineLearning = async (sets) => {
   const fitConfig = {
     validationSplit: validationPercent,
     shuffle: randomize,
+    callbacks: tf.callbacks.earlyStopping({
+      patience: 9,
+    }),
   };
 
   if (validationSet) {
@@ -50,14 +53,14 @@ const machineLearning = async (sets) => {
   const model = tf.sequential();
 
   const hiddenLayers = tf.layers.dense({
-    units: 4,
     inputShape: [9],
+    units: 4,
     activation: 'sigmoid',
   });
 
   const outputLayers = tf.layers.dense({
-    units: outputSplice[0].length,
     inputShape: [4],
+    units: outputSplice[0].length,
     activation: 'sigmoid',
   });
 

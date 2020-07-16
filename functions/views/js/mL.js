@@ -40,10 +40,6 @@ const mL = async (sets) => {
     loss: tf.losses.meanSquaredError,
   });
 
-  await model.save(tf.io.withSaveHandler((artifacts) => {
-    console.log(artifacts)
-  }));
-
   const train = async () => {
     const logs = [];
     for (let i = 0; i < batches; i += 1) {

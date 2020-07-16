@@ -7,9 +7,11 @@
 
 $(document).ready(async () => {
   await setMachineLearning();
-  $('#statusCloud').css('color', '#ffb80c');
+  initStorage();
   fillComboboxes();
   initTrain();
+  $('#statusCloud').css('color', '#ffb80c');
+  tableCheckGid();
 });
 
 function actions() {
@@ -26,6 +28,7 @@ function actions() {
   $('#btnNeural').off().click((e) => {
     e.stopImmediatePropagation();
     if (statusCloud) {
+      initTrain();
       $('#trainFactory').show();
     } else {
       alert('Wait for it...');
@@ -150,8 +153,8 @@ async function fillPrediction(game) {
 
 async function getPredictionIsTogether(game) {
   if ($('#together').prop('checked')) {
-    const predictionResult = await predict('trainGoalsSet', game);
-    const predictionGoals = await predict('trainResultSet', game);
+    const predictionResult = await predict('trainResultSet', game);
+    const predictionGoals = await predict('trainGoalsSet', game);
     return [...predictionResult, ...predictionGoals];
   }
   return predict('trainSet', game);
@@ -203,6 +206,7 @@ function getBtnsState(propName) {
   if (truly.style.backgroundColor === 'rgb(250, 250, 250)') return true;
   return false;
 }
+
 function saveConfig() {
   localStorage.setItem('machineLearning', JSON.stringify(getConfig()));
 }
@@ -270,10 +274,9 @@ function stake() {
 
 // Views
 function views() {
-  const viewsList = ['home', 'account', 'method', 'profit', 'contact', 'game', 'robot'];
+  const viewsList = ['home', 'account', 'method', 'profit', 'contact', 'game', 'robot', 'admin'];
 
   viewsList.forEach((showElement) => {
-    removeListeners();
     const key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
     $(key).click((e) => {
       e.stopImmediatePropagation();
@@ -350,6 +353,12 @@ function market() {
   });
 }
 
+function initStorage() {
+  if (!localStorage.getItem('machineLearning')) {
+    localStorage.setItem('machineLearning', JSON.stringify(defaultML));
+  }
+}
+
 function initMarket() {
   const marketWinList = ['chipHome', 'chipAway', 'chipDraw'];
 
@@ -392,7 +401,7 @@ function typedTchan() {
 // Main.
 $(document).ready(() => {
   views();
-  // market();
+  market();
   typedTchan();
   stake();
   actions();

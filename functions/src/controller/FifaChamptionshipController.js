@@ -1,26 +1,28 @@
 /* eslint-disable no-extend-native */
 /* eslint-disable no-use-before-define */
-const express = require('express');
 const axios = require('axios');
 const csv = require('csvtojson');
 
-const router = express.Router();
+module.exports = {
+  async index(req, res) {
+    const { key, sheetId } = req.query;
 
-module.exports = router.get('/', (async (req, res) => {
-  const { key, sheetId } = req.query;
+    const url = `https://docs.google.com/spreadsheets/d/${key}/export?format=csv&id=${key}&gid=${sheetId}`;
+    try {
+      const response = await axios.get(url);
+      const filename = getFilename(response);
+      const jsonArray = await csv().fromString(response.data);
+      const arr = removeKeys(jsonArray);
+      const arrValidated = validate(arr);
+      const arrStructured = struture(arrValidated);
+      const json = build(filename, sheetId, arrStructured);
 
-  const url = `https://docs.google.com/spreadsheets/d/${key}/export?format=csv&id=${key}&gid=${sheetId}`;
-  axios.get(url).then(async (response) => {
-    const filename = getFilename(response);
-    const jsonArray = await csv().fromString(response.data);
-    const arr = removeKeys(jsonArray);
-    const arrValidated = validate(arr);
-    const arrStructured = struture(arrValidated);
-    const json = build(filename, sheetId, arrStructured);
-
-    return res.send(json);
-  }).catch((error) => res.send(error));
-}));
+      res.send(json);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+};
 
 const getFilename = (response) => {
   const headerLine = response.headers['content-disposition'];

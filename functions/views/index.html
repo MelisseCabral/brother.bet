@@ -88,7 +88,7 @@
                 <span class="values slider-value">0</span>
                 <span class="slider-above">
                   <span class="no-border values amount"><input id="sldLearningRate" class="mdl-slider mdl-js-slider"
-                      type="range" min="0.001" max="5.0" step="0.001" value="-1"></span></span>
+                      type="range" min="0.001" max="10.0" step="0.001" value="-1"></span></span>
                 </span>
               </div>
             </div>
@@ -151,7 +151,7 @@
                 </span>
               </div>
             </div>
-            <div class="slider">
+            <div class="slider" style="display:none">
               <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
                 <label class="mdl-textfield__label" for="sample3">Plot Percent</label>
                 <br>
@@ -170,6 +170,17 @@
                 <span class="slider-above">
                   <span class="no-border values amount"><input id="sldSaveEvery" class="mdl-slider mdl-js-slider"
                       type="range" min="10" max="1000" step="10" value="-1"></span></span>
+                </span>
+              </div>
+            </div>
+            <div class="slider">
+              <div class="position-dirty slider-padding mdl-textfield mdl-js-textfield mdl-textfield--floating-label 	">
+                <label class="mdl-textfield__label" for="sample3">Hidden Layers</label>
+                <br>
+                <span class="values slider-value">0</span>
+                <span class="slider-above">
+                  <span class="no-border values amount"><input id="sldHiddenLayers" class="mdl-slider mdl-js-slider"
+                      type="range" min="1" max="100" step="1" value="-1"></span></span>
                 </span>
               </div>
             </div>
@@ -464,6 +475,7 @@
       <nav class="mdl-navigation">
         <a id="btnHomes" class="mdl-navigation__link">Home</a>
         <div class="android-drawer-separator"></div>
+        <a id="btnAdmins" class="mdl-navigation__link">Admin</a>
         <a id="btnAccounts" class="mdl-navigation__link">Account</a>
         <a id="btnMethods" class="mdl-navigation__link">Method</a>
         <a id="btnProfits" class="mdl-navigation__link">Profit</a>
@@ -704,8 +716,78 @@
       </table>
       </table>
     </div>
-    <div id="robot" style="display: none" class="android-content mdl-layout__content"></div>
-    <div id="profit" style="display: none" class="android-content mdl-layout__content"></div>
+    <div id="admin" style="display:none" class="mdl-grid ">
+      <div>
+        <div class="automations ">
+          <div>
+            <button id='btnNeural'
+              class="animated bounceInUp animated-delay-1 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+              <i class="material-icons">psychology</i>
+            </button>
+            <div class="mdl-tooltip" data-mdl-for="btnNeural">Neural Network </div>
+          </div>
+  
+          <div>
+            <button id='btnPredict'
+              class="animated bounceInUp animated-delay-3 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+              <i class="material-icons">insights</i>
+            </button>
+            <div class="mdl-tooltip" data-mdl-for="btnPredict"> Predict </div>
+          </div>
+          <div>
+            <button style="display:none" id="btnLogoutFun"
+              class="animated bounceInUp animated-delay-5 actions-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+              <i class="material-icons">accessible_forward</i>
+            </button>
+            <div class="mdl-tooltip" data-mdl-for="btnLogoutFun"> Logout </div>
+          </div>
+        </div>
+        <div id="home" style="display: block" class="android-content mdl-layout__content">
+          <div id="tchanTiped" class="init-content mdl-typography--text-center">
+            <div id="tchanTiped" class="logo-font android-slogan">
+              <span class="typed"></span>
+              <span class="typed-cursor"></span>
+              <div class="logo-font android-sub-slogan">welcome to brother bet. do your thing. see what's going on.
+              </div>
+            </div>
+          </div>
+          <div id="betters"></div>
+          <div id="games" style="display:none" class="mdl-grid ">
+            <table
+              class="mdl-data-dynamictable mdl-data-table__row--selectable mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+              <thead>
+                <tr>
+                  <th id="checkbox-all-games" class="mdl-data-table__cell--non-numeric">Game</th>
+                  <th>Country</th>
+                  <th>Time Begin</th>
+                  <th>Timezone</th>
+                  <th>Venue</th>
+                  <th>Market Count</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            </table>
+          </div>
+        </div>
+      </div>
+      <table
+        class="mdl-data-dynamictable mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+        <thead>
+          <tr>
+            <th class="mdl-data-table__cell--non-numeric">Day</th>
+            <th class="mdl-data-table__cell--non-numeric">Id</th>
+            <th class="mdl-data-table__cell--non-numeric">Verified</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      </table>
+    </div>
+    <div id="robot" style="display: block" class="android-content mdl-layout__content"></div>
+    <div id="profit" style="display: block" class="android-content mdl-layout__content"></div>
     <div id="contact" class="android-content mdl-layout__content">
       <main class="init-content mdl-layout__content">
         <div class="mdl-grid portfolio-max-width portfolio-contact">
@@ -836,13 +918,14 @@
         <script src="js/api.js"></script>
         <script src="js/typed.js"></script>
         <script src="js/insert.js"></script>
-        <script src="js/betfair.js"></script>
         <script src="js/robots.js"></script>
         <script src="js/gids.js"></script>
+        <script src="js/database.js"></script>
         <script src="js/fifa.js"></script>
         <script src="js/machineLearning.js"></script>
         <script src="js/mL.js"></script>
         <script src="js/effects.js"></script>
+        <script src="js/tablesEffect.js"></script>
       </footer>
 </body>
 

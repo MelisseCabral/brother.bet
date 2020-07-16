@@ -1,10 +1,13 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-extend-native */
+/* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-bitwise */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-await-in-loop */
-/* eslint-disable no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable vars-on-top */
 /* eslint-disable no-var */
@@ -13,22 +16,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 
-const dataSet = [];
 const truncatedLogs = [];
-
-// let logs = [];
-
-const vHash = 1976214949;
-
-const tablesIds = [
-  'dataSet',
-  'datedSet',
-  'gamesSet',
-  'aggregatedTrainSet',
-  'trainSet',
-  'trainResultSet',
-  'trainGoalsSet',
-];
 
 // eslint-disable-next-line prefer-const
 let init = false;
@@ -43,34 +31,43 @@ const defaultML = {
   normalization: true,
   validationPercent: 0.3,
   plotPercent: 1,
-  saveEvery: 10,
+  saveEvery: 1000,
+};
+
+const getFifaDatabase = async (year) => {
+  const dataSet = [];
+  const getAllDays = await getDays(year);
+  for (let i = 0; i < getAllDays.length; i += 1) {
+    const data = await getData(year, getAllDays[i]);
+    if (data) {
+      dataSet.push(data);
+      if (i === getAllDays.length - 1) {
+        return dataSet;
+      }
+    } else {
+      console.log(getAllDays[i], response);
+      await delay(2);
+      i -= 1;
+    }
+  }
 };
 
 const getFifaCloud = async () => {
-  const data = {
-    key: '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A',
-    sheetId: '',
-  };
-
-  try {
-    for (let i = 0; i < idsTabelas.length; i += 1) {
-      data.sheetId = idsTabelas[i];
-      const response = await api('/getCSV', data);
-      if (response.data) {
-        dataSet.push(response);
-        if (i === idsTabelas.length - 1) {
-          await dataTooler(dataSet);
-        }
-      } else {
-        await delay(2);
-        i -= 1;
-        console.log(idsTabelas[i], response);
-      }
+  const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
+  for (let i = 0; i < gidsTables.length; i += 1) {
+    const sheetId = gidsTables[i];
+    const data = await getSource(key, sheetId);
+    if (data) {
+      await postData(data);
+    } else {
+      await delay(2);
+      i -= 1;
+      console.log(gidsTables[i], response);
     }
-  } catch (error) {
-    console.log('dataError', JSON.stringify({ error }));
   }
 };
+
+const organizeObject = (obj) => Object.keys(obj).sort((a, b) => (obj[a] > obj[b] ? 1 : -1)).reduce((a, b) => { a[b] = obj[b]; return a; }, {});
 
 const delay = (timeSeconds) => new Promise((resolve) => {
   setTimeout(resolve, timeSeconds * 1000);
@@ -184,21 +181,8 @@ const getGameOutput = (game) => {
 
 const getGameInput = (games, teams, lastIndex) => {
   const game = games[lastIndex];
-
   const gamesSpliced = games.slice(0, lastIndex + 1);
-
-  const { teamA, teamB } = getTeamsInput(gamesSpliced, teams, game);
-
-  const tensorA = tf.tensor(teamA);
-  const tensorB = tf.tensor(teamB);
-  const tensorInput = tensorA.sub(tensorB);
-  const input = Array.from(tensorInput.dataSync());
-
-  tensorA.dispose();
-  tensorB.dispose();
-  tensorInput.dispose();
-
-  return input;
+  return getTeamsInput(gamesSpliced, teams, game);
 };
 
 const getTeamsInput = (games, teams, game) => {
@@ -290,35 +274,47 @@ const getListUsers = (games) => {
   return users;
 };
 
-const aggregationTrain = (games) => {
+const aggregationTrain = (games, teams) => {
   const agg = [];
-  const teams = getRankTeams(games);
   games.forEach((each, indexof) => {
     const output = getGameOutput(each);
-    const input = getGameInput(games, teams, indexof);
+    const input = Object.values(getGameInput(games, teams, indexof));
     agg.push({ input, output });
   });
   return agg;
 };
 
-const getPredictInput = (games) => {
-  const users = getListUsers(games);
-  const teams = getRankTeams(games);
-  const output = getGameOutput(each);
-  const { teamA, teamB } = getTeamsInput(gamesSpliced, teams, game);
+const addedTrain = (data) => {
+  const inputs = [];
+  data.input.forEach((each) => {
+    const tensorA = tf.tensor(each[0]);
+    const tensorB = tf.tensor(each[1]);
+    const tensorInput = tensorA.sub(tensorB);
+    const input = Array.from(tensorInput.dataSync());
+    inputs.push(input);
+
+    tensorA.dispose();
+    tensorB.dispose();
+    tensorInput.dispose();
+
+    return input;
+  });
+
+  return { input: inputs, output: data.output };
 };
 
 const getUsersTeams = async () => {
   const games = await getTable('gamesSet');
+  const teamsSet = await getTable('teamsSet');
   const users = getListUsers(games);
-  const teams = Object.keys(getRankTeams(games));
+  const teams = Object.keys(teamsSet);
   return { users, teams };
 };
 
-const splitInputOutput = (dataSet) => {
+const splitInputOutput = (data) => {
   const input = [];
   const output = [];
-  dataSet.forEach((each) => {
+  data.forEach((each) => {
     input.push(each.input);
     output.push(each.output);
   });
@@ -360,82 +356,98 @@ const getTrainValidation = (data, percentTrainSet) => {
   return { trainSet, validationSet };
 };
 
-const spliceResultOutput = (dataSet) => {
-  const { input } = dataSet;
-  const output = dataSet.output.map((each) => each.slice(0, 3));
+const spliceResultOutput = (data) => {
+  const { input } = data;
+  const output = data.output.map((each) => each.slice(0, 3));
 
   return { input, output };
 };
 
-const spliceGoalsOutput = (dataSet) => {
-  const { input } = dataSet;
-  const output = dataSet.output.map((each) => each.slice(3, 6));
+const spliceGoalsOutput = (data) => {
+  const { input } = data;
+  const output = data.output.map((each) => each.slice(3, 6));
 
   return { input, output };
 };
 
-const dataTooler = async (dataSet) => {
-  const datedSet = await saveGetDataSet(dataSet);
+const dataTooler = async (data) => {
+  const datedSet = await saveGetDataSet(data);
   const newDatedSet = await saveGetDatedDataSet(datedSet);
   const gamesSet = await saveGetGamesSet(newDatedSet);
-  const aggTrainSet = await saveGetTrainAggregatedSet(gamesSet);
+  const teamsSet = await saveGetTeamsSet(gamesSet);
+  const aggTrainSet = await saveGetTrainAggregatedSet(gamesSet, teamsSet);
   const trainSet = await saveGetTrainSet(aggTrainSet);
+  await saveGetTrainAddedSet(trainSet);
   await saveGetResultSet(trainSet);
   await saveGetGoalsSet(trainSet);
   const trainValidationSet = await saveGetTrainValidationSet(trainSet);
   return trainValidationSet;
 };
 
-const saveGetDataSet = async (dataSet) => {
+const saveGetDataSet = async (data) => {
   deleteTableDB('dataSet');
-  createTableDB(dataSet, 'dataSet', 'date', 'id');
+  createTableDB(data, 'dataSet', 'date', 'id');
   return getIndexed('dataSet', 'date');
 };
 
-const saveGetDatedDataSet = async (dataSet) => {
+const saveGetDatedDataSet = async (data) => {
   deleteTableDB('datedSet');
-  createTableDB(dataSet, 'datedSet');
+  createTableDB(data, 'datedSet');
   return getTable('datedSet');
 };
 
-const saveGetGamesSet = async (dataSet) => {
+const saveGetGamesSet = async (data) => {
   deleteTableDB('gamesSet');
-  const gamesSet = getJustData(dataSet);
+  const gamesSet = getJustData(data);
   createTableDB(gamesSet, 'gamesSet');
   return getTable('gamesSet');
 };
 
-const saveGetTrainAggregatedSet = async (dataSet) => {
+const saveGetTeamsSet = async (data) => {
+  deleteTableDB('teamsSet');
+  const teamsSet = getRankTeams(data);
+  createTableDB([teamsSet], 'teamsSet');
+  return getTable('teamsSet');
+};
+
+const saveGetTrainAggregatedSet = async (gamesSet, teamsSet) => {
   deleteTableDB('aggregatedTrainSet');
-  const aggSet = aggregationTrain(dataSet);
+  const aggSet = aggregationTrain(gamesSet, teamsSet);
   createTableDB(aggSet, 'aggregatedTrainSet');
   return getTable('aggregatedTrainSet');
 };
 
-const saveGetTrainSet = async (dataSet) => {
+const saveGetTrainSet = async (data) => {
   deleteTableDB('trainSet');
-  const trainSet = splitInputOutput(dataSet);
+  const trainSet = splitInputOutput(data);
   createTableDB([trainSet], 'trainSet');
   return getTable('trainSet');
 };
 
-const saveGetResultSet = async (dataSet) => {
+const saveGetTrainAddedSet = async (data) => {
+  deleteTableDB('addedTrainSet');
+  const addedTrainSet = addedTrain(data);
+  createTableDB([addedTrainSet], 'addedTrainSet');
+  return getTable('addedTrainSet');
+};
+
+const saveGetResultSet = async (data) => {
   deleteTableDB('trainResultSet');
-  const trainResultSet = spliceResultOutput(dataSet);
+  const trainResultSet = spliceResultOutput(data);
   createTableDB([trainResultSet], 'trainResultSet');
   return getTable('trainResultSet');
 };
 
-const saveGetGoalsSet = async (dataSet) => {
+const saveGetGoalsSet = async (data) => {
   deleteTableDB('trainGoalsSet');
-  const trainGoalsSet = spliceGoalsOutput(dataSet);
+  const trainGoalsSet = spliceGoalsOutput(data);
   createTableDB([trainGoalsSet], 'trainGoalsSet');
   return getTable('trainGoalsSet');
 };
 
-const saveGetTrainValidationSet = async (dataSet) => {
+const saveGetTrainValidationSet = async (data) => {
   deleteTableDB('trainValidationSet');
-  const trainValidationSets = getTrainValidation(dataSet, 0.7);
+  const trainValidationSets = getTrainValidation(data, 0.7);
   createTableDB([trainValidationSets], 'trainValidationSet');
   return getTable('trainValidationSet');
 };
@@ -490,41 +502,54 @@ const isValid = (data) => {
   return false;
 };
 
-const trainSetAvailable = async () => {
+const databaseConsistency = async () => {
   const dbs = await window.indexedDB.databases();
+  const hashes = {};
   if (dbs) {
+    const tablesIds = [
+      'teamsSet',
+      'aggregatedTrainSet',
+      'trainSet',
+      'trainResultSet',
+      'trainGoalsSet',
+    ];
     const idsTables = dbs.map((value) => value.name);
-    const database = [];
-    let trainSet;
     for (const each of tablesIds) {
       if (idsTables.includes(each)) {
         const table = await getTable(each);
-        if (each === 'trainSet') trainSet = table;
-        database.push(JSON.stringify(table));
+        hashes[each] = hash(table);
       }
     }
-    const newHash = hash(database);
-    if (newHash === vHash) return trainSet;
   }
+  return hashes;
+};
+
+const databaseIsConsistent = async () => {
+  const newConsistency = await databaseConsistency();
+  const oldConsistency = await getDatabaseConsistency();
+  const orgNewConsistency = JSON.stringify(organizeObject(newConsistency));
+  const orgOldConsistency = JSON.stringify(organizeObject(oldConsistency));
+
+  if (orgNewConsistency === orgOldConsistency) return true;
   return false;
 };
 
+const setDatabaseConsistency = async () => {
+  const newConsistency = await databaseConsistency();
+  await postDatabaseConsistency(newConsistency);
+};
+
 const setMachineLearning = async () => {
-  const trainSet = await trainSetAvailable();
-  if (!trainSet) {
-    await deleteAllDB();
-    await getFifaCloud();
-    await setMachineLearning();
+  if (!await databaseIsConsistent()) {
+    const dataSet = await getFifaDatabase();
+    await dataTooler(dataSet);
+    return setMachineLearning();
   }
+  const trainSet = await getTable('trainSet');
 
   defaultML.end = trainSet.input.length;
   defaultML.max = trainSet.input.length;
   defaultML.step = trainSet.input.length;
-
-  if (!localStorage.getItem('machineLearning')) {
-    localStorage.setItem('machineLearning', JSON.stringify(defaultML));
-  }
-
   return true;
 };
 
@@ -533,6 +558,29 @@ const hash = (data) => {
   let h = 0; const l = s.length; let i = 0;
   if (l > 0) while (i < l) h = (h << 5) - h + s.charCodeAt(i++) | 0;
   return h;
+};
+
+const generateDaysofYear = (year) => {
+  const allDaysOfYear = [];
+  for (let month = 1; month < 13; month += 1) {
+    const daysOfMonth = new Date(year, month, 0).getDate();
+    for (let day = 1; day < daysOfMonth + 1; day += 1) {
+      allDaysOfYear.push(`${year}.${addZeros(month)}.${addZeros(day)}`);
+    }
+  }
+  return allDaysOfYear;
+};
+
+const addZeros = (number) => {
+  if (number < 10) return `0${number}`;
+  return number;F
+};
+
+const getRegisteredDays = async () => {
+  const datedSet = await getTable('datedSet');
+  const registeredIds = {};
+  datedSet.forEach((each) => { registeredIds[each.date] = each.id; });
+  return registeredIds;
 };
 
 const getNeuralNetwork = async (assets) => {
@@ -572,7 +620,7 @@ const getNeuralNetwork = async (assets) => {
     });
 
     if (init) {
-      axios.post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
+      api.post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
         .then((response) => {
           console.log(response);
         })
@@ -604,11 +652,11 @@ const getTrain = async (assets) => {
   assets.batches = saveEvery;
 
   for (let i = 0; i < fakeBatches; i += 1) {
-    const { data } = await axios.get(`/index?nameSet=${nameDataSet}`);
+    const { data } = await api.get(`/index?nameSet=${nameDataSet}`);
 
     const result = await mL({ trainSet, neuralNetwork: data.neuralNetwork, ...assets });
 
-    axios.post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
+    api.post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
       .then((response) => {
         console.log(response);
       })
@@ -622,7 +670,7 @@ const getTrain = async (assets) => {
 
 const predict = async (nameDataSet, game) => {
   const games = await getTable('gamesSet');
-  const teams = getRankTeams(games);
+  const teams = await getTable('teamsSet');
 
   const { teamA, teamB } = getTeamsInput(games, teams, game);
 
@@ -630,7 +678,7 @@ const predict = async (nameDataSet, game) => {
   const tensorB = tf.tensor(teamB);
   const input = Array(tensorA.sub(tensorB).dataSync());
 
-  const { data } = await axios.get(`/index?nameSet=${nameDataSet}`);
+  const { data } = await api.get(`/index?nameSet=${nameDataSet}`);
 
   const prediction = mLPrediction(input, data.neuralNetwork);
 

@@ -1,22 +1,30 @@
-/* eslint-disable import/no-unresolved */
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const app = require('express')();
+const express = require('express');
 const cors = require('cors');
+const { errors } = require('celebrate');
+
+const routes = require('./src/routes');
+
+const app = express();
 
 // Init firebase.
-admin.initializeApp(functions.config().firebase);
-admin.firestore().settings({ timestampsInSnapshots: true });
 
 // Automatically allow cross-origin requests
-app.use(cors());
+app.use(cors(
+  // origin: ''
+));
 
 // Routers requires and calls.
-app.use('/getCsv', require('./src/routers/fifa/getCSV'));
-app.use('/create', require('./src/routers/database/create'));
-app.use('/index', require('./src/routers/database/index'));
+app.use(express.json());
+app.use(routes);
+app.use(errors());
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions
+  .runWith({
+    timeoutSeconds: 300,
+    memory: '1GB',
+  })
+  .https.onRequest(app);
 
 // const engine = require('consolidate');
 // const bodyParser = require('body-parser');
