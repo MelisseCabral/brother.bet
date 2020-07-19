@@ -11,13 +11,30 @@ $(document).ready(() => {
 });
 
 async function initEffect() {
-  await setMachineLearning();
+  $('#statusCloud').css('color', 'var(--contrast_primary_color_3)');
+  const { users, teams, dataSet } = await setMachineLearning();
+  addTableRankTeams('user', users);
+  addTableRankTeams('team', teams);
+  tableCheckGid(2020, dataSet);
+  fillComboboxes(users, teams);
   initStorage();
-  fillComboboxes();
   initTrain();
-  tableCheckGid(2020);
-  addTableRankTeams();
+  $('#progress').removeClass('mdl-progress__indeterminate');
   $('#statusCloud').css('color', 'var(--terciary_color_1)');
+  debugTime('end');
+}
+
+let globalSeconds = 0;
+let initTime = 0;
+const degguging = [true];
+function debugTime(msg) {
+  if (degguging[0]) {
+    const d = new Date();
+    seconds = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+    if (globalSeconds === 0) initTime = seconds;
+    console.log(seconds - globalSeconds, seconds - initTime, msg);
+    globalSeconds = seconds;
+  }
 }
 
 function actions() {
@@ -154,6 +171,16 @@ function actions() {
   });
 }
 
+function preloader() {
+  $(window).on('load', () => {
+    // will first fade out the loading animation
+    $('#loader').fadeOut('slow', () => {
+      // will fade out the whole DIV that covers the website.
+      $('#preloader').delay(300).fadeOut('slow');
+    });
+  });
+}
+
 function registerFactoryClose() {
   $('#registerFactory').hide();
   $('#registerFactory').find('table').show();
@@ -215,8 +242,10 @@ async function getTrainIsTogether(callback) {
   }
 }
 
-async function fillComboboxes() {
-  const { users, teams } = await getUsersTeams();
+async function fillComboboxes(usersSet, teamsSet) {
+  const users = Object.keys(usersSet);
+  const teams = Object.keys(teamsSet);
+
   const arrUsers = ['cmbUserA', 'cmbUserB'];
   const arrTeams = ['cmbTeamA', 'cmbTeamB'];
 
@@ -442,5 +471,6 @@ $(document).ready(() => {
   typedTchan();
   stake();
   actions();
+  preloader();
   $('#btnHomes').click();
 });

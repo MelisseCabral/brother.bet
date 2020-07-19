@@ -9,6 +9,27 @@ h4 {
   padding-left: 12% !important;
 }
 
+@media screen and (min-width: 768px) {
+  ::-webkit-scrollbar-track
+  {
+    background-color: transparent;
+    border-radius: 1px;
+  }
+  ::-webkit-scrollbar
+  {
+    width: 0.8rem;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb
+  {
+    border-radius: 10px;
+    background-color: var(--terciary_color_1);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%,
+                   color-stop(.5, var(--secondary_color_1)),              
+                   color-stop(.5, var(--secondary_color_1)), to(var(--secondary_color_5)))
+  }
+}
+
 /* Variables */
 
 :root {
@@ -33,15 +54,29 @@ h4 {
   --secondary_color_4: rgb(27, 248, 82);
   --secondary_color_5: rgb(0, 255, 64);
 
+  --terciary_color_0: rgb(248, 193, 220);
   --terciary_color_1: rgb(255, 128, 191);
-  --terciary_color_2: rgb(149, 128, 255);
-  --terciary_color_3: rgb(149, 128, 255);
-  --terciary_color_4: rgb(149, 128, 255);
-  --terciary_color_5: rgb(149, 128, 255);
+  --terciary_color_2: rgb(243, 119, 181);
+  --terciary_color_3: rgb(236, 93, 141);
+  --terciary_color_4: rgb(245, 68, 127);
+  --terciary_color_5: rgb(233,30,99);
 
   --quaternary_color_2: rgb(149, 128, 255);
-  
+}
 
+.mdl-progress {
+    width: 100%;
+}
+.mdl-progress.mdl-progress--indeterminate>.bar1, .mdl-progress.mdl-progress__indeterminate>.bar1, .mdl-progress.mdl-progress--indeterminate>.bar3, .mdl-progress.mdl-progress__indeterminate>.bar3{
+  background-color: var(--secondary_color_5);
+}
+
+.mdl-progress:not(.mdl-progress--indeterminate):not(.mdl-progress--indeterminate)>.auxbar, .mdl-progress:not(.mdl-progress__indeterminate):not(.mdl-progress__indeterminate)>.auxbar{
+      background-image: linear-gradient(to right,rgba(255,255,255,1),rgba(255,255,255,1)),linear-gradient(to right,var(--secondary_color_1),var(--secondary_color_1));
+}
+
+.mdl-progress>.bufferbar {
+  background-image: linear-gradient(to right,rgba(255,255,255,1),rgba(255,255,255,1)),linear-gradient(to right,var(--secondary_color_1),var(--secondary_color_1));
 }
 
 .mdl-layout__content{
@@ -62,13 +97,26 @@ h4 {
 }
 
 .page-content tbody th{
-  color:var(--contrast_primary_color_3);
+  color: revert;
   font-weight: 200;
 }
 
 .page-content tbody{
   background:var(--primary_color_3);
   color:var(--contrast_primary_color_2);
+}
+
+.link{
+  color: var(--secondary_color_1) !important;
+}
+
+tr:hover .link {
+  color: black!important;
+}
+
+.page-content .mdl-data-table tbody tr:hover {
+  background-color: var(--secondary_color_1);
+  color: black;
 }
 
 .mdl-layout.is-upgraded .mdl-layout__tab.is-active{
@@ -136,6 +184,10 @@ h4 {
   color: var(--terciary_color_1) !important;
 }
 
+.page-content .mdl-data-table  th, .page-content .mdl-data-table  i{
+  font-weight: lighter;
+}
+
 .page-content  .mdl-data-table td:first-of-type,  .page-content .mdl-data-table th:first-of-type {
   padding-left: 0px !important;
 }
@@ -182,7 +234,7 @@ a img {
 
 .mdl-layout__content {
   width: 100vw;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 69px);
 }
 
 #trainFactory .mdl-textfield__label, #predictFactory .mdl-textfield__label {

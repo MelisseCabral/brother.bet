@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 const admin = require('firebase-admin');
 
 // Init firebase.
@@ -16,17 +18,43 @@ module.exports = {
     res.send(response);
   },
 
+  async bundle(req, res) {
+    const nameCol = 'fifaChamptionship';
+    const { year } = req.query;
+    const files = [];
+    const snapshots = [];
+
+    const collections = await db.collection(nameCol).doc(year).listCollections();
+    const dates = collections.map((col) => col.id);
+
+    for (const date of dates) {
+      snapshots.push(db.collection(nameCol).doc(year).collection(date).get());
+    }
+
+    Promise.all(snapshots)
+      .then((results) => {
+        results.forEach((snapshot) => {
+          snapshot.forEach((doc) => files.push(doc.data()));
+        });
+        res.send(files);
+      })
+      .catch((error) => console.log('Got an error', error));
+  },
+
   async index(req, res) {
     const nameCol = 'fifaChamptionship';
     const { year, date } = req.query;
     const files = [];
 
     const snapshot = await db.collection(nameCol).doc(year).collection(date).get();
+
+    if (snapshot.empty) return res.send('No matching document.');
+
     snapshot.forEach((doc) => {
       files.push(doc.data());
     });
 
-    res.send(files[0]);
+    return res.send(files[0]);
   },
 
 };

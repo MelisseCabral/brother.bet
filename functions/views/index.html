@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+  <div id="preloader">
+    <div id="loader"></div>
+  </div>
   <meta charset="utf-8">
   <!-- <meta http-equiv="refresh" content="1"> -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,11 +19,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.pink-light_green.min.css" />
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/loader.css">
   <link rel="stylesheet" href="css/animate.css">
   <!-- Offline-->
 </head>
 
 <body>
+  <div id="progress" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
   <form autocomplete="off" autocomplete="nope" style="display:none">
     <input name="email" type="text">
     <input name="email" type="text">
@@ -485,12 +490,12 @@
         <a id="btnHomes" class="mdl-navigation__link">Home</a>
         <div class="android-drawer-separator"></div>
         <a id="btnAdmins" class="mdl-navigation__link">Admin</a>
-        <a id="btnAccounts" class="mdl-navigation__link">Account</a>
+        <!-- <a id="btnAccounts" class="mdl-navigation__link">Account</a>
         <a id="btnMethods" class="mdl-navigation__link">Method</a>
         <a id="btnProfits" class="mdl-navigation__link">Profit</a>
         <a id="btnContacts" class="mdl-navigation__link">Contact</a>
         <div class="android-drawer-separator"></div>
-        <a id="btnLogout" class="mdl-navigation__link">Logout</a>
+        <a id="btnLogout" class="mdl-navigation__link">Logout</a> -->
       </nav>
     </div>
     <div>
@@ -525,7 +530,7 @@
             <!-- Tabs -->
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
               <a href="#scroll-tab-1" style="display:none" class="mdl-layout__tab is-active">test</a>
-              <a href="#scroll-tab-2" class="mdl-layout__tab">Rank Users</a>
+              <a href="#tabRankUsers" class="mdl-layout__tab">Rank Users</a>
               <a href="#tabRankTeams" class="mdl-layout__tab">Rank Teams</a>
             </div>
           </header>
@@ -543,93 +548,7 @@
                 </div>
               </div>
             </section>
-            <section class="mdl-layout__tab-panel" id="scroll-tab-2">
-              <div class="page-content">
-                <table class="mdl-data-dynamictable  mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
-                  <thead class="tHeadOver">
-                    <tr>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th class="tableGoals"> Goals </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> Under </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                    </tr>
-                  </thead>
-                  <thead>
-                    <tr>
-                      <th>
-                        Both Score
-                        <i class=" material-icons">arrow_upward</i>
-                      </th>
-                      <th>
-                        Games
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableGoals">
-                        Pro
-                        <i class=" material-icons">filter_alt</i>
-                      </th class="tableGoals">
-                      <th class="tableGoals">
-                        Con
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableGoals">
-                        Med
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableGoals">
-                        Pro Med
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableGoals">
-                        Con Med
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th>
-                        .5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th>
-                        1.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th>
-                        2.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th>
-                        3.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th>
-                        4.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th>
-                        5.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th>
-                        6.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-            <section class="mdl-layout__tab-panel" id="tabRankTeams">
+            <section class="mdl-layout__tab-panel" id="tabRankUsers">
               <div class="page-content">
                 <table class="mdl-data-dynamictable  mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
                   <thead>
@@ -644,10 +563,7 @@
                       <th> </th>
                       <th> </th>
                       <th> </th>
-                      <th> </th>
-                      <th class="tableOdd"> Under </th>
-                      <th> </th>
-                      <th> </th>
+                      <th class="tableOdd">Under </th>
                       <th> </th>
                       <th> </th>
                       <th> </th>
@@ -655,12 +571,11 @@
                       <th class=""> Over </th>
                       <th> </th>
                       <th> </th>
-                      <th> </th>
                     </tr>
                   </thead>
                   <thead class="tHeadAbove">
                     <tr>
-                      <th>
+                      <th class="link">
                         Team
                         <i class=" material-icons">filter_alt</i>
                       </th>
@@ -668,7 +583,7 @@
                         Games
                         <i class=" material-icons">filter_alt</i>
                       </th>
-                       <th class="">
+                      <th class="">
                         Pro
                         <i class=" material-icons">filter_alt</i>
                       </th>
@@ -712,12 +627,106 @@
                         4.5
                         <i class=" material-icons">filter_alt</i>
                       </th>
-                      <th class="tableOdd">
-                        5.5
+                      <th class="">
+                        .5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="">
+                        1.5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="">
+                        2.5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="">
+                        3.5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section class="mdl-layout__tab-panel" id="tabRankTeams">
+              <div class="page-content">
+                <table class="mdl-data-dynamictable  mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+                  <thead>
+                    <tr>
+                      <th> </th>
+                      <th> </th>
+                      <th class=""> Goal</th>
+                      <th class="">s Med </th>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                      <th class="tableOdd"> Under </th>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                      <th> </th>
+                      <th class=""> Over </th>
+                      <th> </th>
+                      <th> </th>
+                    </tr>
+                  </thead>
+                  <thead class="tHeadAbove">
+                    <tr>
+                      <th class="link">
+                        Team
                         <i class=" material-icons">filter_alt</i>
                       </th>
                       <th class="tableOdd">
-                        6.5
+                        Games
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="">
+                        Pro
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="">
+                        Con
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="tableOdd">
+                        Wins
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="">
+                        Draws
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="tableOdd">
+                        Losses
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="">
+                        Both Score
+                        <i class=" material-icons">arrow_upward</i>
+                      </th>
+                      <th class="tableOdd">
+                        .5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="tableOdd">
+                        1.5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="tableOdd">
+                        2.5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="tableOdd">
+                        3.5
+                        <i class=" material-icons">filter_alt</i>
+                      </th>
+                      <th class="tableOdd">
+                        4.5
                         <i class=" material-icons">filter_alt</i>
                       </th>
                       <th class="">
@@ -738,14 +747,6 @@
                       </th>
                       <th class="">
                         4.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        5.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        6.5
                         <i class=" material-icons">filter_alt</i>
                       </th>
                     </tr>
@@ -1079,7 +1080,9 @@
       </div>
       <footer>
         <!-- jQuery -->
-        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/plugins/jquery-3.3.1.min.js"></script>
+        <script src="js/plugins/typed.js"></script>
+        <script src="js/plugins/pace.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
         <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js "></script>
@@ -1087,7 +1090,6 @@
         <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-auth.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="js/api.js"></script>
-        <script src="js/typed.js"></script>
         <script src="js/betfair.js"></script>
         <script src="js/insert.js"></script>
         <script src="js/robots.js"></script>
@@ -1099,6 +1101,9 @@
         <script src="js/effects.js"></script>
         <script src="js/tablesEffect.js"></script>
       </footer>
+
+
 </body>
+
 
 </html>

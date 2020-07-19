@@ -3,8 +3,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
-const tableCheckGid = async (year) => {
-  const registeredIds = await getRegisteredDays();
+const tableCheckGid = async (year,dataSet) => {
+  const registeredIds = await getRegisteredDays(dataSet);
   const allDaysOfYear = generateDaysofYear(year);
 
   const addCheckGid = (day, idsByDay) => {
@@ -80,47 +80,45 @@ const registerGids = async () => {
     addGidToTable(gid, response);
   }
   if (error.includes(true)) {
-    $('#statusCloud').css('color', '#757575');
     await setDatabaseConsistency();
-    await initEffect();
   }
 };
 
-const addTableRankTeams = async () => {
-  const teams = await getTable('teamsSet');
+const addTableRankTeams = async (nameScope, teams) => {
+  const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1)}s`;
+
   const nameTeams = Object.keys(teams);
 
-  $('#tabRankTeams').find('table').find('tbody').html('');
-  nameTeams.forEach((each) => {
-    const team = teams[each];
-    const fixed = 0;
-    $('#tabRankTeams').find('table').find('tbody').append(
+  $(id).find('table').find('tbody').html('');
+
+  nameTeams.forEach((nameTeam) => {
+    const team = teams[nameTeam][teams[nameTeam].length - 1];
+    const idTh = `${nameTeam + hash(team)}`;
+    const fixed = 1;
+
+    $(id).find('table').find('tbody').append(
       `
       <tr>
-        <th>${each}</th>
-        <th>${team.gamesCount}</th>
+        <th class="link" id="${idTh}">${nameTeam}</th>
+        <th>${team.games}</th>
         <th>${team.goalsPro.toFixed(2)}</th>
         <th>${team.goalsCon.toFixed(2)}</th>
-        <th >${team.wins}</th>
-        <th >${team.draws}</th>
-        <th >${team.losses}</th>
+        <th >${(team.wins * 100).toFixed(fixed)}%</th>
+        <th >${(team.draws * 100).toFixed(fixed)}%</th>
+        <th >${(team.losses * 100).toFixed(fixed)}%</th>
         <th >${(team.bothScore * 100).toFixed(fixed)}%</th>
         <th >${(team.underHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.underOneAndHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.underTwoAndHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.underThreeAndHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.underFourAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.underFiveAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.underSixAndHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.overHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.overOneAndHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.overTwoAndHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.overThreeAndHalf * 100).toFixed(fixed)}%</th>
         <th >${(team.overFourAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.overFiveAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.overSixAndHalf * 100).toFixed(fixed)}%</th>
       </tr>
-    `,
+      `,
     );
   });
 };

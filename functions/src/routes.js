@@ -33,11 +33,7 @@ routes.post('/databaseConsistency', celebrate({
     }),
   [Segments.BODY]:
     Joi.object().keys({
-      teamsSet: Joi.number().integer().required(),
       aggregatedTrainSet: Joi.number().integer().required(),
-      trainSet: Joi.number().integer().required(),
-      trainResultSet: Joi.number().integer().required(),
-      trainGoalsSet: Joi.number().integer().required(),
     }),
 }), DatabaseConsistencyController.create);
 
@@ -66,20 +62,18 @@ routes.get('/data', celebrate({
     }),
 }), DataController.index);
 
+routes.get('/bundle', celebrate({
+  [Segments.QUERY]:
+    Joi.object().keys({
+      year: Joi.string().required(),
+    }),
+}), DataController.bundle);
+
 routes.post('/neuralNetwork', celebrate({
   [Segments.QUERY]:
     Joi.object().keys({
       nameSet: Joi.string().required(),
     }),
-  // [Segments.BODY]:
-  //   Joi.object().keys({
-  //     gamesSet: Joi.number().integer().required(),
-  //     teamsSet: Joi.number().integer().required(),
-  //     aggregatedTrainSet: Joi.number().integer().required(),
-  //     trainSet: Joi.number().integer().required(),
-  //     trainResultSet: Joi.number().integer().required(),
-  //     trainGoalsSet: Joi.number().integer().required(),
-  //   }),
 }), NeuralNetworkController.create);
 
 routes.get('/neuralNetwork', celebrate({

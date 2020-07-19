@@ -42,6 +42,16 @@ const postDatabaseConsistency = async (data, type = 'whole') => {
   }
 };
 
+const getBundle = async (year = '2020') => {
+  try {
+    const response = await api.get(`/bundle?year=${year}`);
+    // console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getData = async (year = '2020', date = '2020.03.01') => {
   try {
     const response = await api.get(`/data?year=${year}&date=${date}`);

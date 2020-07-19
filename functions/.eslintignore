@@ -4,4 +4,4 @@ views/js/jquery-3.3.1.min.js
 views/js/robots.js
 views/js/sign.js
 views/js/tf.min.js
-views/js/typed.js
+views/js/plugins/*

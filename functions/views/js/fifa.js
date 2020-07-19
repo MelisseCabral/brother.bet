@@ -1,5 +1,7 @@
 /* eslint-disable object-curly-newline */
-/* eslint-disable eqeqeq */
+/* eslint-disable no-multi-spaces */
+/* eslint-disable no-async-promise-executor */
+/* eslint-disable no-unused-vars */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-extend-native */
 /* eslint-disable consistent-return */
@@ -13,7 +15,6 @@
 /* eslint-disable vars-on-top */
 /* eslint-disable no-var */
 /* eslint-disable func-names */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 // eslint-disable-next-line prefer-const
@@ -33,6 +34,13 @@ const defaultML = {
 };
 
 const getFifaDatabase = async (year) => {
+  const data = await getBundle(year);
+  if (data) return data;
+  await delay(2);
+  return getFifaDatabase(year);
+};
+
+const getFifaDatabaseFiles = async (year) => {
   const dataSet = [];
   const getAllDays = await getDays(year);
   for (let i = 0; i < getAllDays.length; i += 1) {
@@ -43,13 +51,14 @@ const getFifaDatabase = async (year) => {
         return dataSet;
       }
     } else {
-      console.log(getAllDays[i], response);
+      console.log(getAllDays[i], data);
       await delay(2);
       i -= 1;
     }
   }
 };
 
+// eslint-disable-next-line no-unused-vars
 const getFifaCloud = async () => {
   const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
   for (let i = 0; i < gidsTables.length; i += 1) {
@@ -107,6 +116,7 @@ const deleteAllDB = async () => {
     .forEach((db) => window.indexedDB.deleteDatabase(db.name));
 };
 
+// eslint-disable-next-line no-unused-vars
 const downloadDb = async () => {
   const tables = await window.indexedDB.databases();
 
@@ -184,9 +194,12 @@ const getGameOutput = (game) => {
 const getGameInput = (game, teams, usersIn = {}) => {
   const { ranks, rankedA, rankedB } = addAndGetRank(usersIn, game, 'user');
 
+  const teamA = teams[game.teamA.team][teams[game.teamA.team].length - 1];
+  const teamB = teams[game.teamB.team][teams[game.teamB.team].length - 1];
+
   const input = [
-    [...Object.values(teams[game.teamA.team]), ...Object.values(rankedA)],
-    [...Object.values(teams[game.teamB.team]), ...Object.values(rankedB)],
+    [...Object.values(teamA), ...Object.values(rankedA)],
+    [...Object.values(teamB), ...Object.values(rankedB)],
   ];
 
   return { input, ranks };
@@ -217,20 +230,17 @@ const rank = (ranks, nameScope, win, draw, loss, goalsPro, goalsCon) => {
   let team = {};
   if (ranks[nameScope]) team = ranks[nameScope][ranks[nameScope].length - 1];
 
+  let isBothScore = 0;
   let isUnderHalf = 0;
   let isUnderOneAndHalf = 0;
   let isUnderTwoAndHalf = 0;
   let isUnderThreeAndHalf = 0;
   let isUnderFourAndHalf = 0;
-  let isUnderFiveAndHalf = 0;
-  let isUnderSixAndHalf = 0;
   let isOverHalf = 0;
   let isOverOneAndHalf = 0;
   let isOverTwoAndHalf = 0;
   let isOverThreeAndHalf = 0;
   let isOverFourAndHalf = 0;
-  let isOverFiveAndHalf = 0;
-  let isOverSixAndHalf = 0;
 
   if (goalsPro > 0 && goalsCon > 0) isBothScore = 1;
 
@@ -239,39 +249,34 @@ const rank = (ranks, nameScope, win, draw, loss, goalsPro, goalsCon) => {
   if (goalsPro < 2.5) isUnderTwoAndHalf = 1;
   if (goalsPro < 3.5) isUnderThreeAndHalf = 1;
   if (goalsPro < 4.5) isUnderFourAndHalf = 1;
-  if (goalsPro < 5.5) isUnderFiveAndHalf = 1;
-  if (goalsPro < 6.5) isUnderSixAndHalf = 1;
 
   if (goalsPro > 0.5) isOverHalf = 1;
   if (goalsPro > 1.5) isOverOneAndHalf = 1;
   if (goalsPro > 2.5) isOverTwoAndHalf = 1;
   if (goalsPro > 3.5) isOverThreeAndHalf = 1;
   if (goalsPro > 4.5) isOverFourAndHalf = 1;
-  if (goalsPro > 5.5) isOverFiveAndHalf = 1;
-  if (goalsPro > 6.5) isOverSixAndHalf = 1;
+
+  const gamesCount = team.games || 0;
+  const rise = gamesCount + 1;
 
   team = {
-    games: team.games + 1,
-    wins: team.wins + win,
-    draws: team.draws + draw,
-    losses: team.losses + loss,
-    goalsPro: (team.goalsPro * team.games + goalsPro) / (team.games + 1),
-    goalsCon: (team.goalsCon * team.games + goalsCon) / (team.games + 1),
-    bothScore: (team.bothScore * team.games + isBothScore) / (team.games + 1),
-    underHalf: (team.underHalf * team.games + isUnderHalf) / (team.games + 1),
-    underOneAndHalf: (team.underOneAndHalf * team.games + isUnderOneAndHalf) / (team.games + 1),
-    underTwoAndHalf: (team.underTwoAndHalf * team.games + isUnderTwoAndHalf) / (team.games + 1),
-    underThreeAndHalf: (team.underThreeAndHalf * team.games + isUnderThreeAndHalf) / (team.games + 1),
-    underFourAndHalf: (team.underFourAndHalf * team.games + isUnderFourAndHalf) / (team.games + 1),
-    underFiveAndHalf: (team.underFiveAndHalf * team.games + isUnderFiveAndHalf) / (team.games + 1),
-    underSixAndHalf: (team.underSixAndHalf * team.games + isUnderSixAndHalf) / (team.games + 1),
-    overHalf: (team.overHalf * team.games + isOverHalf) / (team.games + 1),
-    overOneAndHalf: (team.overOneAndHalf * team.games + isOverOneAndHalf) / (team.games + 1),
-    overTwoAndHalf: (team.overTwoAndHalf * team.games + isOverTwoAndHalf) / (team.games + 1),
-    overThreeAndHalf: (team.overThreeAndHalf * team.games + isOverThreeAndHalf) / (team.games + 1),
-    overFourAndHalf: (team.overFourAndHalf * team.games + isOverFourAndHalf) / (team.games + 1),
-    overFiveAndHalf: (team.overFiveAndHalf * team.games + isOverFiveAndHalf) / (team.games + 1),
-    overSixAndHalf: (team.overSixAndHalf * team.games + isOverSixAndHalf) / (team.games + 1),
+    games: gamesCount + 1,
+    wins: ((team.wins || 0) * gamesCount + win) / rise,
+    draws: ((team.draws || 0) * gamesCount + draw) / rise,
+    losses: ((team.losses || 0) * gamesCount + loss) / rise,
+    goalsPro: ((team.goalsPro || 0) * gamesCount + goalsPro) / rise,
+    goalsCon: ((team.goalsCon || 0) * gamesCount + goalsCon) / rise,
+    bothScore: ((team.bothScore || 0) * gamesCount + isBothScore) / rise,
+    underHalf: ((team.underHalf || 0) * gamesCount + isUnderHalf) / rise,
+    underOneAndHalf: ((team.underOneAndHalf || 0) * gamesCount + isUnderOneAndHalf) / rise,
+    underTwoAndHalf: ((team.underTwoAndHalf || 0) * gamesCount + isUnderTwoAndHalf) / rise,
+    underThreeAndHalf: ((team.underThreeAndHalf || 0) * gamesCount + isUnderThreeAndHalf) / rise,
+    underFourAndHalf: ((team.underFourAndHalf || 0) * gamesCount + isUnderFourAndHalf) / rise,
+    overHalf: ((team.overHalf || 0) * gamesCount + isOverHalf) / rise,
+    overOneAndHalf: ((team.overOneAndHalf || 0) * gamesCount + isOverOneAndHalf) / rise,
+    overTwoAndHalf: ((team.overTwoAndHalf || 0) * gamesCount + isOverTwoAndHalf) / rise,
+    overThreeAndHalf: ((team.overThreeAndHalf || 0) * gamesCount + isOverThreeAndHalf) / rise,
+    overFourAndHalf: ((team.overFourAndHalf || 0) * gamesCount + isOverFourAndHalf) / rise,
   };
 
   ranks[nameScope] = [...ranks[nameScope] || [], ...[team] || []];
@@ -326,14 +331,6 @@ const addedTrain = (data) => {
   });
 
   return { input: inputs, output: data.output };
-};
-
-const getUsersTeams = async () => {
-  const games = await getTable('gamesSet');
-  const teamsSet = await getTable('teamsSet');
-  const users = getListUsers(games);
-  const teams = Object.keys(teamsSet);
-  return { users, teams };
 };
 
 const splitInputOutput = (data) => {
@@ -395,20 +392,28 @@ const spliceGoalsOutput = (data) => {
   return { input, output };
 };
 
-const dataTooler = async (data) => {
+const dataTooler = (data) => new Promise(async (resolve) => {
   const datedSet = await saveGetDataSet(data);
-  const newDatedSet = await saveGetDatedDataSet(datedSet);
-  const gamesSet = await saveGetGamesSet(newDatedSet);
-  const teamsSet = await saveGetTeamsSet(gamesSet);
+  debugTime('saveGetDataSet');
+  const gamesSet = getJustData(datedSet);
+  debugTime('getJustData');
+  const teamsSet = getRankTeams(gamesSet);
+  debugTime('getRankTeams');
   const { aggregated, users } = aggregationTrain(gamesSet, teamsSet);
-  const aggTrainSet = await saveGetTrainAggregatedSet(aggregated);
-  const trainSet = await saveGetTrainSet(aggTrainSet);
-  const usersSet = await saveGetUsersSet(users);
-  const trainAddedSet = await saveGetTrainAddedSet(trainSet);
-  const resultSet = await saveGetResultSet(trainSet);
-  const goalsSet = await saveGetGoalsSet(trainSet);
+  debugTime('aggregationTrain');
+  resolve({ aggregated, users, teams: teamsSet });
+  debugTime('resolve');
+  const trainSet = splitInputOutput(aggregated);
+  saveGetGamesSet(gamesSet);
+  saveGetTeamsSet(teamsSet);
+  saveGetTrainAggregatedSet(aggregated);
+  saveGetTrainSet(trainSet);
+  saveGetUsersSet(users);
+  saveGetTrainAddedSet(trainSet);
+  saveGetResultSet(trainSet);
+  saveGetGoalsSet(trainSet);
   saveGetTrainValidationSet(trainSet);
-};
+});
 
 const saveGetDataSet = async (data) => {
   deleteTableDB('dataSet');
@@ -424,63 +429,51 @@ const saveGetDatedDataSet = async (data) => {
 
 const saveGetGamesSet = async (data) => {
   deleteTableDB('gamesSet');
-  const gamesSet = getJustData(data);
-  createTableDB(gamesSet, 'gamesSet');
-  return getTable('gamesSet');
+  createTableDB(data, 'gamesSet');
 };
 
 const saveGetTeamsSet = async (data) => {
   deleteTableDB('teamsSet');
-  const teamsSet = getRankTeams(data);
-  createTableDB([teamsSet], 'teamsSet');
-  return getTable('teamsSet');
+  createTableDB([data], 'teamsSet');
 };
 
 const saveGetTrainAggregatedSet = async (data) => {
   deleteTableDB('aggregatedTrainSet');
   createTableDB(data, 'aggregatedTrainSet');
-  return getTable('aggregatedTrainSet');
 };
 
 const saveGetUsersSet = async (data) => {
   deleteTableDB('usersSet');
   createTableDB([data], 'usersSet');
-  return getTable('usersSet');
 };
 
 const saveGetTrainSet = async (data) => {
   deleteTableDB('trainSet');
-  const trainSet = splitInputOutput(data);
-  createTableDB([trainSet], 'trainSet');
-  return getTable('trainSet');
+  createTableDB([data], 'trainSet');
 };
 
-const saveGetTrainAddedSet = async (v) => {
+const saveGetTrainAddedSet = async (data) => {
   deleteTableDB('addedTrainSet');
   const addedTrainSet = addedTrain(data);
   createTableDB([addedTrainSet], 'addedTrainSet');
-  return getTable('addedTrainSet');
 };
 
 const saveGetResultSet = async (data) => {
   deleteTableDB('trainResultSet');
   const trainResultSet = spliceResultOutput(data);
   createTableDB([trainResultSet], 'trainResultSet');
-  return getTable('trainResultSet');
 };
 
 const saveGetGoalsSet = async (data) => {
   deleteTableDB('trainGoalsSet');
   const trainGoalsSet = spliceGoalsOutput(data);
   createTableDB([trainGoalsSet], 'trainGoalsSet');
-  return getTable('trainGoalsSet');
 };
 
 const saveGetTrainValidationSet = async (data) => {
   deleteTableDB('trainValidationSet');
   const trainValidationSets = getTrainValidation(data, 0.7);
   createTableDB([trainValidationSets], 'trainValidationSet');
-  return getTable('trainValidationSet');
 };
 
 const saveJsonFile = (data) => {
@@ -554,62 +547,20 @@ const isValid = (data) => {
   return false;
 };
 
-const databaseConsistency = async () => {
-  const dbs = await window.indexedDB.databases();
-  const hashes = {};
-  if (dbs) {
-    const tablesIds = [
-      'teamsSet',
-      'aggregatedTrainSet',
-      'trainSet',
-      'trainResultSet',
-      'trainGoalsSet',
-    ];
-    const idsTables = dbs.map((value) => value.name);
-    for (const each of tablesIds) {
-      if (idsTables.includes(each)) {
-        const table = await getTable(each);
-        hashes[each] = hash(table);
-      }
-    }
-  }
-  return hashes;
-};
-
-const databaseIsConsistent = async () => {
-  const newConsistency = await databaseConsistency();
-  const oldConsistency = await getDatabaseConsistency();
-  const orgNewConsistency = JSON.stringify(organizeObject(newConsistency));
-  const orgOldConsistency = JSON.stringify(organizeObject(oldConsistency));
-
-  if (orgNewConsistency === orgOldConsistency) return true;
-  await deleteAllDB();
-  return false;
-};
-
-const setDatabaseConsistency = async () => {
-  const dataSet = await getFifaDatabase();
-  await dataTooler(dataSet);
-  const newConsistency = await databaseConsistency();
-  await postDatabaseConsistency(newConsistency);
-};
-
 const setMachineLearning = async () => {
-  if (!await databaseIsConsistent()) {
-    const dataSet = await getFifaDatabase();
-    await dataTooler(dataSet);
-    return setMachineLearning();
-  }
-  const trainSet = await getTable('trainSet');
+  const dataSet = await getFifaDatabase();
+  debugTime('getFifaDatabase');
+  const { aggregated, users, teams } = await dataTooler(dataSet);
+  debugTime('dataTooler');
 
-  defaultML.end = trainSet.input.length;
-  defaultML.max = trainSet.input.length;
-  defaultML.step = trainSet.input.length;
-  return true;
+  defaultML.end = aggregated.length;
+  defaultML.max = defaultML.end;
+  defaultML.step = defaultML.end;
+  return { users, teams, dataSet };
 };
 
 const hash = (data) => {
-  const s = JSON.stringify(data)  || '';
+  const s = JSON.stringify(data) || '';
   let h = 0; const l = s.length; let i = 0;
   if (l > 0) while (i < l) h = (h << 5) - h + s.charCodeAt(i++) | 0;
   return h;
@@ -631,8 +582,7 @@ const addZeros = (number) => {
   return number;
 };
 
-const getRegisteredDays = async () => {
-  const datedSet = await getTable('datedSet');
+const getRegisteredDays = async (datedSet) => {
   const registeredIds = {};
   datedSet.forEach((each) => { registeredIds[each.date] = each.id; });
   return registeredIds;
