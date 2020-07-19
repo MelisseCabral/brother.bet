@@ -14,22 +14,140 @@ h4 {
 :root {
   --delay: .15;
   /* Color */
-  --primary_color_1: rgb(118, 3, 141);
-  --secondary_color_3: rgba(64, 50, 148, 1);
+  --primary_color_1: rgba(40, 42, 54,1);
+  --primary_color_2: rgb(36, 32, 46);
+  --primary_color_3: rgb(42, 44, 55);
+  --primary_color_4: rgb(29, 30, 38);
+  --primary_color_5: rgba(58, 60, 70, 0.2);
+  --primary_color_6: rgb(68, 68, 68);
+
+  --contrast_primary_color_1: rgb(255, 255, 255);
+  --contrast_primary_color_2: rgba(255, 255, 255, 0.8);
+  --contrast_primary_color_3: rgb(173, 173, 173);
+  --contrast_primary_color_4: rgba(255, 255, 255, 0.4);
+  --contrast_primary_color_5: rgba(255, 255, 255, 0.2);
+
+  --secondary_color_1: rgb(104, 239, 173);
+  --secondary_color_2: rgb(80, 250, 123);
+  --secondary_color_3: rgb(53, 248, 102);
+  --secondary_color_4: rgb(27, 248, 82);
+  --secondary_color_5: rgb(0, 255, 64);
+
+  --terciary_color_1: rgb(255, 128, 191);
+  --terciary_color_2: rgb(149, 128, 255);
+  --terciary_color_3: rgb(149, 128, 255);
+  --terciary_color_4: rgb(149, 128, 255);
+  --terciary_color_5: rgb(149, 128, 255);
+
+  --quaternary_color_2: rgb(149, 128, 255);
+  
+
 }
 
-.primary-color-1 {
-  background: linear-gradient(var(--secondary_color_deg), var(--secondary_color_1), var(--secondary_color_2));
+.mdl-layout__content{
+    background: var(--primary_color_4);
 }
 
-.secondary-color-3 {
-  color: var(--secondary_color_2);
+.mdl-layout__container {
+  height: -webkit-fill-available !important;
 }
 
+.page-content thead{
+  background:var(--primary_color_2);
+  color:var(--contrast_primary_color_2);
+}
+
+.page-content thead th{
+  color:var(--quaternary_color_2);
+}
+
+.page-content tbody th{
+  color:var(--contrast_primary_color_3);
+  font-weight: 200;
+}
+
+.page-content tbody{
+  background:var(--primary_color_3);
+  color:var(--contrast_primary_color_2);
+}
+
+.mdl-layout.is-upgraded .mdl-layout__tab.is-active{
+  color: var(--secondary_color_1) !important;
+}
+
+.mdl-layout.is-upgraded .mdl-layout__tab.is-active::after{
+  background: var(--secondary_color_1) !important;
+}
+
+.mdl-layout__tab{
+  color: var(--contrast_primary_color_3);
+}
+
+.mdl-layout__tab-bar-button, .mdl-layout__tab-bar{
+  background-color: var(--primary_color_1);
+}
+
+.boxes .mdl-button--fab.mdl-button--colored {
+  background: var(--contrast_primary_color_1) !important;
+  color: var(--quaternary_color_2) !important;
+}
+
+.mdl-color--pink-400{
+  background: var(--terciary_color_1) !important;
+}
+
+.mdl-color--blue-A400{
+  background: var(--quaternary_color_2) !important;
+
+}
+
+.page-content table{
+  display: contents;
+}
+
+.page-content .mdl-data-table thead:first-child th {
+  height: 15px !important;
+  padding: 0px !important;
+  line-height: 24px;
+}
+
+.page-content .mdl-data-table thead:first-child th:nth-child(even) {
+  text-align: left
+}
+
+
+.page-content .mdl-data-table thead th {
+  height: 0px;
+}
+
+.page-content i{
+  font-size: 18px;
+}
+
+.mdl-layout__tab-panel.is-active{
+  overflow-x: auto;
+}
+
+.tHeadAbove{
+  /* position:fixed */
+}
+
+.tableOdd{
+  color: var(--terciary_color_1) !important;
+}
+
+.page-content  .mdl-data-table td:first-of-type,  .page-content .mdl-data-table th:first-of-type {
+  padding-left: 0px !important;
+}
+
+.page-content  .mdl-data-table th {
+  padding: 0 10px 6px 10px;
+}
 /* Content */
 
 body {
   margin: 0;
+  OVERFLOW-Y: hidden;
 }
 
 table{
@@ -54,8 +172,23 @@ a img {
   height: 40px;
 }
 
-.boxes .mdl-textfield__label{
-  top:10px !important;
+.deleteListGid:hover{
+  color:#e82f38;
+}
+
+.mdl-layout__header {
+  min-height: 33px !important;
+}
+
+.mdl-layout__content {
+  width: 100vw;
+  height: calc(100vh - 64px);
+}
+
+#trainFactory .mdl-textfield__label, #predictFactory .mdl-textfield__label {
+  text-align: center !important;
+  cursor: text !important;
+  top: 10px !important;
 }
 
 .btns .mdl-textfield__label{
@@ -218,25 +351,28 @@ select::selection {
 }
 
 .logo-image-2 {
-  height: 80%;
-}
+  height: 50%;
+  display: flex;
+  margin: auto;
+  position: relative;
+  top: 30px;}
 
 .android-header {
   overflow: visible;
-  background-color: white;
+  background-color: var(--contrast_primary_color_1);
 }
 
 .android-header .material-icons {
-  color: #ffb80c ;
+  color: var(--terciary_color_1) ;
 }
 
 .android-header .mdl-layout__drawer-button {
   background: transparent;
-  color: #767777;
+  color: (--contrast_primary_color_5);
 }
 
 .android-header .mdl-navigation__link {
-  color: #757575;
+  color: var(--primary_color_3);
   font-weight: 700;
   font-size: 14px;
 }
@@ -272,7 +408,7 @@ select::selection {
 
 .android-drawer .mdl-layout-title {
   position: relative;
-  background: linear-gradient(30deg, var(--secondary_color_3), var(--primary_color_1));
+  background: var(--terciary_color_1);
   height: 160px;
 }
 
@@ -334,10 +470,6 @@ select::selection {
   border-radius: 10px !important;
 }
 
-.mdl-layout__content {
-  width: 100vw;
-}
-
 .actions-fab {
   display: table;
   position: relative;
@@ -348,10 +480,15 @@ select::selection {
   animation-duration: 1s;
   animation-delay: 2s;
   position: fixed;
-  right: 1vw;
-  bottom: 2vw;
+  right: 2vw;
+  bottom: 40px;
   z-index: 3;
   display: block;
+}
+
+.invAutomations{
+  left: 2vw;
+  right: unset;
 }
 
 .animated-delay-1 {
@@ -502,8 +639,8 @@ select::selection {
 }
 
 .mdl-button--fab.mdl-button--colored {
-  background: white !important;
-  color: #0091ea !important;
+  background: var(--primary_color_1) !important;
+  color: var(--secondary_color_2) !important;
   margin-left: 5px;
 }
 
@@ -626,7 +763,7 @@ select::selection {
   
 }
 
-#typeMarket input, label {
+#typeMarket input {
   text-align: center !important;
   cursor: text !important;
 }
@@ -810,6 +947,9 @@ main#ty-container #addCustomerAction {
   width: 100% !important;
   max-width: inherit;
 } */
+
+
+
 
 .mdl-checkbox            .mdl-checkbox__tick-outline {
   padding-left: 1px !important;

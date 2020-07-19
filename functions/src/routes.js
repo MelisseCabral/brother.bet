@@ -54,7 +54,7 @@ routes.post('/data', celebrate({
     Joi.object().keys({
       id: Joi.string().required(),
       date: Joi.string().required(),
-      data: Joi.string().required(),
+      data: Joi.array().items(Joi.object().keys().min(2)).required(),
     }),
 }), DataController.create);
 

@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable eqeqeq */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-extend-native */
@@ -15,9 +16,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
-
-const truncatedLogs = [];
-
 // eslint-disable-next-line prefer-const
 let init = false;
 
@@ -129,17 +127,21 @@ const downloadJSON = (data, name) => {
 };
 
 const getTable = async (tableName) => new Promise((resolve) => {
-  const request = indexedDB.open(tableName, 2);
-  request.onsuccess = (event) => {
-    const db = event.target.result;
-    const objectStore = db.transaction(tableName, 'readonly').objectStore(tableName);
-    const allRecords = objectStore.getAll();
-    allRecords.onsuccess = () => {
-      if (allRecords.result.length === 1) resolve(allRecords.result[0]);
-      db.close();
-      resolve(allRecords.result);
+  try {
+    const request = indexedDB.open(tableName, 2);
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      const objectStore = db.transaction(tableName, 'readonly').objectStore(tableName);
+      const allRecords = objectStore.getAll();
+      allRecords.onsuccess = () => {
+        if (allRecords.result.length === 1) resolve(allRecords.result[0]);
+        db.close();
+        resolve(allRecords.result);
+      };
     };
-  };
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const getIndexed = async (tableName, indexName) => new Promise((resolve) => {
@@ -164,8 +166,8 @@ const getJustData = (data) => {
 };
 
 const getGameOutput = (game) => {
-  const goalsTeamA = parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10);
-  const goalsTeamB = parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10);
+  const goalsTeamA = (parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10)) || 0;
+  const goalsTeamB = (parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10)) || 0;
 
   const output = [0, 0, 0, goalsTeamA, goalsTeamB];
 
@@ -179,88 +181,109 @@ const getGameOutput = (game) => {
   return output;
 };
 
-const getGameInput = (games, teams, lastIndex) => {
-  const game = games[lastIndex];
-  const gamesSpliced = games.slice(0, lastIndex + 1);
-  return getTeamsInput(gamesSpliced, teams, game);
+const getGameInput = (game, teams, usersIn = {}) => {
+  const { ranks, rankedA, rankedB } = addAndGetRank(usersIn, game, 'user');
+
+  const input = [
+    [...Object.values(teams[game.teamA.team]), ...Object.values(rankedA)],
+    [...Object.values(teams[game.teamB.team]), ...Object.values(rankedB)],
+  ];
+
+  return { input, ranks };
 };
 
-const getTeamsInput = (games, teams, game) => {
-  let auxTeamA = {};
-  let auxTeamB = {};
+const addAndGetRank = (ranks, game, scope) => {
+  const {
+    0: winnerIsTeamA,
+    1: draw,
+    2: winnerIsTeamB,
+    3: goalsTeamA,
+    4: goalsTeamB,
+  } = { ...getGameOutput(game) };
 
-  const teamIsPresent = (eachGame, user, team) => {
-    if (user === eachGame.teamA.user) {
-      const res = getGameOutput(eachGame);
-      return {
-        games: (team.games || 0) + 1,
-        wins: (team.wins || 0) + res[0],
-        ties: (team.ties || 0) + res[1],
-        loses: (team.loses || 0) + res[2],
-        goalsPro: (team.goalsPro || 0) + res[3],
-        goalsCon: (team.goalsCon || 0) + res[4],
-      };
-    }
-    if (user === eachGame.teamB.user) {
-      const res = getGameOutput(eachGame);
-      return {
-        games: (team.games || 0) + 1,
-        wins: (team.games || 0) + res[2],
-        ties: (team.games || 0) + res[1],
-        loses: (team.games || 0) + res[0],
-        goalsPro: (team.games || 0) + res[3],
-        goalsCon: (team.games || 0) + res[4],
-      };
-    }
-    return team;
+  const teamA = game.teamA[scope];
+  const teamB = game.teamB[scope];
+
+  ranks = rank(ranks, teamA, winnerIsTeamA, draw, winnerIsTeamB, goalsTeamA, goalsTeamB);
+  ranks = rank(ranks, teamB, winnerIsTeamB, draw, winnerIsTeamA, goalsTeamB, goalsTeamA);
+
+  const rankedA = ranks[teamA][ranks[teamA].length - 1];
+  const rankedB = ranks[teamB][ranks[teamB].length - 1];
+
+  return { ranks, rankedA, rankedB };
+};
+
+const rank = (ranks, nameScope, win, draw, loss, goalsPro, goalsCon) => {
+  let team = {};
+  if (ranks[nameScope]) team = ranks[nameScope][ranks[nameScope].length - 1];
+
+  let isUnderHalf = 0;
+  let isUnderOneAndHalf = 0;
+  let isUnderTwoAndHalf = 0;
+  let isUnderThreeAndHalf = 0;
+  let isUnderFourAndHalf = 0;
+  let isUnderFiveAndHalf = 0;
+  let isUnderSixAndHalf = 0;
+  let isOverHalf = 0;
+  let isOverOneAndHalf = 0;
+  let isOverTwoAndHalf = 0;
+  let isOverThreeAndHalf = 0;
+  let isOverFourAndHalf = 0;
+  let isOverFiveAndHalf = 0;
+  let isOverSixAndHalf = 0;
+
+  if (goalsPro > 0 && goalsCon > 0) isBothScore = 1;
+
+  if (goalsPro < 0.5) isUnderHalf = 1;
+  if (goalsPro < 1.5) isUnderOneAndHalf = 1;
+  if (goalsPro < 2.5) isUnderTwoAndHalf = 1;
+  if (goalsPro < 3.5) isUnderThreeAndHalf = 1;
+  if (goalsPro < 4.5) isUnderFourAndHalf = 1;
+  if (goalsPro < 5.5) isUnderFiveAndHalf = 1;
+  if (goalsPro < 6.5) isUnderSixAndHalf = 1;
+
+  if (goalsPro > 0.5) isOverHalf = 1;
+  if (goalsPro > 1.5) isOverOneAndHalf = 1;
+  if (goalsPro > 2.5) isOverTwoAndHalf = 1;
+  if (goalsPro > 3.5) isOverThreeAndHalf = 1;
+  if (goalsPro > 4.5) isOverFourAndHalf = 1;
+  if (goalsPro > 5.5) isOverFiveAndHalf = 1;
+  if (goalsPro > 6.5) isOverSixAndHalf = 1;
+
+  team = {
+    games: team.games + 1,
+    wins: team.wins + win,
+    draws: team.draws + draw,
+    losses: team.losses + loss,
+    goalsPro: (team.goalsPro * team.games + goalsPro) / (team.games + 1),
+    goalsCon: (team.goalsCon * team.games + goalsCon) / (team.games + 1),
+    bothScore: (team.bothScore * team.games + isBothScore) / (team.games + 1),
+    underHalf: (team.underHalf * team.games + isUnderHalf) / (team.games + 1),
+    underOneAndHalf: (team.underOneAndHalf * team.games + isUnderOneAndHalf) / (team.games + 1),
+    underTwoAndHalf: (team.underTwoAndHalf * team.games + isUnderTwoAndHalf) / (team.games + 1),
+    underThreeAndHalf: (team.underThreeAndHalf * team.games + isUnderThreeAndHalf) / (team.games + 1),
+    underFourAndHalf: (team.underFourAndHalf * team.games + isUnderFourAndHalf) / (team.games + 1),
+    underFiveAndHalf: (team.underFiveAndHalf * team.games + isUnderFiveAndHalf) / (team.games + 1),
+    underSixAndHalf: (team.underSixAndHalf * team.games + isUnderSixAndHalf) / (team.games + 1),
+    overHalf: (team.overHalf * team.games + isOverHalf) / (team.games + 1),
+    overOneAndHalf: (team.overOneAndHalf * team.games + isOverOneAndHalf) / (team.games + 1),
+    overTwoAndHalf: (team.overTwoAndHalf * team.games + isOverTwoAndHalf) / (team.games + 1),
+    overThreeAndHalf: (team.overThreeAndHalf * team.games + isOverThreeAndHalf) / (team.games + 1),
+    overFourAndHalf: (team.overFourAndHalf * team.games + isOverFourAndHalf) / (team.games + 1),
+    overFiveAndHalf: (team.overFiveAndHalf * team.games + isOverFiveAndHalf) / (team.games + 1),
+    overSixAndHalf: (team.overSixAndHalf * team.games + isOverSixAndHalf) / (team.games + 1),
   };
 
-  games.forEach((each) => {
-    auxTeamA = teamIsPresent(each, game.teamA.user, auxTeamA);
-    auxTeamB = teamIsPresent(each, game.teamB.user, auxTeamB);
-  });
+  ranks[nameScope] = [...ranks[nameScope] || [], ...[team] || []];
 
-  teamA = [...Object.values(teams[game.teamA.team]), ...Object.values(auxTeamA)];
-  teamB = [...Object.values(teams[game.teamB.team]), ...Object.values(auxTeamB)];
-
-  return { teamA, teamB };
+  return ranks;
 };
 
 const getRankTeams = (games) => {
-  const teams = {};
-  games.forEach((each) => {
-    const goalsTeamA = (parseInt(each.teamA.firstHalf, 10) + parseInt(each.teamA.secondHalf, 10)) || 0;
-    const goalsTeamB = (parseInt(each.teamB.firstHalf, 10) + parseInt(each.teamB.secondHalf, 10)) || 0;
-    let prevGoalsProTeamA = 0;
-    let prevGoalsConTeamA = 0;
-    let prevGamesCountTeamA = 0;
-    let prevGoalsProTeamB = 0;
-    let prevGoalsConTeamB = 0;
-    let prevGamesCountTeamB = 0;
-
-    if (teams[each.teamA.team]) {
-      prevGoalsProTeamA = teams[each.teamA.team].goalsPro;
-      prevGoalsConTeamA = teams[each.teamA.team].goalsCon;
-      prevGamesCountTeamA = teams[each.teamA.team].gamesCount;
-    }
-
-    if (teams[each.teamB.team]) {
-      prevGoalsProTeamB = teams[each.teamB.team].goalsPro;
-      prevGoalsConTeamB = teams[each.teamB.team].goalsCon;
-      prevGamesCountTeamB = teams[each.teamB.team].gamesCount;
-    }
-
-    teams[each.teamA.team] = {
-      goalsPro: prevGoalsProTeamA + goalsTeamA,
-      goalsCon: prevGoalsConTeamA + goalsTeamB,
-      gamesCount: prevGamesCountTeamA + 1,
-    };
-
-    teams[each.teamB.team] = {
-      goalsPro: prevGoalsProTeamB + goalsTeamB,
-      goalsCon: prevGoalsConTeamB + goalsTeamA,
-      gamesCount: prevGamesCountTeamB + 1,
-    };
+  let teams = {};
+  games.forEach((game) => {
+    const { ranks } = addAndGetRank(teams, game, 'team');
+    teams = ranks;
   });
   return teams;
 };
@@ -275,13 +298,15 @@ const getListUsers = (games) => {
 };
 
 const aggregationTrain = (games, teams) => {
-  const agg = [];
-  games.forEach((each, indexof) => {
-    const output = getGameOutput(each);
-    const input = Object.values(getGameInput(games, teams, indexof));
-    agg.push({ input, output });
+  const aggregated = [];
+  let users = {};
+  games.forEach((game) => {
+    const output = getGameOutput(game);
+    const { input, ranks } = getGameInput(game, teams, users);
+    users = ranks;
+    aggregated.push({ input, output });
   });
-  return agg;
+  return { aggregated, users };
 };
 
 const addedTrain = (data) => {
@@ -375,13 +400,14 @@ const dataTooler = async (data) => {
   const newDatedSet = await saveGetDatedDataSet(datedSet);
   const gamesSet = await saveGetGamesSet(newDatedSet);
   const teamsSet = await saveGetTeamsSet(gamesSet);
-  const aggTrainSet = await saveGetTrainAggregatedSet(gamesSet, teamsSet);
+  const { aggregated, users } = aggregationTrain(gamesSet, teamsSet);
+  const aggTrainSet = await saveGetTrainAggregatedSet(aggregated);
   const trainSet = await saveGetTrainSet(aggTrainSet);
-  await saveGetTrainAddedSet(trainSet);
-  await saveGetResultSet(trainSet);
-  await saveGetGoalsSet(trainSet);
-  const trainValidationSet = await saveGetTrainValidationSet(trainSet);
-  return trainValidationSet;
+  const usersSet = await saveGetUsersSet(users);
+  const trainAddedSet = await saveGetTrainAddedSet(trainSet);
+  const resultSet = await saveGetResultSet(trainSet);
+  const goalsSet = await saveGetGoalsSet(trainSet);
+  saveGetTrainValidationSet(trainSet);
 };
 
 const saveGetDataSet = async (data) => {
@@ -410,11 +436,16 @@ const saveGetTeamsSet = async (data) => {
   return getTable('teamsSet');
 };
 
-const saveGetTrainAggregatedSet = async (gamesSet, teamsSet) => {
+const saveGetTrainAggregatedSet = async (data) => {
   deleteTableDB('aggregatedTrainSet');
-  const aggSet = aggregationTrain(gamesSet, teamsSet);
-  createTableDB(aggSet, 'aggregatedTrainSet');
+  createTableDB(data, 'aggregatedTrainSet');
   return getTable('aggregatedTrainSet');
+};
+
+const saveGetUsersSet = async (data) => {
+  deleteTableDB('usersSet');
+  createTableDB([data], 'usersSet');
+  return getTable('usersSet');
 };
 
 const saveGetTrainSet = async (data) => {
@@ -424,7 +455,7 @@ const saveGetTrainSet = async (data) => {
   return getTable('trainSet');
 };
 
-const saveGetTrainAddedSet = async (data) => {
+const saveGetTrainAddedSet = async (v) => {
   deleteTableDB('addedTrainSet');
   const addedTrainSet = addedTrain(data);
   createTableDB([addedTrainSet], 'addedTrainSet');
@@ -459,37 +490,58 @@ const saveJsonFile = (data) => {
   a.click();
 };
 
-const isTruncated = () => {
-  getTable('datedSet').then((data) => {
-    data.forEach((eachA) => {
-      eachA.data.forEach((eachB, indexOf) => {
-        let objContext = {
-          date: eachA.date,
-          id: eachA.id,
-          position: indexOf,
-          data: eachB,
-          problems: {},
-        };
-        objContext = validate(eachB.teamA.firstHalf, objContext, 'teamA.firstHalf');
-        objContext = validate(eachB.teamA.secondHalf, objContext, 'teamA.secondHalf');
-        objContext = validate(eachB.teamB.firstHalf, objContext, 'teamB.firstHalf');
-        objContext = validate(eachB.teamB.secondHalf, objContext, 'teamB.secondHalf');
+const isTruncatedDated = async () => {
+  const data = await getTable('datedSet');
+  return isTruncated(data);
+};
 
-        if (Object.keys(objContext.problems).length) truncatedLogs.push(objContext);
-      });
-    });
-  });
-
-  const validate = (data, obj, context) => {
-    const testValidation = isValid(data);
-    if (isValid(data)) {
+const isTruncated = (data) => {
+  const truncatedLogs = [];
+  const validate = (dataTest, obj, context) => {
+    const testValidation = isValid(dataTest);
+    if (testValidation) {
       obj.problems[context] = testValidation;
       return obj;
     }
     return obj;
   };
 
+  data.forEach((eachA) => {
+    eachA.data.forEach((eachB, indexOf) => {
+      let objContext = {
+        date: eachA.date,
+        id: eachA.id,
+        position: indexOf,
+        data: eachB,
+        problems: {},
+      };
+
+      objContext = validate(eachB.teamA.firstHalf, objContext, 'teamA.firstHalf');
+      objContext = validate(eachB.teamA.secondHalf, objContext, 'teamA.secondHalf');
+      objContext = validate(eachB.teamB.firstHalf, objContext, 'teamB.firstHalf');
+      objContext = validate(eachB.teamB.secondHalf, objContext, 'teamB.secondHalf');
+
+      if (Object.keys(objContext.problems).length) truncatedLogs.push(objContext);
+    });
+  });
+
   return truncatedLogs;
+};
+
+const registerGid = async (sheetId) => {
+  const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
+  const data = await getSource(key, sheetId);
+  const today = `${new Date().getYear() + 1900}.${new Date().getMonth() + 1}.${new Date().getDate()}`;
+
+  if (data) {
+    if (data.date !== today) {
+      const maybeTruncated = isTruncated([data]);
+      if (!maybeTruncated.length) {
+        await postData(data);
+        return true;
+      } return maybeTruncated;
+    } return 'Error: Wait to pass the day to add the gId.';
+  } return 'Error: There is no valid dataSet.';
 };
 
 const isValid = (data) => {
@@ -531,10 +583,13 @@ const databaseIsConsistent = async () => {
   const orgOldConsistency = JSON.stringify(organizeObject(oldConsistency));
 
   if (orgNewConsistency === orgOldConsistency) return true;
+  await deleteAllDB();
   return false;
 };
 
 const setDatabaseConsistency = async () => {
+  const dataSet = await getFifaDatabase();
+  await dataTooler(dataSet);
   const newConsistency = await databaseConsistency();
   await postDatabaseConsistency(newConsistency);
 };
@@ -554,7 +609,7 @@ const setMachineLearning = async () => {
 };
 
 const hash = (data) => {
-  const s = JSON.stringify(data);
+  const s = JSON.stringify(data)  || '';
   let h = 0; const l = s.length; let i = 0;
   if (l > 0) while (i < l) h = (h << 5) - h + s.charCodeAt(i++) | 0;
   return h;
@@ -573,7 +628,7 @@ const generateDaysofYear = (year) => {
 
 const addZeros = (number) => {
   if (number < 10) return `0${number}`;
-  return number;F
+  return number;
 };
 
 const getRegisteredDays = async () => {
@@ -672,10 +727,10 @@ const predict = async (nameDataSet, game) => {
   const games = await getTable('gamesSet');
   const teams = await getTable('teamsSet');
 
-  const { teamA, teamB } = getTeamsInput(games, teams, game);
+  const { userA, userB } = getUsersInput(games, teams, game);
 
-  const tensorA = tf.tensor(teamA);
-  const tensorB = tf.tensor(teamB);
+  const tensorA = tf.tensor(userA);
+  const tensorB = tf.tensor(userB);
   const input = Array(tensorA.sub(tensorB).dataSync());
 
   const { data } = await api.get(`/index?nameSet=${nameDataSet}`);

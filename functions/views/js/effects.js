@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-use-before-define */
@@ -5,17 +6,31 @@
 
 // Actions functions.
 
-$(document).ready(async () => {
+$(document).ready(() => {
+  initEffect();
+});
+
+async function initEffect() {
   await setMachineLearning();
   initStorage();
   fillComboboxes();
   initTrain();
-  $('#statusCloud').css('color', '#ffb80c');
-  tableCheckGid();
-});
+  tableCheckGid(2020);
+  addTableRankTeams();
+  $('#statusCloud').css('color', 'var(--terciary_color_1)');
+}
 
 function actions() {
   autoUpdateLabel();
+
+  $('#more-button').off().click((e) => {
+    e.stopImmediatePropagation();
+    if (window.location.origin === 'http://127.0.0.1:5500') {
+      setDatabaseConsistency();
+    } else {
+      e = e.originalEvent;
+    }
+  });
 
   $('#btnCloud').off().click(async (e) => {
     e.stopImmediatePropagation();
@@ -33,6 +48,23 @@ function actions() {
     } else {
       alert('Wait for it...');
     }
+  });
+
+  $('#btnFactoryRegister').off().click((e) => {
+    e.stopImmediatePropagation();
+    $('#registerFactory').show();
+  });
+
+  $('#btnRegisterGids').off().click((e) => {
+    e.stopImmediatePropagation();
+    registerGids();
+  });
+
+  $('#btnAddRegister').off().click((e) => {
+    e.stopImmediatePropagation();
+    const gid = $('#txtGid').val();
+    addGidToTable(gid, 'Verifing...');
+    $('#registerFactory').find('table').show();
   });
 
   $('#btnDownload').off().click(async (e) => {
@@ -62,6 +94,7 @@ function actions() {
     e.stopImmediatePropagation();
     $('#trainFactory').hide();
     $('#predictFactory').hide();
+    registerFactoryClose();
   });
 
   $('#btnSaveTrain').off().click((e) => {
@@ -119,6 +152,11 @@ function actions() {
     e.stopImmediatePropagation();
     logout();
   });
+}
+
+function registerFactoryClose() {
+  $('#registerFactory').hide();
+  $('#registerFactory').find('table').show();
 }
 
 function increaseBrotherBonus() {
@@ -275,7 +313,6 @@ function stake() {
 // Views
 function views() {
   const viewsList = ['home', 'account', 'method', 'profit', 'contact', 'game', 'robot', 'admin'];
-
   viewsList.forEach((showElement) => {
     const key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
     $(key).click((e) => {
@@ -392,7 +429,7 @@ function typedTchan() {
       'odds are going up',
       'or down, so go by LAY',
       'goaaaaaaaaal!!!!',
-      'improve your assets'],
+      'improve your profit'],
     typeSpeed: 100,
     backDelay: 0,
   });

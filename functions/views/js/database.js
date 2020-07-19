@@ -14,7 +14,7 @@ const getDays = async (year = '2020') => {
 
 const getSource = async (key, sheetId) => {
   try {
-    const response = await api.get('/source?{', { params: { key, sheetId } });
+    const response = await api.get('/source?', { params: { key, sheetId } });
     // console.log(response);
     return response.data;
   } catch (error) {
@@ -55,7 +55,7 @@ const getData = async (year = '2020', date = '2020.03.01') => {
 const postData = async (data) => {
   try {
     const response = await api.post('/data', data);
-    console.log(response);
+    // console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);
