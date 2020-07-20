@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-multi-spaces */
 /* eslint-disable no-async-promise-executor */
@@ -8,7 +9,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-bitwise */
-/* eslint-disable no-param-reassign */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable max-len */
@@ -74,7 +74,12 @@ const getFifaCloud = async () => {
   }
 };
 
-const organizeObject = (obj) => Object.keys(obj).sort((a, b) => (obj[a] > obj[b] ? 1 : -1)).reduce((a, b) => { a[b] = obj[b]; return a; }, {});
+const organizeObject = (obj) => Object.keys(obj)
+  .sort((a, b) => (obj[a] > obj[b] ? 1 : -1))
+  .reduce((a, b) => {
+    a[b] = obj[b];
+    return a;
+  }, {});
 
 const delay = (timeSeconds) => new Promise((resolve) => {
   setTimeout(resolve, timeSeconds * 1000);
@@ -93,7 +98,9 @@ const createTableDB = (data, tableName, indexName = '', key = '') => {
     if (indexName) objectStore.createIndex(indexName, indexName, { unique: true });
 
     objectStore.transaction.oncomplete = () => {
-      const store = db.transaction(tableName, 'readwrite').objectStore(tableName);
+      const store = db
+        .transaction(tableName, 'readwrite')
+        .objectStore(tableName);
       data.forEach(async (each) => store.add(each));
     };
   };
@@ -112,7 +119,8 @@ const deleteTableDB = async (tableName) => {
 
 const deleteAllDB = async () => {
   const dbs = await window.indexedDB.databases();
-  dbs.filter((each) => each.name !== 'firebaseLocalStorageDb')
+  dbs
+    .filter((each) => each.name !== 'firebaseLocalStorageDb')
     .forEach((db) => window.indexedDB.deleteDatabase(db.name));
 };
 
@@ -127,7 +135,9 @@ const downloadDb = async () => {
 };
 
 const downloadJSON = (data, name) => {
-  const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`;
+  const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(
+    JSON.stringify(data),
+  )}`;
   const downloadAnchorNode = document.createElement('a');
   downloadAnchorNode.setAttribute('href', dataStr);
   downloadAnchorNode.setAttribute('download', `${name}.json`);
@@ -141,7 +151,9 @@ const getTable = async (tableName) => new Promise((resolve) => {
     const request = indexedDB.open(tableName, 2);
     request.onsuccess = (event) => {
       const db = event.target.result;
-      const objectStore = db.transaction(tableName, 'readonly').objectStore(tableName);
+      const objectStore = db
+        .transaction(tableName, 'readonly')
+        .objectStore(tableName);
       const allRecords = objectStore.getAll();
       allRecords.onsuccess = () => {
         if (allRecords.result.length === 1) resolve(allRecords.result[0]);
@@ -158,7 +170,9 @@ const getIndexed = async (tableName, indexName) => new Promise((resolve) => {
   const request = indexedDB.open(tableName, 2);
   request.onsuccess = (event) => {
     const db = event.target.result;
-    const objectStore = db.transaction(tableName, 'readonly').objectStore(tableName);
+    const objectStore = db
+      .transaction(tableName, 'readonly')
+      .objectStore(tableName);
     const allRecords = objectStore.index(indexName).getAll();
     allRecords.onsuccess = () => {
       db.close();
@@ -176,8 +190,10 @@ const getJustData = (data) => {
 };
 
 const getGameOutput = (game) => {
-  const goalsTeamA = (parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10)) || 0;
-  const goalsTeamB = (parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10)) || 0;
+  const goalsTeamA = parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10)
+    || 0;
+  const goalsTeamB = parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10)
+    || 0;
 
   const output = [0, 0, 0, goalsTeamA, goalsTeamB];
 
@@ -217,8 +233,24 @@ const addAndGetRank = (ranks, game, scope) => {
   const teamA = game.teamA[scope];
   const teamB = game.teamB[scope];
 
-  ranks = rank(ranks, teamA, winnerIsTeamA, draw, winnerIsTeamB, goalsTeamA, goalsTeamB);
-  ranks = rank(ranks, teamB, winnerIsTeamB, draw, winnerIsTeamA, goalsTeamB, goalsTeamA);
+  ranks = rank(
+    ranks,
+    teamA,
+    winnerIsTeamA,
+    draw,
+    winnerIsTeamB,
+    goalsTeamA,
+    goalsTeamB,
+  );
+  ranks = rank(
+    ranks,
+    teamB,
+    winnerIsTeamB,
+    draw,
+    winnerIsTeamA,
+    goalsTeamB,
+    goalsTeamA,
+  );
 
   const rankedA = ranks[teamA][ranks[teamA].length - 1];
   const rankedB = ranks[teamB][ranks[teamB].length - 1];
@@ -268,18 +300,26 @@ const rank = (ranks, nameScope, win, draw, loss, goalsPro, goalsCon) => {
     goalsCon: ((team.goalsCon || 0) * gamesCount + goalsCon) / rise,
     bothScore: ((team.bothScore || 0) * gamesCount + isBothScore) / rise,
     underHalf: ((team.underHalf || 0) * gamesCount + isUnderHalf) / rise,
-    underOneAndHalf: ((team.underOneAndHalf || 0) * gamesCount + isUnderOneAndHalf) / rise,
-    underTwoAndHalf: ((team.underTwoAndHalf || 0) * gamesCount + isUnderTwoAndHalf) / rise,
-    underThreeAndHalf: ((team.underThreeAndHalf || 0) * gamesCount + isUnderThreeAndHalf) / rise,
-    underFourAndHalf: ((team.underFourAndHalf || 0) * gamesCount + isUnderFourAndHalf) / rise,
+    underOneAndHalf:
+      ((team.underOneAndHalf || 0) * gamesCount + isUnderOneAndHalf) / rise,
+    underTwoAndHalf:
+      ((team.underTwoAndHalf || 0) * gamesCount + isUnderTwoAndHalf) / rise,
+    underThreeAndHalf:
+      ((team.underThreeAndHalf || 0) * gamesCount + isUnderThreeAndHalf) / rise,
+    underFourAndHalf:
+      ((team.underFourAndHalf || 0) * gamesCount + isUnderFourAndHalf) / rise,
     overHalf: ((team.overHalf || 0) * gamesCount + isOverHalf) / rise,
-    overOneAndHalf: ((team.overOneAndHalf || 0) * gamesCount + isOverOneAndHalf) / rise,
-    overTwoAndHalf: ((team.overTwoAndHalf || 0) * gamesCount + isOverTwoAndHalf) / rise,
-    overThreeAndHalf: ((team.overThreeAndHalf || 0) * gamesCount + isOverThreeAndHalf) / rise,
-    overFourAndHalf: ((team.overFourAndHalf || 0) * gamesCount + isOverFourAndHalf) / rise,
+    overOneAndHalf:
+      ((team.overOneAndHalf || 0) * gamesCount + isOverOneAndHalf) / rise,
+    overTwoAndHalf:
+      ((team.overTwoAndHalf || 0) * gamesCount + isOverTwoAndHalf) / rise,
+    overThreeAndHalf:
+      ((team.overThreeAndHalf || 0) * gamesCount + isOverThreeAndHalf) / rise,
+    overFourAndHalf:
+      ((team.overFourAndHalf || 0) * gamesCount + isOverFourAndHalf) / rise,
   };
 
-  ranks[nameScope] = [...ranks[nameScope] || [], ...[team] || []];
+  ranks[nameScope] = [...(ranks[nameScope] || []), ...([team] || [])];
 
   return ranks;
 };
@@ -297,7 +337,9 @@ const getListUsers = (games) => {
   const users = [];
   games.forEach((each) => {
     const game = Object.values(each);
-    game.forEach((eachGame) => { if (!users.includes(eachGame.user)) users.push(eachGame.user); });
+    game.forEach((eachGame) => {
+      if (!users.includes(eachGame.user)) users.push(eachGame.user);
+    });
   });
   return users;
 };
@@ -394,91 +436,78 @@ const spliceGoalsOutput = (data) => {
 
 const dataTooler = (data) => new Promise(async (resolve) => {
   const datedSet = await saveGetDataSet(data);
-  debugTime('saveGetDataSet');
   const gamesSet = getJustData(datedSet);
-  debugTime('getJustData');
   const teamsSet = getRankTeams(gamesSet);
-  debugTime('getRankTeams');
   const { aggregated, users } = aggregationTrain(gamesSet, teamsSet);
-  debugTime('aggregationTrain');
   resolve({ aggregated, users, teams: teamsSet });
-  debugTime('resolve');
   const trainSet = splitInputOutput(aggregated);
-  saveGetGamesSet(gamesSet);
-  saveGetTeamsSet(teamsSet);
-  saveGetTrainAggregatedSet(aggregated);
-  saveGetTrainSet(trainSet);
-  saveGetUsersSet(users);
-  saveGetTrainAddedSet(trainSet);
-  saveGetResultSet(trainSet);
-  saveGetGoalsSet(trainSet);
-  saveGetTrainValidationSet(trainSet);
+  saveGamesSet(gamesSet);
+  saveTeamsSet(teamsSet);
+  saveTrainAggregatedSet(aggregated);
+  saveTrainSet(trainSet);
+  saveUsersSet(users);
+  saveTrainAddedSet(trainSet);
+  saveResultSet(trainSet);
+  saveGoalsSet(trainSet);
+  saveTrainValidationSet(trainSet);
 });
 
 const saveGetDataSet = async (data) => {
-  deleteTableDB('dataSet');
   createTableDB(data, 'dataSet', 'date', 'id');
   return getIndexed('dataSet', 'date');
 };
 
 const saveGetDatedDataSet = async (data) => {
-  deleteTableDB('datedSet');
   createTableDB(data, 'datedSet');
   return getTable('datedSet');
 };
 
-const saveGetGamesSet = async (data) => {
-  deleteTableDB('gamesSet');
+const saveGamesSet = async (data) => {
   createTableDB(data, 'gamesSet');
 };
 
-const saveGetTeamsSet = async (data) => {
-  deleteTableDB('teamsSet');
+const saveTeamsSet = async (data) => {
   createTableDB([data], 'teamsSet');
 };
 
-const saveGetTrainAggregatedSet = async (data) => {
-  deleteTableDB('aggregatedTrainSet');
-  createTableDB(data, 'aggregatedTrainSet');
+const saveTrainAggregatedSet = async (data) => {
+  createTableDB(data, 'aggregatedSet');
 };
 
-const saveGetUsersSet = async (data) => {
-  deleteTableDB('usersSet');
+const saveUsersSet = async (data) => {
   createTableDB([data], 'usersSet');
 };
 
-const saveGetTrainSet = async (data) => {
-  deleteTableDB('trainSet');
+const saveTrainSet = async (data) => {
   createTableDB([data], 'trainSet');
 };
 
-const saveGetTrainAddedSet = async (data) => {
-  deleteTableDB('addedTrainSet');
+const saveTrainAddedSet = async (data) => {
   const addedTrainSet = addedTrain(data);
   createTableDB([addedTrainSet], 'addedTrainSet');
 };
 
-const saveGetResultSet = async (data) => {
-  deleteTableDB('trainResultSet');
+const saveResultSet = async (data) => {
   const trainResultSet = spliceResultOutput(data);
   createTableDB([trainResultSet], 'trainResultSet');
 };
 
-const saveGetGoalsSet = async (data) => {
-  deleteTableDB('trainGoalsSet');
+const saveGoalsSet = async (data) => {
   const trainGoalsSet = spliceGoalsOutput(data);
   createTableDB([trainGoalsSet], 'trainGoalsSet');
 };
 
-const saveGetTrainValidationSet = async (data) => {
-  deleteTableDB('trainValidationSet');
+const saveTrainValidationSet = async (data) => {
   const trainValidationSets = getTrainValidation(data, 0.7);
   createTableDB([trainValidationSets], 'trainValidationSet');
 };
 
 const saveJsonFile = (data) => {
   const a = document.createElement('a');
-  a.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`);
+  a.setAttribute(
+    'href',
+    `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`,
+  );
   a.setAttribute('download', 'filename.json');
   a.click();
 };
@@ -509,10 +538,26 @@ const isTruncated = (data) => {
         problems: {},
       };
 
-      objContext = validate(eachB.teamA.firstHalf, objContext, 'teamA.firstHalf');
-      objContext = validate(eachB.teamA.secondHalf, objContext, 'teamA.secondHalf');
-      objContext = validate(eachB.teamB.firstHalf, objContext, 'teamB.firstHalf');
-      objContext = validate(eachB.teamB.secondHalf, objContext, 'teamB.secondHalf');
+      objContext = validate(
+        eachB.teamA.firstHalf,
+        objContext,
+        'teamA.firstHalf',
+      );
+      objContext = validate(
+        eachB.teamA.secondHalf,
+        objContext,
+        'teamA.secondHalf',
+      );
+      objContext = validate(
+        eachB.teamB.firstHalf,
+        objContext,
+        'teamB.firstHalf',
+      );
+      objContext = validate(
+        eachB.teamB.secondHalf,
+        objContext,
+        'teamB.secondHalf',
+      );
 
       if (Object.keys(objContext.problems).length) truncatedLogs.push(objContext);
     });
@@ -524,7 +569,9 @@ const isTruncated = (data) => {
 const registerGid = async (sheetId) => {
   const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
   const data = await getSource(key, sheetId);
-  const today = `${new Date().getYear() + 1900}.${new Date().getMonth() + 1}.${new Date().getDate()}`;
+  const today = `${new Date().getYear() + 1900}.${
+    new Date().getMonth() + 1
+    }.${new Date().getDate()}`;
 
   if (data) {
     if (data.date !== today) {
@@ -532,9 +579,12 @@ const registerGid = async (sheetId) => {
       if (!maybeTruncated.length) {
         await postData(data);
         return true;
-      } return maybeTruncated;
-    } return 'Error: Wait to pass the day to add the gId.';
-  } return 'Error: There is no valid dataSet.';
+      }
+      return maybeTruncated;
+    }
+    return 'Error: Wait to pass the day to add the gId.';
+  }
+  return 'Error: There is no valid dataSet.';
 };
 
 const isValid = (data) => {
@@ -543,26 +593,78 @@ const isValid = (data) => {
   if (data === false) return 'Is false!';
   if (data === null) return 'Is null!';
   if (data === undefined) return 'Is undefined!';
-  if (data === '') return 'Is \'\'!';
+  if (data === '') return "Is ''!";
   return false;
 };
 
-const setMachineLearning = async () => {
-  const dataSet = await getFifaDatabase();
-  debugTime('getFifaDatabase');
-  const { aggregated, users, teams } = await dataTooler(dataSet);
-  debugTime('dataTooler');
+const filterRankByTarget = (data, target, inverse) => {
+  data.sort((a, b) => {
+    if (a[target] < b[target]) return -1;
+    if (a[target] > b[target]) return 1;
+    return 0;
+  });
+  if ((target === 'name' && !inverse) || (target !== 'name' && inverse)) return data;
+  return data.reverse();
+};
 
+const databaseIsConsistent = async () => {
+  const nowConsistency = getConsistency();
+  if (developerMode) return nowConsistency;
+  const oldConsistency = await getDatabaseConsistency();
+  if (oldConsistency.aggregatedSet === nowConsistency) return nowConsistency;
+
+  return false;
+};
+
+const setDatabaseConsistency = async () => {
+  const dataSet = await getFifaDatabase();
+  const { aggregated } = await dataTooler(dataSet);
+  const newConsistency = hash(aggregated);
+  await postDatabaseConsistency({ aggregatedSet: newConsistency });
+};
+
+const forceDatabaseConsistency = async () => {
+  const newConsistency = await getConsistency();
+  await postDatabaseConsistency({ aggregatedSet: newConsistency });
+};
+
+const setMachineLearning = async (aggregated, users, teams, data) => {
+  if (!aggregated) {
+    const status = await databaseIsConsistent();
+    debugTime('databaseIsConsistent');
+    if (!status) {
+      await deleteAllDB();
+      debugTime('deleteAllDB');
+      const datedSet = await getFifaDatabase();
+      debugTime('getFifaDatabase');
+      const tooler = await dataTooler(datedSet);
+      debugTime('dataTooler');
+      return setMachineLearning(
+        tooler.aggregated,
+        tooler.users,
+        tooler.teams,
+        datedSet,
+      );
+    }
+    const aggregatedSet = await getTable('aggregatedSet');
+    const usersSet = await getTable('usersSet');
+    const teamsSet = await getTable('teamsSet');
+    const dataSet = await getIndexed('dataSet', 'date');
+    debugTime('indexedDb');
+    return setMachineLearning(aggregatedSet, usersSet, teamsSet, dataSet);
+  }
   defaultML.end = aggregated.length;
   defaultML.max = defaultML.end;
   defaultML.step = defaultML.end;
-  return { users, teams, dataSet };
+  return { aggregated, users, teams, data };
 };
 
 const hash = (data) => {
   const s = JSON.stringify(data) || '';
-  let h = 0; const l = s.length; let i = 0;
-  if (l > 0) while (i < l) h = (h << 5) - h + s.charCodeAt(i++) | 0;
+  let h = 0;
+  const l = s.length;
+  let i = 0;
+  if (l > 0) while (i < l) h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
   return h;
 };
 
@@ -584,7 +686,9 @@ const addZeros = (number) => {
 
 const getRegisteredDays = async (datedSet) => {
   const registeredIds = {};
-  datedSet.forEach((each) => { registeredIds[each.date] = each.id; });
+  datedSet.forEach((each) => {
+    registeredIds[each.date] = each.id;
+  });
   return registeredIds;
 };
 
@@ -625,7 +729,8 @@ const getNeuralNetwork = async (assets) => {
     });
 
     if (init) {
-      api.post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
+      api
+        .post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
         .then((response) => {
           console.log(response);
         })
@@ -639,17 +744,13 @@ const getNeuralNetwork = async (assets) => {
       downloadJSON(result, new Date());
     }
 
-    if ((index + +step) >= +end && index !== +end - 1) index = +end - 1;
+    if (index + +step >= +end && index !== +end - 1) index = +end - 1;
     else index += +step;
   }
 };
 
 const getTrain = async (assets) => {
-  const {
-    nameDataSet,
-    batches,
-    saveEvery,
-  } = assets;
+  const { nameDataSet, batches, saveEvery } = assets;
 
   const trainSet = await getTable(nameDataSet);
 
@@ -659,9 +760,14 @@ const getTrain = async (assets) => {
   for (let i = 0; i < fakeBatches; i += 1) {
     const { data } = await api.get(`/index?nameSet=${nameDataSet}`);
 
-    const result = await mL({ trainSet, neuralNetwork: data.neuralNetwork, ...assets });
+    const result = await mL({
+      trainSet,
+      neuralNetwork: data.neuralNetwork,
+      ...assets,
+    });
 
-    api.post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
+    api
+      .post(`/create?nameSet=${nameDataSet}`, result[result.length - 1])
       .then((response) => {
         console.log(response);
       })

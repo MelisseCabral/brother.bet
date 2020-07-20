@@ -526,16 +526,18 @@
       <div id="home" style="display: block" class="android-content mdl-layout__content">
         <!-- Simple header with scrollable tabs. -->
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-          <header class="mdl-layout__header">
+          <header id="myTabs" class=" mdl-tabs mdl-js-tabs mdl-layout__header">
             <!-- Tabs -->
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-              <a href="#scroll-tab-1" style="display:none" class="mdl-layout__tab is-active">test</a>
-              <a href="#tabRankUsers" class="mdl-layout__tab">Rank Users</a>
-              <a href="#tabRankTeams" class="mdl-layout__tab">Rank Teams</a>
+              <a id="btnTabPresentation" href="#tabPresentation"  style="display:none;"class="mdl-layout__tab is-active">Presentation</a>
+              <a id="btnTabRankUsersHistory" href="#tabRankUsersHistory"  style="display:none;" class="mdl-layout__tab">Rank Users History</a>
+              <a id="btnTabRankTeamsHistory" href="#tabRankTeamsHistory"  style="display:none;" class="mdl-layout__tab">Rank Teams History</a>
+              <a id="btnTabRankUsers" href="#tabRankUsers" class="mdl-layout__tab">Rank Users</a>
+              <a id="btnTabRankTeams" href="#tabRankTeams" class="mdl-layout__tab">Rank Teams</a>
             </div>
           </header>
           <main class="mdl-layout__content">
-            <section class="mdl-layout__tab-panel is-active" id="scroll-tab-1">
+            <section class="mdl-layout__tab-panel is-active" id="tabPresentation">
               <div class="page-content">
                 <div id="tchanTiped" class="init-content mdl-typography--text-center">
                   <div id="tchanTiped" class="logo-font android-slogan">
@@ -548,214 +550,10 @@
                 </div>
               </div>
             </section>
-            <section class="mdl-layout__tab-panel" id="tabRankUsers">
-              <div class="page-content">
-                <table class="mdl-data-dynamictable  mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
-                  <thead>
-                    <tr>
-                      <th> </th>
-                      <th> </th>
-                      <th class=""> Goal</th>
-                      <th class="">s Med </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th class="tableOdd">Under </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th class=""> Over </th>
-                      <th> </th>
-                      <th> </th>
-                    </tr>
-                  </thead>
-                  <thead class="tHeadAbove">
-                    <tr>
-                      <th class="link">
-                        Team
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        Games
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Pro
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Con
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        Wins
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Draws
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        Losses
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Both Score
-                        <i class=" material-icons">arrow_upward</i>
-                      </th>
-                      <th class="tableOdd">
-                        .5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        1.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        2.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        3.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        4.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        .5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        1.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        2.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        3.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-            <section class="mdl-layout__tab-panel" id="tabRankTeams">
-              <div class="page-content">
-                <table class="mdl-data-dynamictable  mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
-                  <thead>
-                    <tr>
-                      <th> </th>
-                      <th> </th>
-                      <th class=""> Goal</th>
-                      <th class="">s Med </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th class="tableOdd"> Under </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th> </th>
-                      <th class=""> Over </th>
-                      <th> </th>
-                      <th> </th>
-                    </tr>
-                  </thead>
-                  <thead class="tHeadAbove">
-                    <tr>
-                      <th class="link">
-                        Team
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        Games
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Pro
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Con
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        Wins
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Draws
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        Losses
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        Both Score
-                        <i class=" material-icons">arrow_upward</i>
-                      </th>
-                      <th class="tableOdd">
-                        .5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        1.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        2.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        3.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="tableOdd">
-                        4.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        .5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        1.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        2.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        3.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                      <th class="">
-                        4.5
-                        <i class=" material-icons">filter_alt</i>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div>
-            </section>
+            <section class="mdl-layout__tab-panel" id="tabRankUsers"> </section>
+            <section class="mdl-layout__tab-panel" id="tabRankTeams"> </section>
+            <section class="mdl-layout__tab-panel" id="tabRankUsersHistory"> </section>
+            <section class="mdl-layout__tab-panel" id="tabRankTeamsHistory"> </section>
           </main>
         </div>
       </div>
@@ -842,11 +640,11 @@
                 </ul>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
-                <img class="article-image" src=" images/initial.jpg" border="0" alt="">
+                <img class="article-image" src="" border="0" alt="">
               </div>
               <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Types of Markets</h3>
               <div class="mdl-cell mdl-cell--6-col">
-                <img class="article-image" src=" images/martingale.png" border="0" alt="">
+                <img class="article-image" src="" border="0" alt="">
               </div>
               <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding ">
                 <ul>
@@ -866,11 +664,11 @@
                 </ol>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
-                <img class="article-image" src=" images/under-two-half.jpg" border="0" alt="">
+                <img class="article-image" src="" border="0" alt="">
               </div>
               <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Martingale</h3>
               <div class="mdl-cell mdl-cell--6-col">
-                <img class="article-image" src=" images/martingale.png" border="0" alt="">
+                <img class="article-image" src="" border="0" alt="">
               </div>
               <div class="mdl-cell mdl-cell--6-col mdl-card__supporting-text no-padding">
                 <p>
@@ -912,7 +710,7 @@
                 </ul>
               </div>
               <div class="mdl-cell mdl-cell--6-col">
-                <img class="article-image" src="images/trump.jpg" border="0" alt="">
+                <img class="article-image" src="" border="0" alt="">
               </div>
             </div>
           </div>

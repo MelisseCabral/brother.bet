@@ -33,7 +33,7 @@ routes.post('/databaseConsistency', celebrate({
     }),
   [Segments.BODY]:
     Joi.object().keys({
-      aggregatedTrainSet: Joi.number().integer().required(),
+      aggregatedSet: Joi.number().integer().required(),
     }),
 }), DatabaseConsistencyController.create);
 

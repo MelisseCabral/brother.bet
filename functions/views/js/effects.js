@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-globals */
@@ -11,24 +12,25 @@ $(document).ready(() => {
 });
 
 async function initEffect() {
-  $('#statusCloud').css('color', 'var(--contrast_primary_color_3)');
-  const { users, teams, dataSet } = await setMachineLearning();
-  addTableRankTeams('user', users);
-  addTableRankTeams('team', teams);
-  tableCheckGid(2020, dataSet);
+  debugTime('initEffect');
+  cloudDone(false);
+  const { aggregated, users, teams, data } = await setMachineLearning();
+  filterRank('users', 'name', '0', users, 'filter_alt');
+  filterRank('teams', 'name', '0', teams, 'filter_alt');
+  tableCheckGid(2020, data);
   fillComboboxes(users, teams);
+  processing(false);
+  cloudDone();
   initStorage();
   initTrain();
-  $('#progress').removeClass('mdl-progress__indeterminate');
-  $('#statusCloud').css('color', 'var(--terciary_color_1)');
+  setConsistency(aggregated);
   debugTime('end');
 }
 
 let globalSeconds = 0;
 let initTime = 0;
-const degguging = [true];
 function debugTime(msg) {
-  if (degguging[0]) {
+  if (developerMode) {
     const d = new Date();
     seconds = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
     if (globalSeconds === 0) initTime = seconds;
@@ -40,135 +42,250 @@ function debugTime(msg) {
 function actions() {
   autoUpdateLabel();
 
-  $('#more-button').off().click((e) => {
-    e.stopImmediatePropagation();
-    if (window.location.origin === 'http://127.0.0.1:5500') {
-      setDatabaseConsistency();
-    } else {
-      e = e.originalEvent;
-    }
-  });
+  $('#more-button')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      if (window.location.origin === 'http://127.0.0.1:5500') {
+        setDatabaseConsistency();
+      } else {
+        e = e.originalEvent;
+      }
+    });
 
-  $('#btnCloud').off().click(async (e) => {
-    e.stopImmediatePropagation();
-    if (confirm('The whole database gonna be deleted to be updated! Do you wanna proceed?')) {
-      await getFifaCloud();
-      console.log('done');
-    }
-  });
+  $('#btnCloud')
+    .off()
+    .click(async (e) => {
+      e.stopImmediatePropagation();
+      if (
+        confirm(
+          'The whole database gonna be deleted to be updated! Do you wanna proceed?',
+        )
+      ) {
+        await getFifaCloud();
+        console.log('done');
+      }
+    });
 
-  $('#btnNeural').off().click((e) => {
-    e.stopImmediatePropagation();
-    if (statusCloud) {
-      initTrain();
-      $('#trainFactory').show();
-    } else {
-      alert('Wait for it...');
-    }
-  });
+  $('#btnNeural')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      if (statusCloud) {
+        initTrain();
+        $('#trainFactory').show();
+      } else {
+        alert('Wait for it...');
+      }
+    });
 
-  $('#btnFactoryRegister').off().click((e) => {
-    e.stopImmediatePropagation();
-    $('#registerFactory').show();
-  });
+  $('#btnFactoryRegister')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      $('#registerFactory').show();
+    });
 
-  $('#btnRegisterGids').off().click((e) => {
-    e.stopImmediatePropagation();
-    registerGids();
-  });
+  $('#btnRegisterGids')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      registerGids();
+    });
 
-  $('#btnAddRegister').off().click((e) => {
-    e.stopImmediatePropagation();
-    const gid = $('#txtGid').val();
-    addGidToTable(gid, 'Verifing...');
-    $('#registerFactory').find('table').show();
-  });
+  $('#btnAddRegister')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      const gid = $('#txtGid').val();
+      addGidToTable(gid, 'Verifing...');
+      $('#registerFactory').find('table').show();
+    });
 
-  $('#btnDownload').off().click(async (e) => {
-    e.stopImmediatePropagation();
-    if (statusCloud) {
-      await downloadDb();
-    } else {
-      alert('Wait for it...');
-    }
-  });
+  $('#btnDownload')
+    .off()
+    .click(async (e) => {
+      e.stopImmediatePropagation();
+      if (statusCloud) {
+        await downloadDb();
+      } else {
+        alert('Wait for it...');
+      }
+    });
 
-  $('#btnPredict').off().click(async (e) => {
-    e.stopImmediatePropagation();
-    if (statusCloud) {
-      $('#predictFactory').show();
-    } else {
-      alert('Wait for it...');
-    }
-  });
+  $('#btnPredict')
+    .off()
+    .click(async (e) => {
+      e.stopImmediatePropagation();
+      if (statusCloud) {
+        $('#predictFactory').show();
+      } else {
+        alert('Wait for it...');
+      }
+    });
 
-  $('#btnLogoutFun').off().click((e) => {
-    e.stopImmediatePropagation();
-    logout();
-  });
+  $('#btnLogoutFun')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      logout();
+    });
 
-  $('.btn-close').off().click((e) => {
-    e.stopImmediatePropagation();
-    $('#trainFactory').hide();
-    $('#predictFactory').hide();
-    registerFactoryClose();
-  });
+  $('.btn-close')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      $('#trainFactory').hide();
+      $('#predictFactory').hide();
+      registerFactoryClose();
+    });
 
-  $('#btnSaveTrain').off().click((e) => {
-    e.stopImmediatePropagation();
-    saveConfig();
-  });
+  $('#btnSaveTrain')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      saveConfig();
+    });
 
-  $('#btnCookPredict').off().click(async (e) => {
-    e.stopImmediatePropagation();
-    $('#tables').hide();
-    fillPrediction(getGameIsFilled());
-  });
+  $('#btnCookPredict')
+    .off()
+    .click(async (e) => {
+      e.stopImmediatePropagation();
+      $('#tables').hide();
+      fillPrediction(getGameIsFilled());
+    });
 
-  $('#btnCookTrainReal').off().click(async (e) => {
-    e.stopImmediatePropagation();
-    if (statusCloud) {
-      increaseBrotherBonus();
-      getTrainIsTogether(getTrain);
-    } else {
-      alert('Wait for it...');
-    }
-  });
+  $('#btnCookTrainReal')
+    .off()
+    .click(async (e) => {
+      e.stopImmediatePropagation();
+      if (statusCloud) {
+        increaseBrotherBonus();
+        getTrainIsTogether(getTrain);
+      } else {
+        alert('Wait for it...');
+      }
+    });
 
-  $('#btnCookTrain').off().click((e) => {
-    e.stopImmediatePropagation();
-    increaseMoney();
-    getTrainIsTogether(getNeuralNetwork);
-  });
+  $('#btnCookTrain')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      increaseMoney();
+      getTrainIsTogether(getNeuralNetwork);
+    });
 
-  $('#valueBudget').off().click((e) => {
-    e.stopImmediatePropagation();
-  });
+  $('#valueBudget')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+    });
 
-  $('#btnLAccount').off().click((e) => {
-    e.stopImmediatePropagation();
-    $('#btnAccounts').click();
-  });
+  $('#btnLAccount')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      $('#btnAccounts').click();
+    });
 
-  $('#btnBetfairAccount').off().click((e) => {
-    e.stopImmediatePropagation();
-    $('#btnAccounts').click();
-  });
+  $('#btnBetfairAccount')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      $('#btnAccounts').click();
+    });
 
-  $('#btnCloseRobot').off().click((e) => {
-    e.stopImmediatePropagation();
-    $('#robotFactory').hide();
-  });
+  $('#btnCloseRobot')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      $('#robotFactory').hide();
+    });
 
-  $('#btnSaveRobot').off().click((e) => {
-    e.stopImmediatePropagation();
-    saveRobotModel();
-  });
+  $('#btnSaveRobot')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      saveRobotModel();
+    });
 
-  $('#btnLogout').off().click((e) => {
-    e.stopImmediatePropagation();
-    logout();
-  });
+  $('#btnLogout')
+    .off()
+    .click((e) => {
+      e.stopImmediatePropagation();
+      logout();
+    });
+
+  $('.page-content thead:nth-child(2) i')
+    .off()
+    .click(async (e) => {
+      await filterRank(
+        $(e.target).parents()[5].id.split('tabRank')[1].toLowerCase(),
+        $(e.target).prev().attr('class'),
+        $($(e.target).parents()[0]).index(),
+        '',
+        $(e.target).html(),
+        '',
+        $(e.target).parents()[4].id.split('tabRank')[1].slice(5, 15).toLowerCase(),
+      );
+    });
+
+  $('.page-content tbody th:first-child')
+    .off()
+    .click(async (e) => {
+      filterRank(
+        $(e.target).parents()[4].id.split('tabRank')[1].split('History')[0].toLowerCase(),
+        'games',
+        '0',
+        '',
+        'filter_alt',
+        $($(e.target).get(0)).html(),
+        'History',
+      );
+    });
+}
+
+async function filterRank(context, target, index, teams, btn, nameScope, history) {
+  const nameSet = `${context}Set`;
+  let inverse = false;
+  if (!teams) {
+    teams = await getTable(nameSet);
+  }
+
+  if (btn === 'filter_alt' || btn === 'arrow_downward') btn = 'arrow_upward';
+  else if (btn === 'arrow_upward') btn = 'arrow_downward';
+
+  if (btn === 'arrow_downward') inverse = true;
+
+  const all = [];
+
+  if (!history) {
+    const nameTeams = Object.keys(teams);
+    nameTeams.forEach((nameTeam) => {
+      const team = teams[nameTeam][teams[nameTeam].length - 1];
+      team.name = nameTeam;
+      all.push(team);
+    });
+  } else {
+    const team = teams[nameScope];
+    team.forEach((turn) => {
+      turn.name = nameScope;
+      all.push(turn);
+    });
+  }
+
+  const filteredTable = filterRankByTarget(all, target, inverse);
+  addTableRank(context, filteredTable, index, btn, history);
+}
+
+function processing(status) {
+  if (!status) return $('#progress').removeClass('mdl-progress__indeterminate');
+  return $('#progress').addClass('mdl-progress__indeterminate');
+}
+
+function cloudDone(status = true) {
+  if (!status) return $('#statusCloud').css('color', 'var(--contrast_primary_color_3)');
+  return $('#statusCloud').css('color', 'var(--tertiary_color_1)');
 }
 
 function preloader() {
@@ -179,6 +296,10 @@ function preloader() {
       $('#preloader').delay(300).fadeOut('slow');
     });
   });
+}
+
+async function getStruture(page) {
+  return new Promise((resolve, reject) => $.when($.get(page)).done((data) => resolve(data)));
 }
 
 function registerFactoryClose() {
@@ -328,20 +449,33 @@ function initTrain() {
 // Stake
 function stake() {
   const stakeSlider = document.querySelector('#sliderStake');
-  stakeSlider.addEventListener('change', () => {
-    const budgetFloat = parseFloat($('#valueBudget').html());
-    let partBudget = budgetFloat * parseFloat(stakeSlider.value / stakeSlider.max);
-    let percBudget = (partBudget / budgetFloat) * 100;
-    partBudget = partBudget.toFixed(2);
-    percBudget = percBudget.toFixed(2);
-    $('#valueStake').html(partBudget);
-    $('#valuePercStake').html(percBudget);
-  }, false);
+  stakeSlider.addEventListener(
+    'change',
+    () => {
+      const budgetFloat = parseFloat($('#valueBudget').html());
+      let partBudget = budgetFloat * parseFloat(stakeSlider.value / stakeSlider.max);
+      let percBudget = (partBudget / budgetFloat) * 100;
+      partBudget = partBudget.toFixed(2);
+      percBudget = percBudget.toFixed(2);
+      $('#valueStake').html(partBudget);
+      $('#valuePercStake').html(percBudget);
+    },
+    false,
+  );
 }
 
 // Views
 function views() {
-  const viewsList = ['home', 'account', 'method', 'profit', 'contact', 'game', 'robot', 'admin'];
+  const viewsList = [
+    'home',
+    'account',
+    'method',
+    'profit',
+    'contact',
+    'game',
+    'robot',
+    'admin',
+  ];
   viewsList.forEach((showElement) => {
     const key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
     $(key).click((e) => {
@@ -388,34 +522,49 @@ function market() {
   const marketWinList = ['chipCorrectScore', 'chipMatchOdds', 'chipUnderOver'];
 
   marketWinList.forEach((showElement) => {
-    $(`#${showElement}`).off().click((e) => {
-      e.stopImmediatePropagation();
-      const key = showElement.split('chip')[1].split(/(?=[A-Z])/).join('_').toLowerCase();
-      $('#market').val(key);
-      marketWinList.forEach((hideElement) => {
-        const hiden = hideElement.split('chip')[1].split(/(?=[A-Z])/).join('_').toLowerCase();
-        $(`.${hiden}`).css('display', 'none');
-        $(`#${hideElement}`).css('background-color', '#dedede');
+    $(`#${showElement}`)
+      .off()
+      .click((e) => {
+        e.stopImmediatePropagation();
+        const key = showElement
+          .split('chip')[1]
+          .split(/(?=[A-Z])/)
+          .join('_')
+          .toLowerCase();
+        $('#market').val(key);
+        marketWinList.forEach((hideElement) => {
+          const hiden = hideElement
+            .split('chip')[1]
+            .split(/(?=[A-Z])/)
+            .join('_')
+            .toLowerCase();
+          $(`.${hiden}`).css('display', 'none');
+          $(`#${hideElement}`).css('background-color', '#dedede');
+        });
+        $(`.${key}`).show();
+        $(`#${showElement}`).css('background-color', '#FAFAFA');
+        initMarket();
+        $('.overlay').css(
+          'height',
+          `${$('.init-box-robot').outerHeight() * 1.13}px`,
+        );
       });
-      $(`.${key}`).show();
-      $(`#${showElement}`).css('background-color', '#FAFAFA');
-      initMarket();
-      $('.overlay').css('height', `${$('.init-box-robot').outerHeight() * 1.13}px`);
-    });
   });
 
   const marketPositionList = ['chipBack', 'chipLay'];
 
   marketPositionList.forEach((showElement) => {
-    $(`#${showElement}`).off().click((e) => {
-      e.stopImmediatePropagation();
-      showElement.split('chip')[1].toLowerCase();
-      $('#position').val('back');
-      marketPositionList.forEach((hideElement) => {
-        $(`#${hideElement}`).css('background-color', '#dedede');
+    $(`#${showElement}`)
+      .off()
+      .click((e) => {
+        e.stopImmediatePropagation();
+        showElement.split('chip')[1].toLowerCase();
+        $('#position').val('back');
+        marketPositionList.forEach((hideElement) => {
+          $(`#${hideElement}`).css('background-color', '#dedede');
+        });
+        $(`#${showElement}`).css('background-color', '#FAFAFA');
       });
-      $(`#${showElement}`).css('background-color', '#FAFAFA');
-    });
   });
 }
 
@@ -425,40 +574,54 @@ function initStorage() {
   }
 }
 
+function setConsistency(consistency) {
+  localStorage.setItem('consistency', hash(consistency));
+}
+
+function getConsistency() {
+  return JSON.parse(localStorage.getItem('consistency'));
+}
+
 function initMarket() {
   const marketWinList = ['chipHome', 'chipAway', 'chipDraw'];
 
   marketWinList.forEach((showElement) => {
-    $(`#${showElement}`).off().click((e) => {
-      e.stopImmediatePropagation();
-      marketWinList.forEach((hideElement) => {
-        $(`#${hideElement}`).css('background-color', '#dedede');
+    $(`#${showElement}`)
+      .off()
+      .click((e) => {
+        e.stopImmediatePropagation();
+        marketWinList.forEach((hideElement) => {
+          $(`#${hideElement}`).css('background-color', '#dedede');
+        });
+        $(`#${showElement}`).css('background-color', '#FAFAFA');
       });
-      $(`#${showElement}`).css('background-color', '#FAFAFA');
-    });
   });
 
   const marketTypeList = ['chipUnder', 'chipOver'];
 
   marketTypeList.forEach((showElement) => {
-    $(`#${showElement}`).off().click((e) => {
-      e.stopImmediatePropagation();
-      marketTypeList.forEach((hideElement) => {
-        $(`#${hideElement}`).css('background-color', '#dedede');
+    $(`#${showElement}`)
+      .off()
+      .click((e) => {
+        e.stopImmediatePropagation();
+        marketTypeList.forEach((hideElement) => {
+          $(`#${hideElement}`).css('background-color', '#dedede');
+        });
+        $(`#${showElement}`).css('background-color', '#FAFAFA');
       });
-      $(`#${showElement}`).css('background-color', '#FAFAFA');
-    });
   });
 }
 
 // Typed
 function typedTchan() {
   Typed.new('.typed', {
-    strings: ['Hey BRO, lets bet!!',
+    strings: [
+      'Hey BRO, lets bet!!',
       'odds are going up',
       'or down, so go by LAY',
       'goaaaaaaaaal!!!!',
-      'improve your profit'],
+      'improve your profit',
+    ],
     typeSpeed: 100,
     backDelay: 0,
   });

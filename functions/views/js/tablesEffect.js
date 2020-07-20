@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
-const tableCheckGid = async (year,dataSet) => {
+const tableCheckGid = async (year, dataSet) => {
   const registeredIds = await getRegisteredDays(dataSet);
   const allDaysOfYear = generateDaysofYear(year);
 
@@ -84,22 +84,23 @@ const registerGids = async () => {
   }
 };
 
-const addTableRankTeams = async (nameScope, teams) => {
-  const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1)}s`;
+const addTableRank = async (nameScope, teams, index, btn, history) => {
+  const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1) + (history || '')}`;
+  const fixed = 1;
 
-  const nameTeams = Object.keys(teams);
+  const table = $(await getStruture('components/tableStatistics.html'));
+  $(id).html(table);
+  $(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
+  $(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
+    .html(btn);
 
-  $(id).find('table').find('tbody').html('');
-
-  nameTeams.forEach((nameTeam) => {
-    const team = teams[nameTeam][teams[nameTeam].length - 1];
-    const idTh = `${nameTeam + hash(team)}`;
-    const fixed = 1;
+  teams.forEach((team) => {
+    const idTh = `${team.name + hash(team)}`;
 
     $(id).find('table').find('tbody').append(
       `
       <tr>
-        <th class="link" id="${idTh}">${nameTeam}</th>
+        <th class="link" id="${idTh}">${team.name}</th>
         <th>${team.games}</th>
         <th>${team.goalsPro.toFixed(2)}</th>
         <th>${team.goalsCon.toFixed(2)}</th>
@@ -120,5 +121,6 @@ const addTableRankTeams = async (nameScope, teams) => {
       </tr>
       `,
     );
+    actions();
   });
 };
