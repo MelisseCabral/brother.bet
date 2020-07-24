@@ -220,13 +220,13 @@ function actions() {
     .off()
     .click(async (e) => {
       await filterRank(
-        $(e.target).parents()[5].id.split('tabRank')[1].toLowerCase(),
+        $(e.target).parents()[5].id.split('tabRank')[1].slice(0, 5).toLowerCase(),
         $(e.target).prev().attr('class'),
         $($(e.target).parents()[0]).index(),
         '',
         $(e.target).html(),
-        '',
-        $(e.target).parents()[4].id.split('tabRank')[1].slice(5, 15).toLowerCase(),
+        $(`#${$(e.target).parents()[5].id} .page-content tbody th:first-child`).html(),
+        $(e.target).parents()[5].id.split('tabRank')[1].slice(5, 15),
       );
     });
 
@@ -236,7 +236,7 @@ function actions() {
       filterRank(
         $(e.target).parents()[4].id.split('tabRank')[1].split('History')[0].toLowerCase(),
         'games',
-        '0',
+        '1',
         '',
         'filter_alt',
         $($(e.target).get(0)).html(),
@@ -272,6 +272,7 @@ async function filterRank(context, target, index, teams, btn, nameScope, history
       turn.name = nameScope;
       all.push(turn);
     });
+    document.getElementById(`btnTabRank${context[0].toUpperCase() + context.slice(1)}History`).click();
   }
 
   const filteredTable = filterRankByTarget(all, target, inverse);
@@ -634,6 +635,6 @@ $(document).ready(() => {
   typedTchan();
   stake();
   actions();
-  preloader();
+  // preloader();
   $('#btnHomes').click();
 });

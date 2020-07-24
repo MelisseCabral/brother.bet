@@ -569,9 +569,7 @@ const isTruncated = (data) => {
 const registerGid = async (sheetId) => {
   const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
   const data = await getSource(key, sheetId);
-  const today = `${new Date().getYear() + 1900}.${
-    new Date().getMonth() + 1
-    }.${new Date().getDate()}`;
+  const today = `${new Date().getYear() + 1900}.${new Date().getMonth() + 1}.${new Date().getDate()}`;
 
   if (data) {
     if (data.date !== today) {

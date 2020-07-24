@@ -298,7 +298,15 @@ a img {
 .status-betfair{
   height: 35%;
 }
-  .cifra-brother{
+
+.loader-logo{
+  height: 50%;
+  position: absolute;
+  display: flex;
+
+}
+
+.cifra-brother{
   font-family: "eurofurence" !important;
   text-transform: none !important; 
   font-size: 17px !important;

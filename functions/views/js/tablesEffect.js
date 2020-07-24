@@ -121,6 +121,6 @@ const addTableRank = async (nameScope, teams, index, btn, history) => {
       </tr>
       `,
     );
-    actions();
   });
+  actions();
 };
