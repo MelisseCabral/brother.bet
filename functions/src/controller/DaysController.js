@@ -13,7 +13,10 @@ module.exports = {
     const nameCol = 'fifaChamptionship';
     const { year } = req.query;
     try {
-      const collections = await db.collection(nameCol).doc(year).listCollections();
+      const collections = await db
+        .collection(nameCol)
+        .doc(year)
+        .listCollections();
       const collectionIds = collections.map((col) => col.id);
 
       res.send(collectionIds);
@@ -21,5 +24,4 @@ module.exports = {
       res.send(error);
     }
   },
-
 };

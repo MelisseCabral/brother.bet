@@ -20,6 +20,19 @@
 // eslint-disable-next-line prefer-const
 let init = false;
 
+const nameTables = [
+  'dataSet',
+  'gamesSet',
+  'teamsSet',
+  'aggregatedSet',
+  'usersSet',
+  'trainSet',
+  'addedTrainSet',
+  'trainResultSet',
+  'trainGoalsSet',
+  'trainValidationSet',
+];
+
 const defaultML = {
   nameDataSet: 'trainSet',
   validationSet: '',
@@ -162,7 +175,8 @@ const getTable = async (tableName) => new Promise((resolve) => {
       };
     };
   } catch (error) {
-    console.log(error);
+    console.error(error.message);
+    throw error;
   }
 });
 
@@ -606,6 +620,9 @@ const filterRankByTarget = (data, target, inverse) => {
 };
 
 const databaseIsConsistent = async () => {
+  const dbs = await window.indexedDB.databases();
+  const names = dbs.map((each) => each.name);
+  if (nameTables.filter((table) => !names.includes(table)).length) return false;
   const nowConsistency = getConsistency();
   if (developerMode) return nowConsistency;
   const oldConsistency = await getDatabaseConsistency();
@@ -626,7 +643,7 @@ const forceDatabaseConsistency = async () => {
   await postDatabaseConsistency({ aggregatedSet: newConsistency });
 };
 
-const setMachineLearning = async (aggregated, users, teams, data) => {
+const initLocalDatabase = async (aggregated, users, teams, data) => {
   if (!aggregated) {
     const status = await databaseIsConsistent();
     debugTime('databaseIsConsistent');
@@ -637,19 +654,27 @@ const setMachineLearning = async (aggregated, users, teams, data) => {
       debugTime('getFifaDatabase');
       const tooler = await dataTooler(datedSet);
       debugTime('dataTooler');
-      return setMachineLearning(
+      return initLocalDatabase(
         tooler.aggregated,
         tooler.users,
         tooler.teams,
         datedSet,
       );
     }
-    const aggregatedSet = await getTable('aggregatedSet');
-    const usersSet = await getTable('usersSet');
-    const teamsSet = await getTable('teamsSet');
-    const dataSet = await getIndexed('dataSet', 'date');
-    debugTime('indexedDb');
-    return setMachineLearning(aggregatedSet, usersSet, teamsSet, dataSet);
+    try {
+      const dbs = await window.indexedDB.databases();
+
+      const aggregatedSet = await getTable('aggregatedSet');
+      const usersSet = await getTable('usersSet');
+      const teamsSet = await getTable('teamsSet');
+      const dataSet = await getIndexed('dataSet', 'date');
+      debugTime('indexedDb');
+      return initLocalDatabase(aggregatedSet, usersSet, teamsSet, dataSet);
+    } catch (error) {
+      debugTime(`Catch error${JSON.stringify(error)}`);
+      setConsistency(new Date());
+      return initLocalDatabase();
+    }
   }
   defaultML.end = aggregated.length;
   defaultML.max = defaultML.end;

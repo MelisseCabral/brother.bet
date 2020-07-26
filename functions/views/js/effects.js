@@ -14,16 +14,16 @@ $(document).ready(() => {
 async function initEffect() {
   debugTime('initEffect');
   cloudDone(false);
-  const { aggregated, users, teams, data } = await setMachineLearning();
+  const { aggregated, users, teams, data } = await initLocalDatabase();
+  processing(false);
   filterRank('users', 'name', '0', users, 'filter_alt');
   filterRank('teams', 'name', '0', teams, 'filter_alt');
   tableCheckGid(2020, data);
   fillComboboxes(users, teams);
-  processing(false);
-  cloudDone();
   initStorage();
   initTrain();
   setConsistency(aggregated);
+  cloudDone();
   debugTime('end');
 }
 
@@ -279,9 +279,11 @@ async function filterRank(context, target, index, teams, btn, nameScope, history
   addTableRank(context, filteredTable, index, btn, history);
 }
 
-function processing(status) {
-  if (!status) return $('#progress').removeClass('mdl-progress__indeterminate');
-  return $('#progress').addClass('mdl-progress__indeterminate');
+async function processing(status) {
+  if (status) return $('#progress').addClass('mdl-progress__indeterminate');
+  $('#progress').removeClass('mdl-progress__indeterminate');
+  await $('.loader-logo').css('filter', 'none');
+  return $('#loader').delay(2000).fadeOut('slow', () => $('#preloader').fadeOut('slow'));
 }
 
 function cloudDone(status = true) {
@@ -290,13 +292,7 @@ function cloudDone(status = true) {
 }
 
 function preloader() {
-  $(window).on('load', () => {
-    // will first fade out the loading animation
-    $('#loader').fadeOut('slow', () => {
-      // will fade out the whole DIV that covers the website.
-      $('#preloader').delay(300).fadeOut('slow');
-    });
-  });
+  $(window).on('load', () => $('#loader').delay(300).fadeIn('slow'));
 }
 
 async function getStruture(page) {
@@ -635,6 +631,6 @@ $(document).ready(() => {
   typedTchan();
   stake();
   actions();
-  // preloader();
+  preloader();
   $('#btnHomes').click();
 });

@@ -2,7 +2,7 @@ const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
 
 const DaysController = require('./controller/DaysController');
-const FifaChamptionshipController = require('./controller/FifaChamptionshipController');
+const FifaChampionshipController = require('./controller/FifaChampionshipController');
 const DatabaseConsistencyController = require('./controller/DatabaseConsistencyController');
 const DataController = require('./controller/DataController');
 const NeuralNetworkController = require('./controller/NeuralNetworkController');
@@ -24,7 +24,7 @@ routes.get('/source', celebrate({
       key: Joi.string().required(),
       sheetId: Joi.string().required(),
     }),
-}), FifaChamptionshipController.index);
+}), FifaChampionshipController.index);
 
 routes.post('/databaseConsistency', celebrate({
   [Segments.QUERY]:

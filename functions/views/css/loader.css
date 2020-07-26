@@ -23,7 +23,7 @@
 		var(--secondary_color_4)  75%,
 		var(--secondary_color_5)  100%
 	);
-	position: fixed;
+	position: absolute;
 	z-index: 9999;
 	top: 0;
 	right: 100%;
@@ -64,12 +64,13 @@
 }
 
 #preloader {
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: var(--primary_color_1);
+	/* background: var(--primary_color_1); */
+	background:rgb(0,0,0);
 	z-index: 9;
 	height: 100vh;
 	width: 100vw;

@@ -94,13 +94,14 @@ const addTableRank = async (nameScope, teams, index, btn, history) => {
   $(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
     .html(btn);
 
-  teams.forEach((team) => {
+  teams.forEach((team, indexof) => {
     const idTh = `${team.name + hash(team)}`;
 
     $(id).find('table').find('tbody').append(
       `
       <tr>
         <th class="link" id="${idTh}">${team.name}</th>
+        <th class="gold">${indexof + 1}</th>
         <th>${team.games}</th>
         <th>${team.goalsPro.toFixed(2)}</th>
         <th>${team.goalsCon.toFixed(2)}</th>

@@ -11,8 +11,11 @@ module.exports = {
     const data = req.body;
     const year = data.date.split('.')[0];
 
-    const response = await db.collection(nameCol).doc(year)
-      .collection(data.date).doc(data.id)
+    const response = await db
+      .collection(nameCol)
+      .doc(year)
+      .collection(data.date)
+      .doc(data.id)
       .set(data);
 
     res.send(response);
@@ -24,7 +27,10 @@ module.exports = {
     const files = [];
     const snapshots = [];
 
-    const collections = await db.collection(nameCol).doc(year).listCollections();
+    const collections = await db
+      .collection(nameCol)
+      .doc(year)
+      .listCollections();
     const dates = collections.map((col) => col.id);
 
     for (const date of dates) {
@@ -46,7 +52,11 @@ module.exports = {
     const { year, date } = req.query;
     const files = [];
 
-    const snapshot = await db.collection(nameCol).doc(year).collection(date).get();
+    const snapshot = await db
+      .collection(nameCol)
+      .doc(year)
+      .collection(date)
+      .get();
 
     if (snapshot.empty) return res.send('No matching document.');
 
@@ -56,5 +66,4 @@ module.exports = {
 
     return res.send(files[0]);
   },
-
 };

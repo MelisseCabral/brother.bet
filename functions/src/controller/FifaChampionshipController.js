@@ -14,7 +14,7 @@ module.exports = {
       const jsonArray = await csv().fromString(response.data);
       const arr = removeKeys(jsonArray);
       const arrValidated = validate(arr);
-      const arrStructured = struture(arrValidated);
+      const arrStructured = structure(arrValidated);
       const json = build(filename, sheetId, arrStructured);
 
       res.send(json);
@@ -62,7 +62,7 @@ const removeKeys = (arr) => arr.map((each) => {
 
 const validate = (arr) => arr.filter((each) => Number.isInteger(Number.parseInt(each[1][0], 10)));
 
-const struture = (arr) => {
+const structure = (arr) => {
   const newArray = [];
 
   arr.forEach((each) => {

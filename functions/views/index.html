@@ -2,12 +2,32 @@
 <html lang="en">
 
 <head>
-  <div id="preloader">
-    <div id="loader">
-      <img id="" class="loader-logo" src="images/logo.png" />
-      <div>
+  <div class="pace"id="preloader">
+    <div style="display:none;" id="loader">
+      <img class="loader-logo" src="images/logo.png" />
+      <div class="loader-names">
         <div class="loader-name">BROTHER.BET</div>
-        <div class="loader-slogan">BETTING & TECHNOLOGY</div>
+        <div class="loader-slogan">
+            <span>B</span>
+            <span>E</span>
+            <span>T</span>
+            <span>T</span>
+            <span>I</span>
+            <span>N</span>
+            <span>G</span>
+            <span class="loader-separator">&</span>
+            <span>T</span>
+            <span>E</span>
+            <span>C</span>
+            <span>H</span>
+            <span>N</span>
+            <span>O</span>
+            <span>L</span>
+            <span>O</span>
+            <span>G</span>
+            <span>Y</span>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -543,6 +563,7 @@
                 class="mdl-layout__tab">Rank Teams History</a>
               <a id="btnTabRankUsers" href="#tabRankUsers" class="mdl-layout__tab">Rank Users</a>
               <a id="btnTabRankTeams" href="#tabRankTeams" class="mdl-layout__tab">Rank Teams</a>
+              <a id="btnTabStatistics" href="#tabStatistics" class="mdl-layout__tab">Statistics</a>
             </div>
           </header>
           <main class="mdl-layout__content">
@@ -888,18 +909,18 @@
       <footer>
         <!-- GCP Stuff -->
         <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="/__/firebase/7.16.1/firebase-app.js"></script>
-        <script src="/__/firebase/7.16.1/firebase-analytics.js"></script>
+        <!-- <script src="/__/firebase/7.16.1/firebase-app.js"></script> -->
+        <!-- <script src="/__/firebase/7.16.1/firebase-analytics.js"></script> -->
         <!-- <script src="/__/firebase/7.16.1/firebase-auth.js"></script>
         <script src="/__/firebase/7.16.1/firebase-firestore.js"></script> -->
         <!-- Initialize Firebase -->
-        <script src="/__/firebase/init.js"></script>
+        <!-- <script src="/__/firebase/init.js"></script> -->
 
         <!-- jQuery -->
         <script src="js/plugins/jquery-3.3.1.min.js"></script>
 
         <!-- Loader -->
-        <script src="js/plugins/pace.min.js"></script>
+        <script  data-pace-options='{ "ajax": false }' src="js/plugins/pace.min.js"></script>
 
         <!-- Typed -->
         <script src="js/plugins/typed.js"></script>
@@ -922,7 +943,7 @@
         <script src="js/mL.js"></script>
         <script src="js/effects.js"></script>
         <script src="js/tablesEffect.js"></script>
-        <script src="js/main.js"></script>
+        <!-- <script src="js/main.js"></script> -->
       </footer>
 </body>
 
