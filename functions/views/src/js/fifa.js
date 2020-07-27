@@ -6,7 +6,7 @@ import db from './database';
 import util from './util';
 import debugTime from './debugTime';
 
-newTurn class Fifa {
+class Fifa {
   constructor() {
     this.db = db;
     this.util = util;
@@ -528,4 +528,4 @@ newTurn class Fifa {
 
 const { filterRankByTarget } = new Fifa();
 
-export  { filterRankByTarget };
+export { filterRankByTarget };

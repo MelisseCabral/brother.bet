@@ -336,7 +336,7 @@ a img {
   flex-wrap: wrap;
 }
 
-.loader-logo{
+#loaderLogo{
   width: 25vmax;
   filter: grayscale(100%);
 }

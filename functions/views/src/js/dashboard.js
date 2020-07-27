@@ -15,6 +15,23 @@ class Dashboard {
     // Constants
     this.origin = origin;
     this.developerMode = developerMode;
+    this.marketingText = [
+      'Hey BRO, lets bet!!',
+      'odds are going up',
+      'or down, so go by LAY',
+      'goaaaaaaaaal!!!!',
+      'improve your profit',
+    ];
+    this.viewsList = [
+      'home',
+      'account',
+      'method',
+      'profit',
+      'contact',
+      'game',
+      'robot',
+      'admin',
+    ];
 
     // Variables
 
@@ -33,12 +50,37 @@ class Dashboard {
     this.elBtnLogout = $('#btnLogout');
     this.elBtnFilter = $('.page-content thead:nth-child(2) i');
     this.elBtnHistory = $('.page-content tbody th:first-child');
+    this.elBtnHome = $('#btnHome');
+    this.elBarProgress = $('progress');
+    this.elImgLogo = $('#loaderLogo');
+    this.elLoader = $('#loader');
+    this.elPreloader = $('#preloader');
+    this.elIconStatusCloud = $('#statusCloud');
+    this.elContentSection = $('.page-content');
+    this.elCmbUserA = $('#cmbUserA');
+    this.elCmbUserB = $('#cmbUserB');
+    this.elCmbTeamB = $('#cmbTeamB');
+    this.elCmbTeamA = $('#cmbTeamA');
+    this.elSldBatches = $('#sldBatches');
+    this.elSldLearningRate = $('#sldLearningRate');
+    this.elSldStart = $('#sldStart');
+    this.elSldEnd = $('#sldEnd');
+    this.elSldPercentValidation = $('#sldPercentValidation');
+    this.elSldStep = $('#sldStep');
+    this.elSldPlotPercent = $('#sldPlotPercent');
+    this.elSldSaveEvery = $('#sldSaveEvery');
+    this.elSliders = $('.slider');
+    this.elChip = $('.mdl-chip');
+    this.elOfuscator = $('.mdl-layout__obfuscator');
+    this.elLayoutDrawer = $('.mdl-layout__drawer');
+    this.elExtBudget = $('#txtBudget');
 
     // Functions
     this.debugTime = debugTime;
     this.filterRankByTarget = filterRankByTarget;
     // Objects
     this.window = window;
+    this.typed = Typed;
   }
 
   registerHandlers() {
@@ -54,6 +96,7 @@ class Dashboard {
     this.elBtnFilter.off().click().click((e) => this.doRankFiltering(e));
     this.elBtnHistory.off().click((e) => this.openHistory(e));
     this.document.ready((e) => this.initEffect(e));
+    this.MsgSnackbar = $('#demo-snackbar-example');
   }
 
   async initEffect(e) {
@@ -161,7 +204,9 @@ class Dashboard {
     );
   }
 
-  async filterRank(context, target, index, teams, btn, nameScope, history) {
+  async filterRank(context, target, index, inTeams, inBtn, nameScope, history) {
+    let teams = inTeams;
+    let btn = inBtn;
     const nameSet = `${context}Set`;
     let inverse = false;
     if (!teams) {
@@ -197,58 +242,45 @@ class Dashboard {
   }
 
   processing(status) {
-    if (status) return $('#progress').addClass('mdl-progress__indeterminate');
-    $('#progress').removeClass('mdl-progress__indeterminate');
-    return preloader();
-  }
-
-  cloudDone(status = true) {
-    if (!status) return $('#statusCloud').css('color', 'var(--contrast_primary_color_3)');
-    return $('#statusCloud').css('color', 'var(--tertiary_color_1)');
-  }
-
-  restrictedArea(id) {
-    $(`${id} .page-content`).addClass('restrict-area');
+    if (status) return this.elBarProgress.addClass('mdl-progress__indeterminate');
+    this.elBarProgress.removeClass('mdl-progress__indeterminate');
+    return this.preloader();
   }
 
   async preloader() {
-    await $('.loader-logo').css('filter', 'none');
-    $('#loader').delay(2000).fadeOut('slow', () => $('#preloader').fadeOut('slow'));
+    await this.elImgLogo.css('filter', 'none');
+    this.elLoader.delay(2000).fadeOut('slow', () => this.elPreloader.fadeOut('slow'));
   }
 
-  getStructure(page) {
+  cloudDone(status = true) {
+    if (!status) return this.elIconStatusCloud.css('color', 'var(--contrast_primary_color_3)');
+    return this.elIconStatusCloud.css('color', 'var(--tertiary_color_1)');
+  }
+
+  restrictedArea(id) {
+    this.elContentSection.parent(id).addClass('restrict-area');
+  }
+
+  static getStructure(page) {
     return new Promise((resolve) => {
       $.when($.get(page)).done((data) => resolve(data));
     });
   }
 
-  registerFactoryClose() {
-    $('#registerFactory').hide();
-    $('#registerFactory').find('table').show();
-  }
-
-  increaseBrotherBonus() {
-    $('#brotherBonus').html(Number(Number($('#brotherBonus').html()) || 0) + 1);
-  }
-
-  increaseMoney() {
-    $('#money').html(Number(Number($('#money').html()) || 0) + 1);
-  }
-
   getGameIsFilled() {
     const game = {
-      teamA: { user: $('#cmbUserA').val(), team: $('#cmbTeamA').val() },
-      teamB: { user: $('#cmbUserB').val(), team: $('#cmbTeamB').val() },
+      teamA: { user: this.elCmbUserA.val(), team: this.elCmbTeamA.val() },
+      teamB: { user: this.elCmbUserB.val(), team: this.elCmbTeamB.val() },
     };
     if (game.teamA.user && game.teamA.team && game.teamB.user && game.teamB.team) return game;
-    return alert('You need fill all fields to predict.');
+    return this.snackbar('You need fill all fields to predict.');
   }
 
   async fillPrediction(game) {
     if (game) {
-      const prediction = await getPredictionIsTogether(game);
+      const prediction = await this.getPredictionIsTogether(game);
       const fixed = 7;
-      $('#tables').show();
+      $('#tablesPrediction').show();
       $('#teamAWin').html(prediction[0].toFixed(fixed));
       $('#draw').html(prediction[1].toFixed(fixed));
       $('#teamBWin').html(prediction[2].toFixed(fixed));
@@ -257,33 +289,18 @@ class Dashboard {
     }
   }
 
-  async getPredictionIsTogether(game) {
-    if ($('#together').prop('checked')) {
-      const predictionResult = await predict('trainResultSet', game);
-      const predictionGoals = await predict('trainGoalsSet', game);
-      return [...predictionResult, ...predictionGoals];
-    }
-    return predict('trainSet', game);
-  }
-
   getTrainIsTogether(callback) {
-    const assets = getConfig();
-    if ($('#togetherTrain').prop('checked')) {
-      const assetsResult = JSON.parse(JSON.stringify(assets));
-      assetsResult.nameDataSet = 'trainResultSet';
-      callback(assetsResult);
+    const assets = this.getConfig();
+    const assetsResult = JSON.parse(JSON.stringify(assets));
+    assetsResult.nameDataSet = 'trainResultSet';
+    callback(assetsResult);
 
-      const assetsGoals = JSON.parse(JSON.stringify(assets));
-      assetsGoals.nameDataSet = 'trainGoalsSet';
-      callback(assetsGoals);
-    } else {
-      const assetsDefault = JSON.parse(JSON.stringify(assets));
-      assetsDefault.nameDataSet = 'trainSet';
-      callback(assetsDefault);
-    }
+    const assetsGoals = JSON.parse(JSON.stringify(assets));
+    assetsGoals.nameDataSet = 'trainGoalsSet';
+    callback(assetsGoals);
   }
 
-  fillComboboxes(usersSet, teamsSet) {
+  static fillComboboxes(usersSet, teamsSet) {
     const users = Object.keys(usersSet);
     const teams = Object.keys(teamsSet);
 
@@ -295,45 +312,40 @@ class Dashboard {
   }
 
   snackbar(string) {
-    const snackbarContainer = document.querySelector('#demo-snackbar-example');
-    const data = {
+    this.MsgSnackbar[0].MaterialSnackbar.showSnackbar({
       message: string,
-    };
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    });
   }
 
   setBtnsState(propName, option) {
     let pos = 1;
     if (option === true) pos = 0;
-    document.getElementById(propName).querySelectorAll('.mdl-chip')[pos].click();
+    this.elChip.$('.mdl-chip').closest(propName).children().eq(1)
+      .children()[pos].click();
   }
 
   getBtnsState(propName) {
-    truly = document.getElementById(propName).querySelector('.mdl-chip');
-    if (truly.style.backgroundColor === 'rgb(250, 250, 250)') return true;
+    const chip = this.elChip.closest(propName).children().eq(1).children();
+    if (chip.css('backgroundColor') === 'rgb(250, 250, 250)') return true;
     return false;
   }
 
-  saveConfig() {
-
-  }
-
   getConfig() {
-    const obj = JSON.parse(JSON.stringify(defaultML));
-    obj.batches = $('#sldBatches').val();
-    obj.learningRate = $('#sldLearningRate').val();
-    obj.start = $('#sldStart').val();
-    obj.end = $('#sldEnd').val();
-    obj.randomize = getBtnsState('btnsShuffle');
-    obj.normalization = getBtnsState('btnsNormalization');
-    obj.validationPercent = $('#sldPercentValidation').val();
-    obj.step = $('#sldStep').val();
-    obj.plotPercent = $('#sldPlotPercent').val();
-    obj.saveEvery = $('#sldSaveEvery').val();
+    const obj = JSON.parse(JSON.stringify(this.fifa.defaultML));
+    obj.batches = this.elSldBatches.val();
+    obj.learningRate = this.elSldLearningRate.val();
+    obj.start = this.elSldStart.val();
+    obj.end = this.elSldEnd.val();
+    obj.validationPercent = this.elSldPercentValidation.val();
+    obj.step = this.elSldStep.val();
+    obj.plotPercent = this.elSldPlotPercent.val();
+    obj.saveEvery = this.elSldSaveEvery.val();
+    obj.randomize = this.getBtnsState('#btnsShuffle');
+    obj.normalization = this.getBtnsState('#btnsNormalization');
+
     return obj;
   }
 
-  // Cook Train
   initTrain() {
     const {
       batches,
@@ -346,93 +358,85 @@ class Dashboard {
       validationPercent,
       step,
       plotPercent,
-    } = JSON.parse(localStorage.getItem('machineLearning'));
+    } = JSON.parse(this.getCache('machineLearning'));
 
     document.getElementById('sldStart').max = max;
     document.getElementById('sldEnd').max = max;
     document.getElementById('sldStep').max = max;
 
-    $('#sldBatches').val(batches);
-    $('#sldLearningRate').val(learningRate);
-    $('#sldStart').val(start);
-    $('#sldEnd').val(end);
-    $('#sldPercentValidation').val(validationPercent);
-    $('#sldStep').val(step);
-    $('#sldPlotPercent').val(plotPercent);
+    this.elSldBatches.val(batches);
+    this.elSldLearningRate.val(learningRate);
+    this.elSldStart.val(start);
+    this.elSldEnd.val(end);
+    this.elSldPercentValidation.val(validationPercent);
+    this.elSldStep.val(step);
+    this.elSldPlotPercent.val(plotPercent);
 
-    updateLabel();
+    this.updateLabel();
 
-    setBtnsState('btnsNormalization', normalization);
-    setBtnsState('btnsShuffle', randomize);
+    this.setBtnsState('btnsNormalization', normalization);
+    this.setBtnsState('btnsShuffle', randomize);
   }
 
-  stake() {
-    const stakeSlider = document.querySelector('#sliderStake');
-    stakeSlider.addEventListener(
-      'change',
-      () => {
-        const budgetFloat = parseFloat($('#valueBudget').html());
-        let partBudget = budgetFloat * parseFloat(stakeSlider.value / stakeSlider.max);
-        let percBudget = (partBudget / budgetFloat) * 100;
-        partBudget = partBudget.toFixed(2);
-        percBudget = percBudget.toFixed(2);
-        $('#valueStake').html(partBudget);
-        $('#valuePercStake').html(percBudget);
-      },
-      false,
-    );
+  initStorage() {
+    if (!this.getCache('machineLearning')) {
+      this.setCache('machineLearning', JSON.stringify(this.fifa.defaultML));
+    }
   }
 
-  views() {
-    const viewsList = [
-      'home',
-      'account',
-      'method',
-      'profit',
-      'contact',
-      'game',
-      'robot',
-      'admin',
-    ];
-    viewsList.forEach((showElement) => {
-      const key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
-      $(key).click((e) => {
-        e.stopImmediatePropagation();
-        viewsList.forEach((hideElement) => {
-          $(`#${hideElement}`).hide();
-        });
-        $('.mdl-layout__obfuscator').removeClass('is-visible');
-        $('.mdl-layout__drawer').removeClass('is-visible');
-        localStorage.setItem('view:', showElement);
-        $(`#${showElement}`).toggle();
-        if (showElement === 'home') {
-          $('#txtBudget').html('brother.bet');
-        } else {
-          $('#txtBudget').html(showElement);
-        }
-        if (showElement === 'game') getGames();
-      });
-    });
-    $('#btnHome').click();
+  setConsistency(consistency) {
+    this.setCache('consistency', this.util.hash(consistency));
   }
 
-  // Slider
+  getConsistency() { JSON.parse(this.getCache('consistency')); }
+
   autoUpdateLabel() {
-    document.querySelectorAll('.slider').forEach((wrap) => {
-      const range = wrap.querySelector('.mdl-slider');
+    this.elSliders.each((i, wrap) => {
+      const range = $(wrap).find('.mdl-slider');
+      $(wrap).off().click((e) => this.openHistory(e));
       wrap.addEventListener('input', () => {
-        const values = wrap.querySelector('.values');
-        values.innerHTML = range.value;
+        const values = $(wrap).find('.values');
+        values.html(range.val());
       });
     });
   }
 
   updateLabel() {
-    document.querySelectorAll('.slider').forEach((wrap) => {
-      const range = wrap.querySelector('.mdl-slider');
-      const values = wrap.querySelector('.values');
-      values.innerHTML = range.value;
+    this.elSliders.each((i, wrap) => {
+      const range = $(wrap).find('.mdl-slider');
+      const values = $(wrap).find('.values');
+      values.html(range.val());
     });
+  }
+
+  typedTchan() {
+    Typed('.typed', {
+      strings: this.marketingText,
+      typeSpeed: 100,
+      backDelay: 0,
+    });
+  }
+
+  views() {
+    this.viewsList.forEach((showElement) => {
+      const key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
+      $(key).click((e) => {
+        e.stopImmediatePropagation();
+        this.viewsList.forEach((hideElement) => {
+          $(`#${hideElement}`).hide();
+        });
+        this.elOfuscator.removeClass('is-visible');
+        this.elLayoutDrawer.removeClass('is-visible');
+        this.setCache('view:', showElement);
+        $(`#${showElement}`).toggle();
+        if (showElement === 'home') {
+          this.elExtBudget.html('brother.bet');
+        } else {
+          this.elExtBudget.html(showElement);
+        }
+      });
+    });
+    this.elBtnHome.click();
   }
 
   market() {
@@ -460,7 +464,7 @@ class Dashboard {
           });
           $(`.${key}`).show();
           $(`#${showElement}`).css('background-color', '#FAFAFA');
-          initMarket();
+          this.initMarket();
           $('.overlay').css(
             'height',
             `${$('.init-box-robot').outerHeight() * 1.13}px`,
@@ -485,19 +489,7 @@ class Dashboard {
     });
   }
 
-  initStorage() {
-    if (!localStorage.getItem('machineLearning')) {
-      localStorage.setItem('machineLearning', JSON.stringify(defaultML));
-    }
-  }
-
-  setConsistency(consistency) {
-    localStorage.setItem('consistency', hash(consistency));
-  }
-
-  getConsistency() { JSON.parse(localStorage.getItem('consistency')); }
-
-  initMarket() {
+  static initMarket() {
     const marketWinList = ['chipHome', 'chipAway', 'chipDraw'];
 
     marketWinList.forEach((showElement) => {
@@ -524,20 +516,6 @@ class Dashboard {
           });
           $(`#${showElement}`).css('background-color', '#FAFAFA');
         });
-    });
-  }
-
-  typedTchan() {
-    new Typed('.typed', {
-      strings: [
-        'Hey BRO, lets bet!!',
-        'odds are going up',
-        'or down, so go by LAY',
-        'goaaaaaaaaal!!!!',
-        'improve your profit',
-      ],
-      typeSpeed: 100,
-      backDelay: 0,
     });
   }
 }
