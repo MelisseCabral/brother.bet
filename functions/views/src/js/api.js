@@ -7,7 +7,7 @@ export default class Api {
   }
 
   setApi() {
-    axios.create({
+    return axios.create({
       baseURL: this.origin,
     });
   }

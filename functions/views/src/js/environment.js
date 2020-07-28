@@ -1,8 +1,11 @@
-class Environment {
-  constructor() {
-    this.newOrigin = window.location.origin;
+export default class Environment {
+  constructor(newOrigin) {
+    // Constants
     this.originDevelopment = 'http://127.0.0.1:5500';
     this.serverDeveloperMode = 'http://localhost:5000';
+
+    // Variables
+    this.newOrigin = newOrigin;
     this.developerMode = this.setDeveloperMode();
     this.origin = this.setOrigin();
   }
@@ -17,7 +20,3 @@ class Environment {
     return this.newOrigin;
   }
 }
-
-const { origin, developerMode } = new Environment();
-
-export { origin, developerMode };

@@ -3,6 +3,6 @@ module.exports = {
   "globals": {
   "document": true,
   "window": true,
-  "indexedDB": true,
+  "$": true,
   } 
 }

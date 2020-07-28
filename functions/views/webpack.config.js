@@ -12,16 +12,7 @@ module.exports = {
   optimization: {
     minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
-  entry: [
-    './src/js/main',
-    './src/js/database',
-    './src/js/fifa',
-    './src/js/machineLearning',
-    './src/js/mL',
-    './src/js/tablesEffect',
-    './src/js/statistics',
-    './src/js/dashboard',
-  ],
+  entry: './src/js/main',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),

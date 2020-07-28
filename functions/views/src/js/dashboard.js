@@ -1,19 +1,17 @@
-import Typed from 'typed.js';
-import $ from 'jquery';
-
-import { origin, developerMode } from './environment';
-import debugTime from './debugTime';
-import { filterRankByTarget } from './fifa';
-import localDb from './localDb';
-
-window.jQuery = $;
-window.$ = $;
-window.developerMode = developerMode;
-
-class Dashboard {
-  constructor() {
+export default class Dashboard {
+  constructor({
+    Typed,
+    developerMode,
+    debugTime,
+    filterRankByTarget,
+    hash,
+    localDb,
+    fifa,
+    dashTables,
+    dashStatistics,
+  }) {
     // Constants
-    this.origin = origin;
+
     this.developerMode = developerMode;
     this.marketingText = [
       'Hey BRO, lets bet!!',
@@ -71,16 +69,25 @@ class Dashboard {
     this.elSldSaveEvery = $('#sldSaveEvery');
     this.elSliders = $('.slider');
     this.elChip = $('.mdl-chip');
-    this.elOfuscator = $('.mdl-layout__obfuscator');
+    this.elObfuscator = $('.mdl-layout__obfuscator');
     this.elLayoutDrawer = $('.mdl-layout__drawer');
     this.elExtBudget = $('#txtBudget');
 
     // Functions
     this.debugTime = debugTime;
     this.filterRankByTarget = filterRankByTarget;
+    this.hash = hash;
+
     // Objects
     this.window = window;
-    this.typed = Typed;
+    this.localDb = localDb;
+    this.fifa = fifa;
+    this.Typed = Typed;
+
+    // Dashboards
+    this.tableResultGamesCheck = dashTables.tableResultGamesCheck;
+    this.addTableRank = dashTables.addTableRank;
+    this.addTableRank = dashStatistics.addTableRank;
   }
 
   registerHandlers() {
@@ -101,7 +108,7 @@ class Dashboard {
 
   async initEffect(e) {
     e.stopImmediatePropagation();
-    this.processing(!developerMode);
+    this.processing(!this.developerMode);
     this.debugTime('initEffect');
     this.cloudDone(false);
     const {
@@ -147,7 +154,7 @@ class Dashboard {
 
   saveTrain(e) {
     e.stopImmediatePropagation();
-    this.setCache(this.getConfig());
+    this.localDb.setCache(this.getConfig());
   }
 
   cookTrain(e) {
@@ -168,14 +175,6 @@ class Dashboard {
   logout(e) {
     e.stopImmediatePropagation();
     return this.document;
-  }
-
-  setCache(name, value) {
-    this.window.localStorage.setItem(name, JSON.stringify(value));
-  }
-
-  getCache(name) {
-    return this.window.localStorage.getItem(name);
   }
 
   async doRankFiltering(e) {
@@ -237,8 +236,9 @@ class Dashboard {
       document.getElementById(`btnTabRank${context[0].toUpperCase() + context.slice(1)}History`).click();
     }
 
-    const filteredTable = filterRankByTarget(all, target, inverse);
+    const filteredTable = this.filterRankByTarget(all, target, inverse);
     await this.addTableRank(context, filteredTable, index, btn, history);
+    this.registerHandlers();
   }
 
   processing(status) {
@@ -255,16 +255,6 @@ class Dashboard {
   cloudDone(status = true) {
     if (!status) return this.elIconStatusCloud.css('color', 'var(--contrast_primary_color_3)');
     return this.elIconStatusCloud.css('color', 'var(--tertiary_color_1)');
-  }
-
-  restrictedArea(id) {
-    this.elContentSection.parent(id).addClass('restrict-area');
-  }
-
-  static getStructure(page) {
-    return new Promise((resolve) => {
-      $.when($.get(page)).done((data) => resolve(data));
-    });
   }
 
   getGameIsFilled() {
@@ -358,7 +348,7 @@ class Dashboard {
       validationPercent,
       step,
       plotPercent,
-    } = JSON.parse(this.getCache('machineLearning'));
+    } = JSON.parse(this.localDb.getCache('machineLearning'));
 
     document.getElementById('sldStart').max = max;
     document.getElementById('sldEnd').max = max;
@@ -379,16 +369,10 @@ class Dashboard {
   }
 
   initStorage() {
-    if (!this.getCache('machineLearning')) {
-      this.setCache('machineLearning', JSON.stringify(this.fifa.defaultML));
+    if (!this.localDb.getCache('machineLearning')) {
+      this.localDb.setCache('machineLearning', JSON.stringify(this.fifa.defaultML));
     }
   }
-
-  setConsistency(consistency) {
-    this.setCache('consistency', this.util.hash(consistency));
-  }
-
-  getConsistency() { JSON.parse(this.getCache('consistency')); }
 
   autoUpdateLabel() {
     this.elSliders.each((i, wrap) => {
@@ -410,7 +394,7 @@ class Dashboard {
   }
 
   typedTchan() {
-    Typed('.typed', {
+    this.Typed('.typed', {
       strings: this.marketingText,
       typeSpeed: 100,
       backDelay: 0,
@@ -425,9 +409,9 @@ class Dashboard {
         this.viewsList.forEach((hideElement) => {
           $(`#${hideElement}`).hide();
         });
-        this.elOfuscator.removeClass('is-visible');
+        this.elObfuscator.removeClass('is-visible');
         this.elLayoutDrawer.removeClass('is-visible');
-        this.setCache('view:', showElement);
+        this.localDb.setCache('view:', showElement);
         $(`#${showElement}`).toggle();
         if (showElement === 'home') {
           this.elExtBudget.html('brother.bet');
@@ -519,7 +503,3 @@ class Dashboard {
     });
   }
 }
-
-const { dashboard } = new Dashboard();
-
-export default { dashboard };

@@ -1,4 +1,4 @@
-class Util {
+export default class FactoryUtil {
   static hash(data, label = '') {
     const s = JSON.stringify(data) || '';
     let h = 0;
@@ -20,16 +20,6 @@ class Util {
       }
     }
     return allDaysOfYear;
-  }
-
-  static isValid(data) {
-    if (Number.isNaN(data)) return 'Is NaN!';
-    if (data === true) return 'Is true!';
-    if (data === false) return 'Is false!';
-    if (data === null) return 'Is null!';
-    if (data === undefined) return 'Is undefined!';
-    if (data === '') return "Is ''!";
-    return false;
   }
 
   static saveJsonFile(data) {
@@ -69,12 +59,32 @@ class Util {
       setTimeout(resolve, timeSeconds * 1000);
     });
   }
+
+  static filterRankByTarget(data, target, inverse) {
+    data.sort((a, b) => {
+      if (a[target] < b[target]) return -1;
+      if (a[target] > b[target]) return 1;
+      return 0;
+    });
+    if ((target === 'name' && !inverse) || (target !== 'name' && inverse)) return data;
+    return data.reverse();
+  }
+
+  static async getRegisteredDays(datedSet) {
+    const registeredIds = {};
+    datedSet.forEach((each) => {
+      registeredIds[each.date] = each.id;
+    });
+    return registeredIds;
+  }
+
+  static debugTime(msg) {
+    if (window.developerMode.status) {
+      const d = new Date();
+      const seconds = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+      if (window.passedSeconds.value === 0) window.initTime.value = seconds;
+      console.log(seconds - window.passedSeconds.value, seconds - window.initTime.value, msg);
+      window.passedSeconds.value = seconds;
+    }
+  }
 }
-
-const {
-  hash, generateDaysOfYear, isValid, saveJsonFile, organizeObject, delay,
-} = new Util();
-
-export {
-  hash, generateDaysOfYear, isValid, saveJsonFile, organizeObject, delay,
-};

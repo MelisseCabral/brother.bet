@@ -1,10 +1,6 @@
-import { origin } from './environment';
-import api from './api';
-
-class Database {
-  constructor() {
-    this.origin = origin;
-    this.api = api(this.origin);
+export default class Database {
+  constructor(api) {
+    this.api = api;
   }
 
   async getDays(year = '2020') {
@@ -77,5 +73,3 @@ class Database {
     }
   }
 }
-
-export default new Database();

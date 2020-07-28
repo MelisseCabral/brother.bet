@@ -1,18 +1,13 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-new */
-/* eslint-disable class-methods-use-this */
-
-import db from './database';
-import util from './util';
-import debugTime from './debugTime';
-
-class Fifa {
-  constructor() {
-    this.db = db;
-    this.util = util;
-
-    this.init = false;
-
+export default class Fifa {
+  constructor({
+    tf,
+    localDb,
+    database, debugTime,
+    delay,
+    hash,
+  }) {
+    // Constants
     this.nameTables = [
       'dataSet',
       'gamesSet',
@@ -26,6 +21,7 @@ class Fifa {
       'trainValidationSet',
     ];
 
+    // Variables
     this.defaultML = {
       nameDataSet: 'trainSet',
       validationSet: '',
@@ -39,53 +35,25 @@ class Fifa {
       saveEvery: 1000,
     };
 
+    // Functions
     this.debugTime = debugTime;
+    this.delay = delay;
+    this.hash = hash;
+
+    // Object
+    this.tf = tf;
+    this.localDb = localDb;
+    this.database = database;
   }
 
   async getFifaDatabase(year) {
-    const data = await this.db.getBundle(year);
+    const data = await this.database.getBundle(year);
     if (data) return data;
     await this.util.delay(2);
     return this.getFifaDatabase(year);
   }
 
-  async getFifaDatabaseFiles(year) {
-    const dataSet = [];
-    const getAllDays = await this.db.getDays(year);
-    for (let i = 0; i < getAllDays.length; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      const data = await this.db.getData(year, getAllDays[i]);
-      if (data) {
-        dataSet.push(data);
-      } else {
-        console.log(getAllDays[i], data);
-        // eslint-disable-next-line no-await-in-loop
-        await this.util.delay(2);
-        i -= 1;
-      }
-    }
-    return dataSet;
-  }
-
-  async getFifaCloud(gidsTables) {
-    const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
-    for (let i = 0; i < gidsTables.length; i += 1) {
-      const sheetId = gidsTables[i];
-      // eslint-disable-next-line no-await-in-loop
-      const data = await this.db.getSource(key, sheetId);
-      if (data) {
-        // eslint-disable-next-line no-await-in-loop
-        await this.db.postData(data);
-      } else {
-        // eslint-disable-next-line no-await-in-loop
-        await this.util.delay(2);
-        i -= 1;
-        console.log(gidsTables[i], data);
-      }
-    }
-  }
-
-  getJustData(data) {
+  static getJustData(data) {
     let arr = [];
     data.forEach((each) => each.data.forEach((each2) => {
       arr = [...arr, each2];
@@ -93,7 +61,7 @@ class Fifa {
     return arr;
   }
 
-  getGameOutput(game) {
+  static getGameOutput(game) {
     const goalsTeamA = parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10)
     || 0;
     const goalsTeamB = parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10)
@@ -111,8 +79,8 @@ class Fifa {
     return output;
   }
 
-  getGameInput(game, teams, usersIn = {}) {
-    const { ranks, rankedA, rankedB } = this.addAndGetRank(usersIn, game, 'user');
+  static getGameInput(game, teams, usersIn = {}) {
+    const { ranks, rankedA, rankedB } = Fifa.addAndGetRank(usersIn, game, 'user');
 
     const teamA = teams[game.teamA.team][teams[game.teamA.team].length - 1];
     const teamB = teams[game.teamB.team][teams[game.teamB.team].length - 1];
@@ -125,19 +93,19 @@ class Fifa {
     return { input, ranks };
   }
 
-  addAndGetRank(ranks, game, scope) {
+  static addAndGetRank(ranks, game, scope) {
     const {
       0: winnerIsTeamA,
       1: draw,
       2: winnerIsTeamB,
       3: goalsTeamA,
       4: goalsTeamB,
-    } = { ...this.getGameOutput(game) };
+    } = { ...Fifa.getGameOutput(game) };
 
     const teamA = game.teamA[scope];
     const teamB = game.teamB[scope];
 
-    ranks = this.rank(
+    ranks = Fifa.rank(
       ranks,
       teamA,
       winnerIsTeamA,
@@ -147,7 +115,7 @@ class Fifa {
       goalsTeamB,
     );
     // eslint-disable-next-line no-param-reassign
-    ranks = this.rank(
+    ranks = Fifa.rank(
       ranks,
       teamB,
       winnerIsTeamB,
@@ -163,7 +131,7 @@ class Fifa {
     return { ranks, rankedA, rankedB };
   }
 
-  rank(ranks, nameScope, win, draw, loss, goalsPro, goalsCon) {
+  static rank(ranks, nameScope, win, draw, loss, goalsPro, goalsCon) {
     let team = {};
     if (ranks[nameScope]) team = ranks[nameScope][ranks[nameScope].length - 1];
 
@@ -229,39 +197,47 @@ class Fifa {
     return ranks;
   }
 
-  getRankTeams(games) {
+  static getRankTeams(games) {
     let teams = {};
     games.forEach((game) => {
-      const { ranks } = this.addAndGetRank(teams, game, 'team');
+      const { ranks } = Fifa.addAndGetRank(teams, game, 'team');
       teams = ranks;
     });
     return teams;
   }
 
-  getListUsers(games) {
-    const users = [];
-    games.forEach((each) => {
-      const game = Object.values(each);
-      game.forEach((eachGame) => {
-        if (!users.includes(eachGame.user)) users.push(eachGame.user);
-      });
-    });
-    return users;
-  }
-
-  aggregationTrain(games, teams) {
+  static aggregationTrain(games, teams) {
     const aggregated = [];
     let users = {};
     games.forEach((game) => {
-      const output = this.getGameOutput(game);
-      const { input, ranks } = this.getGameInput(game, teams, users);
+      const output = Fifa.getGameOutput(game);
+      const { input, ranks } = Fifa.getGameInput(game, teams, users);
       users = ranks;
       aggregated.push({ input, output });
     });
     return { aggregated, users };
   }
 
-  splitInputOutput(data) {
+  static addedTrain(data) {
+    const inputs = [];
+    data.input.forEach((each) => {
+      const tensorA = this.tf.tensor(each[0]);
+      const tensorB = this.tf.tensor(each[1]);
+      const tensorInput = tensorA.sub(tensorB);
+      const input = Array.from(tensorInput.dataSync());
+      inputs.push(input);
+
+      tensorA.dispose();
+      tensorB.dispose();
+      tensorInput.dispose();
+
+      return input;
+    });
+
+    return { input: inputs, output: data.output };
+  }
+
+  static splitInputOutput(data) {
     const input = [];
     const output = [];
     data.forEach((each) => {
@@ -271,7 +247,7 @@ class Fifa {
     return { input, output };
   }
 
-  getTrainValidation(data, percentTrainSet) {
+  static getTrainValidation(data, percentTrainSet) {
     const trainSet = {
       input: [],
       output: [],
@@ -306,17 +282,15 @@ class Fifa {
     return { trainSet, validationSet };
   }
 
-  spliceResultOutput(data) {
+  static spliceResultOutput(data) {
     const { input } = data;
     const output = data.output.map((each) => each.slice(0, 3));
-
     return { input, output };
   }
 
-  spliceGoalsOutput(data) {
+  static spliceGoalsOutput(data) {
     const { input } = data;
     const output = data.output.map((each) => each.slice(3, 6));
-
     return { input, output };
   }
 
@@ -324,8 +298,8 @@ class Fifa {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve) => {
       const datedSet = await this.saveGetDataSet(data);
-      const gamesSet = this.getJustData(datedSet);
-      const teamsSet = this.getRankTeams(gamesSet);
+      const gamesSet = Fifa.getJustData(datedSet);
+      const teamsSet = Fifa.getRankTeams(gamesSet);
       const {
         aggregated: aggregatedSet,
         users: usersSet,
@@ -333,9 +307,9 @@ class Fifa {
 
       resolve({ aggregated: aggregatedSet, users: usersSet, teams: teamsSet });
 
-      const trainSet = this.splitInputOutput(aggregatedSet);
+      const trainSet = Fifa.splitInputOutput(aggregatedSet);
       this.localDb.createTableDB(gamesSet);
-      this.localDb.this.localDb.createTableDB(aggregatedSet);
+      this.localDb.createTableDB(aggregatedSet);
       this.localDb.createTableDB(trainSet);
       this.localDb.createTableDB(teamsSet);
       this.localDb.createTableDB(usersSet);
@@ -352,34 +326,40 @@ class Fifa {
   }
 
   saveTrainAddedSet(data) {
-    const addedTrainSet = this.aggregationTrainaddedTrain(data);
+    const addedTrainSet = Fifa.addedTrain(data);
     this.localDb.createTableDB(addedTrainSet);
   }
 
   saveResultSet(data) {
-    const trainResultSet = this.aggregationTrainspliceResultOutput(data);
+    const trainResultSet = Fifa.spliceResultOutput(data);
     this.localDb.createTableDB(trainResultSet);
   }
 
   saveGoalsSet(data) {
-    const trainGoalsSet = this.aggregationTrainspliceGoalsOutput(data);
+    const trainGoalsSet = Fifa.spliceGoalsOutput(data);
     this.localDb.createTableDB(trainGoalsSet);
   }
 
   saveTrainValidationSet(data) {
-    const trainValidationSets = this.aggregationTraingetTrainValidation(data, 0.7);
+    const trainValidationSets = Fifa.getTrainValidation(data, 0.7);
     this.localDb.createTableDB(trainValidationSets);
   }
 
-  async isTruncate() {
-    const data = await this.localDb.getTable('datedSet');
-    return this.isTruncated(data);
-  }
-
-  isTruncated(data) {
+  static isTruncated(data) {
     const truncatedLogs = [];
+
+    const isValid = (inData) => {
+      if (Number.isNaN(inData)) return 'Is NaN!';
+      if (inData === true) return 'Is true!';
+      if (inData === false) return 'Is false!';
+      if (inData === null) return 'Is null!';
+      if (inData === undefined) return 'Is undefined!';
+      if (inData === '') return "Is ''!";
+      return false;
+    };
+
     const validate = (dataTest, obj, context) => {
-      const testValidation = this.isValid(dataTest);
+      const testValidation = isValid(dataTest);
       if (testValidation) {
         obj.problems[context] = testValidation;
         return obj;
@@ -427,14 +407,14 @@ class Fifa {
 
   async registerGid(sheetId) {
     const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
-    const data = await this.db.getSource(key, sheetId);
+    const data = await this.database.getSource(key, sheetId);
     const today = `${new Date().getYear() + 1900}.${new Date().getMonth() + 1}.${new Date().getDate()}`;
 
     if (data) {
       if (data.date !== today) {
-        const maybeTruncated = this.isTruncated([data]);
+        const maybeTruncated = Fifa.isTruncated([data]);
         if (!maybeTruncated.length) {
-          await this.db.postData(data);
+          await this.database.postData(data);
           return true;
         }
         return maybeTruncated;
@@ -444,21 +424,11 @@ class Fifa {
     return 'Error: There is no valid dataSet.';
   }
 
-  filterRankByTarget(data, target, inverse) {
-    data.sort((a, b) => {
-      if (a[target] < b[target]) return -1;
-      if (a[target] > b[target]) return 1;
-      return 0;
-    });
-    if ((target === 'name' && !inverse) || (target !== 'name' && inverse)) return data;
-    return data.reverse();
-  }
-
   async databaseIsConsistent() {
     const dbs = await this.localDb.getAllDbNames();
     const names = dbs.map((each) => each.name);
     if (this.nameTables.filter((table) => !names.includes(table)).length) return false;
-    const nowConsistency = this.getConsistency();
+    const nowConsistency = this.localDb.getConsistency();
     if (this.developerMode) return nowConsistency;
     const oldConsistency = await this.getDatabaseConsistency();
     if (oldConsistency.aggregatedSet === nowConsistency) return nowConsistency;
@@ -474,7 +444,7 @@ class Fifa {
   }
 
   async forceDatabaseConsistency() {
-    const newConsistency = await this.getConsistency();
+    const newConsistency = await this.localDb.getConsistency();
     await this.postDatabaseConsistency({ aggregatedSet: newConsistency });
   }
 
@@ -505,7 +475,7 @@ class Fifa {
         return this.initLocalDatabase(aggregatedSet, usersSet, teamsSet, dataSet);
       } catch (error) {
         this.debugTime(`Catch error${JSON.stringify(error)}`);
-        this.util.setConsistency(new Date());
+        this.localDb.setConsistency(new Date());
         return this.initLocalDatabase();
       }
     }
@@ -516,16 +486,4 @@ class Fifa {
       aggregated, users, teams, data,
     };
   }
-
-  async getRegisteredDays(datedSet) {
-    const registeredIds = {};
-    datedSet.forEach((each) => {
-      registeredIds[each.date] = each.id;
-    });
-    return registeredIds;
-  }
 }
-
-const { filterRankByTarget } = new Fifa();
-
-export { filterRankByTarget };
