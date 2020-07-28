@@ -1,5 +1,5 @@
-export default class LocalDb {
-  constructor({hash, indexedDB, localStorage}) {
+export default class LocalDB {
+  constructor({ hash, indexedDB, localStorage }) {
     // Functions
     this.hash = hash;
 
@@ -29,8 +29,8 @@ export default class LocalDb {
     };
 
     request.onsuccess = (event) => {
-      const localDb = event.target.result;
-      localDb.close();
+      const localDB = event.target.result;
+      localDB.close();
     };
 
     request.onerror = console.error;
@@ -83,23 +83,25 @@ export default class LocalDb {
     });
   }
 
-  async deleteTableDb(tableName) {
+  async deleteTableDB(tableName) {
     return this.indexedDB.deleteDatabase(tableName);
   }
 
-  async getAllDbNames() {
+  async getAllDBNames() {
     return this.indexedDB.databases();
   }
 
-  async deleteAllDb() {
-    const databases = this.getAlDbNames();
+  async deleteAllDB() {
+    const databases = await this.getAllDBNames();
     databases
-      .filter((each) => each.name !== 'firebaseLocalStorageDb')
+      .filter((each) => each.name !== 'firebaseLocalStorageDB')
+      .filter((each) => each.name !== 'firebase-installations-database')
+      .filter((each) => each.name !== 'validate-browser-context-for-indexeddb-analytics-module')
       .forEach((database) => window.this.indexedDB.deleteDatabase(database.name));
   }
 
-  async downloadDb() {
-    const tables = this.getAlDbNames();
+  async downloadDB() {
+    const tables = this.getAllDBNames();
 
     tables.forEach(async (each) => {
       const data = await this.getTable(each.name);

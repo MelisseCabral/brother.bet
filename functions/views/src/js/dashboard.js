@@ -5,7 +5,7 @@ export default class Dashboard {
     debugTime,
     filterRankByTarget,
     hash,
-    localDb,
+    localDB,
     fifa,
     dashTables,
     dashStatistics,
@@ -72,6 +72,7 @@ export default class Dashboard {
     this.elObfuscator = $('.mdl-layout__obfuscator');
     this.elLayoutDrawer = $('.mdl-layout__drawer');
     this.elExtBudget = $('#txtBudget');
+    this.MsgSnackbar = $('#demo-snackbar-example');
 
     // Functions
     this.debugTime = debugTime;
@@ -80,7 +81,7 @@ export default class Dashboard {
 
     // Objects
     this.window = window;
-    this.localDb = localDb;
+    this.localDB = localDB;
     this.fifa = fifa;
     this.Typed = Typed;
 
@@ -88,6 +89,9 @@ export default class Dashboard {
     this.tableResultGamesCheck = dashTables.tableResultGamesCheck;
     this.addTableRank = dashTables.addTableRank;
     this.addTableRank = dashStatistics.addTableRank;
+
+    // Initialization
+    this.registerHandlers();
   }
 
   registerHandlers() {
@@ -103,11 +107,9 @@ export default class Dashboard {
     this.elBtnFilter.off().click().click((e) => this.doRankFiltering(e));
     this.elBtnHistory.off().click((e) => this.openHistory(e));
     this.document.ready((e) => this.initEffect(e));
-    this.MsgSnackbar = $('#demo-snackbar-example');
   }
 
-  async initEffect(e) {
-    e.stopImmediatePropagation();
+  async initEffect() {
     this.processing(!this.developerMode);
     this.debugTime('initEffect');
     this.cloudDone(false);
@@ -154,7 +156,7 @@ export default class Dashboard {
 
   saveTrain(e) {
     e.stopImmediatePropagation();
-    this.localDb.setCache(this.getConfig());
+    this.localDB.setCache(this.getConfig());
   }
 
   cookTrain(e) {
@@ -209,7 +211,7 @@ export default class Dashboard {
     const nameSet = `${context}Set`;
     let inverse = false;
     if (!teams) {
-      teams = await this.localDb.getTable(nameSet);
+      teams = await this.localDB.getTable(nameSet);
     }
 
     if (btn === 'filter_alt' || btn === 'arrow_downward') btn = 'arrow_upward';
@@ -348,7 +350,7 @@ export default class Dashboard {
       validationPercent,
       step,
       plotPercent,
-    } = JSON.parse(this.localDb.getCache('machineLearning'));
+    } = JSON.parse(this.localDB.getCache('machineLearning'));
 
     document.getElementById('sldStart').max = max;
     document.getElementById('sldEnd').max = max;
@@ -369,8 +371,8 @@ export default class Dashboard {
   }
 
   initStorage() {
-    if (!this.localDb.getCache('machineLearning')) {
-      this.localDb.setCache('machineLearning', JSON.stringify(this.fifa.defaultML));
+    if (!this.localDB.getCache('machineLearning')) {
+      this.localDB.setCache('machineLearning', JSON.stringify(this.fifa.defaultML));
     }
   }
 
@@ -411,7 +413,7 @@ export default class Dashboard {
         });
         this.elObfuscator.removeClass('is-visible');
         this.elLayoutDrawer.removeClass('is-visible');
-        this.localDb.setCache('view:', showElement);
+        this.localDB.setCache('view:', showElement);
         $(`#${showElement}`).toggle();
         if (showElement === 'home') {
           this.elExtBudget.html('brother.bet');

@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 export default class Api {
-  constructor(origin) {
-    this.origin = origin;
+  constructor(newOrigin) {
+    this.newOrigin = newOrigin;
     this.api = this.setApi();
   }
 
   setApi() {
     return axios.create({
-      baseURL: this.origin,
+      baseURL: this.newOrigin,
     });
   }
 }

@@ -1,5 +1,5 @@
 // Calling Modules JS
-import tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs';
 // import $ from 'jquery';
 import * as firebase from 'firebase/app';
 import Typed from 'typed.js';
@@ -21,7 +21,7 @@ import Environment from './environment';
 import Api from './api';
 import Database from './database';
 import FactoryUtil from './factoryUtil';
-import LocalDb from './localDb';
+import LocalDB from './localDB';
 import Fifa from './fifa';
 import FactoryEffects from './factoryEffects';
 import DashTables from './dashTables';
@@ -39,7 +39,7 @@ const main = new Main({
   Api,
   Database,
   FactoryUtil,
-  LocalDb,
+  LocalDB,
   Fifa,
   FactoryEffects,
   DashTables,
@@ -55,7 +55,7 @@ const main = new Main({
 // Api,               OK
 // Database,          OK
 // FactoryUtil,       OK
-// LocalDb,           OK
+// LocalDB,           OK
 // Fifa,              OK
 // FactoryEffects,    OK
 // DashTables,        OK

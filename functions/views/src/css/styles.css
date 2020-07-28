@@ -1,10 +1,5 @@
 /* Fonts */
 @font-face {
-  font-family: "eurofurence";
-  src: url('../font/eurofurence.ttf') format('truetype');
-}
-
-@font-face {
   font-family: "Aileron Regular";
   src: url('../font/aileron.otf') format('truetype');
 }
@@ -374,7 +369,7 @@ a img {
 }
 
 .cifra-brother{
-  font-family: "eurofurence" !important;
+  font-family: "Racing Sans One" !important;
   text-transform: none !important; 
   font-size: 17px !important;
 }
@@ -603,14 +598,14 @@ select::selection {
   color: black;
   font-weight: 00;
   font-size: 5vh;
-  font-family: "eurofurence" !important;
+  font-family: "Racing Sans One" !important;
 }
 
 .font-buget {
   margin: auto !important;
   text-align: center;
   line-height: 4vh;
-  font-family: "eurofurence" !important;
+  font-family: "Racing Sans One" !important;
   color: dimgray;
   font-weight: 00;
   font-size: 3vh;

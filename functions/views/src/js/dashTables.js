@@ -1,5 +1,10 @@
 export default class DashTables {
-  constructor({hash, generateDaysOfYear, getRegisteredDays, getStructure}) {
+  constructor({
+    hash,
+    generateDaysOfYear,
+    getRegisteredDays,
+    getStructure,
+  }) {
     // constants
     this.varClrSec5 = 'var(--secondary_color_5)';
     this.varClrTer5 = 'var(--tertiary_color_5)';

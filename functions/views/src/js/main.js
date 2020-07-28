@@ -8,7 +8,7 @@ export default class Main {
     Api,
     Database,
     FactoryUtil,
-    LocalDb,
+    LocalDB,
     Fifa,
     FactoryEffects,
     DashTables,
@@ -39,10 +39,10 @@ export default class Main {
     this.Api = Api;
     this.Database = Database;
     this.FactoryUtil = FactoryUtil;
-    this.LocalDb = LocalDb;
+    this.LocalDB = LocalDB;
     this.Fifa = Fifa;
     this.FactoryEffects = FactoryEffects;
-    this.FashTables = DashTables;
+    this.DashTables = DashTables;
     this.DashStatistics = DashStatistics;
     this.Dashboard = Dashboard;
 
@@ -58,9 +58,9 @@ export default class Main {
   }
 
   init() {
-    const { indexedDB, localStorage } = this.window;
-    const { origin, developerMode } = new this.Environment();
-    const { api } = new this.Api(origin);
+    const { indexedDB, localStorage, origin } = this.window;
+    const { newOrigin, developerMode } = new this.Environment(origin);
+    const { api } = new this.Api(newOrigin);
     const database = new this.Database(api);
     const {
       hash,
@@ -70,14 +70,14 @@ export default class Main {
       getRegisteredDays,
       debugTime,
     } = this.FactoryUtil;
-    const localDb = new this.LocalDb({
+    const localDB = new this.LocalDB({
       hash,
       indexedDB,
       localStorage,
     });
     const fifa = new this.Fifa({
       tf: this.tf,
-      localDb,
+      localDB,
       database,
       debugTime,
       delay,
@@ -99,7 +99,7 @@ export default class Main {
       debugTime,
       filterRankByTarget,
       hash,
-      localDb,
+      localDB,
       fifa,
       dashTables,
       dashStatistics,

@@ -2,7 +2,7 @@
 export default class Fifa {
   constructor({
     tf,
-    localDb,
+    localDB,
     database, debugTime,
     delay,
     hash,
@@ -42,14 +42,14 @@ export default class Fifa {
 
     // Object
     this.tf = tf;
-    this.localDb = localDb;
+    this.localDB = localDB;
     this.database = database;
   }
 
   async getFifaDatabase(year) {
     const data = await this.database.getBundle(year);
     if (data) return data;
-    await this.util.delay(2);
+    await this.delay(2);
     return this.getFifaDatabase(year);
   }
 
@@ -308,11 +308,11 @@ export default class Fifa {
       resolve({ aggregated: aggregatedSet, users: usersSet, teams: teamsSet });
 
       const trainSet = Fifa.splitInputOutput(aggregatedSet);
-      this.localDb.createTableDB(gamesSet);
-      this.localDb.createTableDB(aggregatedSet);
-      this.localDb.createTableDB(trainSet);
-      this.localDb.createTableDB(teamsSet);
-      this.localDb.createTableDB(usersSet);
+      this.localDB.createTableDB(gamesSet);
+      this.localDB.createTableDB(aggregatedSet);
+      this.localDB.createTableDB(trainSet);
+      this.localDB.createTableDB(teamsSet);
+      this.localDB.createTableDB(usersSet);
       this.saveTrainAddedSet(trainSet);
       this.saveResultSet(trainSet);
       this.saveGoalsSet(trainSet);
@@ -321,28 +321,28 @@ export default class Fifa {
   }
 
   saveGetDataSet(data) {
-    this.localDb.createTableDB(data, 'dataSet', 'date', 'id');
-    return this.localDb.getIndexed('dataSet', 'date');
+    this.localDB.createTableDB(data, 'dataSet', 'date', 'id');
+    return this.localDB.getIndexed('dataSet', 'date');
   }
 
   saveTrainAddedSet(data) {
     const addedTrainSet = Fifa.addedTrain(data);
-    this.localDb.createTableDB(addedTrainSet);
+    this.localDB.createTableDB(addedTrainSet);
   }
 
   saveResultSet(data) {
     const trainResultSet = Fifa.spliceResultOutput(data);
-    this.localDb.createTableDB(trainResultSet);
+    this.localDB.createTableDB(trainResultSet);
   }
 
   saveGoalsSet(data) {
     const trainGoalsSet = Fifa.spliceGoalsOutput(data);
-    this.localDb.createTableDB(trainGoalsSet);
+    this.localDB.createTableDB(trainGoalsSet);
   }
 
   saveTrainValidationSet(data) {
     const trainValidationSets = Fifa.getTrainValidation(data, 0.7);
-    this.localDb.createTableDB(trainValidationSets);
+    this.localDB.createTableDB(trainValidationSets);
   }
 
   static isTruncated(data) {
@@ -425,10 +425,10 @@ export default class Fifa {
   }
 
   async databaseIsConsistent() {
-    const dbs = await this.localDb.getAllDbNames();
+    const dbs = await this.localDB.getAllDBNames();
     const names = dbs.map((each) => each.name);
     if (this.nameTables.filter((table) => !names.includes(table)).length) return false;
-    const nowConsistency = this.localDb.getConsistency();
+    const nowConsistency = this.localDB.getConsistency();
     if (this.developerMode) return nowConsistency;
     const oldConsistency = await this.getDatabaseConsistency();
     if (oldConsistency.aggregatedSet === nowConsistency) return nowConsistency;
@@ -439,12 +439,12 @@ export default class Fifa {
   async setDatabaseConsistency() {
     const dataSet = await this.getFifaDatabase();
     const { aggregated } = await this.dataTooler(dataSet);
-    const newConsistency = this.util.hash(aggregated);
+    const newConsistency = this.hash(aggregated);
     await this.postDatabaseConsistency({ aggregatedSet: newConsistency });
   }
 
   async forceDatabaseConsistency() {
-    const newConsistency = await this.localDb.getConsistency();
+    const newConsistency = await this.localDB.getConsistency();
     await this.postDatabaseConsistency({ aggregatedSet: newConsistency });
   }
 
@@ -453,7 +453,7 @@ export default class Fifa {
       const status = await this.databaseIsConsistent();
       this.debugTime('databaseIsConsistent');
       if (!status) {
-        await this.localDb.deleteAllDB();
+        await this.localDB.deleteAllDB();
         this.debugTime('deleteAllDB');
         const datedSet = await this.getFifaDatabase();
         this.debugTime('getFifaDatabase');
@@ -467,15 +467,15 @@ export default class Fifa {
         );
       }
       try {
-        const aggregatedSet = await this.localDb.getTable('aggregatedSet');
-        const usersSet = await this.localDb.getTable('usersSet');
-        const teamsSet = await this.localDb.getTable('teamsSet');
-        const dataSet = await this.localDb.getIndexed('dataSet', 'date');
-        this.debugTime('indexedDb');
+        const aggregatedSet = await this.localDB.getTable('aggregatedSet');
+        const usersSet = await this.localDB.getTable('usersSet');
+        const teamsSet = await this.localDB.getTable('teamsSet');
+        const dataSet = await this.localDB.getIndexed('dataSet', 'date');
+        this.debugTime('indexedDB');
         return this.initLocalDatabase(aggregatedSet, usersSet, teamsSet, dataSet);
       } catch (error) {
         this.debugTime(`Catch error${JSON.stringify(error)}`);
-        this.localDb.setConsistency(new Date());
+        this.localDB.setConsistency(new Date());
         return this.initLocalDatabase();
       }
     }
