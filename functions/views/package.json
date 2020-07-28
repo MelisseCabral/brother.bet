@@ -4,10 +4,10 @@
   "description": "brotherbet",
   "private": "true",
   "scripts": {
-    "build": "webpack",
-    "serve": "webpack-dev-server",
-    "deploy": "webpack & firebase deploy",
-    "production": "webpack & firebase deploy --only hosting"
+    "build": "webpack --env.production",
+    "serve": "webpack-dev-server --env.development",
+    "deploy": "webpack --env.production & firebase deploy",
+    "production": "webpack --env.production & firebase deploy --only hosting"
   },
   "author": "",
   "license": "ISC",
