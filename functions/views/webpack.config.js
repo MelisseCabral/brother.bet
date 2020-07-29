@@ -3,72 +3,55 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 const webpack = require('webpack');
 
 module.exports = (env) => {
   const mode = env.production ? 'production' : 'development';
-  const sourceMap = env.production ? false : 'source-map';
+  const devtool = env.production ? false : 'source-map';
+  const enforce = !env.production;
   return {
     mode,
-    devtool: sourceMap,
+    stats: 'errors-only',
+    devtool,
     target: 'web',
     optimization: {
-      minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce,
+          },
+        },
+      },
+      minimize: true,
+      minimizer: [new TerserJSPlugin({
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+      new OptimizeCSSAssetsPlugin({})],
     },
     entry: './src/js/init',
     output: {
-      filename: 'main.js',
+      filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
     },
-    module: {
-      rules: [
-        {
-          test: /\.(sa|sc|c)ss$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-              // only enable hot in development
-                hmr: process.env.NODE_ENV === 'development',
-                // if hmr does not work, this is a forceful method.
-                reloadAll: true,
-              },
-            },
-            'css-loader',
-          ],
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
-        },
-        {
-          test: /\.(jpg?g|png|gif|svg)$/i,
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'images/',
-          },
-        },
-        {
-          test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-              // name: '[name].[ext]',
-                outputPath: 'fonts/',
-              },
-            },
-          ],
-        },
-
+    devServer: {
+      allowedHosts: [
+        'localhost:8080',
+        'localhost:5000',
       ],
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+      },
     },
     plugins: [
       new HtmlWebpackPlugin({
@@ -85,6 +68,7 @@ module.exports = (env) => {
       }),
       new MiniCssExtractPlugin({
         filename: 'style.css',
+        ignoreOrder: true,
       }),
       new webpack.ProvidePlugin({
         jQuery: 'jquery',
@@ -93,5 +77,48 @@ module.exports = (env) => {
         'window.$': 'jquery',
       }),
     ],
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            'css-loader',
+          ],
+        },
+        // {
+        //   test: /\.js$/,
+        //   exclude: /node_modules/,
+        //   use: {
+        //     loader: 'babel-loader',
+        //     options: {
+        //       presets: ['@babel/preset-env'],
+        //     },
+        //   },
+        // },
+        // {
+        //   test: /\.(jpg?g|png|gif|svg)$/i,
+        //   loader: 'file-loader',
+        //   options: {
+        //     name: '[name].[ext]',
+        //     outputPath: 'images/',
+        //   },
+        // },
+        // {
+        //   test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
+        //   use: [
+        //     {
+        //       loader: 'file-loader',
+        //       options: {
+        //         name: '[name].[ext]',
+        //         outputPath: 'fonts/',
+        //       },
+        //     },
+        //   ],
+        // },
+      ],
+    },
   };
 };

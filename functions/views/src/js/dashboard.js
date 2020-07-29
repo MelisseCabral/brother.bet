@@ -1,5 +1,6 @@
 export default class Dashboard {
   constructor({
+    document,
     Typed,
     developerMode,
     debugTime,
@@ -49,7 +50,7 @@ export default class Dashboard {
     this.elBtnFilter = $('.page-content thead:nth-child(2) i');
     this.elBtnHistory = $('.page-content tbody th:first-child');
     this.elBtnHome = $('#btnHome');
-    this.elBarProgress = $('progress');
+    this.elBarProgress = $('#progress');
     this.elImgLogo = $('#loaderLogo');
     this.elLoader = $('#loader');
     this.elPreloader = $('#preloader');
@@ -82,16 +83,14 @@ export default class Dashboard {
     // Objects
     this.window = window;
     this.localDB = localDB;
+    this.dashTables = dashTables;
+    this.dashStatistics = dashStatistics;
     this.fifa = fifa;
     this.Typed = Typed;
 
-    // Dashboards
-    this.tableResultGamesCheck = dashTables.tableResultGamesCheck;
-    this.addTableRank = dashTables.addTableRank;
-    this.addTableRank = dashStatistics.addTableRank;
-
     // Initialization
     this.registerHandlers();
+    this.initEffect();
   }
 
   registerHandlers() {
@@ -106,31 +105,28 @@ export default class Dashboard {
     this.elBtnLogout.off().click((e) => this.logout(e));
     this.elBtnFilter.off().click().click((e) => this.doRankFiltering(e));
     this.elBtnHistory.off().click((e) => this.openHistory(e));
-    this.document.ready((e) => this.initEffect(e));
   }
 
   async initEffect() {
-    this.processing(!this.developerMode);
+    this.processing();
+    //this.processing(!this.developerMode);
     this.debugTime('initEffect');
     this.cloudDone(false);
     const {
       aggregated, users, teams, data,
     } = await this.fifa.initLocalDatabase();
-    this.processing(false);
-    this.filterRank('users', 'name', '0', users, 'filter_alt');
-    this.filterRank('teams', 'name', '0', teams, 'filter_alt');
-    this.tableResultGamesCheck(2020, data);
-    this.initStatistics(users, teams);
+    this.localDB.setConsistency(aggregated);
+    // this.filterRank('users', 'name', '0', users, 'filter_alt');
+    // this.filterRank('teams', 'name', '0', teams, 'filter_alt');
+    // this.dashTables.tableResultGamesCheck(2020, data);
+    // this.dashStatistics.initStatistics(users, teams);
     this.initStorage();
     this.initTrain();
-    this.setConsistency(aggregated);
     this.cloudDone();
     this.views();
-    this.market();
-    this.typedTchan();
-    this.stake();
-    this.actions();
-    this.preloader();
+    this.typed();
+    // this.processing(false);
+    // this.preloader();
     this.debugTime('end');
   }
 
@@ -235,15 +231,15 @@ export default class Dashboard {
         newTurn.name = nameScope;
         all.push(newTurn);
       });
-      document.getElementById(`btnTabRank${context[0].toUpperCase() + context.slice(1)}History`).click();
+      $(`#btnTabRank${context[0].toUpperCase() + context.slice(1)}History`)[0].click();
     }
 
     const filteredTable = this.filterRankByTarget(all, target, inverse);
-    await this.addTableRank(context, filteredTable, index, btn, history);
+    await this.dashTables.addTableRank(context, filteredTable, index, btn, history);
     this.registerHandlers();
   }
 
-  processing(status) {
+  processing(status = true) {
     if (status) return this.elBarProgress.addClass('mdl-progress__indeterminate');
     this.elBarProgress.removeClass('mdl-progress__indeterminate');
     return this.preloader();
@@ -292,17 +288,6 @@ export default class Dashboard {
     callback(assetsGoals);
   }
 
-  static fillComboboxes(usersSet, teamsSet) {
-    const users = Object.keys(usersSet);
-    const teams = Object.keys(teamsSet);
-
-    const arrUsers = ['cmbUserA', 'cmbUserB'];
-    const arrTeams = ['cmbTeamA', 'cmbTeamB'];
-
-    users.forEach((each) => arrUsers.forEach((eachSel) => $(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
-    teams.forEach((each) => arrTeams.forEach((eachSel) => $(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
-  }
-
   snackbar(string) {
     this.MsgSnackbar[0].MaterialSnackbar.showSnackbar({
       message: string,
@@ -312,7 +297,7 @@ export default class Dashboard {
   setBtnsState(propName, option) {
     let pos = 1;
     if (option === true) pos = 0;
-    this.elChip.$('.mdl-chip').closest(propName).children().eq(1)
+    this.elChip.closest(propName).children().eq(1)
       .children()[pos].click();
   }
 
@@ -352,9 +337,9 @@ export default class Dashboard {
       plotPercent,
     } = JSON.parse(this.localDB.getCache('machineLearning'));
 
-    document.getElementById('sldStart').max = max;
-    document.getElementById('sldEnd').max = max;
-    document.getElementById('sldStep').max = max;
+    this.elSldStart.attr('max', max);
+    this.elSldEnd.attr('max', max);
+    this.elSldStep.attr('max', max);
 
     this.elSldBatches.val(batches);
     this.elSldLearningRate.val(learningRate);
@@ -366,8 +351,8 @@ export default class Dashboard {
 
     this.updateLabel();
 
-    this.setBtnsState('btnsNormalization', normalization);
-    this.setBtnsState('btnsShuffle', randomize);
+    this.setBtnsState('#btnsNormalization', normalization);
+    this.setBtnsState('#btnsShuffle', randomize);
   }
 
   initStorage() {
@@ -395,8 +380,8 @@ export default class Dashboard {
     });
   }
 
-  typedTchan() {
-    this.Typed('.typed', {
+  typed() {
+    return new this.Typed('.typed', {
       strings: this.marketingText,
       typeSpeed: 100,
       backDelay: 0,
@@ -416,92 +401,12 @@ export default class Dashboard {
         this.localDB.setCache('view:', showElement);
         $(`#${showElement}`).toggle();
         if (showElement === 'home') {
-          this.elExtBudget.html('brother.bet');
+          this.elExtBudget.html('BROTHER.BET');
         } else {
           this.elExtBudget.html(showElement);
         }
       });
     });
     this.elBtnHome.click();
-  }
-
-  market() {
-    const marketWinList = ['chipCorrectScore', 'chipMatchOdds', 'chipUnderOver'];
-
-    marketWinList.forEach((showElement) => {
-      $(`#${showElement}`)
-        .off()
-        .click((e) => {
-          e.stopImmediatePropagation();
-          const key = showElement
-            .split('chip')[1]
-            .split(/(?=[A-Z])/)
-            .join('_')
-            .toLowerCase();
-          $('#market').val(key);
-          marketWinList.forEach((hideElement) => {
-            const hiden = hideElement
-              .split('chip')[1]
-              .split(/(?=[A-Z])/)
-              .join('_')
-              .toLowerCase();
-            $(`.${hiden}`).css('display', 'none');
-            $(`#${hideElement}`).css('background-color', '#dedede');
-          });
-          $(`.${key}`).show();
-          $(`#${showElement}`).css('background-color', '#FAFAFA');
-          this.initMarket();
-          $('.overlay').css(
-            'height',
-            `${$('.init-box-robot').outerHeight() * 1.13}px`,
-          );
-        });
-    });
-
-    const marketPositionList = ['chipBack', 'chipLay'];
-
-    marketPositionList.forEach((showElement) => {
-      $(`#${showElement}`)
-        .off()
-        .click((e) => {
-          e.stopImmediatePropagation();
-          showElement.split('chip')[1].toLowerCase();
-          $('#position').val('back');
-          marketPositionList.forEach((hideElement) => {
-            $(`#${hideElement}`).css('background-color', '#dedede');
-          });
-          $(`#${showElement}`).css('background-color', '#FAFAFA');
-        });
-    });
-  }
-
-  static initMarket() {
-    const marketWinList = ['chipHome', 'chipAway', 'chipDraw'];
-
-    marketWinList.forEach((showElement) => {
-      $(`#${showElement}`)
-        .off()
-        .click((e) => {
-          e.stopImmediatePropagation();
-          marketWinList.forEach((hideElement) => {
-            $(`#${hideElement}`).css('background-color', '#dedede');
-          });
-          $(`#${showElement}`).css('background-color', '#FAFAFA');
-        });
-    });
-
-    const marketTypeList = ['chipUnder', 'chipOver'];
-
-    marketTypeList.forEach((showElement) => {
-      $(`#${showElement}`)
-        .off()
-        .click((e) => {
-          e.stopImmediatePropagation();
-          marketTypeList.forEach((hideElement) => {
-            $(`#${hideElement}`).css('background-color', '#dedede');
-          });
-          $(`#${showElement}`).css('background-color', '#FAFAFA');
-        });
-    });
   }
 }

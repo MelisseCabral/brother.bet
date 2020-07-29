@@ -23,7 +23,7 @@ export default class Database {
     }
   }
 
-  async getDatabaseConsistency(type = 'whole') {
+  async getConsistency(type = 'whole') {
     try {
       const response = await this.api.get(`/databaseConsistency?type=${type}`);
       // console.log(response);
@@ -33,7 +33,7 @@ export default class Database {
     }
   }
 
-  async postDatabaseConsistency(data, type = 'whole') {
+  async postConsistency(data, type = 'whole') {
     try {
       const response = await this.api.post(`/databaseConsistency?type=${type}`, data);
       // console.log(response);

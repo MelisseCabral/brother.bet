@@ -9,7 +9,7 @@ export default class LocalDB {
   }
 
   createTableDB(incomeData, indexName = '', key = '') {
-    const tableName = Object.key(incomeData)[0];
+    const tableName = Object.keys(incomeData)[0];
     let data = incomeData[tableName];
     if (!Array.isArray(data)) data = [data];
 
@@ -97,7 +97,7 @@ export default class LocalDB {
       .filter((each) => each.name !== 'firebaseLocalStorageDB')
       .filter((each) => each.name !== 'firebase-installations-database')
       .filter((each) => each.name !== 'validate-browser-context-for-indexeddb-analytics-module')
-      .forEach((database) => window.this.indexedDB.deleteDatabase(database.name));
+      .forEach((database) => this.indexedDB.deleteDatabase(database.name));
   }
 
   async downloadDB() {

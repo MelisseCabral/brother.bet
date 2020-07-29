@@ -19,8 +19,8 @@ export default class DashTables {
     this.getStructure = getStructure;
   }
 
-  async tableResultGamesCheck(year, dataSet) {
-    const registeredIds = await this.getRegisteredDays(dataSet);
+  tableResultGamesCheck(year, dataSet) {
+    const registeredIds = this.getRegisteredDays(dataSet);
     const allDaysOfYear = this.generateDaysOfYear(year);
 
     this.elTableBodyGames.html();

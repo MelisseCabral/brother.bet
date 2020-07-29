@@ -9,7 +9,7 @@
       "request": "launch",
       "type": "pwa-chrome",
       "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}\\functions\\views\\dist"
     },
     {
       "type": "node",
@@ -18,7 +18,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}\\functions\\src\\debug\\debug.js"
+      "program": "${workspaceFolder}\\functions\\views\\dist\\index.html"
     }
   ]
 }

@@ -1,5 +1,5 @@
 /* Fonts */
-@font-face {
+/* @font-face {
   font-family: "Aileron Regular";
   src: url('../font/aileron.otf') format('truetype');
 }
@@ -7,7 +7,7 @@
 @font-face {
   font-family: "Racing Sans One";
   src: url('../font/racingSansOne.ttf');
-}
+} */
 
 h4 {
   padding-left: 12% !important;
@@ -349,7 +349,7 @@ a img {
 }
 
 .loader-name{
-  font-family: "Racing Sans One" !important;
+  /* font-family: "Racing Sans One" !important; */
   text-transform: none !important; 
   font-size: 6vmax !important;
 }
@@ -369,7 +369,7 @@ a img {
 }
 
 .cifra-brother{
-  font-family: "Racing Sans One" !important;
+  /* font-family: "Racing Sans One" !important; */
   text-transform: none !important; 
   font-size: 17px !important;
 }
@@ -598,14 +598,14 @@ select::selection {
   color: black;
   font-weight: 00;
   font-size: 5vh;
-  font-family: "Racing Sans One" !important;
+  /* font-family: "Racing Sans One" !important; */
 }
 
 .font-buget {
   margin: auto !important;
   text-align: center;
   line-height: 4vh;
-  font-family: "Racing Sans One" !important;
+  /* font-family: "Racing Sans One" !important; */
   color: dimgray;
   font-weight: 00;
   font-size: 3vh;

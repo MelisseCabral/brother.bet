@@ -54,11 +54,16 @@ export default class Main {
     this.localStorage = {};
 
     // Initialize
-    this.init();
+    this.layout = this.init();
   }
 
   init() {
-    const { indexedDB, localStorage, origin } = this.window;
+    const {
+      indexedDB,
+      localStorage,
+      origin,
+      document,
+    } = this.window;
     const { newOrigin, developerMode } = new this.Environment(origin);
     const { api } = new this.Api(newOrigin);
     const database = new this.Database(api);
@@ -76,6 +81,7 @@ export default class Main {
       localStorage,
     });
     const fifa = new this.Fifa({
+      developerMode,
       tf: this.tf,
       localDB,
       database,
@@ -92,8 +98,8 @@ export default class Main {
     });
     const dashStatistics = new this.DashStatistics({ getStructure, developerMode });
 
-    // eslint-disable-next-line no-unused-vars
     const dashboard = new this.Dashboard({
+      document,
       Typed: this.Typed,
       developerMode,
       debugTime,
@@ -109,5 +115,7 @@ export default class Main {
 
     this.firebase.initializeApp(this.firebaseConfig);
     this.firebase.analytics();
+
+    return dashboard;
   }
 }

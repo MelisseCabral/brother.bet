@@ -70,7 +70,7 @@ export default class FactoryUtil {
     return data.reverse();
   }
 
-  static async getRegisteredDays(datedSet) {
+  static getRegisteredDays(datedSet) {
     const registeredIds = {};
     datedSet.forEach((each) => {
       registeredIds[each.date] = each.id;
