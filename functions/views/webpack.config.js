@@ -30,24 +30,24 @@ module.exports = (env) => {
     },
     optimization: {
       splitChunks: {
-        // chunks: 'all',
-        // maxInitialRequests: Infinity,
-        // minSize: 0,
-        // cacheGroups: {
-        //   // styles: {
-        //   //   name: 'styles',
-        //   //   test: /\.css$/,
-        //   //   chunks: 'all',
-        //   //   enforce: true,
-        //   // },
-        //   // vendor: {
-        //   //   test: /[\\/]node_modules[\\/]/,
-        //   //   name(module) {
-        //   //     const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-        //   //     return `npm.${packageName.replace('@', '')}`;
-        //   //   },
-        //   // },
-        // },
+        chunks: 'all',
+        maxInitialRequests: Infinity,
+        minSize: 0,
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name(module) {
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              return `npm.${packageName.replace('@', '')}`;
+            },
+          },
+        },
       },
       minimize: !developmentMode,
       minimizer: [new TerserJSPlugin({
@@ -75,15 +75,15 @@ module.exports = (env) => {
       // new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        publicPath: './src/index.html',
+        template: './src/index.html',
       }),
       new HtmlWebpackPlugin({
         filename: './components/statistics.html',
-        publicPath: './src/components/statistics.hbs',
+        template: './src/components/statistics.hbs',
       }),
       new HtmlWebpackPlugin({
         filename: './components/tableRanking.html',
-        publicPath: './src/components/tableRanking.hbs',
+        template: './src/components/tableRanking.hbs',
       }),
       new MiniCssExtractPlugin({
         filename: '[name].[contenthash:8].css',
