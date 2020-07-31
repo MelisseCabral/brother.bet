@@ -3,6 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 // import $ from 'jquery';
 import * as firebase from 'firebase/app';
 import Typed from 'typed.js';
+import axios from 'axios';
 
 // Defining Modules JS
 import 'firebase/auth';
@@ -29,12 +30,17 @@ import DashStatistics from './dashStatistics';
 import Dashboard from './dashboard';
 import Main from './main';
 
+// Static Components
+import tableRanking from '../components/tableRanking.hbs';
+import statistics from '../components/statistics.hbs';
+
 // eslint-disable-next-line no-unused-vars
 const main = new Main({
   window,
   tf,
   firebase,
   Typed,
+  axios,
   Environment,
   Api,
   Database,
@@ -45,6 +51,8 @@ const main = new Main({
   DashTables,
   DashStatistics,
   Dashboard,
+  tableRanking,
+  statistics,
 });
 
 // window,            OK

@@ -4,10 +4,14 @@ export default class DashTables {
     generateDaysOfYear,
     getRegisteredDays,
     getStructure,
+    tableRanking,
   }) {
     // constants
     this.varClrSec5 = 'var(--secondary_color_5)';
     this.varClrTer5 = 'var(--tertiary_color_5)';
+
+    // Static Components
+    this.tableRanking = tableRanking;
 
     // DOM Elements
     this.elTableBodyGames = $('#admin table tbody');
@@ -51,7 +55,7 @@ export default class DashTables {
     const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1) + (history || '')}`;
     const fixed = 1;
 
-    const table = $(await this.getStructure('components/tableRanking.html'));
+    const table = this.tableRanking;
     $(id).html(table);
     $(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
     $(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')

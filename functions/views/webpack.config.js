@@ -3,30 +3,53 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
+const smp = new SpeedMeasurePlugin();
 const webpack = require('webpack');
 
 module.exports = (env) => {
   const mode = env.production ? 'production' : 'development';
   const devtool = env.production ? false : 'source-map';
-  const enforce = !env.production;
-  return {
+  let stats = env.production ? 'verbose' : 'errors-only';
+  const developmentMode = !env.production;
+  stats = env.hide ? 'none' : stats;
+
+  return smp.wrap({
+    stats,
     mode,
-    stats: 'errors-only',
     devtool,
     target: 'web',
+    entry: './src/js/init',
+    output: {
+      filename: '[name].[contenthash:8].js',
+      path: path.resolve(__dirname, 'dist'),
+    },
+    watchOptions: {
+      ignored: /node_modules/,
+    },
     optimization: {
       splitChunks: {
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /\.css$/,
-            chunks: 'all',
-            enforce,
-          },
-        },
+        // chunks: 'all',
+        // maxInitialRequests: Infinity,
+        // minSize: 0,
+        // cacheGroups: {
+        //   // styles: {
+        //   //   name: 'styles',
+        //   //   test: /\.css$/,
+        //   //   chunks: 'all',
+        //   //   enforce: true,
+        //   // },
+        //   // vendor: {
+        //   //   test: /[\\/]node_modules[\\/]/,
+        //   //   name(module) {
+        //   //     const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+        //   //     return `npm.${packageName.replace('@', '')}`;
+        //   //   },
+        //   // },
+        // },
       },
-      minimize: true,
+      minimize: !developmentMode,
       minimizer: [new TerserJSPlugin({
         terserOptions: {
           output: {
@@ -36,11 +59,6 @@ module.exports = (env) => {
         extractComments: false,
       }),
       new OptimizeCSSAssetsPlugin({})],
-    },
-    entry: './src/js/init',
-    output: {
-      filename: '[name].js',
-      path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
       allowedHosts: [
@@ -54,20 +72,21 @@ module.exports = (env) => {
       },
     },
     plugins: [
+      // new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        template: './src/index.html',
+        publicPath: './src/index.html',
       }),
       new HtmlWebpackPlugin({
         filename: './components/statistics.html',
-        template: './src/components/statistics.html',
+        publicPath: './src/components/statistics.hbs',
       }),
       new HtmlWebpackPlugin({
         filename: './components/tableRanking.html',
-        template: './src/components/tableRanking.html',
+        publicPath: './src/components/tableRanking.hbs',
       }),
       new MiniCssExtractPlugin({
-        filename: 'style.css',
+        filename: '[name].[contenthash:8].css',
         ignoreOrder: true,
       }),
       new webpack.ProvidePlugin({
@@ -80,45 +99,57 @@ module.exports = (env) => {
     module: {
       rules: [
         {
+          test: /\.hbs$/i,
+          use: [
+            {
+              loader: 'html-loader',
+              options: {
+                minimize: true,
+              },
+            },
+          ],
+        },
+        {
           test: /\.css$/,
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: developmentMode,
+                reloadAll: true,
+              },
             },
             'css-loader',
+
           ],
         },
-        // {
-        //   test: /\.js$/,
-        //   exclude: /node_modules/,
-        //   use: {
-        //     loader: 'babel-loader',
-        //     options: {
-        //       presets: ['@babel/preset-env'],
-        //     },
-        //   },
-        // },
-        // {
-        //   test: /\.(jpg?g|png|gif|svg)$/i,
-        //   loader: 'file-loader',
-        //   options: {
-        //     name: '[name].[ext]',
-        //     outputPath: 'images/',
-        //   },
-        // },
-        // {
-        //   test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
-        //   use: [
-        //     {
-        //       loader: 'file-loader',
-        //       options: {
-        //         name: '[name].[ext]',
-        //         outputPath: 'fonts/',
-        //       },
-        //     },
-        //   ],
-        // },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: ['thread-loader', 'cache-loader'],
+          include: path.resolve(__dirname, 'src'),
+        },
+        {
+          test: /\.(jpg?g|png|gif|svg)$/i,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'images/',
+          },
+        },
+        {
+          test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'fonts/',
+              },
+            },
+          ],
+        },
       ],
     },
-  };
+  });
 };

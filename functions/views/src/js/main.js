@@ -4,6 +4,7 @@ export default class Main {
     tf,
     firebase,
     Typed,
+    axios,
     Environment,
     Api,
     Database,
@@ -14,6 +15,8 @@ export default class Main {
     DashTables,
     DashStatistics,
     Dashboard,
+    tableRanking,
+    statistics,
   }) {
     // Constants
     this.firebaseConfig = {
@@ -30,11 +33,16 @@ export default class Main {
     // Variables
     this.origin = '';
 
+    // Static Components;
+    this.tableRanking = tableRanking;
+    this.statistics = statistics;
+
     // Objects
     this.window = window;
     this.tf = tf;
     this.firebase = firebase;
     this.Typed = Typed;
+    this.axios = axios;
     this.Environment = Environment;
     this.Api = Api;
     this.Database = Database;
@@ -65,7 +73,7 @@ export default class Main {
       document,
     } = this.window;
     const { newOrigin, developerMode } = new this.Environment(origin);
-    const { api } = new this.Api(newOrigin);
+    const { api } = new this.Api(this.axios, newOrigin);
     const database = new this.Database(api);
     const {
       hash,
@@ -95,8 +103,13 @@ export default class Main {
       generateDaysOfYear,
       getRegisteredDays,
       getStructure,
+      tableRanking: this.tableRanking,
     });
-    const dashStatistics = new this.DashStatistics({ getStructure, developerMode });
+    const dashStatistics = new this.DashStatistics({
+      getStructure,
+      developerMode,
+      statistics: this.statistics,
+    });
 
     const dashboard = new this.Dashboard({
       document,

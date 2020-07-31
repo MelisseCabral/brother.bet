@@ -1,7 +1,14 @@
 export default class DashStatistics {
-  constructor({ getStructure, developerMode }) {
+  constructor({
+    getStructure,
+    developerMode,
+    statistics,
+  }) {
     // Variables
     this.developerMode = developerMode;
+
+    // Static Components
+    this.statistics = statistics;
 
     // DOM Elements
     this.elTabStatistics = $('#tabStatistics');
@@ -12,7 +19,7 @@ export default class DashStatistics {
   }
 
   async initStatistics(users, teams) {
-    const table = await this.getStructure('components/tableRanking.html');
+    const table = await this.statistics;
 
     this.elTabStatistics.html(table);
     if (!this.developerMode) this.elContentSection.parent(this.elTabStatistics).addClass('restrict-area');

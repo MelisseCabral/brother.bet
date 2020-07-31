@@ -1,13 +1,12 @@
-import axios from 'axios';
-
 export default class Api {
-  constructor(newOrigin) {
+  constructor(axios, newOrigin) {
     this.newOrigin = newOrigin;
+    this.axios = axios;
     this.api = this.setApi();
   }
 
   setApi() {
-    return axios.create({
+    return this.axios.create({
       baseURL: this.newOrigin,
     });
   }

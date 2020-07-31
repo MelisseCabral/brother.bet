@@ -109,24 +109,24 @@ export default class Dashboard {
 
   async initEffect() {
     this.processing();
-    //this.processing(!this.developerMode);
+    // this.processing(!this.developerMode);
     this.debugTime('initEffect');
     this.cloudDone(false);
     const {
       aggregated, users, teams, data,
     } = await this.fifa.initLocalDatabase();
     this.localDB.setConsistency(aggregated);
-    // this.filterRank('users', 'name', '0', users, 'filter_alt');
-    // this.filterRank('teams', 'name', '0', teams, 'filter_alt');
-    // this.dashTables.tableResultGamesCheck(2020, data);
-    // this.dashStatistics.initStatistics(users, teams);
+    this.filterRank('users', 'name', '0', users, 'filter_alt');
+    this.filterRank('teams', 'name', '0', teams, 'filter_alt');
+    this.dashTables.tableResultGamesCheck(2020, data);
+    this.dashStatistics.initStatistics(users, teams);
     this.initStorage();
     this.initTrain();
     this.cloudDone();
     this.views();
     this.typed();
-    // this.processing(false);
-    // this.preloader();
+    this.processing(false);
+    this.preloader();
     this.debugTime('end');
   }
 
