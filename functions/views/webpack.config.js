@@ -15,6 +15,7 @@ module.exports = (env) => {
   const hash = env.production ? '.[contenthash:8]' : '';
   const outputDir = env.production ? 'dist' : 'dev';
   const developmentMode = !env.production;
+  const clean = env.clean ? new CleanWebpackPlugin() : () => {};
   let stats = env.production ? 'verbose' : 'errors-only';
   stats = env.hide ? 'none' : stats;
 
@@ -25,7 +26,7 @@ module.exports = (env) => {
     target: 'web',
     entry: './src/js/init',
     output: {
-      filename: `[name]${hash}.js`,
+      filename: `js/[name]${hash}.js`,
       path: path.resolve(__dirname, outputDir),
     },
     watchOptions: {
@@ -47,7 +48,7 @@ module.exports = (env) => {
             test: /[\\/]node_modules[\\/]/,
             name(module) {
               const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-              return `npm.${packageName.replace('@', '')}`;
+              return `vendor/${packageName.replace('@', '')}`;
             },
           },
         },
@@ -76,11 +77,10 @@ module.exports = (env) => {
       },
     },
     plugins: [
-      new CleanWebpackPlugin(),
+      clean,
       new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
         filename: `index${hash}.html`,
-        // filename: 'index.html',
         template: './src/index.html',
       }),
       new HtmlWebpackPlugin({
@@ -96,7 +96,7 @@ module.exports = (env) => {
         template: './src/components/timeline.hbs',
       }),
       new MiniCssExtractPlugin({
-        filename: `[name]${hash}.css`,
+        filename: `css/[name]${hash}.css`,
         ignoreOrder: true,
       }),
       new webpack.ProvidePlugin({

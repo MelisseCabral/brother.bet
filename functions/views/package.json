@@ -5,11 +5,10 @@
   "private": "true",
   "scripts": {
     "serve": "rm -r dev/  & webpack-dev-server --env.development --watch",
-    "build": "              webpack            --env.production",
-    "hide": "               webpack            --env.production --env.hide",
-    "deploy": "             webpack            --env.production  & firebase deploy",
-    "hosting": "            webpack            --env.production  & firebase deploy --only hosting",
-    "test": "               webpack-dev-server --env.production"
+    "build": "              webpack            --env.production  --env.clean",
+    "deploy": "             webpack            --env.production  --env.clean & firebase deploy",
+    "hosting": "            webpack            --env.production  --env.clean & firebase deploy --only hosting",
+    "hide": "               webpack            --env.production  --env.hide"
   },
   "author": "",
   "license": "ISC",
