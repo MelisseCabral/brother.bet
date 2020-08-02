@@ -4,8 +4,8 @@ export default class FactoryUtil {
     let h = 0;
     const l = s.length;
     let i = 0;
-    // eslint-disable-next-line no-bitwise
-    if (l > 0) while (i < l) h = ((h << 5) - h + s.charCodeAt(i += 1)) | 0;
+    // eslint-disable-next-line no-bitwise, no-plusplus
+    if (l > 0) while (i < l) h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
     return label + h;
   }
 

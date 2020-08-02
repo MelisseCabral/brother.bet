@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const smp = new SpeedMeasurePlugin();
 const webpack = require('webpack');
@@ -14,6 +15,7 @@ module.exports = (env) => {
   let stats = env.production ? 'verbose' : 'errors-only';
   const developmentMode = !env.production;
   stats = env.hide ? 'none' : stats;
+  const hash = developmentMode ? 'hash' : 'contenthash:8';
 
   return smp.wrap({
     stats,
@@ -22,7 +24,7 @@ module.exports = (env) => {
     target: 'web',
     entry: './src/js/init',
     output: {
-      filename: '[name].[contenthash:8].js',
+      filename: `[name].[${hash}].js`,
       path: path.resolve(__dirname, 'dist'),
     },
     watchOptions: {
@@ -61,6 +63,7 @@ module.exports = (env) => {
       new OptimizeCSSAssetsPlugin({})],
     },
     devServer: {
+      hot: developmentMode,
       allowedHosts: [
         'localhost:8080',
         'localhost:5000',
@@ -72,7 +75,8 @@ module.exports = (env) => {
       },
     },
     plugins: [
-      // new webpack.HashedModuleIdsPlugin(),
+      new CleanWebpackPlugin(),
+      new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './src/index.html',
@@ -86,14 +90,14 @@ module.exports = (env) => {
         template: './src/components/tableRanking.hbs',
       }),
       new MiniCssExtractPlugin({
-        filename: '[name].[contenthash:8].css',
+        filename: `[name].[${hash}].css`,
         ignoreOrder: true,
       }),
       new webpack.ProvidePlugin({
-        jQuery: 'jquery',
-        $: 'jquery',
-        'window.jQuery': 'jquery',
-        'window.$': 'jquery',
+        // jQuery: 'jquery',
+        // $: 'jquery',
+        // 'window.jQuery': 'jquery',
+        // 'window.$': 'jquery',
       }),
     ],
     module: {

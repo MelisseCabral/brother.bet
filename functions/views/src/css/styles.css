@@ -1,5 +1,5 @@
-/* Fonts */
-/* @font-face {
+/* Fonts  */
+ @font-face {
   font-family: "Aileron Regular";
   src: url('../font/aileron.otf') format('truetype');
 }
@@ -7,7 +7,7 @@
 @font-face {
   font-family: "Racing Sans One";
   src: url('../font/racingSansOne.ttf');
-} */
+}
 
 h4 {
   padding-left: 12% !important;
@@ -77,12 +77,24 @@ h4 {
   --quinary_color_3: rgb(238, 247, 119);
   --quinary_color_4: rgb(238, 250, 45);
   --quinary_color_5: rgb(232, 248, 9);
+
+  --closed_ball_color: #e91e63;
+  --opened_ball_color: #e91e63;
+  --inner_ball_color: rgb(255 255 255);
+  --text_date_color: rgb(233,30,99);
+  --line_color: #947ef6;
+  --move_color: rgb(104, 239, 173);
+}
+
+body{
+  background-color: var(--tertiary_color_5);
 }
 
 .mdl-progress {
-    width: 100%;
-    height: 5px;
-    z-index: 9999999;
+  background-color: transparent;
+  width: 100%;
+  height: 5px;
+  z-index: 9999999;
 }
 
 .mdl-progress.mdl-progress--indeterminate>.bar1, .mdl-progress.mdl-progress__indeterminate>.bar1, .mdl-progress.mdl-progress--indeterminate>.bar3, .mdl-progress.mdl-progress__indeterminate>.bar3{
@@ -186,6 +198,10 @@ h4 {
   background-color: var(--primary_color_1);
 }
 
+.mdl-layout__tab-bar {
+  width: 100%;
+}
+
 .boxes .mdl-button--fab.mdl-button--colored {
   background: var(--contrast_primary_color_1) !important;
   color: var(--quaternary_color_2) !important;
@@ -281,6 +297,7 @@ a img {
 
 .mdl-layout__header {
   min-height: 33px !important;
+  background-color:var(--tertiary_color_5) ;
 }
 
 .mdl-layout__content {
@@ -332,8 +349,12 @@ a img {
 }
 
 #loaderLogo{
-  width: 25vmax;
+  width: 30vmax;
+  height: 30vmax;
   filter: grayscale(100%);
+  background: url(../images/logo.png) no-repeat;
+  background-size: contain;
+  padding: 10px;
 }
 
 .loader-names{
@@ -349,7 +370,7 @@ a img {
 }
 
 .loader-name{
-  /* font-family: "Racing Sans One" !important; */
+  font-family: "Racing Sans One" !important;
   text-transform: none !important; 
   font-size: 6vmax !important;
 }
@@ -369,7 +390,7 @@ a img {
 }
 
 .cifra-brother{
-  /* font-family: "Racing Sans One" !important; */
+  font-family: "Racing Sans One" !important;
   text-transform: none !important; 
   font-size: 17px !important;
 }
@@ -454,10 +475,6 @@ button {
       margin-left: 12px;
   }
 
-  .mdl-layout__header-row {
-    padding: 0 80px 0 50px;
-}
-
   .mdl-button{
     min-width: 40px;
   }
@@ -502,7 +519,11 @@ select::selection {
 }
 
 .logo-image {
-  height: 28px;
+  position: absolute;
+  color: white;
+  font-family: 'Racing Sans One';
+  padding-bottom: 15px;
+  background: unset;
 }
 
 .logo-image-2 {
@@ -510,11 +531,14 @@ select::selection {
   display: flex;
   margin: auto;
   position: relative;
-  top: 30px;}
+  top: 30px;
+  color:white;
+  background: url(../images/logo.png) no-repeat;
+}
 
 .android-header {
   overflow: visible;
-  background-color: var(--contrast_primary_color_1);
+  background-color: var(--tertiary_color_5);
 }
 
 .android-header .material-icons {
@@ -595,17 +619,17 @@ select::selection {
   margin: auto !important;
   text-align: center;
   line-height: 4vh;
-  color: black;
-  font-weight: 00;
-  font-size: 5vh;
-  /* font-family: "Racing Sans One" !important; */
+  color: var(--contrast_primary_color_1);
+  font-weight: 100;
+  font-size: 4.7vh;
+  font-family: "Racing Sans One" !important;
 }
 
 .font-buget {
   margin: auto !important;
   text-align: center;
   line-height: 4vh;
-  /* font-family: "Racing Sans One" !important; */
+  font-family: "Racing Sans One" !important;
   color: dimgray;
   font-weight: 00;
   font-size: 3vh;
@@ -1056,13 +1080,13 @@ h4{
   height: 180px;
   display: block;
   position: absolute;
-  background: #fafafa;
+  background: var(--contrast_primary_color_1);
   margin-top: -14px;
   z-index: 99;
 }
 
 .mdl-dialog__addContent .mdl-dialog__title {
-  color: #1f1f1f !important;
+  color: var(--primary_color_1) !important;
   font-size: 22px !important;
   font-weight: 500;
 }

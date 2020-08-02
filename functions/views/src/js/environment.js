@@ -1,7 +1,7 @@
 export default class Environment {
   constructor(origin) {
     // Constants
-    this.originDev = ['http://localhost:8080', 'http://127.0.0.1:5500'];
+    this.originDev = 'http://localhost:8080';
     this.originSever = 'http://localhost:5000';
 
     // Variables
@@ -11,12 +11,12 @@ export default class Environment {
   }
 
   setDeveloperMode() {
-    if (this.origin === this.originDev[0] || this.origin === this.originDev[1]) return true;
+    if (this.origin === this.originDev) return true;
     return false;
   }
 
   setOrigin() {
-    if (this.developerMode) return this.originSever;
+    if (this.origin === this.originDev) return this.originSever;
     return this.origin;
   }
 }

@@ -118,7 +118,8 @@ export default class LocalDB {
   }
 
   setConsistency(consistency) {
-    this.setCache('consistency', this.hash(consistency));
+    const newHash = this.hash(consistency);
+    this.setCache('consistency', newHash);
   }
 
   getConsistency() {

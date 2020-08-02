@@ -1,14 +1,6 @@
 /* eslint-disable no-param-reassign */
 export default class Fifa {
-  constructor({
-    developerMode,
-    tf,
-    localDB,
-    database,
-    debugTime,
-    delay,
-    hash,
-  }) {
+  constructor({ developerMode, tf, localDB, database, debugTime, delay, hash }) {
     // Constants
     this.developerMode = developerMode;
     this.nameTables = [
@@ -21,7 +13,7 @@ export default class Fifa {
       'addedTrainSet',
       'trainResultSet',
       'trainGoalsSet',
-      'trainValidationSet',
+      'trainValidationSets',
     ];
 
     // Variables
@@ -58,17 +50,19 @@ export default class Fifa {
 
   static getJustData(data) {
     let arr = [];
-    data.forEach((each) => each.data.forEach((each2) => {
-      arr = [...arr, each2];
-    }));
+    data.forEach((each) =>
+      each.data.forEach((each2) => {
+        arr = [...arr, each2];
+      }),
+    );
     return arr;
   }
 
   static getGameOutput(game) {
-    const goalsTeamA = parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10)
-    || 0;
-    const goalsTeamB = parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10)
-    || 0;
+    const goalsTeamA =
+      parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10) || 0;
+    const goalsTeamB =
+      parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10) || 0;
 
     const output = [0, 0, 0, goalsTeamA, goalsTeamB];
 
@@ -97,36 +91,16 @@ export default class Fifa {
   }
 
   static addAndGetRank(ranks, game, scope) {
-    const {
-      0: winnerIsTeamA,
-      1: draw,
-      2: winnerIsTeamB,
-      3: goalsTeamA,
-      4: goalsTeamB,
-    } = { ...Fifa.getGameOutput(game) };
+    const { 0: winnerIsTeamA, 1: draw, 2: winnerIsTeamB, 3: goalsTeamA, 4: goalsTeamB } = {
+      ...Fifa.getGameOutput(game),
+    };
 
     const teamA = game.teamA[scope];
     const teamB = game.teamB[scope];
 
-    ranks = Fifa.rank(
-      ranks,
-      teamA,
-      winnerIsTeamA,
-      draw,
-      winnerIsTeamB,
-      goalsTeamA,
-      goalsTeamB,
-    );
+    ranks = Fifa.rank(ranks, teamA, winnerIsTeamA, draw, winnerIsTeamB, goalsTeamA, goalsTeamB);
     // eslint-disable-next-line no-param-reassign
-    ranks = Fifa.rank(
-      ranks,
-      teamB,
-      winnerIsTeamB,
-      draw,
-      winnerIsTeamA,
-      goalsTeamB,
-      goalsTeamA,
-    );
+    ranks = Fifa.rank(ranks, teamB, winnerIsTeamB, draw, winnerIsTeamA, goalsTeamB, goalsTeamA);
 
     const rankedA = ranks[teamA][ranks[teamA].length - 1];
     const rankedB = ranks[teamB][ranks[teamB].length - 1];
@@ -176,23 +150,15 @@ export default class Fifa {
       goalsCon: ((team.goalsCon || 0) * gamesCount + goalsCon) / rise,
       bothScore: ((team.bothScore || 0) * gamesCount + isBothScore) / rise,
       underHalf: ((team.underHalf || 0) * gamesCount + isUnderHalf) / rise,
-      underOneAndHalf:
-      ((team.underOneAndHalf || 0) * gamesCount + isUnderOneAndHalf) / rise,
-      underTwoAndHalf:
-      ((team.underTwoAndHalf || 0) * gamesCount + isUnderTwoAndHalf) / rise,
-      underThreeAndHalf:
-      ((team.underThreeAndHalf || 0) * gamesCount + isUnderThreeAndHalf) / rise,
-      underFourAndHalf:
-      ((team.underFourAndHalf || 0) * gamesCount + isUnderFourAndHalf) / rise,
+      underOneAndHalf: ((team.underOneAndHalf || 0) * gamesCount + isUnderOneAndHalf) / rise,
+      underTwoAndHalf: ((team.underTwoAndHalf || 0) * gamesCount + isUnderTwoAndHalf) / rise,
+      underThreeAndHalf: ((team.underThreeAndHalf || 0) * gamesCount + isUnderThreeAndHalf) / rise,
+      underFourAndHalf: ((team.underFourAndHalf || 0) * gamesCount + isUnderFourAndHalf) / rise,
       overHalf: ((team.overHalf || 0) * gamesCount + isOverHalf) / rise,
-      overOneAndHalf:
-      ((team.overOneAndHalf || 0) * gamesCount + isOverOneAndHalf) / rise,
-      overTwoAndHalf:
-      ((team.overTwoAndHalf || 0) * gamesCount + isOverTwoAndHalf) / rise,
-      overThreeAndHalf:
-      ((team.overThreeAndHalf || 0) * gamesCount + isOverThreeAndHalf) / rise,
-      overFourAndHalf:
-      ((team.overFourAndHalf || 0) * gamesCount + isOverFourAndHalf) / rise,
+      overOneAndHalf: ((team.overOneAndHalf || 0) * gamesCount + isOverOneAndHalf) / rise,
+      overTwoAndHalf: ((team.overTwoAndHalf || 0) * gamesCount + isOverTwoAndHalf) / rise,
+      overThreeAndHalf: ((team.overThreeAndHalf || 0) * gamesCount + isOverThreeAndHalf) / rise,
+      overFourAndHalf: ((team.overFourAndHalf || 0) * gamesCount + isOverFourAndHalf) / rise,
     };
 
     ranks[nameScope] = [...(ranks[nameScope] || []), ...([team] || [])];
@@ -207,6 +173,15 @@ export default class Fifa {
       teams = ranks;
     });
     return teams;
+  }
+
+  static getRankUsers(games, teams) {
+    let users = {};
+    games.forEach((game) => {
+      const { ranks } = Fifa.getGameInput(game, teams, users);
+      users = ranks;
+    });
+    return users;
   }
 
   static aggregationTrain(games, teams) {
@@ -303,10 +278,7 @@ export default class Fifa {
       const datedSet = await this.saveGetDataSet(data);
       const gamesSet = Fifa.getJustData(datedSet);
       const teamsSet = Fifa.getRankTeams(gamesSet);
-      const {
-        aggregated: aggregatedSet,
-        users: usersSet,
-      } = Fifa.aggregationTrain(gamesSet, teamsSet);
+      const { aggregated: aggregatedSet, users: usersSet } = Fifa.getRankUsers(gamesSet, teamsSet);
 
       resolve({ aggregated: aggregatedSet, users: usersSet, teams: teamsSet });
 
@@ -321,6 +293,16 @@ export default class Fifa {
       this.saveGoalsSet(trainSet);
       this.saveTrainValidationSet(trainSet);
     });
+  }
+
+  async timeFilterRank(context, date) {
+    const set = await this.localDB.getIndexed('dataSet', 'date');
+    const initDate = new Date(date).getTime();
+    const timedSet = set.filter((s) => new Date(s.date.split('.').join('-')).getTime() > initDate);
+    const gamesSet = Fifa.getJustData(timedSet);
+    const teamsSet = Fifa.getRankTeams(gamesSet);
+    if (context === 'teams') return teamsSet;
+    return Fifa.getRankUsers(gamesSet, teamsSet);
   }
 
   saveGetDataSet(dataSet) {
@@ -380,26 +362,10 @@ export default class Fifa {
           problems: {},
         };
 
-        objContext = validate(
-          eachB.teamA.firstHalf,
-          objContext,
-          'teamA.firstHalf',
-        );
-        objContext = validate(
-          eachB.teamA.secondHalf,
-          objContext,
-          'teamA.secondHalf',
-        );
-        objContext = validate(
-          eachB.teamB.firstHalf,
-          objContext,
-          'teamB.firstHalf',
-        );
-        objContext = validate(
-          eachB.teamB.secondHalf,
-          objContext,
-          'teamB.secondHalf',
-        );
+        objContext = validate(eachB.teamA.firstHalf, objContext, 'teamA.firstHalf');
+        objContext = validate(eachB.teamA.secondHalf, objContext, 'teamA.secondHalf');
+        objContext = validate(eachB.teamB.firstHalf, objContext, 'teamB.firstHalf');
+        objContext = validate(eachB.teamB.secondHalf, objContext, 'teamB.secondHalf');
 
         if (Object.keys(objContext.problems).length) truncatedLogs.push(objContext);
       });
@@ -411,7 +377,9 @@ export default class Fifa {
   async registerGid(sheetId) {
     const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
     const data = await this.database.getSource(key, sheetId);
-    const today = `${new Date().getYear() + 1900}.${new Date().getMonth() + 1}.${new Date().getDate()}`;
+    const today = `${new Date().getYear() + 1900}.${
+      new Date().getMonth() + 1
+    }.${new Date().getDate()}`;
 
     if (data) {
       if (data.date !== today) {
@@ -462,12 +430,7 @@ export default class Fifa {
         this.debugTime('getFifaDatabase');
         const tooler = await this.dataTooler(datedSet);
         this.debugTime('dataTooler');
-        return this.initLocalDatabase(
-          tooler.aggregated,
-          tooler.users,
-          tooler.teams,
-          datedSet,
-        );
+        return this.initLocalDatabase(tooler.aggregated, tooler.users, tooler.teams, datedSet);
       }
       try {
         const aggregatedSet = await this.localDB.getTable('aggregatedSet');
@@ -486,7 +449,10 @@ export default class Fifa {
     this.defaultML.max = aggregated.length;
     this.defaultML.step = aggregated.length;
     return {
-      aggregated, users, teams, data,
+      aggregated,
+      users,
+      teams,
+      data,
     };
   }
 }

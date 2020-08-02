@@ -1,5 +1,6 @@
 export default class DashTables {
   constructor({
+    $,
     hash,
     generateDaysOfYear,
     getRegisteredDays,
@@ -13,8 +14,11 @@ export default class DashTables {
     // Static Components
     this.tableRanking = tableRanking;
 
+    // Objects
+    this.$ = $;
+
     // DOM Elements
-    this.elTableBodyGames = $('#admin table tbody');
+    this.elTableBodyGames = this.$('#admin table tbody');
 
     // Functions
     this.hash = hash;
@@ -56,15 +60,15 @@ export default class DashTables {
     const fixed = 1;
 
     const table = this.tableRanking;
-    $(id).html(table);
-    $(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
-    $(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
+    this.$(id).html(table);
+    this.$(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
+    this.$(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
       .html(btn);
 
     teams.forEach((team, indexof) => {
       const idTh = `${team.name + this.hash(team)}`;
 
-      $(id).find('table').find('tbody').append(
+      this.$(id).find('table').find('tbody').append(
         `
       <tr>
         <th class="link" id="${idTh}">${team.name}</th>

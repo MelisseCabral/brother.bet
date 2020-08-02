@@ -1,7 +1,7 @@
 export default class Dashboard {
   constructor({
-    document,
     Typed,
+    $,
     developerMode,
     debugTime,
     filterRankByTarget,
@@ -10,9 +10,9 @@ export default class Dashboard {
     fifa,
     dashTables,
     dashStatistics,
+    Timeline,
   }) {
     // Constants
-
     this.developerMode = developerMode;
     this.marketingText = [
       'Hey BRO, lets bet!!',
@@ -21,59 +21,9 @@ export default class Dashboard {
       'goaaaaaaaaal!!!!',
       'improve your profit',
     ];
-    this.viewsList = [
-      'home',
-      'account',
-      'method',
-      'profit',
-      'contact',
-      'game',
-      'robot',
-      'admin',
-    ];
+    this.viewsList = ['home', 'account', 'method', 'profit', 'contact', 'game', 'robot', 'admin'];
 
     // Variables
-
-    // DOM Objects
-    this.document = $(document);
-    this.elNeuralFactory = $('#neuralFactory');
-    this.elPredictFactory = $('#predictFactory');
-    this.elBtnOpenNeural = $('#btnNeural');
-    this.elBtnOpenPredict = $('#btnPredict');
-    this.elBtnCloseTrain = $('#btnCloseTrain');
-    this.elBtnClosePredict = $('#btnClosePredict');
-    this.elBtnSaveTrain = $('#btnSaveTrain');
-    this.elBtnCookTrain = $('#btnCookTrain');
-    this.elBtnCookTrainReal = $('#btnCookTrainReal');
-    this.elBtnCookPredict = $('#btnCookPredict');
-    this.elBtnLogout = $('#btnLogout');
-    this.elBtnFilter = $('.page-content thead:nth-child(2) i');
-    this.elBtnHistory = $('.page-content tbody th:first-child');
-    this.elBtnHome = $('#btnHome');
-    this.elBarProgress = $('#progress');
-    this.elImgLogo = $('#loaderLogo');
-    this.elLoader = $('#loader');
-    this.elPreloader = $('#preloader');
-    this.elIconStatusCloud = $('#statusCloud');
-    this.elContentSection = $('.page-content');
-    this.elCmbUserA = $('#cmbUserA');
-    this.elCmbUserB = $('#cmbUserB');
-    this.elCmbTeamB = $('#cmbTeamB');
-    this.elCmbTeamA = $('#cmbTeamA');
-    this.elSldBatches = $('#sldBatches');
-    this.elSldLearningRate = $('#sldLearningRate');
-    this.elSldStart = $('#sldStart');
-    this.elSldEnd = $('#sldEnd');
-    this.elSldPercentValidation = $('#sldPercentValidation');
-    this.elSldStep = $('#sldStep');
-    this.elSldPlotPercent = $('#sldPlotPercent');
-    this.elSldSaveEvery = $('#sldSaveEvery');
-    this.elSliders = $('.slider');
-    this.elChip = $('.mdl-chip');
-    this.elObfuscator = $('.mdl-layout__obfuscator');
-    this.elLayoutDrawer = $('.mdl-layout__drawer');
-    this.elExtBudget = $('#txtBudget');
-    this.MsgSnackbar = $('#demo-snackbar-example');
 
     // Functions
     this.debugTime = debugTime;
@@ -87,9 +37,13 @@ export default class Dashboard {
     this.dashStatistics = dashStatistics;
     this.fifa = fifa;
     this.Typed = Typed;
+    this.Timeline = Timeline;
+    this.$ = $;
+
+    // DOM Objects
+    this.updateDOM();
 
     // Initialization
-    this.registerHandlers();
     this.initEffect();
   }
 
@@ -103,13 +57,58 @@ export default class Dashboard {
     this.elBtnCookTrainReal.off().click((e) => this.cookTrainReal(e));
     this.elBtnCookPredict.off().click((e) => this.cookPredict(e));
     this.elBtnLogout.off().click((e) => this.logout(e));
-    this.elBtnFilter.off().click().click((e) => this.doRankFiltering(e));
-    this.elBtnHistory.off().click((e) => this.openHistory(e));
+    this.elBtnFilter
+      .off()
+      .click()
+      .click((e) => this.doRankFiltering(e));
+    this.observer.off().click((e, params) => this[params.function](params.event));
+  }
+
+  updateDOM() {
+    this.elNeuralFactory = this.$('#neuralFactory');
+    this.elPredictFactory = this.$('#predictFactory');
+    this.elBtnOpenNeural = this.$('#btnNeural');
+    this.elBtnOpenPredict = this.$('#btnPredict');
+    this.elBtnCloseTrain = this.$('#btnCloseTrain');
+    this.elBtnClosePredict = this.$('#btnClosePredict');
+    this.elBtnSaveTrain = this.$('#btnSaveTrain');
+    this.elBtnCookTrain = this.$('#btnCookTrain');
+    this.elBtnCookTrainReal = this.$('#btnCookTrainReal');
+    this.elBtnCookPredict = this.$('#btnCookPredict');
+    this.elBtnLogout = this.$('#btnLogout');
+    this.elBtnFilter = this.$('.page-content thead:nth-child(2) i');
+    this.elBtnHistory = this.$('.page-content tbody th:first-child');
+    this.elBtnHome = this.$('#btnHome');
+    this.elBarProgress = this.$('#progress');
+    this.elImgLogo = this.$('#loaderLogo');
+    this.elLoader = this.$('#loader');
+    this.elPreloader = this.$('#preloader');
+    this.elIconStatusCloud = this.$('#statusCloud');
+    this.elContentSection = this.$('.page-content');
+    this.elCmbUserA = this.$('#cmbUserA');
+    this.elCmbUserB = this.$('#cmbUserB');
+    this.elCmbTeamB = this.$('#cmbTeamB');
+    this.elCmbTeamA = this.$('#cmbTeamA');
+    this.elSldBatches = this.$('#sldBatches');
+    this.elSldLearningRate = this.$('#sldLearningRate');
+    this.elSldStart = this.$('#sldStart');
+    this.elSldEnd = this.$('#sldEnd');
+    this.elSldPercentValidation = this.$('#sldPercentValidation');
+    this.elSldStep = this.$('#sldStep');
+    this.elSldPlotPercent = this.$('#sldPlotPercent');
+    this.elSldSaveEvery = this.$('#sldSaveEvery');
+    this.elSliders = this.$('.slider');
+    this.elChip = this.$('.mdl-chip');
+    this.elObfuscator = this.$('.mdl-layout__obfuscator');
+    this.elLayoutDrawer = this.$('.mdl-layout__drawer');
+    this.elExtBudget = this.$('#txtBudget');
+    this.MsgSnackbar = this.$('#demo-snackbar-example');
+    this.observer = this.$('#observer');
   }
 
   async initEffect() {
+    this.preloader();
     this.processing();
-    // this.processing(!this.developerMode);
     this.debugTime('initEffect');
     this.cloudDone(false);
     const {
@@ -126,7 +125,8 @@ export default class Dashboard {
     this.views();
     this.typed();
     this.processing(false);
-    this.preloader();
+    this.updateDOM();
+    this.registerHandlers();
     this.debugTime('end');
   }
 
@@ -170,35 +170,72 @@ export default class Dashboard {
     this.saveConfig();
   }
 
-  logout(e) {
+  static logout(e) {
     e.stopImmediatePropagation();
-    return this.document;
+    return false;
   }
 
   async doRankFiltering(e) {
     e.stopImmediatePropagation();
     await this.filterRank(
-      $(e.target).parents()[5].id.split('tabRank')[1].slice(0, 5).toLowerCase(),
-      $(e.target).prev().attr('class'),
-      $($(e.target).parents()[0]).index(),
+      this.$(e.target).parents()[5].id.split('tabRank')[1].slice(0, 5).toLowerCase(),
+      this.$(e.target).prev().attr('class'),
+      this.$(this.$(e.target).parents()[0]).index(),
       '',
-      $(e.target).html(),
-      $(`#${$(e.target).parents()[5].id} .page-content tbody th:first-child`).html(),
-      $(e.target).parents()[5].id.split('tabRank')[1].slice(5, 15),
+      this.$(e.target).html(),
+      this.$(`#${this.$(e.target).parents()[5].id} .page-content tbody th:first-child`).html(),
+      this.$(e.target).parents()[5].id.split('tabRank')[1].slice(5, 15),
     );
   }
 
   async openHistory(e) {
     e.stopImmediatePropagation();
     await this.filterRank(
-      $(e.target).parents()[4].id.split('tabRank')[1].split('History')[0].toLowerCase(),
+      this.$(e.target).parents()[4].id.split('tabRank')[1].split('History')[0].toLowerCase(),
       'games',
       '1',
       '',
       'filter_alt',
-      $($(e.target).get(0)).html(),
+      this.$(this.$(e.target).get(0)).html(),
       'History',
     );
+  }
+
+  timelineFilter(e) {
+    // this.filterRank('teams', 'name', '0', teams, 'filter_alt');
+    const time = this.$(e.target).attr('value');
+    const { id } = this.$(e.target).parents()[7];
+    const context = id.split('tabRank')[1].slice(0, 5).toLowerCase();
+    const { btn, index } = this.getBtnFilterAndIndex(id);
+    const target = this.$(`#${id} thead:nth-child(2) tr span`).eq(index).attr('class');
+    const nameScope = this.$(`#${id} .page-content tbody th:first-child`).html();
+    const history = id.split('tabRank')[1].slice(5, 15);
+
+    this.timeFilterRank(context, target, index, '', btn, nameScope, history, time);
+  }
+
+  getBtnFilterAndIndex(id) {
+    const arrBtns = this.$(`#${id} thead:nth-child(2) i`)
+      .map((i, each) => this.$(each).html())
+      .get();
+    const btn = [
+      ...arrBtns.reduce((r, n) => r.set(n, (r.get(n) || 0) + 1), new Map()),
+    ].reduce((r, v) => (v[1] < r[1] ? v : r))[0];
+    return { btn, index: arrBtns.indexOf(btn) };
+  }
+
+  async timeFilterRank(context, target, index, inTeams, inBtn, nameScope, history, time) {
+    if (inTeams) return this.filterRank(context, target, index, inTeams, inBtn, nameScope, history);
+
+    const [timeLabel, timeVal] = time.split('-');
+    const date = {
+      d: new Date(new Date().setDate(new Date().getDate() - timeVal)).toISOString().slice(0, 10),
+      m: new Date(new Date().setMonth(new Date().getMonth() - timeVal)).toISOString().slice(0, 10),
+      y: new Date(`01.01.${timeVal}`).toISOString().slice(0, 10),
+    }[timeLabel];
+    const timedSet = await this.fifa.timeFilterRank(context, date);
+
+    return this.filterRank(context, target, index, timedSet, inBtn, nameScope, history);
   }
 
   async filterRank(context, target, index, inTeams, inBtn, nameScope, history) {
@@ -231,12 +268,14 @@ export default class Dashboard {
         newTurn.name = nameScope;
         all.push(newTurn);
       });
-      $(`#btnTabRank${context[0].toUpperCase() + context.slice(1)}History`)[0].click();
+      this.$(`#btnTabRank${context[0].toUpperCase() + context.slice(1)}History`)[0].click();
     }
 
     const filteredTable = this.filterRankByTarget(all, target, inverse);
     await this.dashTables.addTableRank(context, filteredTable, index, btn, history);
+    this.updateDOM();
     this.registerHandlers();
+    return new this.Timeline({ $: this.$ });
   }
 
   processing(status = true) {
@@ -252,7 +291,7 @@ export default class Dashboard {
 
   cloudDone(status = true) {
     if (!status) return this.elIconStatusCloud.css('color', 'var(--contrast_primary_color_3)');
-    return this.elIconStatusCloud.css('color', 'var(--tertiary_color_1)');
+    return this.elIconStatusCloud.css('color', 'var(--contrast_primary_color_1)');
   }
 
   getGameIsFilled() {
@@ -268,12 +307,12 @@ export default class Dashboard {
     if (game) {
       const prediction = await this.getPredictionIsTogether(game);
       const fixed = 7;
-      $('#tablesPrediction').show();
-      $('#teamAWin').html(prediction[0].toFixed(fixed));
-      $('#draw').html(prediction[1].toFixed(fixed));
-      $('#teamBWin').html(prediction[2].toFixed(fixed));
-      $('#goalsTeamA').html(prediction[3].toFixed(fixed));
-      $('#goalsTeamB').html(prediction[4].toFixed(fixed));
+      this.$('#tablesPrediction').show();
+      this.$('#teamAWin').html(prediction[0].toFixed(fixed));
+      this.$('#draw').html(prediction[1].toFixed(fixed));
+      this.$('#teamBWin').html(prediction[2].toFixed(fixed));
+      this.$('#goalsTeamA').html(prediction[3].toFixed(fixed));
+      this.$('#goalsTeamB').html(prediction[4].toFixed(fixed));
     }
   }
 
@@ -297,8 +336,7 @@ export default class Dashboard {
   setBtnsState(propName, option) {
     let pos = 1;
     if (option === true) pos = 0;
-    this.elChip.closest(propName).children().eq(1)
-      .children()[pos].click();
+    this.elChip.closest(propName).children().eq(1).children()[pos].click();
   }
 
   getBtnsState(propName) {
@@ -363,10 +401,12 @@ export default class Dashboard {
 
   autoUpdateLabel() {
     this.elSliders.each((i, wrap) => {
-      const range = $(wrap).find('.mdl-slider');
-      $(wrap).off().click((e) => this.openHistory(e));
+      const range = this.$(wrap).find('.mdl-slider');
+      this.$(wrap)
+        .off()
+        .click((e) => this.openHistory(e));
       wrap.addEventListener('input', () => {
-        const values = $(wrap).find('.values');
+        const values = this.$(wrap).find('.values');
         values.html(range.val());
       });
     });
@@ -374,8 +414,8 @@ export default class Dashboard {
 
   updateLabel() {
     this.elSliders.each((i, wrap) => {
-      const range = $(wrap).find('.mdl-slider');
-      const values = $(wrap).find('.values');
+      const range = this.$(wrap).find('.mdl-slider');
+      const values = this.$(wrap).find('.values');
       values.html(range.val());
     });
   }
@@ -391,17 +431,17 @@ export default class Dashboard {
   views() {
     this.viewsList.forEach((showElement) => {
       const key = `#btn${showElement[0].toUpperCase()}${showElement.slice(1)}s`;
-      $(key).click((e) => {
+      this.$(key).click((e) => {
         e.stopImmediatePropagation();
         this.viewsList.forEach((hideElement) => {
-          $(`#${hideElement}`).hide();
+          this.$(`#${hideElement}`).hide();
         });
         this.elObfuscator.removeClass('is-visible');
         this.elLayoutDrawer.removeClass('is-visible');
         this.localDB.setCache('view:', showElement);
-        $(`#${showElement}`).toggle();
+        this.$(`#${showElement}`).toggle();
         if (showElement === 'home') {
-          this.elExtBudget.html('BROTHER.BET');
+          this.elExtBudget.html('Brother.Bet');
         } else {
           this.elExtBudget.html(showElement);
         }

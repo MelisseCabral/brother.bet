@@ -5,15 +5,16 @@ export default class Main {
     firebase,
     Typed,
     axios,
+    $,
     Environment,
     Api,
     Database,
     FactoryUtil,
     LocalDB,
     Fifa,
-    FactoryEffects,
     DashTables,
     DashStatistics,
+    Timeline,
     Dashboard,
     tableRanking,
     statistics,
@@ -43,15 +44,16 @@ export default class Main {
     this.firebase = firebase;
     this.Typed = Typed;
     this.axios = axios;
+    this.$ = $;
     this.Environment = Environment;
     this.Api = Api;
     this.Database = Database;
     this.FactoryUtil = FactoryUtil;
     this.LocalDB = LocalDB;
     this.Fifa = Fifa;
-    this.FactoryEffects = FactoryEffects;
     this.DashTables = DashTables;
     this.DashStatistics = DashStatistics;
+    this.Timeline = Timeline;
     this.Dashboard = Dashboard;
 
     // Globals
@@ -70,7 +72,6 @@ export default class Main {
       indexedDB,
       localStorage,
       origin,
-      document,
     } = this.window;
     const { newOrigin, developerMode } = new this.Environment(origin);
     const { api } = new this.Api(this.axios, newOrigin);
@@ -97,23 +98,21 @@ export default class Main {
       delay,
       hash,
     });
-    const { getStructure } = this.FactoryEffects;
     const dashTables = new this.DashTables({
+      $: this.$,
       hash,
       generateDaysOfYear,
       getRegisteredDays,
-      getStructure,
       tableRanking: this.tableRanking,
     });
     const dashStatistics = new this.DashStatistics({
-      getStructure,
+      $: this.$,
       developerMode,
       statistics: this.statistics,
     });
-
     const dashboard = new this.Dashboard({
-      document,
       Typed: this.Typed,
+      $: this.$,
       developerMode,
       debugTime,
       filterRankByTarget,
@@ -122,12 +121,13 @@ export default class Main {
       fifa,
       dashTables,
       dashStatistics,
+      Timeline: this.Timeline,
     });
 
     this.window.developerMode.status = developerMode;
 
     this.firebase.initializeApp(this.firebaseConfig);
-    this.firebase.analytics();
+    if (!developerMode) this.firebase.analytics();
 
     return dashboard;
   }

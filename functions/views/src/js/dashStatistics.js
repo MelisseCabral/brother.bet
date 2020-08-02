@@ -1,5 +1,6 @@
 export default class DashStatistics {
   constructor({
+    $,
     getStructure,
     developerMode,
     statistics,
@@ -10,21 +11,24 @@ export default class DashStatistics {
     // Static Components
     this.statistics = statistics;
 
+    // Objects
+    this.$ = $;
+
     // DOM Elements
-    this.elTabStatistics = $('#tabStatistics');
-    this.elContentSection = $('.page-content');
+    this.elTabStatistics = this.$('#tabStatistics');
+    this.elContentSection = this.$('.page-content');
 
     // Functions
     this.getStructure = getStructure;
   }
 
-  async initStatistics(users, teams) {
+  async initStatistics() {
     const table = await this.statistics;
 
     this.elTabStatistics.html(table);
-    if (!this.developerMode) this.elContentSection.parent(this.elTabStatistics).addClass('restrict-area');
+    if (!this.developerMode) this.elTabStatistics.children(this.elContentSection).addClass('restrict-area');
 
-    DashStatistics.fillComboboxes(users, teams);
+    // DashStatistics.fillComboboxes(users, teams);
   }
 
   static fillComboboxes(usersSet, teamsSet) {
@@ -34,7 +38,7 @@ export default class DashStatistics {
     const arrUsers = ['cmbUserA', 'cmbUserB'];
     const arrTeams = ['cmbTeamA', 'cmbTeamB'];
 
-    users.forEach((each) => arrUsers.forEach((eachSel) => $(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
-    teams.forEach((each) => arrTeams.forEach((eachSel) => $(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
+    users.forEach((each) => arrUsers.forEach((eachSel) => this.$(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
+    teams.forEach((each) => arrTeams.forEach((eachSel) => this.$(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
   }
 }

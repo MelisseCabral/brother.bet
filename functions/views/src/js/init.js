@@ -4,6 +4,7 @@ import * as tf from '@tensorflow/tfjs';
 import * as firebase from 'firebase/app';
 import Typed from 'typed.js';
 import axios from 'axios';
+import $ from 'jquery';
 
 // Defining Modules JS
 import 'firebase/auth';
@@ -14,8 +15,9 @@ import 'firebase/analytics';
 import 'animate.css';
 
 // My Css
-import '../css/styles.css';
+import '../css/timeline.css';
 import '../css/loader.css';
+import '../css/styles.css';
 
 // My Modules
 import Environment from './environment';
@@ -24,9 +26,9 @@ import Database from './database';
 import FactoryUtil from './factoryUtil';
 import LocalDB from './localDB';
 import Fifa from './fifa';
-import FactoryEffects from './factoryEffects';
 import DashTables from './dashTables';
 import DashStatistics from './dashStatistics';
+import Timeline from './timeline';
 import Dashboard from './dashboard';
 import Main from './main';
 
@@ -41,15 +43,16 @@ const main = new Main({
   firebase,
   Typed,
   axios,
+  $,
   Environment,
   Api,
   Database,
   FactoryUtil,
   LocalDB,
   Fifa,
-  FactoryEffects,
   DashTables,
   DashStatistics,
+  Timeline,
   Dashboard,
   tableRanking,
   statistics,
