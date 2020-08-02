@@ -96,14 +96,20 @@ export default class DashTables {
 
   getTimelinedRankTable(dateCode) {
     const table = this.$(this.tableRanking);
-    return table.find('#tabRankTeams ol a').each((i, element) => {
+    table.find('#tabRankTeams ol a').html('');
+    table.find('#tabRankTeams ol a').each((i, element) => {
       if ($(element).attr('value') === dateCode) {
         $(element).addClass('selected');
-        return $(element).addClass('older-event');
+        $(element).addClass('older-event');
+      } else {
+        $(element).removeClass('selected');
+        $(element).removeClass('older-event');
       }
-
-      $(element).removeClass('selected');
-      return $(element).removeClass('older-event');
     });
+
+    console.log(table);
+    console.log(table[0]);
+
+    return table.prop('outerHTML');
   }
 }

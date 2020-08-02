@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const smp = new SpeedMeasurePlugin();
 const webpack = require('webpack');
@@ -15,8 +15,7 @@ module.exports = (env) => {
   let stats = env.production ? 'verbose' : 'errors-only';
   const developmentMode = !env.production;
   stats = env.hide ? 'none' : stats;
-  const hash = env.production ? 'contenthash:8' : 'hash';
-  const outputDir = env.production ? 'dist' : 'dist';
+  const hash = developmentMode ? 'hash' : 'contenthash:8';
 
   return smp.wrap({
     stats,
@@ -26,7 +25,7 @@ module.exports = (env) => {
     entry: './src/js/init',
     output: {
       filename: `[name].[${hash}].js`,
-      path: path.resolve(__dirname, outputDir),
+      path: path.resolve(__dirname, 'dist'),
     },
     watchOptions: {
       ignored: /node_modules/,
@@ -53,21 +52,22 @@ module.exports = (env) => {
         },
       },
       minimize: !developmentMode,
-      minimizer: [
-        new TerserJSPlugin({
-          terserOptions: {
-            output: {
-              comments: false,
-            },
+      minimizer: [new TerserJSPlugin({
+        terserOptions: {
+          output: {
+            comments: false,
           },
-          extractComments: false,
-        }),
-        new OptimizeCSSAssetsPlugin({}),
-      ],
+        },
+        extractComments: false,
+      }),
+      new OptimizeCSSAssetsPlugin({})],
     },
     devServer: {
       hot: developmentMode,
-      allowedHosts: ['localhost:8080', 'localhost:5000'],
+      allowedHosts: [
+        'localhost:8080',
+        'localhost:5000',
+      ],
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -75,18 +75,18 @@ module.exports = (env) => {
       },
     },
     plugins: [
-      // new CleanWebpackPlugin(),
+      new CleanWebpackPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
-        filename: `index.[${hash}].html`,
+        filename: 'index.html',
         template: './src/index.html',
       }),
       new HtmlWebpackPlugin({
-        filename: `./components/statistics.[${hash}].html`,
+        filename: './components/statistics.html',
         template: './src/components/statistics.hbs',
       }),
       new HtmlWebpackPlugin({
-        filename: `./components/tableRanking.[${hash}].html`,
+        filename: './components/tableRanking.html',
         template: './src/components/tableRanking.hbs',
       }),
       new MiniCssExtractPlugin({
@@ -124,6 +124,7 @@ module.exports = (env) => {
               },
             },
             'css-loader',
+
           ],
         },
         {
@@ -136,7 +137,7 @@ module.exports = (env) => {
           test: /\.(jpg?g|png|gif|svg)$/i,
           loader: 'file-loader',
           options: {
-            name: `[name].[${hash}].[ext]`,
+            name: '[name].[ext]',
             outputPath: 'images/',
           },
         },
@@ -146,7 +147,7 @@ module.exports = (env) => {
             {
               loader: 'file-loader',
               options: {
-                name: `[name].[${hash}].[ext]`,
+                name: '[name].[ext]',
                 outputPath: 'fonts/',
               },
             },
