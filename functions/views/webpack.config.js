@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const smp = new SpeedMeasurePlugin();
 const webpack = require('webpack');
@@ -15,7 +15,8 @@ module.exports = (env) => {
   let stats = env.production ? 'verbose' : 'errors-only';
   const developmentMode = !env.production;
   stats = env.hide ? 'none' : stats;
-  const hash = developmentMode ? 'hash' : 'contenthash:8';
+  const hash = env.production ? 'contenthash:8' : 'hash';
+  const outputDir = env.production ? 'dist' : 'dist';
 
   return smp.wrap({
     stats,
@@ -25,7 +26,7 @@ module.exports = (env) => {
     entry: './src/js/init',
     output: {
       filename: `[name].[${hash}].js`,
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, outputDir),
     },
     watchOptions: {
       ignored: /node_modules/,
@@ -66,8 +67,6 @@ module.exports = (env) => {
     },
     devServer: {
       hot: developmentMode,
-      // contentBase: path.join(__dirname, 'dist'),
-      // publicPath: '/dev/',
       allowedHosts: ['localhost:8080', 'localhost:5000'],
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -76,7 +75,7 @@ module.exports = (env) => {
       },
     },
     plugins: [
-      new CleanWebpackPlugin(),
+      // new CleanWebpackPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
         filename: `index.[${hash}].html`,

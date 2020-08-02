@@ -4,13 +4,11 @@
   "description": "brother.bet",
   "private": "true",
   "scripts": {
-    "serve": "  webpack-dev-server --env.development --watch",
-    "live": "   webpack            --env.development --watch",
-    "test": "   webpack-dev-server --env.production",
-    "hide": "   webpack            --env.production  --env.hide",
-    "build": "  webpack            --env.production",
-    "deploy": " webpack            --env.production  & firebase deploy",
-    "hosting": "webpack            --env.production  & firebase deploy --only hosting"
+    "serve": "  rm -r dev/ & webpack-dev-server --env.development --watch",
+    "build": "               webpack            --env.production",
+    "hide": "                webpack            --env.production  --env.hide",
+    "deploy": "              webpack            --env.production  & firebase deploy",
+    "hosting": "             webpack            --env.production  & firebase deploy --only hosting"
   },
   "author": "",
   "license": "ISC",
