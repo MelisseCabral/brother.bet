@@ -10,7 +10,8 @@ export default class Dashboard {
     fifa,
     dashTables,
     dashStatistics,
-    Timeline,
+    DashTimelines,
+    timeline,
   }) {
     // Constants
     this.developerMode = developerMode;
@@ -35,9 +36,10 @@ export default class Dashboard {
     this.localDB = localDB;
     this.dashTables = dashTables;
     this.dashStatistics = dashStatistics;
+    this.DashTimelines = DashTimelines;
     this.fifa = fifa;
     this.Typed = Typed;
-    this.Timeline = Timeline;
+    this.timeline = timeline;
     this.$ = $;
 
     // DOM Objects
@@ -57,10 +59,7 @@ export default class Dashboard {
     this.elBtnCookTrainReal.off().click((e) => this.cookTrainReal(e));
     this.elBtnCookPredict.off().click((e) => this.cookPredict(e));
     this.elBtnLogout.off().click((e) => this.logout(e));
-    this.elBtnFilter
-      .off()
-      .click()
-      .click((e) => this.doRankFiltering(e));
+    this.elBtnFilter.off().click().click((e) => this.doRankFiltering(e));
     this.observer.off().click((e, params) => this[params.function](params.event));
   }
 
@@ -104,19 +103,20 @@ export default class Dashboard {
     this.elExtBudget = this.$('#txtBudget');
     this.MsgSnackbar = this.$('#demo-snackbar-example');
     this.observer = this.$('#observer');
+    this.DashTimelines.init(this.$, this.timeline);
   }
 
   async initEffect() {
-    this.preloader();
-    this.processing();
     this.debugTime('initEffect');
+    this.processing();
+    this.preloader();
     this.cloudDone(false);
     const {
       aggregated, users, teams, data,
     } = await this.fifa.initLocalDatabase();
     this.localDB.setConsistency(aggregated);
-    this.filterRank('users', 'name', '0', users, 'filter_alt');
-    this.filterRank('teams', 'name', '0', teams, 'filter_alt');
+    // this.filterRank('users', 'name', '0', users, 'filter_alt');
+    // this.filterRank('teams', 'name', '0', teams, 'filter_alt');
     this.dashTables.tableResultGamesCheck(2020, data);
     this.dashStatistics.initStatistics(users, teams);
     this.initStorage();
@@ -275,7 +275,6 @@ export default class Dashboard {
     await this.dashTables.addTableRank(context, filteredTable, index, btn, history);
     this.updateDOM();
     this.registerHandlers();
-    return new this.Timeline({ $: this.$ });
   }
 
   processing(status = true) {
@@ -341,7 +340,7 @@ export default class Dashboard {
 
   getBtnsState(propName) {
     const chip = this.elChip.closest(propName).children().eq(1).children();
-    if (chip.css('backgroundColor') === 'rgb(250, 250, 250)') return true;
+    if (chip.css('backgroundColor') === 'var(--contrast_primary_color_1)') return true;
     return false;
   }
 

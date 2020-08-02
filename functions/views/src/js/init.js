@@ -28,13 +28,14 @@ import LocalDB from './localDB';
 import Fifa from './fifa';
 import DashTables from './dashTables';
 import DashStatistics from './dashStatistics';
-import Timeline from './timeline';
+import DashTimelines from './dashTimelines';
 import Dashboard from './dashboard';
 import Main from './main';
 
 // Static Components
 import tableRanking from '../components/tableRanking.hbs';
 import statistics from '../components/statistics.hbs';
+import timeline from '../components/timeline.hbs';
 
 // eslint-disable-next-line no-unused-vars
 const main = new Main({
@@ -52,10 +53,11 @@ const main = new Main({
   Fifa,
   DashTables,
   DashStatistics,
-  Timeline,
+  DashTimelines,
   Dashboard,
   tableRanking,
   statistics,
+  timeline,
 });
 
 // window,            OK

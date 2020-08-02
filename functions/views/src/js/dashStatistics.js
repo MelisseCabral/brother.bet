@@ -1,9 +1,6 @@
 export default class DashStatistics {
   constructor({
-    $,
-    getStructure,
-    developerMode,
-    statistics,
+    $, getStructure, developerMode, statistics,
   }) {
     // Variables
     this.developerMode = developerMode;
@@ -25,8 +22,10 @@ export default class DashStatistics {
   async initStatistics() {
     const table = await this.statistics;
 
-    this.elTabStatistics.html(table);
-    if (!this.developerMode) this.elTabStatistics.children(this.elContentSection).addClass('restrict-area');
+    this.elTabStatistics.find('.inner').after(table);
+    if (!this.developerMode) {
+      this.elTabStatistics.children(this.elContentSection).addClass('restrict-area');
+    }
 
     // DashStatistics.fillComboboxes(users, teams);
   }

@@ -1,11 +1,11 @@
 /* Fonts  */
- @font-face {
-  font-family: "Aileron Regular";
+@font-face {
+  font-family: 'Aileron Regular';
   src: url('../font/aileron.otf') format('truetype');
 }
 
 @font-face {
-  font-family: "Racing Sans One";
+  font-family: 'Racing Sans One';
   src: url('../font/racingSansOne.ttf');
 }
 
@@ -14,30 +14,32 @@ h4 {
 }
 
 @media screen and (min-width: 768px) {
-  ::-webkit-scrollbar-track
-  {
+  ::-webkit-scrollbar-track {
     background-color: transparent;
     border-radius: 1px;
   }
-  ::-webkit-scrollbar
-  {
+  ::-webkit-scrollbar {
     width: 0.8rem;
     background-color: transparent;
   }
-  ::-webkit-scrollbar-thumb
-  {
+  ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: var(--tertiary_color_1);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%,
-                   color-stop(.5, var(--secondary_color_1)),              
-                   color-stop(.5, var(--secondary_color_1)), to(var(--secondary_color_5)))
+    background-image: -webkit-gradient(
+      linear,
+      0 0,
+      0 100%,
+      color-stop(0.5, var(--secondary_color_1)),
+      color-stop(0.5, var(--secondary_color_1)),
+      to(var(--secondary_color_5))
+    );
   }
 }
 
 /* Variables */
 
 :root {
-  --delay: .15;
+  --delay: 0.15;
   /* Color */
 
   --contrast_primary_color_1: rgb(255, 255, 255);
@@ -46,7 +48,7 @@ h4 {
   --contrast_primary_color_4: rgba(255, 255, 255, 0.4);
   --contrast_primary_color_5: rgba(255, 255, 255, 0.2);
 
-  --primary_color_1: rgba(40, 42, 54,1);
+  --primary_color_1: rgba(40, 42, 54, 1);
   --primary_color_2: rgb(36, 32, 46);
   --primary_color_3: rgb(42, 44, 55);
   --primary_color_4: rgb(29, 30, 38);
@@ -64,7 +66,7 @@ h4 {
   --tertiary_color_2: rgb(243, 119, 181);
   --tertiary_color_3: rgb(236, 93, 141);
   --tertiary_color_4: rgb(245, 68, 127);
-  --tertiary_color_5: rgb(233,30,99);
+  --tertiary_color_5: rgb(233, 30, 99);
 
   --quaternary_color_1: rgb(189, 177, 247);
   --quaternary_color_2: rgb(149, 128, 255);
@@ -81,12 +83,12 @@ h4 {
   --closed_ball_color: #e91e63;
   --opened_ball_color: #e91e63;
   --inner_ball_color: rgb(255 255 255);
-  --text_date_color: rgb(233,30,99);
+  --text_date_color: rgb(233, 30, 99);
   --line_color: #947ef6;
   --move_color: rgb(104, 239, 173);
 }
 
-body{
+body {
   background-color: var(--tertiary_color_5);
 }
 
@@ -97,63 +99,70 @@ body{
   z-index: 9999999;
 }
 
-.mdl-progress.mdl-progress--indeterminate>.bar1, .mdl-progress.mdl-progress__indeterminate>.bar1, .mdl-progress.mdl-progress--indeterminate>.bar3, .mdl-progress.mdl-progress__indeterminate>.bar3{
+.mdl-progress.mdl-progress--indeterminate > .bar1,
+.mdl-progress.mdl-progress__indeterminate > .bar1,
+.mdl-progress.mdl-progress--indeterminate > .bar3,
+.mdl-progress.mdl-progress__indeterminate > .bar3 {
   background-color: var(--secondary_color_5);
 }
 
-.mdl-progress:not(.mdl-progress--indeterminate):not(.mdl-progress--indeterminate)>.auxbar, .mdl-progress:not(.mdl-progress__indeterminate):not(.mdl-progress__indeterminate)>.auxbar{
-      background-image: linear-gradient(to right,transparent,transparent),linear-gradient(to right,transparent,transparent);
+.mdl-progress:not(.mdl-progress--indeterminate):not(.mdl-progress--indeterminate) > .auxbar,
+.mdl-progress:not(.mdl-progress__indeterminate):not(.mdl-progress__indeterminate) > .auxbar {
+  background-image: linear-gradient(to right, transparent, transparent),
+    linear-gradient(to right, transparent, transparent);
 }
 
-.mdl-progress.mdl-progress--indeterminate>.bar3, .mdl-progress.mdl-progress__indeterminate>.bar3{
+.mdl-progress.mdl-progress--indeterminate > .bar3,
+.mdl-progress.mdl-progress__indeterminate > .bar3 {
   background-color: transparent;
-} 
-
-.mdl-progress>.bufferbar {
-  background-image: linear-gradient(to right,transparent,transparent),linear-gradient(to right,transparent,transparent);
 }
 
-.mdl-layout__content{
-    background: var(--primary_color_4);
+.mdl-progress > .bufferbar {
+  background-image: linear-gradient(to right, transparent, transparent),
+    linear-gradient(to right, transparent, transparent);
+}
+
+.mdl-layout__content {
+  background: var(--primary_color_4);
 }
 
 .mdl-layout__container {
   height: -webkit-fill-available !important;
 }
 
-.page-content th a material-icons{
-  color:revert;
+.page-content th a material-icons {
+  color: revert;
 }
 
 .page-content th a {
-  color:revert;
+  color: revert;
 }
 
-.page-content thead{
-  background:var(--primary_color_2);
-  color:var(--contrast_primary_color_2);
+.page-content thead {
+  background: var(--primary_color_2);
+  color: var(--contrast_primary_color_2);
 }
 
-.page-content thead th{
-  color:var(--quaternary_color_2);
+.page-content thead th {
+  color: var(--quaternary_color_2);
 }
 
 .page-content thead th i {
   cursor: pointer;
 }
 
-.page-content tbody th{
+.page-content tbody th {
   color: revert;
   font-weight: 200;
 }
 
-.page-content tbody th:first-child{
+.page-content tbody th:first-child {
   cursor: pointer;
 }
 
-.page-content tbody{
-  background:var(--primary_color_3);
-  color:var(--contrast_primary_color_2);
+.page-content tbody {
+  background: var(--primary_color_3);
+  color: var(--contrast_primary_color_2);
 }
 
 .page-content .mdl-data-table tbody th:hover {
@@ -166,35 +175,35 @@ body{
 }
 
 .page-content tbody tr:hover .link {
-  color: var(--primary_color_1)!important;
+  color: var(--primary_color_1) !important;
 }
 
 .page-content tbody tr:hover .gold {
-  color: var(--primary_color_1)!important;
+  color: var(--primary_color_1) !important;
 }
 
-.link{
+.link {
   color: var(--secondary_color_1) !important;
 }
 
-.gold{
+.gold {
   color: var(--contrast_primary_color_1) !important;
 }
 
-
-.mdl-layout.is-upgraded .mdl-layout__tab.is-active{
+.mdl-layout.is-upgraded .mdl-layout__tab.is-active {
   color: var(--secondary_color_1) !important;
 }
 
-.mdl-layout.is-upgraded .mdl-layout__tab.is-active::after{
+.mdl-layout.is-upgraded .mdl-layout__tab.is-active::after {
   background: var(--secondary_color_1) !important;
 }
 
-.mdl-layout__tab{
+.mdl-layout__tab {
   color: var(--contrast_primary_color_3);
 }
 
-.mdl-layout__tab-bar-button, .mdl-layout__tab-bar{
+.mdl-layout__tab-bar-button,
+.mdl-layout__tab-bar {
   background-color: var(--primary_color_1);
 }
 
@@ -207,20 +216,19 @@ body{
   color: var(--quaternary_color_2) !important;
 }
 
-.mdl-color--pink-400{
+.mdl-color--pink-400 {
   background: var(--tertiary_color_1) !important;
 }
 
-.mdl-color--blue-A400{
+.mdl-color--blue-A400 {
   background: var(--quaternary_color_2) !important;
-
 }
 
-.restrict-area{
-  filter:blur(2px);
+.restrict-area {
+  filter: blur(2px);
 }
 
-.page-content table{
+.page-content table {
   display: contents;
 }
 
@@ -231,45 +239,46 @@ body{
 }
 
 .page-content .mdl-data-table thead:first-child th:nth-child(odd) {
-  text-align: left
+  text-align: left;
 }
-
 
 .page-content .mdl-data-table thead th {
   height: 0px;
 }
 
-.page-content i{
+.page-content i {
   font-size: 18px;
 }
 
-.mdl-layout__tab-panel.is-active{
+.mdl-layout__tab-panel.is-active {
   overflow-x: auto;
 }
 
-.tableOdd{
+.tableOdd {
   color: var(--tertiary_color_1) !important;
 }
 
-.page-content .mdl-data-table  th, .page-content .mdl-data-table  i{
+.page-content .mdl-data-table th,
+.page-content .mdl-data-table i {
   font-weight: lighter;
 }
 
-.page-content  .mdl-data-table td:nth-child(1),  .page-content .mdl-data-table th:nth-child(1) {
+.page-content .mdl-data-table td:nth-child(1),
+.page-content .mdl-data-table th:nth-child(1) {
   padding-left: 0px !important;
   min-width: 170px;
 }
-.page-content  .mdl-data-table th {
+.page-content .mdl-data-table th {
   padding: 0 10px 6px 10px;
 }
 /* Content */
 
 body {
   margin: 0;
-  OVERFLOW-Y: hidden;
+  overflow-y: hidden;
 }
 
-table{
+table {
   margin: inherit;
 }
 
@@ -279,25 +288,25 @@ a img {
 
 ::selection {
   color: #fff;
-  user-select: none
+  user-select: none;
 }
 
-.no-border{
+.no-border {
   border: none !important;
 }
 
 .slider-padding {
-  padding: 0 0 0 0 ;
+  padding: 0 0 0 0;
   height: 40px;
 }
 
-.deleteListGid:hover{
-  color:#e82f38;
+.deleteListGid:hover {
+  color: #e82f38;
 }
 
 .mdl-layout__header {
   min-height: 33px !important;
-  background-color:var(--tertiary_color_5) ;
+  background-color: var(--tertiary_color_5);
 }
 
 .mdl-layout__content {
@@ -305,21 +314,22 @@ a img {
   height: calc(100vh - 69px);
 }
 
-#trainFactory .mdl-textfield__label, #predictFactory .mdl-textfield__label {
+#trainFactory .mdl-textfield__label,
+#predictFactory .mdl-textfield__label {
   text-align: center !important;
   cursor: text !important;
   top: 10px !important;
 }
 
-.btns .mdl-textfield__label{
-  top:-10px !important;
+.btns .mdl-textfield__label {
+  top: -10px !important;
 }
 
-.btns .mdl-textfield{
-  padding: 5px 0 0 0 ;
+.btns .mdl-textfield {
+  padding: 5px 0 0 0;
 }
 
-.boxes{
+.boxes {
   position: absolute;
   z-index: 99999;
   width: 100%;
@@ -330,25 +340,25 @@ a img {
 }
 
 /* Class */
-.status-betfair{
+.status-betfair {
   height: 35%;
 }
 
-#preloader{
+#preloader {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 
-#loader{
+#loader {
   display: flex;
-  flex-direction: row ;
+  flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-#loaderLogo{
+#loaderLogo {
   width: 30vmax;
   height: 30vmax;
   filter: grayscale(100%);
@@ -357,77 +367,76 @@ a img {
   padding: 10px;
 }
 
-.loader-names{
+.loader-names {
   flex-direction: column;
-  color:white;
+  color: white;
   display: flex;
-  padding-top:5em;
+  padding-top: 5em;
   justify-content: center;
 }
 
-.loader-separator{
-  flex-grow: .3;
+.loader-separator {
+  flex-grow: 0.3;
 }
 
-.loader-name{
-  font-family: "Racing Sans One" !important;
-  text-transform: none !important; 
+.loader-name {
+  font-family: 'Racing Sans One' !important;
+  text-transform: none !important;
   font-size: 6vmax !important;
 }
 
-.loader-slogan{
+.loader-slogan {
   text-align: justify;
   text-align-last: center;
-  font-family: "aileron" !important;
-  text-transform: none !important; 
+  font-family: 'aileron' !important;
+  text-transform: none !important;
   width: 100%;
   text-align: center;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  font-weight:100;
-  padding-top:2em;
+  font-weight: 100;
+  padding-top: 2em;
 }
 
-.cifra-brother{
-  font-family: "Racing Sans One" !important;
-  text-transform: none !important; 
+.cifra-brother {
+  font-family: 'Racing Sans One' !important;
+  text-transform: none !important;
   font-size: 17px !important;
 }
 
 .mdl-selectfield__select {
-  width: 30%; 
+  width: 30%;
   padding: 4px 0;
-  margin: 0; 
-  color: inherit; 
-  background: transparent; 
-  font-size: 16px; 
-  text-align: left; 
-  border: none; 
-  border-bottom: 1px solid rgba(0,0,0, 0.12); 
-  border-radius: 0; 
-  -webkit-appearance: none; 
+  margin: 0;
+  color: inherit;
+  background: transparent;
+  font-size: 16px;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 0;
+  -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
   appearance: none;
-  
 }
-table{
+table {
   padding: 2vw;
-    margin: 1vw;
-    box-shadow: none;
-    border: none;
-        display: inline-table;
+  margin: 1vw;
+  box-shadow: none;
+  border: none;
+  display: inline-table;
 }
 
 button:active {
   border-style: none;
 }
 button:focus {
-  outline:none;
+  outline: none;
 }
 button:focus {
-  color: transparent
+  color: transparent;
 }
 button {
   -webkit-appearance: none;
@@ -450,32 +459,32 @@ button {
   border: none;
 }
 
-.btnTogether{
+.btnTogether {
   float: left;
-    font: 100 15px Roboto;
-    line-height: 25px;
-    color: black;
-    font-weight: 100 !important;
-    position: absolute;
-    left: 5%;
+  font: 100 15px Roboto;
+  line-height: 25px;
+  color: black;
+  font-weight: 100 !important;
+  position: absolute;
+  left: 5%;
 }
 
 .mdl-switch.is-checked .mdl-switch__thumb {
-    background: rgb(50, 166, 238);
+  background: rgb(50, 166, 238);
 }
 
 .mdl-switch.is-checked .mdl-switch__track {
   background: rgba(50, 166, 238, 0.65);
 }
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 1024px) {
   .mdl-layout__header-row .mdl-navigation__link {
-      line-height: 56px;
-      padding: 0 0px;
-      margin-left: 12px;
+    line-height: 56px;
+    padding: 0 0px;
+    margin-left: 12px;
   }
 
-  .mdl-button{
+  .mdl-button {
     min-width: 40px;
   }
 }
@@ -488,7 +497,7 @@ button {
   margin-right: 0px;
 } */
 
-select{
+select {
   font: 300 15px Roboto !important;
   color: #0088ff !important;
 }
@@ -502,16 +511,14 @@ option:focus {
 }
 
 select:not(:-internal-list-box) {
-    overflow: visible !important;
-    background-color: #555;
+  overflow: visible !important;
+  background-color: #555;
 }
 
 select::selection {
   color: red;
   background: yellow;
 }
-
-
 
 .android-header .mdl-menu__container {
   z-index: 50;
@@ -532,7 +539,7 @@ select::selection {
   margin: auto;
   position: relative;
   top: 30px;
-  color:white;
+  color: white;
   background: url(../images/logo.png) no-repeat;
 }
 
@@ -542,7 +549,7 @@ select::selection {
 }
 
 .android-header .material-icons {
-  color: var(--tertiary_color_1) ;
+  color: var(--tertiary_color_1);
 }
 
 .android-header .mdl-layout__drawer-button {
@@ -556,7 +563,7 @@ select::selection {
   font-size: 14px;
 }
 
-.android-search-box.is-focused+.android-navigation-container {
+.android-search-box.is-focused + .android-navigation-container {
   opacity: 0;
   width: 100px;
 }
@@ -622,19 +629,18 @@ select::selection {
   color: var(--contrast_primary_color_1);
   font-weight: 100;
   font-size: 4.7vh;
-  font-family: "Racing Sans One" !important;
+  font-family: 'Racing Sans One' !important;
 }
 
 .font-buget {
   margin: auto !important;
   text-align: center;
   line-height: 4vh;
-  font-family: "Racing Sans One" !important;
+  font-family: 'Racing Sans One' !important;
   color: dimgray;
   font-weight: 00;
   font-size: 3vh;
 }
-
 
 .mdl-card {
   border-radius: 10px !important;
@@ -656,7 +662,7 @@ select::selection {
   display: block;
 }
 
-.invAutomations{
+.invAutomations {
   left: 2vw;
   right: unset;
 }
@@ -682,15 +688,14 @@ select::selection {
 }
 
 .animated-delay-all {
-  animation-delay: calc(var(--delay) / 1024)s;
+  animation-delay: calc(var(--delay) / 1024) s;
 }
 
-.container{
+.container {
   padding: 5vh 0 5vh 0 !important;
 }
-.init-content{
+.init-content {
   padding: 10vh 0 5vh 0 !important;
-
 }
 
 .init-box {
@@ -746,7 +751,7 @@ select::selection {
 }
 
 .image {
-  background-image: url("https://img.kpopmap.com/2018/03/jonggil-profile.jpg");
+  background-image: url('https://img.kpopmap.com/2018/03/jonggil-profile.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain !important;
@@ -754,9 +759,9 @@ select::selection {
 
 .image:hover {
   opacity: 0.3;
-  transition: all .3s;
+  transition: all 0.3s;
   opacity: 0;
-  background: rgb(0, 0, 0)
+  background: rgb(0, 0, 0);
 }
 
 .portfolio-contact form {
@@ -769,7 +774,7 @@ select::selection {
 }
 
 .portfolio-max-width {
-  padding: 0 20vw 0 20vw
+  padding: 0 20vw 0 20vw;
 }
 
 .overlay {
@@ -805,7 +810,7 @@ select::selection {
   width: 32px !important;
   height: 32px !important;
   min-width: 30px !important;
-  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, .03), 0 1px 1px 0 rgba(0, 0, 0, .05);
+  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.03), 0 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .mdl-button--fab.mdl-button--colored {
@@ -815,14 +820,14 @@ select::selection {
 }
 
 .mdl-slider__container {
-  width: calc(100% + 50px)!important;
+  width: calc(100% + 50px) !important;
   border: 2%;
   float: left;
   left: -25px;
   margin-top: 1.5%;
 }
 
-#betters{
+#betters {
   position: absolute;
   top: 2vh;
   height: 20vh;
@@ -867,7 +872,7 @@ select::selection {
 
 #robotFactory .mdl-textfield {
   max-width: 400px !important;
-  margin-bottom: 1%
+  margin-bottom: 1%;
 }
 
 #robotFactory .mdl-grid {
@@ -875,11 +880,11 @@ select::selection {
   padding: 0;
 }
 
-#games.mdl-grid{
-  padding-top: 20vh !important; 
+#games.mdl-grid {
+  padding-top: 20vh !important;
 }
 
-.slider{
+.slider {
   height: 40px;
 }
 .slider .btn-close:hover {
@@ -891,20 +896,20 @@ select::selection {
   float: right;
   text-align: right;
   z-index: 999;
-  padding-left: 10px
+  padding-left: 10px;
 }
 
 .slider-value {
-    float: right;
-    text-align: right;
-    z-index: 999;
-    padding-left: 10px;
-    min-width: 40px;
+  float: right;
+  text-align: right;
+  z-index: 999;
+  padding-left: 10px;
+  min-width: 40px;
 }
 
-.slider-above{
+.slider-above {
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .slider .perc {
@@ -923,7 +928,6 @@ select::selection {
   width: 70px !important;
   margin: 0 !important;
   text-align: center !important;
-  
 }
 
 #typeMarket input {
@@ -951,8 +955,8 @@ div {
   width: 100%;
 }
 
-h4{
-  margin: 24px  0 !important;
+h4 {
+  margin: 24px 0 !important;
 }
 
 .mdl-data-tabledynamic {
@@ -1037,7 +1041,7 @@ h4{
 
 .mdl-data-tabledynamic__content {
   overflow: visible !important;
-  color: rgba(0, 0, 0, .54);
+  color: rgba(0, 0, 0, 0.54);
   font-size: 1rem;
   line-height: 18px;
   padding: 0;
@@ -1056,12 +1060,12 @@ h4{
 
 .mdl-data-table .mdl-data-table__label {
   font-weight: 500;
-  color: #AFAFAF;
+  color: #afafaf;
 }
 
 .mdl-data-table tr.is-selected .mdl-data-table__label {
   font-weight: 500;
-  color: rgba(0, 0, 0, .45) !important;
+  color: rgba(0, 0, 0, 0.45) !important;
 }
 
 .mdl-data-table__row--selectable tr:hover,
@@ -1109,15 +1113,11 @@ main#ty-container > .mdl-grid:first-child {
 main#ty-container #addCustomerAction {
   width: 100% !important;
   max-width: inherit;
-} */
-
-
-
-
-.mdl-checkbox            .mdl-checkbox__tick-outline {
+}
+*/ .mdl-checkbox .mdl-checkbox__tick-outline {
   padding-left: 1px !important;
 }
 
 .mdl-checkbox.is-checked .mdl-checkbox__tick-outline {
-    padding-left: 1px !important;
+  padding-left: 1px !important;
 }

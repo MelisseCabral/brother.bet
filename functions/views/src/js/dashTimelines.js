@@ -1,9 +1,20 @@
 /* eslint-disable */
 
-export default class Timeline {
-  constructor({ $ }) {
+export default class DashTimelines {
+  static init( $, timeline) {
+    // constants
+    const tabs = [
+      '#tabRankUsers',
+      '#tabRankTeams',
+      '#tabRankUsersHistory',
+      '#tabRankTeamsHistory',
+      '#tabStatistics',
+    ];
     const timelines = $('.cd-horizontal-timeline');
     const eventsMinDistance = 60;
+
+    // Functions
+    DashTimelines.initTimelines($, tabs, timeline)
 
     timelines.length > 0 && initTimeline(timelines);
 
@@ -381,5 +392,11 @@ export default class Timeline {
         .replace(/'/g, '')
         .replace(/"/g, '');
     }
+  }
+
+  static initTimelines($, ids,timelineHtml) {
+    ids.forEach((id) => {
+      $(id).html(timelineHtml);
+    });
   }
 }

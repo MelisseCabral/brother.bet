@@ -14,10 +14,11 @@ export default class Main {
     Fifa,
     DashTables,
     DashStatistics,
-    Timeline,
+    DashTimelines,
     Dashboard,
     tableRanking,
     statistics,
+    timeline,
   }) {
     // Constants
     this.firebaseConfig = {
@@ -37,6 +38,7 @@ export default class Main {
     // Static Components;
     this.tableRanking = tableRanking;
     this.statistics = statistics;
+    this.timeline = timeline;
 
     // Objects
     this.window = window;
@@ -53,7 +55,7 @@ export default class Main {
     this.Fifa = Fifa;
     this.DashTables = DashTables;
     this.DashStatistics = DashStatistics;
-    this.Timeline = Timeline;
+    this.DashTimelines = DashTimelines;
     this.Dashboard = Dashboard;
 
     // Globals
@@ -121,7 +123,8 @@ export default class Main {
       fifa,
       dashTables,
       dashStatistics,
-      Timeline: this.Timeline,
+      DashTimelines: this.DashTimelines,
+      timeline: this.timeline,
     });
 
     this.window.developerMode.status = developerMode;

@@ -89,6 +89,10 @@ module.exports = (env) => {
         filename: './components/tableRanking.html',
         template: './src/components/tableRanking.hbs',
       }),
+      new HtmlWebpackPlugin({
+        filename: './components/timeline.html',
+        template: './src/components/timeline.hbs',
+      }),
       new MiniCssExtractPlugin({
         filename: `[name].[${hash}].css`,
         ignoreOrder: true,

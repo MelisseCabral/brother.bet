@@ -3,8 +3,10 @@
 Primary style
 
 -------------------------------- */
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
-*, *::after, *::before {
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+*,
+*::after,
+*::before {
   box-sizing: border-box;
 }
 
@@ -14,11 +16,9 @@ html {
 
 body {
   font-size: 1.6rem;
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
   color: #383838;
 }
-
-
 
 /* -------------------------------- 
 
@@ -31,7 +31,7 @@ Main Components
 }
 .cd-horizontal-timeline {
   opacity: 0;
-/* margin: 2em auto;*/
+  /* margin: 2em auto;*/
   -webkit-transition: opacity 0.2s;
   -moz-transition: opacity 0.2s;
   transition: opacity 0.2s;
@@ -51,7 +51,7 @@ Main Components
   height: 40px;
   width: 100%;
   top: 0;
-  left: 0
+  left: 0;
 }
 .cd-horizontal-timeline .events-wrapper {
   position: relative;
@@ -60,7 +60,8 @@ Main Components
   top: -24px;
   padding: 50px;
 }
-.cd-horizontal-timeline .events-wrapper::after, .cd-horizontal-timeline .events-wrapper::before {
+.cd-horizontal-timeline .events-wrapper::after,
+.cd-horizontal-timeline .events-wrapper::before {
   /* these are used to create a shadow effect at the sides of the timeline */
   content: '';
   position: absolute;
@@ -113,7 +114,7 @@ Main Components
   text-align: center;
   font-size: 1.3rem;
   padding-bottom: 5px;
-  color: var(--line_color);;
+  color: var(--line_color);
   /* fix bug on Safari - text flickering while timeline translates */
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
@@ -181,21 +182,21 @@ Main Components
   color: rgb(0, 255, 64);
 }
 
-.cd-timeline-navigation a.prev{
+.cd-timeline-navigation a.prev {
   left: 10px;
 }
 
-.cd-timeline-navigation a.next{
+.cd-timeline-navigation a.next {
   right: 10px;
 }
 
 .cd-timeline-navigation a.prev::before {
-  content:  "\f053";
+  content: '\f053';
   font-family: FontAwesome;
   color: var(--move_color);
   font-size: 1.4rem;
   display: block;
-  position:absolute;
+  position: absolute;
   top: 5px;
   left: -30px;
   z-index: 10000;
@@ -205,11 +206,11 @@ Main Components
 }
 
 .cd-timeline-navigation a.next::before {
-  content:  "\f054";
+  content: '\f054';
   font-family: FontAwesome;
   font-size: 1.4rem;
   display: block;
-  position:absolute;
+  position: absolute;
   top: 5px;
   left: -18px;
   z-index: 10000;
@@ -220,7 +221,7 @@ Main Components
 }
 
 .cd-timeline-navigation a:hover:before {
-  color: rgb(0, 255, 64)
+  color: rgb(0, 255, 64);
 }
 
 .no-touch .cd-timeline-navigation a:hover {
@@ -273,17 +274,20 @@ Main Components
   -o-transform: translateX(0);
   transform: translateX(0);
 }
-.cd-horizontal-timeline .events-content li.enter-right, .cd-horizontal-timeline .events-content li.leave-right {
+.cd-horizontal-timeline .events-content li.enter-right,
+.cd-horizontal-timeline .events-content li.leave-right {
   -webkit-animation-name: cd-enter-right;
   -moz-animation-name: cd-enter-right;
   animation-name: cd-enter-right;
 }
-.cd-horizontal-timeline .events-content li.enter-left, .cd-horizontal-timeline .events-content li.leave-left {
+.cd-horizontal-timeline .events-content li.enter-left,
+.cd-horizontal-timeline .events-content li.leave-left {
   -webkit-animation-name: cd-enter-left;
   -moz-animation-name: cd-enter-left;
   animation-name: cd-enter-left;
 }
-.cd-horizontal-timeline .events-content li.leave-right, .cd-horizontal-timeline .events-content li.leave-left {
+.cd-horizontal-timeline .events-content li.leave-right,
+.cd-horizontal-timeline .events-content li.leave-left {
   -webkit-animation-direction: reverse;
   -moz-animation-direction: reverse;
   animation-direction: reverse;
@@ -311,7 +315,8 @@ Main Components
   font-size: 1.4rem;
   color: #959595;
 }
-.cd-horizontal-timeline .events-content em, .cd-horizontal-timeline .events-content p {
+.cd-horizontal-timeline .events-content em,
+.cd-horizontal-timeline .events-content p {
   line-height: 1.6;
 }
 .cd-horizontal-timeline .events-content p {

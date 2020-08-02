@@ -55,7 +55,8 @@ export default class DashTables {
     const fixed = 1;
 
     const table = this.getTimelinedRankTable(dateCode);
-    this.$(id).html(table);
+    this.$(id).find('.cd-horizontal-timeline').after(table);
+
     this.$(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
     this.$(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
       .html(btn);
@@ -96,20 +97,21 @@ export default class DashTables {
 
   getTimelinedRankTable(dateCode) {
     const table = this.$(this.tableRanking);
-    table.find('#tabRankTeams ol a').html('');
-    table.find('#tabRankTeams ol a').each((i, element) => {
-      if ($(element).attr('value') === dateCode) {
-        $(element).addClass('selected');
-        $(element).addClass('older-event');
+    let stop = false;
+    table.find('ol a').each((i, element) => {
+      console.log(this.$(element)[0]);
+      if (!stop) {
+        this.$(element).addClass('older-event');
+        if (this.$(element).attr('value') === dateCode) {
+          this.$(element).addClass('selected');
+          stop = true;
+        }
       } else {
-        $(element).removeClass('selected');
-        $(element).removeClass('older-event');
+        this.$(element).removeClass('selected');
+        this.$(element).removeClass('older-event');
       }
     });
 
-    console.log(table);
-    console.log(table[0]);
-
-    return table.prop('outerHTML');
+    return table;
   }
 }
