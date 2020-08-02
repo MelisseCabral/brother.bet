@@ -19,7 +19,8 @@ h4 {
     border-radius: 1px;
   }
   ::-webkit-scrollbar {
-    width: 0.8rem;
+    width: 1rem;
+    height: 1rem;
     background-color: transparent;
   }
   ::-webkit-scrollbar-thumb {
@@ -61,6 +62,8 @@ h4 {
   --secondary_color_4: rgb(27, 248, 82);
   --secondary_color_5: rgb(0, 255, 64);
 
+  --contrast_secondary_color_1: rgb(58, 168, 62);
+
   --tertiary_color_0: rgb(248, 193, 220);
   --tertiary_color_1: rgb(255, 128, 191);
   --tertiary_color_2: rgb(243, 119, 181);
@@ -80,16 +83,16 @@ h4 {
   --quinary_color_4: rgb(238, 250, 45);
   --quinary_color_5: rgb(232, 248, 9);
 
-  --closed_ball_color: #e91e63;
-  --opened_ball_color: #e91e63;
-  --inner_ball_color: rgb(255 255 255);
-  --text_date_color: rgb(233, 30, 99);
-  --line_color: #947ef6;
+  --closed_ball_color: rgb(149, 128, 255);
+  --opened_ball_color: rgb(104, 239, 173);
+  --inner_ball_color: rgb(255, 255, 255);
+  --text_date_color: rgb(149, 128, 255);
+  --line_color: rgb(104, 239, 173);
   --move_color: rgb(104, 239, 173);
 }
 
 body {
-  background-color: var(--tertiary_color_5);
+  background-color: var(--contrast_secondary_color_1);
 }
 
 .mdl-progress {
@@ -306,7 +309,7 @@ a img {
 
 .mdl-layout__header {
   min-height: 33px !important;
-  background-color: var(--tertiary_color_5);
+  background-color: var(--contrast_secondary_color_1);
 }
 
 .mdl-layout__content {
@@ -545,11 +548,11 @@ select::selection {
 
 .android-header {
   overflow: visible;
-  background-color: var(--tertiary_color_5);
+  background-color: var(--contrast_secondary_color_1);
 }
 
 .android-header .material-icons {
-  color: var(--tertiary_color_1);
+  color: var(--move_color);
 }
 
 .android-header .mdl-layout__drawer-button {

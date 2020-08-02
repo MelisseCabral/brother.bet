@@ -12,10 +12,11 @@ const webpack = require('webpack');
 module.exports = (env) => {
   const mode = env.production ? 'production' : 'development';
   const devtool = env.production ? false : 'source-map';
-  let stats = env.production ? 'verbose' : 'errors-only';
+  const hash = env.production ? '.[contenthash:8]' : '';
+  const outputDir = env.production ? 'dist' : 'dev';
   const developmentMode = !env.production;
+  let stats = env.production ? 'verbose' : 'errors-only';
   stats = env.hide ? 'none' : stats;
-  const hash = developmentMode ? 'hash' : 'contenthash:8';
 
   return smp.wrap({
     stats,
@@ -24,8 +25,8 @@ module.exports = (env) => {
     target: 'web',
     entry: './src/js/init',
     output: {
-      filename: `[name].[${hash}].js`,
-      path: path.resolve(__dirname, 'dist'),
+      filename: `[name]${hash}.js`,
+      path: path.resolve(__dirname, outputDir),
     },
     watchOptions: {
       ignored: /node_modules/,
@@ -78,23 +79,24 @@ module.exports = (env) => {
       new CleanWebpackPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
-        filename: 'index.html',
+        filename: `index${hash}.html`,
+        // filename: 'index.html',
         template: './src/index.html',
       }),
       new HtmlWebpackPlugin({
-        filename: './components/statistics.html',
+        filename: `./components/statistics${hash}.html`,
         template: './src/components/statistics.hbs',
       }),
       new HtmlWebpackPlugin({
-        filename: './components/tableRanking.html',
+        filename: `./components/tableRanking${hash}.html`,
         template: './src/components/tableRanking.hbs',
       }),
       new HtmlWebpackPlugin({
-        filename: './components/timeline.html',
+        filename: `./components/timeline${hash}.html`,
         template: './src/components/timeline.hbs',
       }),
       new MiniCssExtractPlugin({
-        filename: `[name].[${hash}].css`,
+        filename: `[name]${hash}.css`,
         ignoreOrder: true,
       }),
       new webpack.ProvidePlugin({
@@ -141,7 +143,7 @@ module.exports = (env) => {
           test: /\.(jpg?g|png|gif|svg)$/i,
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]',
+            name: `[name]${hash}.[ext]`,
             outputPath: 'images/',
           },
         },
@@ -151,7 +153,7 @@ module.exports = (env) => {
             {
               loader: 'file-loader',
               options: {
-                name: '[name].[ext]',
+                name: `[name]${hash}.[ext]`,
                 outputPath: 'fonts/',
               },
             },

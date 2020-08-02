@@ -60,6 +60,7 @@ export default class Dashboard {
     this.elBtnCookPredict.off().click((e) => this.cookPredict(e));
     this.elBtnLogout.off().click((e) => this.logout(e));
     this.elBtnFilter.off().click().click((e) => this.doRankFiltering(e));
+    this.elBtnHistory.off().click().click((e) => this.openHistory(e));
     this.observer.off().click((e, params) => this[params.function](params.event));
   }
 
@@ -103,7 +104,6 @@ export default class Dashboard {
     this.elExtBudget = this.$('#txtBudget');
     this.MsgSnackbar = this.$('#demo-snackbar-example');
     this.observer = this.$('#observer');
-    this.DashTimelines.init(this.$, this.timeline);
   }
 
   async initEffect() {
@@ -115,8 +115,9 @@ export default class Dashboard {
       aggregated, users, teams, data,
     } = await this.fifa.initLocalDatabase();
     this.localDB.setConsistency(aggregated);
-    // this.filterRank('users', 'name', '0', users, 'filter_alt');
-    // this.filterRank('teams', 'name', '0', teams, 'filter_alt');
+    this.DashTimelines.init(this.$, this.timeline);
+    this.timeFilterRank('users', '0', 'name', users, 'filter_alt', false, 'y-1990');
+    this.timeFilterRank('teams', '0', 'name', teams, 'filter_alt', false, 'y-1990');
     this.dashTables.tableResultGamesCheck(2020, data);
     this.dashStatistics.initStatistics(users, teams);
     this.initStorage();
@@ -177,55 +178,77 @@ export default class Dashboard {
 
   async doRankFiltering(e) {
     e.stopImmediatePropagation();
-    await this.filterRank(
-      this.$(e.target).parents()[5].id.split('tabRank')[1].slice(0, 5).toLowerCase(),
-      this.$(e.target).prev().attr('class'),
-      this.$(this.$(e.target).parents()[0]).index(),
-      '',
-      this.$(e.target).html(),
-      this.$(`#${this.$(e.target).parents()[5].id} .page-content tbody th:first-child`).html(),
-      this.$(e.target).parents()[5].id.split('tabRank')[1].slice(5, 15),
-    );
+    const context = this.$(e.target).parents()[5].id.split('tabRank')[1].slice(0, 5).toLowerCase();
+    const index = this.$(this.$(e.target).parents()[0]).index();
+    const target = this.$(e.target).prev().attr('class');
+    const teams = '';
+    const btn = this.$(e.target).html();
+    const tgBtn = true;
+    const nameScope = this.$(`#${this.$(e.target).parents()[5].id} .page-content tbody th:first-child`).html();
+    const history = this.$(e.target).parents()[5].id.split('tabRank')[1].slice(5, 15);
+    const time = this.$(e.target).parents().eq(5).find('ol .selected')
+      .attr('value');
+
+    await this.timeFilterRank(context, index, target, teams, btn, tgBtn, nameScope, history, time);
   }
 
   async openHistory(e) {
     e.stopImmediatePropagation();
-    await this.filterRank(
-      this.$(e.target).parents()[4].id.split('tabRank')[1].split('History')[0].toLowerCase(),
-      'games',
-      '1',
-      '',
-      'filter_alt',
-      this.$(this.$(e.target).get(0)).html(),
-      'History',
-    );
+    const context = this.$(e.target).parents()[4].id.split('tabRank')[1].split('History')[0].toLowerCase();
+    const index = '1';
+    const target = 'games';
+    const teams = '';
+    const btn = 'filter_alt';
+    const tgBtn = true;
+    const nameScope = this.$(this.$(e.target).get(0)).html();
+    const history = 'History';
+    const time = this.$(e.target).parents().eq(5).find('ol .selected')
+      .attr('value');
+
+    await this.timeFilterRank(context, index, target, teams, btn, tgBtn, nameScope, history, time);
   }
 
-  timelineFilter(e) {
-    // this.filterRank('teams', 'name', '0', teams, 'filter_alt');
-    const time = this.$(e.target).attr('value');
+  async timelineFilter(e) {
+    e.stopImmediatePropagation();
     const { id } = this.$(e.target).parents()[7];
+
     const context = id.split('tabRank')[1].slice(0, 5).toLowerCase();
-    const { btn, index } = this.getBtnFilterAndIndex(id);
+    const index = this.getBtnFilterAndIndex(id).btnIndex;
     const target = this.$(`#${id} thead:nth-child(2) tr span`).eq(index).attr('class');
+    const teams = '';
+    const btn = this.getBtnFilterAndIndex(id).button;
+    const tgBtn = false;
     const nameScope = this.$(`#${id} .page-content tbody th:first-child`).html();
     const history = id.split('tabRank')[1].slice(5, 15);
+    const time = this.$(e.target).attr('value');
 
-    this.timeFilterRank(context, target, index, '', btn, nameScope, history, time);
+    await this.timeFilterRank(context, index, target, teams, btn, tgBtn, nameScope, history, time);
   }
 
   getBtnFilterAndIndex(id) {
     const arrBtns = this.$(`#${id} thead:nth-child(2) i`)
       .map((i, each) => this.$(each).html())
       .get();
-    const btn = [
+    const button = [
       ...arrBtns.reduce((r, n) => r.set(n, (r.get(n) || 0) + 1), new Map()),
     ].reduce((r, v) => (v[1] < r[1] ? v : r))[0];
-    return { btn, index: arrBtns.indexOf(btn) };
+    return { button, btnIndex: arrBtns.indexOf(button) };
   }
 
-  async timeFilterRank(context, target, index, inTeams, inBtn, nameScope, history, time) {
-    if (inTeams) return this.filterRank(context, target, index, inTeams, inBtn, nameScope, history);
+  async timeFilterRank(context, index, target, inTeams, btn, tgBtn, nameScope, history, time) {
+    if (inTeams) {
+      return this.filterRank(
+        context,
+        index,
+        target,
+        inTeams,
+        btn,
+        tgBtn,
+        nameScope,
+        history,
+        time,
+      );
+    }
 
     const [timeLabel, timeVal] = time.split('-');
     const date = {
@@ -235,22 +258,19 @@ export default class Dashboard {
     }[timeLabel];
     const timedSet = await this.fifa.timeFilterRank(context, date);
 
-    return this.filterRank(context, target, index, timedSet, inBtn, nameScope, history);
+    return this.filterRank(context, index, target, timedSet, btn, tgBtn, nameScope, history);
   }
 
-  async filterRank(context, target, index, inTeams, inBtn, nameScope, history) {
-    let teams = inTeams;
+  async filterRank(context, index, target, teams, inBtn, tgBtn, nameScope, history) {
     let btn = inBtn;
-    const nameSet = `${context}Set`;
     let inverse = false;
-    if (!teams) {
-      teams = await this.localDB.getTable(nameSet);
+
+    if (tgBtn) {
+      if (btn === 'filter_alt' || btn === 'arrow_downward') btn = 'arrow_upward';
+      else if (btn === 'arrow_upward') btn = 'arrow_downward';
+
+      if (btn === 'arrow_downward') inverse = true;
     }
-
-    if (btn === 'filter_alt' || btn === 'arrow_downward') btn = 'arrow_upward';
-    else if (btn === 'arrow_upward') btn = 'arrow_downward';
-
-    if (btn === 'arrow_downward') inverse = true;
 
     const all = [];
 

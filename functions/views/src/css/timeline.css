@@ -92,7 +92,7 @@ Main Components
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: var(--opened_ball_color);
+  background-color: var(--line_color);
   -webkit-transform: scaleX(0);
   -moz-transform: scaleX(0);
   -ms-transform: scaleX(0);
@@ -114,7 +114,7 @@ Main Components
   text-align: center;
   font-size: 1.3rem;
   padding-bottom: 5px;
-  color: var(--line_color);
+  color: var(--text_date_color);
   /* fix bug on Safari - text flickering while timeline translates */
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);

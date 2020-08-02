@@ -1,8 +1,8 @@
 /* eslint-disable */
 
 export default class DashTimelines {
-  static init( $, timeline) {
-    // constants
+  static async init( $, timeline) {
+    // Constants
     const tabs = [
       '#tabRankUsers',
       '#tabRankTeams',
@@ -10,11 +10,13 @@ export default class DashTimelines {
       '#tabRankTeamsHistory',
       '#tabStatistics',
     ];
-    const timelines = $('.cd-horizontal-timeline');
-    const eventsMinDistance = 60;
+
+    // Static Files
+    await DashTimelines.initTimelines($, tabs, timeline)
 
     // Functions
-    DashTimelines.initTimelines($, tabs, timeline)
+    const timelines = $('.cd-horizontal-timeline');
+    const eventsMinDistance = 60;
 
     timelines.length > 0 && initTimeline(timelines);
 
@@ -394,9 +396,9 @@ export default class DashTimelines {
     }
   }
 
-  static initTimelines($, ids,timelineHtml) {
-    ids.forEach((id) => {
-      $(id).html(timelineHtml);
+  static async  initTimelines($, ids,timelineHtml) {
+    ids.forEach(async (id) => {
+      await $(id).html(timelineHtml);
     });
   }
 }

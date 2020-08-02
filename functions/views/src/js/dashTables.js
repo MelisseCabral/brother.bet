@@ -50,13 +50,14 @@ export default class DashTables {
     });
   }
 
-  async addTableRank(nameScope, teams, index, btn, history, dateCode = 'd-6') {
+  async addTableRank(nameScope, teams, index, btn, history) {
     const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1) + (history || '')}`;
     const fixed = 1;
 
-    const table = this.getTimelinedRankTable(dateCode);
-    this.$(id).find('.cd-horizontal-timeline').after(table);
+    const table = this.tableRanking;
 
+    this.$(id).find('.cd-horizontal-timeline').nextAll().remove();
+    this.$(id).find('.cd-horizontal-timeline').after(table);
     this.$(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
     this.$(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
       .html(btn);
@@ -93,25 +94,5 @@ export default class DashTables {
       `,
         );
     });
-  }
-
-  getTimelinedRankTable(dateCode) {
-    const table = this.$(this.tableRanking);
-    let stop = false;
-    table.find('ol a').each((i, element) => {
-      console.log(this.$(element)[0]);
-      if (!stop) {
-        this.$(element).addClass('older-event');
-        if (this.$(element).attr('value') === dateCode) {
-          this.$(element).addClass('selected');
-          stop = true;
-        }
-      } else {
-        this.$(element).removeClass('selected');
-        this.$(element).removeClass('older-event');
-      }
-    });
-
-    return table;
   }
 }
