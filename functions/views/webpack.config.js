@@ -52,22 +52,21 @@ module.exports = (env) => {
         },
       },
       minimize: !developmentMode,
-      minimizer: [new TerserJSPlugin({
-        terserOptions: {
-          output: {
-            comments: false,
+      minimizer: [
+        new TerserJSPlugin({
+          terserOptions: {
+            output: {
+              comments: false,
+            },
           },
-        },
-        extractComments: false,
-      }),
-      new OptimizeCSSAssetsPlugin({})],
+          extractComments: false,
+        }),
+        new OptimizeCSSAssetsPlugin({}),
+      ],
     },
     devServer: {
       hot: developmentMode,
-      allowedHosts: [
-        'localhost:8080',
-        'localhost:5000',
-      ],
+      allowedHosts: ['localhost:8080', 'localhost:5000'],
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -78,15 +77,15 @@ module.exports = (env) => {
       new CleanWebpackPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
-        filename: 'index.html',
+        filename: `index.[${hash}].html`,
         template: './src/index.html',
       }),
       new HtmlWebpackPlugin({
-        filename: './components/statistics.html',
+        filename: `./components/statistics.[${hash}].html`,
         template: './src/components/statistics.hbs',
       }),
       new HtmlWebpackPlugin({
-        filename: './components/tableRanking.html',
+        filename: `./components/tableRanking.[${hash}].html`,
         template: './src/components/tableRanking.hbs',
       }),
       new MiniCssExtractPlugin({
@@ -124,7 +123,6 @@ module.exports = (env) => {
               },
             },
             'css-loader',
-
           ],
         },
         {
@@ -137,7 +135,7 @@ module.exports = (env) => {
           test: /\.(jpg?g|png|gif|svg)$/i,
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]',
+            name: `[name].[${hash}].[ext]`,
             outputPath: 'images/',
           },
         },
@@ -147,7 +145,7 @@ module.exports = (env) => {
             {
               loader: 'file-loader',
               options: {
-                name: '[name].[ext]',
+                name: `[name].[${hash}].[ext]`,
                 outputPath: 'fonts/',
               },
             },
