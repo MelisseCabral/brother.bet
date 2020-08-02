@@ -5,12 +5,12 @@
   "private": "true",
   "scripts": {
     "live": "                    webpack            --env.development --watch",
-    "serve": "     rm -r dist/ & webpack-dev-server --env.development --watch",
-    "hide": "      rm -r dist/ & webpack            --env.production --env.hide",
-    "build": "     rm -r dist/ & webpack            --env.production",
-    "deploy": "    rm -r dist/ & webpack            --env.production  & firebase deploy",
-    "hosting": "   rm -r dist/ & webpack            --env.production  & firebase deploy --only hosting",
-    "test": "      rm -r dist/ & webpack-dev-server --env.production"
+    "serve": "                   webpack-dev-server --env.development --watch",
+    "hide": "                    webpack            --env.production --env.hide",
+    "build": "                   webpack            --env.production",
+    "deploy": "                  webpack            --env.production  & firebase deploy",
+    "hosting": "                 webpack            --env.production  & firebase deploy --only hosting",
+    "test": "                    webpack-dev-server --env.production"
   },
   "author": "",
   "license": "ISC",

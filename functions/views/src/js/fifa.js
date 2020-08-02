@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 export default class Fifa {
-  constructor({ developerMode, tf, localDB, database, debugTime, delay, hash }) {
+  constructor({
+    developerMode, tf, localDB, database, debugTime, delay, hash,
+  }) {
     // Constants
     this.developerMode = developerMode;
     this.nameTables = [
@@ -50,25 +52,21 @@ export default class Fifa {
 
   static getJustData(data) {
     let arr = [];
-    data.forEach((each) =>
-      each.data.forEach((each2) => {
-        arr = [...arr, each2];
-      }),
-    );
+    data.forEach((each) => each.data.forEach((each2) => {
+      arr = [...arr, each2];
+    }));
     return arr;
   }
 
   static getGameOutput(game) {
-    const goalsTeamA =
-      parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10) || 0;
-    const goalsTeamB =
-      parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10) || 0;
+    const goalsA = parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10) || 0;
+    const goalsB = parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10) || 0;
 
-    const output = [0, 0, 0, goalsTeamA, goalsTeamB];
+    const output = [0, 0, 0, goalsA, goalsB];
 
-    if (goalsTeamA > goalsTeamB) {
+    if (goalsA > goalsB) {
       output[0] = 1;
-    } else if (goalsTeamA === goalsTeamB) {
+    } else if (goalsA === goalsB) {
       output[1] = 1;
     } else {
       output[2] = 1;
@@ -91,7 +89,9 @@ export default class Fifa {
   }
 
   static addAndGetRank(ranks, game, scope) {
-    const { 0: winnerIsTeamA, 1: draw, 2: winnerIsTeamB, 3: goalsTeamA, 4: goalsTeamB } = {
+    const {
+      0: winnerIsTeamA, 1: draw, 2: winnerIsTeamB, 3: goalsTeamA, 4: goalsTeamB,
+    } = {
       ...Fifa.getGameOutput(game),
     };
 
