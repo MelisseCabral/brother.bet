@@ -66,6 +66,8 @@ module.exports = (env) => {
     },
     devServer: {
       hot: developmentMode,
+      // contentBase: path.join(__dirname, 'dist'),
+      // publicPath: '/dev/',
       allowedHosts: ['localhost:8080', 'localhost:5000'],
       headers: {
         'Access-Control-Allow-Origin': '*',

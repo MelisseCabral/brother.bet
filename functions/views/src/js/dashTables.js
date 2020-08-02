@@ -1,11 +1,6 @@
 export default class DashTables {
   constructor({
-    $,
-    hash,
-    generateDaysOfYear,
-    getRegisteredDays,
-    getStructure,
-    tableRanking,
+    $, hash, generateDaysOfYear, getRegisteredDays, getStructure, tableRanking,
   }) {
     // constants
     this.varClrSec5 = 'var(--secondary_color_5)';
@@ -55,11 +50,11 @@ export default class DashTables {
     });
   }
 
-  async addTableRank(nameScope, teams, index, btn, history) {
+  async addTableRank(nameScope, teams, index, btn, history, dateCode = 'd-6') {
     const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1) + (history || '')}`;
     const fixed = 1;
 
-    const table = this.tableRanking;
+    const table = this.getTimelinedRankTable(dateCode);
     this.$(id).html(table);
     this.$(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
     this.$(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
@@ -68,8 +63,11 @@ export default class DashTables {
     teams.forEach((team, indexof) => {
       const idTh = `${team.name + this.hash(team)}`;
 
-      this.$(id).find('table').find('tbody').append(
-        `
+      this.$(id)
+        .find('table')
+        .find('tbody')
+        .append(
+          `
       <tr>
         <th class="link" id="${idTh}">${team.name}</th>
         <th class="gold">${indexof + 1}</th>
@@ -92,7 +90,20 @@ export default class DashTables {
         <th >${(team.overFourAndHalf * 100).toFixed(fixed)}%</th>
       </tr>
       `,
-      );
+        );
+    });
+  }
+
+  getTimelinedRankTable(dateCode) {
+    const table = this.$(this.tableRanking);
+    return table.find('#tabRankTeams ol a').each((i, element) => {
+      if ($(element).attr('value') === dateCode) {
+        $(element).addClass('selected');
+        return $(element).addClass('older-event');
+      }
+
+      $(element).removeClass('selected');
+      return $(element).removeClass('older-event');
     });
   }
 }
