@@ -184,16 +184,16 @@ export default class Fifa {
     return users;
   }
 
-  static aggregationTrain(games, teams) {
-    const aggregated = [];
+  static aggTrain(games, teams) {
+    const agg = [];
     let users = {};
     games.forEach((game) => {
       const output = Fifa.getGameOutput(game);
       const { input, ranks } = Fifa.getGameInput(game, teams, users);
       users = ranks;
-      aggregated.push({ input, output });
+      agg.push({ input, output });
     });
-    return { aggregated, users };
+    return { agg, users };
   }
 
   addedTrain(data) {
@@ -278,7 +278,7 @@ export default class Fifa {
       const datedSet = await this.saveGetDataSet(data);
       const gamesSet = Fifa.getJustData(datedSet);
       const teamsSet = Fifa.getRankTeams(gamesSet);
-      const { aggregated: aggregatedSet, users: usersSet } = Fifa.getRankUsers(gamesSet, teamsSet);
+      const { agg: aggregatedSet, users: usersSet } = await Fifa.aggTrain(gamesSet, teamsSet);
 
       resolve({ aggregated: aggregatedSet, users: usersSet, teams: teamsSet });
 
