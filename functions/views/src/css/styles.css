@@ -1,13 +1,14 @@
 /* Fonts  */
 @font-face {
   font-family: 'Aileron Regular';
-  src: url('../font/aileron.otf') format('truetype');
+  src: url('../fonts/aileron.otf');
 }
 
 @font-face {
   font-family: 'Racing Sans One';
-  src: url('../font/racingSansOne.ttf');
+  src: url('../fonts/racingSansOne.ttf');
 }
+
 
 h4 {
   padding-left: 12% !important;
@@ -391,7 +392,7 @@ a img {
 .loader-slogan {
   text-align: justify;
   text-align-last: center;
-  font-family: 'aileron' !important;
+  font-family: 'Aileron Regular' !important;
   text-transform: none !important;
   width: 100%;
   text-align: center;

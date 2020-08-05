@@ -80,7 +80,7 @@ module.exports = (env) => {
       clean,
       new webpack.HashedModuleIdsPlugin(),
       new HtmlWebpackPlugin({
-        filename: `index${hash}.html`,
+        filename: 'index.html',
         template: './src/index.html',
       }),
       new HtmlWebpackPlugin({
@@ -143,17 +143,17 @@ module.exports = (env) => {
           test: /\.(jpg?g|png|gif|svg)$/i,
           loader: 'file-loader',
           options: {
-            name: `[name]${hash}.[ext]`,
+            name: '[name].[ext]',
             outputPath: 'images/',
           },
         },
         {
-          test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
+          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
           use: [
             {
               loader: 'file-loader',
               options: {
-                name: `[name]${hash}.[ext]`,
+                name: '[name].[ext]',
                 outputPath: 'fonts/',
               },
             },
