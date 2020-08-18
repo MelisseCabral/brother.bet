@@ -59,8 +59,8 @@ export default class Dashboard {
     this.elBtnCookTrainReal.off().click((e) => this.cookTrainReal(e));
     this.elBtnCookPredict.off().click((e) => this.cookPredict(e));
     this.elBtnLogout.off().click((e) => this.logout(e));
-    this.elBtnFilter.off().click().click((e) => this.doRankFiltering(e));
-    this.elBtnHistory.off().click().click((e) => this.openHistory(e));
+    this.elBtnFilter.off().click((e) => this.doRankFiltering(e));
+    this.elBtnHistory.off().click((e) => this.openHistory(e));
     this.observer.off().click((e, params) => this[params.function](params.event));
   }
 

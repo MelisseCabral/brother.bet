@@ -50,6 +50,10 @@ export default class DashTables {
     });
   }
 
+  addResultGames(){
+    data
+  }
+
   async addTableRank(nameScope, teams, index, btn, history) {
     const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1) + (history || '')}`;
     const fixed = 1;
