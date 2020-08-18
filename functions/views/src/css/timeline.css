@@ -67,6 +67,7 @@ Main Components
   overflow: hidden;
   top: -24px;
   padding: 50px;
+  padding-bottom: 7px;
 }
 .cd-horizontal-timeline .events-wrapper::after,
 .cd-horizontal-timeline .events-wrapper::before {
