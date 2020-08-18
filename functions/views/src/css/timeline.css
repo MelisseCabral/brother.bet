@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 Primary style
 
@@ -19,9 +19,9 @@ body {
   color: #383838;
 }
 
-/* -------------------------------- 
+/* --------------------------------
 
-Main Components 
+Main Components
 
 -------------------------------- */
 
@@ -29,11 +29,15 @@ Main Components
   text-decoration: none;
 }
 .cd-horizontal-timeline {
+  position: fixed;
+  z-index: 9999;
+  width: calc(100% - 10px);
   opacity: 0;
   /* margin: 2em auto;*/
   -webkit-transition: opacity 0.2s;
   -moz-transition: opacity 0.2s;
   transition: opacity 0.2s;
+  background-color: var(--primary_color_2);
 }
 .cd-horizontal-timeline::before {
   /* never visible - this is used in jQuery to check the current MQ */
@@ -44,13 +48,18 @@ Main Components
   /* show the timeline after events position has been set (using JavaScript) */
   opacity: 1;
   padding: 20px;
+  margin-top: -4px;
 }
 .cd-horizontal-timeline .timeline {
   position: absolute;
+  z-index: 999;
   height: 40px;
   width: 100%;
+  padding-left:40px;
+  padding-top: 10px;
   top: 0;
   left: 0;
+  background-color: var(--primary_color_2);
 }
 .cd-horizontal-timeline .events-wrapper {
   position: relative;
@@ -156,6 +165,7 @@ Main Components
 .cd-timeline-navigation a {
   /* these are the left/right arrows to navigate the timeline */
   position: absolute;
+  margin-top: 10px;
   z-index: 1;
   top: 68%;
   bottom: auto;
@@ -242,6 +252,11 @@ Main Components
   -moz-transition: height 0.4s;
   transition: height 0.4s;
 }
+
+.cd-horizontal-timeline ol, li, ul {
+  list-style: none;
+}
+
 .cd-horizontal-timeline .events-content li {
   position: absolute;
   z-index: 1;

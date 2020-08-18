@@ -21,7 +21,7 @@ app.use(errors());
 
 exports.app = functions
   .runWith({
-    timeoutSeconds: 300,
+    timeoutSeconds: 540,
     memory: '1GB',
   })
   .https.onRequest(app);

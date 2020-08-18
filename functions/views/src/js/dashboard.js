@@ -114,7 +114,7 @@ export default class Dashboard {
     const {
       aggregated, users, teams, data,
     } = await this.fifa.initLocalDatabase();
-    this.localDB.setConsistency(aggregated);
+    this.localDB.setConsistency(data);
     this.DashTimelines.init(this.$, this.timeline);
     this.timeFilterRank('users', '0', 'name', users, 'filter_alt', false, 'y-1990');
     this.timeFilterRank('teams', '0', 'name', teams, 'filter_alt', false, 'y-1990');

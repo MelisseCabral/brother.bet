@@ -15,7 +15,7 @@ export default class FactoryUtil {
       const daysOfMonth = new Date(year, month, 0).getDate();
       for (let day = 1; day < daysOfMonth + 1; day += 1) {
         const dateWithoutZeros = `${year}/${month}/${day}`;
-        const newDay = new Date(dateWithoutZeros).toISOString().slice(0, 10);
+        const newDay = new Date(dateWithoutZeros).toISOString().slice(0, 10).replace(/-/g, '.');
         allDaysOfYear.push(newDay);
       }
     }

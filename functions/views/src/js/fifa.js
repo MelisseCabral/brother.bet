@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
 export default class Fifa {
-  constructor({
-    developerMode, tf, localDB, database, debugTime, delay, hash,
-  }) {
+  constructor({ developerMode, tf, localDB, database, debugTime, delay, hash }) {
     // Constants
     this.developerMode = developerMode;
     this.nameTables = [
@@ -52,9 +50,11 @@ export default class Fifa {
 
   static getJustData(data) {
     let arr = [];
-    data.forEach((each) => each.data.forEach((each2) => {
-      arr = [...arr, each2];
-    }));
+    data.forEach((each) =>
+      each.data.forEach((each2) => {
+        arr = [...arr, each2];
+      }),
+    );
     return arr;
   }
 
@@ -89,9 +89,7 @@ export default class Fifa {
   }
 
   static addAndGetRank(ranks, game, scope) {
-    const {
-      0: winnerIsTeamA, 1: draw, 2: winnerIsTeamB, 3: goalsTeamA, 4: goalsTeamB,
-    } = {
+    const { 0: winnerIsTeamA, 1: draw, 2: winnerIsTeamB, 3: goalsTeamA, 4: goalsTeamB } = {
       ...Fifa.getGameOutput(game),
     };
 
@@ -305,7 +303,8 @@ export default class Fifa {
     return Fifa.getRankUsers(gamesSet, teamsSet);
   }
 
-  saveGetDataSet(dataSet) {
+  saveGetDataSet(data) {
+    const dataSet = data.filter((each) => each.data.length);
     this.localDB.createTableDB({ dataSet }, 'date', 'id');
     return this.localDB.getIndexed('dataSet', 'date');
   }

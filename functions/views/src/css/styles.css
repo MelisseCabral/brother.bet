@@ -1,14 +1,13 @@
 /* Fonts  */
-@font-face {
-  font-family: 'Aileron Regular';
-  src: url('../fonts/aileron.otf');
-}
+/* @font-face {
+  font-family: 'Aileron';
+  src: url('../fonts/aileron.otf') format('truetype');
+} */
 
-@font-face {
+/* @font-face {
   font-family: 'Racing Sans One';
   src: url('../fonts/racingSansOne.ttf');
-}
-
+} */
 
 h4 {
   padding-left: 12% !important;
@@ -16,15 +15,18 @@ h4 {
 
 @media screen and (min-width: 768px) {
   ::-webkit-scrollbar-track {
+    z-index: 999;
     background-color: transparent;
     border-radius: 1px;
   }
   ::-webkit-scrollbar {
+    z-index: 999;
     width: 1rem;
     height: 1rem;
     background-color: transparent;
   }
   ::-webkit-scrollbar-thumb {
+    z-index: 999;
     border-radius: 10px;
     background-color: var(--tertiary_color_1);
     background-image: -webkit-gradient(
@@ -37,6 +39,9 @@ h4 {
     );
   }
 }
+
+::-webkit-scrollbar-corner {background-color: transparent;}
+
 
 /* Variables */
 
@@ -96,6 +101,63 @@ body {
   background-color: var(--contrast_secondary_color_1);
 }
 
+.ranks {
+  margin-top: -1px;
+}
+
+.ranks .tables-head {
+  position: fixed;
+  z-index: 999;
+  display: list-item;
+  border: 0;
+  padding: 0px;
+  padding-top: 35px;
+  margin: 0;
+  width: calc(100% - 10px);
+  background: var(--primary_color_2);
+}
+
+.ranks .tbody {
+  margin: 0;
+  padding: 0;
+  padding: 35px 0 70px 0;
+  display: inherit;
+  background: var(--primary_color_4);
+  border: 0;
+}
+
+.ranks tbody {
+  position: initial;
+  padding-top: 155px;
+}
+
+.ranks {
+  font-size: 1.2rem;
+  min-width: 7rem;
+}
+
+.ranks thead tr,
+th {
+  height: 24px !important;
+}
+
+.ranks tbody tr,
+th {
+  height: 38px !important;
+}
+
+.page-content .mdl-data-table th {
+  padding: 0 10px !important;
+  height: 38px !important;
+}
+
+.page-content .ranks thead th {
+  padding: 0 10px !important;
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+  height: 24px !important;
+}
+
 .mdl-progress {
   background-color: transparent;
   width: 100%;
@@ -124,6 +186,10 @@ body {
 .mdl-progress > .bufferbar {
   background-image: linear-gradient(to right, transparent, transparent),
     linear-gradient(to right, transparent, transparent);
+}
+
+.mdl-layout{
+  overflow-y: hidden;
 }
 
 .mdl-layout__content {
@@ -248,14 +314,19 @@ body {
 
 .page-content .mdl-data-table thead th {
   height: 0px;
+  width: 7rem;
 }
 
 .page-content i {
   font-size: 18px;
 }
 
+.mdl-layout.is-upgraded .mdl-layout__tab-panel {
+  height: calc(100vh - 117px);
+}
+
 .mdl-layout__tab-panel.is-active {
-  overflow-x: auto;
+  overflow-x: scroll;
 }
 
 .tableOdd {
@@ -316,6 +387,7 @@ a img {
 .mdl-layout__content {
   width: 100vw;
   height: calc(100vh - 69px);
+  position: relative;
 }
 
 #trainFactory .mdl-textfield__label,
@@ -492,7 +564,7 @@ button {
     min-width: 40px;
   }
 }
-/* 
+/*
 .mdl-chip__text {
   padding-left: 8px;
 }
