@@ -4,8 +4,13 @@
   "description": "brother.bet",
   "private": "true",
   "scripts": {
+<<<<<<< HEAD
     "serve": "rm -r dev/  & webpack-dev-server --env.development",
     "test": "               webpack            --env.production  --env.clean  --watch",
+=======
+    "serve": "rm -r dev/  & webpack-dev-server --env.development              --watch",
+    "test": "              webpack            --env.production  --env.clean  --watch",
+>>>>>>> 58c74f5d0ca229dd018c162c75789de26b3bef2e
     "build": "              webpack            --env.production  --env.clean",
     "deploy": "             webpack            --env.production  --env.clean & firebase deploy",
     "hosting": "            webpack            --env.production  --env.clean & firebase deploy --only hosting",
