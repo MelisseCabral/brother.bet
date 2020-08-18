@@ -100,49 +100,9 @@ body {
   background-color: var(--contrast_secondary_color_1);
 }
 
-.ranks {
-  margin-top: -1px;
-}
-
-.ranks .tables-head {
-  position: fixed;
-  z-index: 999;
-  display: list-item;
-  border: 0;
-  padding: 0px;
-  padding-top: 35px;
-  margin: 0;
-  width: calc(100% - 10px);
-  background: var(--primary_color_2);
-}
-
-.ranks .tbody {
-  margin: 0;
-  padding: 0;
-  padding: 35px 0 70px 0;
-  display: inherit;
-  background: var(--primary_color_4);
-  border: 0;
-}
-
-.ranks tbody {
-  position: initial;
-  padding-top: 155px;
-}
-
-.ranks {
-  font-size: 1.2rem;
-  min-width: 7rem;
-}
-
-.ranks thead tr,
-th {
-  height: 24px !important;
-}
-
-.ranks tbody tr,
-th {
-  height: 38px !important;
+table tbody 
+{
+   overflow: auto;
 }
 
 .page-content .mdl-data-table th {
