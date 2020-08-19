@@ -171,8 +171,9 @@ class RobotFifaArena {
     });
   }
 
-  build(date, id, data) {
-    return { date, id, data };
+  build(day, id, data) {
+    const date = day.replace(/\-/g, '.')
+    return { date, id, data};
   }
 }
 

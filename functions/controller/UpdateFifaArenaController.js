@@ -12,6 +12,8 @@ module.exports = {
     try {
       const daysToFilter = await getDaysToFilter(nameCollection, year);
 
+      // res.send(daysToFilter);
+
       const robot = new RobotFifaArena();
       const database = await robot.main(daysToFilter, year, '2020-01-01');
 
@@ -52,6 +54,53 @@ const updateData = async (nameCollection, year, data) => {
   } catch (error) {
     throw error;
   }
+};
+
+const deleteDocument = async (nameCollection, year, nameDoc) => {
+  try {
+    const response = await db
+      .collection(nameCollection)
+      .doc(year)
+      .collection(data.date)
+      .doc(danameDocta.id)
+      .delete();
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteCollection = async (db, collectionPath, batchSize) => {
+  const deleteQueryBatch = async (db, query, resolve) => {
+    const snapshot = await query.get();
+
+    const batchSize = snapshot.size;
+    if (batchSize === 0) {
+      // When there are no documents left, we are done
+      resolve();
+      return;
+    }
+
+    // Delete documents in a batch
+    const batch = db.batch();
+    snapshot.docs.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+    await batch.commit();
+
+    // Recurse on the next process tick, to avoid
+    // exploding the stack.
+    process.nextTick(() => {
+      deleteQueryBatch(db, query, resolve);
+    });
+  };
+
+  const collectionRef = db.collection(collectionPath);
+  const query = collectionRef.orderBy('__name__').limit(batchSize);
+
+  return new Promise((resolve, reject) => {
+    deleteQueryBatch(db, query, resolve).catch(reject);
+  });
 };
 
 const updateCloud = async (nameCollection, year, database) => {

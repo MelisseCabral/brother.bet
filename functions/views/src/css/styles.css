@@ -38,16 +38,16 @@ h4 {
     );
   }
 
-  thead {
-    z-index: 99;
-    background-color: transparent;
-    width: calc(100% - 10px);
-  }
 }
 
 ::-webkit-scrollbar-corner {
   background-color: transparent;
 }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+
 
 /* Variables */
 
@@ -109,6 +109,8 @@ body {
   background-color: var(--contrast_secondary_color_1);
 }
 
+
+
 thead.tHeadAbove {
   margin-top: 45px;
   border: 20px;
@@ -119,7 +121,7 @@ thead.tHeadAbove {
 thead {
   z-index: 99;
   background-color: transparent;
-  width: calc(100% - 20px);
+  width: calc(100% - 10px);
 }
 
 .all-background {
