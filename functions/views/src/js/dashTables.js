@@ -64,7 +64,6 @@ export default class DashTables {
       this.tabLastGames.html(div);
     }
 
-
     const item = data.length - 1 - days;
     const table = $(this.tableLastGames);
     data[item].data.forEach((game) => {
@@ -86,12 +85,17 @@ export default class DashTables {
           </th>
           <th class="flex-down">${game.teamB.user}</th>
           <th class="flex-up pink">${game.teamB.team}</th>
+          <th >
+            <a target="_blank" href="${game.video || '#'}">
+              <i class=" material-icons">play_circle_filled</i>
+            </a>
+          </th>
         </tr>
       `,
       );
     });
 
-    table.find('span').html(data[item].date)
+    table.find('span').html(data[item].date);
     this.tabLastGames.find('div').append(table);
     this.tabLastGames.find('div').append(table);
   }

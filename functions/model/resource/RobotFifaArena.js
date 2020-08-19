@@ -33,7 +33,7 @@ class RobotFifaArena {
     } finally {
       await this.writeJSON(bundle);
       await driver.quit();
-       return bundle;
+      return bundle;
     }
   }
 
@@ -112,7 +112,10 @@ class RobotFifaArena {
           .each((index, tRow) => {
             if (index > 0 && $(tRow).find('td:nth-child(4)').text().split(':').length > 2) {
               const scores = this.getScores($(tRow).find('td:nth-child(4)').text());
+              
               lines.push({
+                time: $(tRow).find('td:nth-child(1)').text(),
+                video: $(tRow).find('td:nth-child(7)').find('a').attr('href') || '#',
                 teamA: {
                   team: $(tRow).find('td:nth-child(2)').text(),
                   user: $(tRow).find('td:nth-child(3)').text(),
@@ -172,8 +175,8 @@ class RobotFifaArena {
   }
 
   build(day, id, data) {
-    const date = day.replace(/\-/g, '.')
-    return { date, id, data};
+    const date = day.replace(/\-/g, '.');
+    return { date, id, data };
   }
 }
 

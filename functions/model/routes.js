@@ -12,16 +12,6 @@ const NeuralNetworkController = require('../controller/NeuralNetworkController')
 
 const routes = express.Router();
 
-routes.get(
-  '/daysOfYear',
-  celebrate({
-    [Segments.QUERY]: Joi.object().keys({
-      year: Joi.string().required().length(4),
-    }),
-  }),
-  DaysController.index,
-);
-
 routes.post(
   '/updateFifaArena',
   celebrate({
@@ -30,6 +20,16 @@ routes.post(
     }),
   }),
   UpdateFifaArenaController.index,
+);
+
+routes.get(
+  '/daysOfYear',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      year: Joi.string().required().length(4),
+    }),
+  }),
+  DaysController.index,
 );
 
 routes.get(

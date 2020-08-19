@@ -6,13 +6,12 @@ const RobotFifaArena = require('../model/resource/RobotFifaArena');
 
 module.exports = {
   async index(req, res) {
-    mainUpdate();
+    while (true) await mainUpdate(req.query);
   },
 };
 
-const mainUpdate = async () => {
+const mainUpdate = async ({ year }) => {
   try {
-    const year = 2020;
     const nameCollection = 'fifaChamptionship';
 
     const daysToFilter = await getDaysToFilter(nameCollection, year);

@@ -1,5 +1,11 @@
 const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 
-admin.initializeApp(functions.config().firebase);
+var serviceAccount = require("./serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://brother-bet.firebaseio.com"
+});
+
 admin.firestore().settings({ timestampsInSnapshots: true });
