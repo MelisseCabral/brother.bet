@@ -24,7 +24,7 @@ module.exports = (env) => {
     mode,
     devtool,
     target: 'web',
-    entry: './src/js/init',
+    entry: './src/js/main',
     output: {
       filename: `js/[name]${hash}.js`,
       path: path.resolve(__dirname, outputDir),

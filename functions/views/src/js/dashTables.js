@@ -1,6 +1,12 @@
 export default class DashTables {
   constructor({
-    $, hash, generateDaysOfYear, getRegisteredDays, getStructure, tableRanking,
+    $,
+    hash,
+    generateDaysOfYear,
+    getRegisteredDays,
+    getStructure,
+    tableRanking,
+    tableLastGames,
   }) {
     // constants
     this.varClrSec5 = 'var(--secondary_color_5)';
@@ -8,12 +14,14 @@ export default class DashTables {
 
     // Static Components
     this.tableRanking = tableRanking;
+    this.tableLastGames = tableLastGames;
 
     // Objects
     this.$ = $;
 
     // DOM Elements
     this.elTableBodyGames = this.$('#admin table tbody');
+    this.tabLastGames = this.$('#tabLastGames');
 
     // Functions
     this.hash = hash;
@@ -50,21 +58,52 @@ export default class DashTables {
     });
   }
 
-  addResultGames(){
-    data
+  addLastGames(data, days = 0) {
+    if (days === 0) {
+      const div = '<div class="page-content" style="width: 100%;"></div>';
+      this.tabLastGames.html(div);
+    }
+
+
+    const item = data.length - 1 - days;
+    const table = $(this.tableLastGames);
+    data[item].data.forEach((game) => {
+      table.find('tbody').append(
+        `
+        <tr>
+          <th >${game.time || '--:--'}</th>
+          <th class="flex-down" >${game.teamA.user}</th>
+          <th class="flex-up pink">${game.teamA.team}</th>
+          <th >
+            <ul>
+              <li >${game.teamA.firstHalf} - ${game.teamB.firstHalf}</li>
+              <li >${game.teamA.secondHalf} - ${game.teamB.secondHalf}</li>
+              <li class="link">
+              ${parseInt(game.teamA.firstHalf) + parseInt(game.teamA.secondHalf)}
+              -
+              ${parseInt(game.teamB.firstHalf) + parseInt(game.teamB.secondHalf)}</li>
+            </ul>
+          </th>
+          <th class="flex-down">${game.teamB.user}</th>
+          <th class="flex-up pink">${game.teamB.team}</th>
+        </tr>
+      `,
+      );
+    });
+
+    table.find('span').html(data[item].date)
+    this.tabLastGames.find('div').append(table);
+    this.tabLastGames.find('div').append(table);
   }
 
   async addTableRank(nameScope, teams, index, btn, history) {
     const id = `#tabRank${nameScope[0].toUpperCase() + nameScope.slice(1) + (history || '')}`;
     const fixed = 1;
 
-    const table = this.tableRanking;
-
     this.$(id).find('.cd-horizontal-timeline').nextAll().remove();
-    this.$(id).find('.cd-horizontal-timeline').after(table);
+    this.$(id).find('.cd-horizontal-timeline').after(this.tableRanking);
     this.$(`${id} thead:nth-child(2) tr`).find('i').html('filter_alt');
-    this.$(`${id} thead:nth-child(2) tr`).children().eq(index).find('i')
-      .html(btn);
+    this.$(`${id} thead:nth-child(2) tr`).children().eq(index).find('i').html(btn);
 
     teams.forEach((team, indexof) => {
       const idTh = `${team.name + this.hash(team)}`;

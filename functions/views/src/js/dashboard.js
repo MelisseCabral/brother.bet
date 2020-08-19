@@ -40,6 +40,7 @@ export default class Dashboard {
     this.fifa = fifa;
     this.Typed = Typed;
     this.timeline = timeline;
+
     this.$ = $;
 
     // DOM Objects
@@ -119,6 +120,7 @@ export default class Dashboard {
     this.timeFilterRank('users', '0', 'name', users, 'filter_alt', false, 'y-1990');
     this.timeFilterRank('teams', '0', 'name', teams, 'filter_alt', false, 'y-1990');
     this.dashTables.tableResultGamesCheck(2020, data);
+    this.dashTables.addLastGames(data);
     this.dashStatistics.initStatistics(users, teams);
     this.initStorage();
     this.initTrain();
