@@ -22,6 +22,16 @@ routes.post(
   UpdateFifaArenaController.index,
 );
 
+routes.delete(
+  '/deleteFifaArena',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      date: Joi.string().required().length(10),
+    }),
+  }),
+  UpdateFifaArenaController.delete,
+);
+
 routes.get(
   '/daysOfYear',
   celebrate({

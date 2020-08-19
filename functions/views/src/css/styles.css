@@ -387,6 +387,17 @@ thead {
   text-align: center;
 }
 
+.video{
+  margin: auto;
+  align-items: initial;
+  height: 76px !important;
+  line-height: 100% !important;
+  margin: auto;
+  padding: 30px 0 !important;
+  text-align: center;
+  color: var(--tertiary_color_5);
+}
+
 .page-content .mdl-data-table th {
   padding: 0 10px 6px 10px;
 }

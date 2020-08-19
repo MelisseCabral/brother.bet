@@ -85,7 +85,7 @@ export default class DashTables {
           </th>
           <th class="flex-down">${game.teamB.user}</th>
           <th class="flex-up pink">${game.teamB.team}</th>
-          <th >
+          <th class="video">
             <a target="_blank" href="${game.video || '#'}">
               <i class=" material-icons">play_circle_filled</i>
             </a>

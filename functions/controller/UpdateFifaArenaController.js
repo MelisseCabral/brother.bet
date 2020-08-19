@@ -8,6 +8,15 @@ module.exports = {
   async index(req, res) {
     while (true) await mainUpdate(req.query);
   },
+
+  async delete(req, res) {
+    const date = req.query;
+    const year = date.split('.')[0];
+    const path = `/fifaChamptionship/${year}/${date}`;
+
+    const response = deleteCollection(db, path, 1);
+    res.send(response);
+  },
 };
 
 const mainUpdate = async ({ year }) => {

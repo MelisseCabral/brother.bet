@@ -24,8 +24,7 @@ class RobotFifaArena {
       for (const day of availableDays) {
         const page = await this.getPage(day, driver);
         const gamesResult = this.getGamesResult(page);
-        const fakeId = this.hash(gamesResult, 'hash:');
-        const document = this.build(day, fakeId, gamesResult);
+        const document = this.build(day, 'noUniqueId', gamesResult);
         if (document) bundle.push(document);
       }
     } catch (error) {
@@ -112,7 +111,7 @@ class RobotFifaArena {
           .each((index, tRow) => {
             if (index > 0 && $(tRow).find('td:nth-child(4)').text().split(':').length > 2) {
               const scores = this.getScores($(tRow).find('td:nth-child(4)').text());
-              
+
               lines.push({
                 time: $(tRow).find('td:nth-child(1)').text(),
                 video: $(tRow).find('td:nth-child(7)').find('a').attr('href') || '#',
