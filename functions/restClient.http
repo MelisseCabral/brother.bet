@@ -1,0 +1,4 @@
+POST http://localhost:5000/updateFifaArena
+
+###
+GET http://localhost:5000/daysOfYear?year=2020
