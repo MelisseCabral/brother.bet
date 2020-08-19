@@ -37,10 +37,18 @@ h4 {
       to(var(--secondary_color_5))
     );
   }
+
+
+  thead {
+    z-index: 99;
+    background-color: transparent;
+    width: calc(100% - 10px);
+  } 
 }
 
-::-webkit-scrollbar-corner {background-color: transparent;}
-
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
 
 /* Variables */
 
@@ -94,15 +102,51 @@ h4 {
   --text_date_color: rgb(149, 128, 255);
   --line_color: rgb(104, 239, 173);
   --move_color: rgb(104, 239, 173);
+
+  --scroll-width: 10px
 }
 
 body {
   background-color: var(--contrast_secondary_color_1);
 }
 
-table tbody 
-{
-   overflow: auto;
+
+
+thead.tHeadAbove{
+  margin-top: 45px;
+  border: 20px;
+  top: 115px;
+  background: transparent !important;
+}
+
+thead {
+  z-index: 99;
+  background-color: transparent;
+  width: calc(100% - 20px);
+} 
+
+.all-background{
+  color:var(--primary_color_2);
+  background-color:var(--primary_color_2);
+}
+
+.all-background > th{
+  color:var(--primary_color_2);
+  background-color:var(--primary_color_2);
+}
+
+.all-background > tr{
+  color:var(--primary_color_2);
+  background-color:var(--primary_color_2);
+}
+
+.all-background > i{
+  color:var(--primary_color_2);
+  background-color:var(--primary_color_2);
+}
+
+.fake-icon{
+  font-size: 18px;
 }
 
 .page-content .mdl-data-table th {
@@ -147,7 +191,7 @@ table tbody
     linear-gradient(to right, transparent, transparent);
 }
 
-.mdl-layout{
+.mdl-layout {
   overflow-y: hidden;
 }
 
@@ -170,6 +214,7 @@ table tbody
 .page-content thead {
   background: var(--primary_color_2);
   color: var(--contrast_primary_color_2);
+  /* padding-top: 100px; */
 }
 
 .page-content thead th {
@@ -273,6 +318,7 @@ table tbody
 
 .page-content .mdl-data-table thead th {
   height: 0px;
+  min-width: 100%;
   width: 7rem;
 }
 

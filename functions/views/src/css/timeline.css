@@ -24,6 +24,13 @@ body {
 Main Components
 
 -------------------------------- */
+@media screen and (min-width: 768px) {
+  .cd-horizontal-timeline {
+    width: calc(100% - 10px);
+  }
+}
+
+
 
 .cd-horizontal-timeline a {
   text-decoration: none;
@@ -31,7 +38,7 @@ Main Components
 .cd-horizontal-timeline {
   position: fixed;
   z-index: 9999;
-  width: calc(100% - 10px);
+  width: calc(100% - 20px);
   opacity: 0;
   /* margin: 2em auto;*/
   -webkit-transition: opacity 0.2s;
@@ -48,14 +55,14 @@ Main Components
   /* show the timeline after events position has been set (using JavaScript) */
   opacity: 1;
   padding: 20px;
-  margin-top: -4px;
+  margin-top: -5px;
 }
 .cd-horizontal-timeline .timeline {
   position: absolute;
   z-index: 999;
   height: 40px;
   width: 100%;
-  padding-left:40px;
+  padding-left: 40px;
   padding-top: 10px;
   top: 0;
   left: 0;
@@ -254,7 +261,9 @@ Main Components
   transition: height 0.4s;
 }
 
-.cd-horizontal-timeline ol, li, ul {
+.cd-horizontal-timeline ol,
+li,
+ul {
   list-style: none;
 }
 
