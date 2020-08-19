@@ -6,28 +6,30 @@ const RobotFifaArena = require('../model/resource/RobotFifaArena');
 
 module.exports = {
   async index(req, res) {
-    const { year } = req.query;
+    mainUpdate();
+  },
+};
+
+const mainUpdate = async () => {
+  try {
+    const year = 2020;
     const nameCollection = 'fifaChamptionship';
 
-    try {
-      const daysToFilter = await getDaysToFilter(nameCollection, year);
+    const daysToFilter = await getDaysToFilter(nameCollection, year);
 
-      // res.send(daysToFilter);
+    const robot = new RobotFifaArena();
+    const database = await robot.main(daysToFilter, year, '2020-01-01');
 
-      const robot = new RobotFifaArena();
-      const database = await robot.main(daysToFilter, year, '2020-01-01');
+    await updateCloud(nameCollection, year, database);
 
-      await updateCloud(nameCollection, year, database);
+    const bundle = await getBundleCloud(nameCollection, year);
+    const hashNumber = robot.hash(bundle);
+    await updateConsistency({ aggregatedSet: hashNumber });
 
-      const bundle = await getBundleCloud(nameCollection, year);
-      const hashNumber = robot.hash(bundle);
-      await updateConsistency({ aggregatedSet: hashNumber });
-
-      res.send(database);
-    } catch (error) {
-      res.send(error);
-    }
-  },
+    await delay(600);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getDaysToFilter = async (nameCollection, year) => {
@@ -54,6 +56,12 @@ const updateData = async (nameCollection, year, data) => {
   } catch (error) {
     throw error;
   }
+};
+
+const delay = (timeSeconds) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeSeconds * 1000);
+  });
 };
 
 const deleteDocument = async (nameCollection, year, nameDoc) => {
