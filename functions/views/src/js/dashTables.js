@@ -116,29 +116,29 @@ export default class DashTables {
         .find('table')
         .find('tbody')
         .append(
-          `
-      <tr>
-        <th class="link" id="${idTh}">${team.name}</th>
-        <th class="gold">${indexof + 1}</th>
-        <th>${team.games}</th>
-        <th>${team.goalsPro.toFixed(2)}</th>
-        <th>${team.goalsCon.toFixed(2)}</th>
-        <th >${(team.wins * 100).toFixed(fixed)}%</th>
-        <th >${(team.draws * 100).toFixed(fixed)}%</th>
-        <th >${(team.losses * 100).toFixed(fixed)}%</th>
-        <th >${(team.bothScore * 100).toFixed(fixed)}%</th>
-        <th >${(team.underHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.underOneAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.underTwoAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.underThreeAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.underFourAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.overHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.overOneAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.overTwoAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.overThreeAndHalf * 100).toFixed(fixed)}%</th>
-        <th >${(team.overFourAndHalf * 100).toFixed(fixed)}%</th>
-      </tr>
-      `,
+        `
+          <tr>
+            <th class="link" id="${idTh}">${team.name}</th>
+            <th class="gold">${indexof + 1}</th>
+            <th>${team.games}</th>
+            <th>${team.goalsPro.toFixed(2)}</th>
+            <th>${team.goalsCon.toFixed(2)}</th>
+            <th >${(team.wins * 100).toFixed(fixed)}%</th>
+            <th >${(team.draws * 100).toFixed(fixed)}%</th>
+            <th >${(team.losses * 100).toFixed(fixed)}%</th>
+            <th >${(team.bothScore * 100).toFixed(fixed)}%</th>
+            <th >${(team.underHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.underOneAndHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.underTwoAndHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.underThreeAndHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.underFourAndHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.overHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.overOneAndHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.overTwoAndHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.overThreeAndHalf * 100).toFixed(fixed)}%</th>
+            <th >${(team.overFourAndHalf * 100).toFixed(fixed)}%</th>
+          </tr>
+        `,
         );
     });
   }

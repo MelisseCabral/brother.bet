@@ -107,13 +107,6 @@ body {
   background-color: var(--contrast_secondary_color_1);
 }
 
-thead.tHeadAbove {
-  margin-top: 45px;
-  border: 20px;
-  top: 115px;
-  background: transparent !important;
-}
-
 thead {
   z-index: 99;
   background-color: transparent;
@@ -381,6 +374,20 @@ thead {
 
 #tabLastGames ul {
   text-align: center;
+}
+
+.rank-scrol {
+  position: fixed;
+}
+
+.rank-categories {
+  padding-top: 35px;
+  padding-bottom: 25px !important;
+}
+
+.rank-filters {
+  top: 160px;
+  background-color: transparent !important;
 }
 
 .video i {
