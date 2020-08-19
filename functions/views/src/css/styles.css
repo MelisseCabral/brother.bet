@@ -37,7 +37,6 @@ h4 {
       to(var(--secondary_color_5))
     );
   }
-
 }
 
 ::-webkit-scrollbar-corner {
@@ -47,7 +46,6 @@ h4 {
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
-
 
 /* Variables */
 
@@ -108,8 +106,6 @@ h4 {
 body {
   background-color: var(--contrast_secondary_color_1);
 }
-
-
 
 thead.tHeadAbove {
   margin-top: 45px;
@@ -387,8 +383,7 @@ thead {
   text-align: center;
 }
 
-.video{
-  margin: auto;
+.video i {
   align-items: initial;
   height: 76px !important;
   line-height: 100% !important;
@@ -396,6 +391,14 @@ thead {
   padding: 30px 0 !important;
   text-align: center;
   color: var(--tertiary_color_5);
+  font-size: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.video a {
+  text-decoration: none;
 }
 
 .page-content .mdl-data-table th {

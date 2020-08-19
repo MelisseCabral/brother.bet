@@ -10,12 +10,16 @@ module.exports = {
   },
 
   async delete(req, res) {
-    const date = req.query;
+    const {date} = req.query;
     const year = date.split('.')[0];
-    const path = `/fifaChamptionship/${year}/${date}`;
+    const nameCollection = 'fifaChamptionship'
+    const path = `/${nameCollection}/${year}/${date}`;
 
-    const response = deleteCollection(db, path, 1);
-    res.send(response);
+    await deleteCollection(db, path, 1);
+
+    const daysToFilter = await getDaysToFilter(nameCollection, year);
+
+    res.send(daysToFilter);
   },
 };
 
