@@ -128,5 +128,9 @@ routes.get(
   }),
   NeuralNetworkController.index,
 );
+routes.get('/:i', function (req, res) {
+  var format = req.params.i;
+  res.send(format);
+});
 
 module.exports = routes;
