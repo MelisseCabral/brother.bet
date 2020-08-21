@@ -1,7 +1,7 @@
 module.exports = class UpdateFifaArena {
   constructor(Api, RobotFifaArena) {
-    // this.baseUrl = 'https://brother.bet';
-    this.baseUrl = 'http://localhost:5000';
+    this.baseUrl = 'https://brother.bet';
+    // this.baseUrl = 'http://localhost:5000';
 
     this.api = new Api(this.baseUrl).api;
     this.robot = new RobotFifaArena();
