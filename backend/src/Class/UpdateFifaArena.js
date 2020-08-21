@@ -23,8 +23,7 @@ module.exports = class UpdateFifaArena {
       const database = await this.robot.main(daysToFilter, year, initDate);
       await this.updateCloud(year, database);
       const bundle = await this.getBundleCloud(year);
-      await this.updateConsistency(bundle);
-
+      return this.updateConsistency(bundle);
     } catch (error) {
       console.log(error);
       console.log('Error in main.');
@@ -40,7 +39,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in get days.');
-      this.this.delay(10);
+      this.delay(10);
       return this.getDaysToFilter(year);
     }
   }
@@ -52,7 +51,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in update cloud.');
-      this.this.delay(10);
+      this.delay(10);
       return this.updateCloud(year);
     }
   }
@@ -64,7 +63,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in get bundle.');
-      this.this.delay(10);
+      this.delay(10);
       return this.getBundleCloud(year);
     }
   }
@@ -88,7 +87,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log('Error in database consistency.');
       console.log(error);
-      this.this.delay(10);
+      this.delay(10);
       return this.updateConsistency(bundle);
     }
   }
