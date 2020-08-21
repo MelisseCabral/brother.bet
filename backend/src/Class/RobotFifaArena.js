@@ -30,7 +30,7 @@ class RobotFifaArena {
     } catch (error) {
       console.log(error);
     } finally {
-      await this.writeJSON(bundle);
+      // await this.writeJSON(bundle);
       await driver.quit();
       return bundle;
     }
@@ -90,7 +90,7 @@ class RobotFifaArena {
     }
   }
 
-   getGamesResult(data) {
+  getGamesResult(data) {
     const $ = cheerio.load(data);
     const lines = [];
 
