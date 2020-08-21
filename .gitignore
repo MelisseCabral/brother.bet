@@ -1,6 +1,6 @@
 #->Packages
 #-->Firebase
-functions/model/*.json
+**/functions/model/*.json
 #-->Backend
 #-->Frontend
 

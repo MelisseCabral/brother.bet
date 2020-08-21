@@ -5,7 +5,7 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable no-plusplus */
 
-const amor = require('chromedriver');
+require('chromedriver');
 const { Builder, By, Key } = require('selenium-webdriver');
 const cheerio = require('cheerio');
 const fs = require('fs');

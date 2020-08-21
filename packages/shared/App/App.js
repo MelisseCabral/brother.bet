@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const { errors } = require('celebrate');
+const express = require('./node_modules/express');
+const cors = require('./node_modules/cors');
+const { errors } = require('./node_modules/celebrate');
 
-const routes = require('./routes');
+const routes = require('../../firebase/functions/src/routes');
 
 module.exports = class App {
   constructor() {

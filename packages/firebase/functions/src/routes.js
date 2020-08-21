@@ -1,7 +1,10 @@
 const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
 
-require('./database/firestoreInit');
+const FirestoreInit = require('./database/firestoreInit');
+const serviceAccount = require('../model/serviceAccountKey.json');
+
+new FirestoreInit(serviceAccount).admin;
 
 const FifaArenaController = require('../controller/FifaArenaController');
 const DatabaseConsistencyController = require('../controller/DatabaseConsistencyController');
@@ -20,7 +23,7 @@ routes.get(
       year: Joi.string().required(),
     }),
   }),
-  fifaArenaController.index,
+  fifaArenaController.index
 );
 
 routes.get(
@@ -30,7 +33,7 @@ routes.get(
       date: Joi.string().required(),
     }),
   }),
-  fifaArenaController.show,
+  fifaArenaController.show
 );
 
 routes.get(
@@ -40,7 +43,7 @@ routes.get(
       year: Joi.string().required().length(4),
     }),
   }),
-  fifaArenaController.indexDates,
+  fifaArenaController.indexDates
 );
 
 routes.post(
@@ -51,7 +54,7 @@ routes.post(
     }),
     [Segments.BODY]: Joi.array().required(),
   }),
-  fifaArenaController.create,
+  fifaArenaController.create
 );
 
 routes.delete(
@@ -61,7 +64,7 @@ routes.delete(
       date: Joi.string().required(),
     }),
   }),
-  fifaArenaController.delete,
+  fifaArenaController.delete
 );
 
 routes.get(
@@ -71,7 +74,7 @@ routes.get(
       type: Joi.string().required(),
     }),
   }),
-  databaseConsistencyController.index,
+  databaseConsistencyController.index
 );
 
 routes.post(
@@ -84,7 +87,7 @@ routes.post(
       aggregatedSet: Joi.number().integer().required(),
     }),
   }),
-  databaseConsistencyController.create,
+  databaseConsistencyController.create
 );
 
 routes.get(
@@ -94,7 +97,7 @@ routes.get(
       nameSet: Joi.string().required(),
     }),
   }),
-  neuralNetworkController.index,
+  neuralNetworkController.index
 );
 
 routes.post(
@@ -104,7 +107,7 @@ routes.post(
       nameSet: Joi.string().required(),
     }),
   }),
-  neuralNetworkController.create,
+  neuralNetworkController.create
 );
 
 module.exports = routes;
