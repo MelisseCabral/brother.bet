@@ -1,26 +1,23 @@
 const admin = require('firebase-admin');
 
-// Init firebase.
-
 const db = admin.firestore();
 
-module.exports = {
+const nameCollection = 'databaseConsistency';
+
+module.exports = class DatabaseConsistencyController {
   async create(req, res) {
-    const nameCol = 'databaseConsistency';
     const { type } = req.query;
     const data = req.body;
 
-    const response = await db.collection(nameCol).doc(type).set(data);
+    const response = await db.collection(nameCollection).doc(type).set(data);
 
     res.send(response);
-  },
+  }
 
   async index(req, res) {
-    const nameCol = 'databaseConsistency';
     const { type } = req.query;
 
-    const doc = await db.collection(nameCol).doc(type).get();
+    const doc = await db.collection(nameCollection).doc(type).get();
     res.send(doc.data());
-  },
-
+  }
 };

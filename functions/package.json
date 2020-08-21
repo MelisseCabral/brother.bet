@@ -34,9 +34,7 @@
     "handlebars": "^4.1.0",
     "moment": "^2.26.0",
     "request": "2.88.0",
-    "request-promise": "4.2.2",
-    "chromedriver": "84.0.1",
-    "selenium-webdriver": "4.0.0-alpha.7"
+    "request-promise": "4.2.2"
   },
   "devDependencies": {
     "eslint": "^5.16.0",

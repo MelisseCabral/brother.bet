@@ -26,14 +26,11 @@ module.exports = {
     'react-hooks',
     'jest',
     'prettier',
-    'react', 'import', 'jsx-a11y'
-
+    'react',
+    'import',
+    'jsx-a11y',
   ],
-  extends: [
-    'react-app',
-    'airbnb',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['react-app', 'airbnb', 'plugin:prettier/recommended'],
   rules: {
     'prettier/prettier': 'error',
     'class-methods-use-this': 'off',
@@ -66,9 +63,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-    'import/extensions': [
-      'error',
-    ],
+    'import/extensions': ['error'],
   },
   settings: {
     'import/extensions': ['.js', '.jsx'],

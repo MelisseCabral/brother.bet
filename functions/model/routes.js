@@ -1,56 +1,77 @@
 const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
 
-require('../model/database/firestoreInit');
+require('./database/firestoreInit');
 
-const DaysController = require('../controller/DaysController');
-const UpdateFifaArenaController = require('../controller/UpdateFifaArenaController');
-const FifaChampionshipController = require('../controller/FifaChampionshipController');
+const FifaArenaController = require('../controller/FifaArenaController');
 const DatabaseConsistencyController = require('../controller/DatabaseConsistencyController');
-const DataController = require('../controller/DataController');
 const NeuralNetworkController = require('../controller/NeuralNetworkController');
+
+const fifaArenaController = new FifaArenaController();
+const databaseConsistencyController = new DatabaseConsistencyController();
+const neuralNetworkController = new NeuralNetworkController();
 
 const routes = express.Router();
 
-routes.post(
-  '/updateFifaArena',
+routes.get(
+  '/fifaArena',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      year: Joi.string().required(),
+    }),
+  }),
+  fifaArenaController.index,
+);
+
+routes.get(
+  '/fifaArenaByDate',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      date: Joi.string().required(),
+    }),
+  }),
+  fifaArenaController.indexByDate,
+);
+
+routes.get(
+  '/fifaArenaDates',
   celebrate({
     [Segments.QUERY]: Joi.object().keys({
       year: Joi.string().required().length(4),
     }),
   }),
-  UpdateFifaArenaController.index,
+  fifaArenaController.indexDates,
+);
+
+routes.post(
+  '/fifaArena',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      year: Joi.string().required(),
+    }),
+    [Segments.BODY]: Joi.array().required(),
+  }),
+  fifaArenaController.create,
 );
 
 routes.delete(
-  '/deleteFifaArena',
+  '/fifaArena',
   celebrate({
     [Segments.QUERY]: Joi.object().keys({
-      date: Joi.string().required().length(10),
+      date: Joi.string().required(),
     }),
   }),
-  UpdateFifaArenaController.delete,
+  fifaArenaController.delete,
 );
 
 routes.get(
-  '/daysOfYear',
+  '/databaseConsistency',
   celebrate({
     [Segments.QUERY]: Joi.object().keys({
-      year: Joi.string().required().length(4),
+      type: Joi.string().required(),
     }),
   }),
-  DaysController.index,
-);
-
-routes.get(
-  '/source',
-  celebrate({
-    [Segments.QUERY]: Joi.object().keys({
-      key: Joi.string().required(),
-      sheetId: Joi.string().required(),
-    }),
-  }),
-  FifaChampionshipController.index,
+  databaseConsistencyController.index,
 );
 
 routes.post(
@@ -63,60 +84,7 @@ routes.post(
       aggregatedSet: Joi.number().integer().required(),
     }),
   }),
-  DatabaseConsistencyController.create,
-);
-
-routes.get(
-  '/databaseConsistency',
-  celebrate({
-    [Segments.QUERY]: Joi.object().keys({
-      type: Joi.string().required(),
-    }),
-  }),
-  DatabaseConsistencyController.index,
-);
-
-routes.post(
-  '/data',
-  celebrate({
-    [Segments.BODY]: Joi.object().keys({
-      id: Joi.string().required(),
-      date: Joi.string().required(),
-      data: Joi.array().items(Joi.object().keys().min(2)).required(),
-    }),
-  }),
-  DataController.create,
-);
-
-routes.get(
-  '/data',
-  celebrate({
-    [Segments.QUERY]: Joi.object().keys({
-      year: Joi.string().required(),
-      date: Joi.string().required(),
-    }),
-  }),
-  DataController.index,
-);
-
-routes.get(
-  '/bundle',
-  celebrate({
-    [Segments.QUERY]: Joi.object().keys({
-      year: Joi.string().required(),
-    }),
-  }),
-  DataController.bundle,
-);
-
-routes.post(
-  '/neuralNetwork',
-  celebrate({
-    [Segments.QUERY]: Joi.object().keys({
-      nameSet: Joi.string().required(),
-    }),
-  }),
-  NeuralNetworkController.create,
+  databaseConsistencyController.create,
 );
 
 routes.get(
@@ -126,11 +94,17 @@ routes.get(
       nameSet: Joi.string().required(),
     }),
   }),
-  NeuralNetworkController.index,
+  neuralNetworkController.index,
 );
-routes.get('/:i', function (req, res) {
-  var format = req.params.i;
-  res.send(format);
-});
+
+routes.post(
+  '/neuralNetwork',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      nameSet: Joi.string().required(),
+    }),
+  }),
+  neuralNetworkController.create,
+);
 
 module.exports = routes;

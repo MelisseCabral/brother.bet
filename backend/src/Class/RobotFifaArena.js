@@ -90,16 +90,7 @@ class RobotFifaArena {
     }
   }
 
-  hash(data, label = '') {
-    const s = JSON.stringify(data) || '';
-    let h = 0;
-    const l = s.length;
-    let i = 0;
-    if (l > 0) while (i < l) h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
-    return label + h;
-  }
-
-  getGamesResult(data) {
+   getGamesResult(data) {
     const $ = cheerio.load(data);
     const lines = [];
 
@@ -159,7 +150,7 @@ class RobotFifaArena {
   async writeJSON(content) {
     return new Promise((resolve, reject) => {
       fs.writeFile(
-        './model/resource/download/output.json',
+        './src/resource/download/output.json',
         JSON.stringify(content),
         'utf8',
         (err) => {

@@ -1,7 +1,0 @@
-POST http://localhost:5000/updateFifaArena?year=2020
-
-###
-GET http://localhost:5000/daysOfYear?year=2020
-
-###
-DELETE http://localhost:5000/deleteFifaArena?date=2020.08.19

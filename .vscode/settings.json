@@ -12,6 +12,7 @@
   "editor.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
   "editor.formatOnSave": true,
+  // "editor.emptySelectionClipboard": false,
 
   "prettier.eslintIntegration": true,
 
@@ -113,6 +114,7 @@
     "Fifa",
     "btns",
     "firestore",
+    "middlewares",
     "plusplus",
     "tchan",
     "tensorflow",

@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export default class Api {
+module.exports = class Api {
   constructor(newOrigin) {
     this.newOrigin = newOrigin;
     this.axios = axios;
@@ -12,4 +12,4 @@ export default class Api {
       baseURL: this.newOrigin,
     });
   }
-}
+};

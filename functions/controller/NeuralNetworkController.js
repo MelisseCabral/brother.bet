@@ -1,36 +1,18 @@
 const admin = require('firebase-admin');
 
-// Init firebase.
-
 const db = admin.firestore();
 
-module.exports = {
-  async create(req, res) {
-    const nameCol = 'neuralNetworks';
-    const nameDoc = 'indivualsNN';
-    const data = req.body;
-    const time = data.timestamp;
-    const { nameSet } = req.query;
-    try {
-      const response = await db.collection(nameCol).doc(nameDoc)
-        .collection(nameSet).doc(time.toString())
-        .set(data);
+const nameDocument = 'indivualsNN';
+const nameCollection = 'neuralNetworks';
 
-      res.send(response);
-    } catch (error) {
-      res.status(error.code).json(error);
-    }
-  },
-
+module.exports = class NeuralNetworkController {
   async index(req, res) {
-    const nameCol = 'neuralNetworks';
-    const nameDoc = 'indivualsNN';
     const { nameSet } = req.query;
     let result;
 
     const snapshot = await db
-      .collection(nameCol)
-      .doc(nameDoc)
+      .collection(nameCollection)
+      .doc(nameDocument)
       .collection(nameSet)
       .orderBy('loss', 'asc')
       .limit(1)
@@ -45,6 +27,23 @@ module.exports = {
     });
 
     return res.send(result);
-  },
+  }
 
+  async create(req, res) {
+    const data = req.body;
+    const time = data.timestamp;
+    const { nameSet } = req.query;
+    try {
+      const response = await db
+        .collection(nameCollection)
+        .doc(nameDocument)
+        .collection(nameSet)
+        .doc(time.toString())
+        .set(data);
+
+      res.send(response);
+    } catch (error) {
+      res.status(error.code).json(error);
+    }
+  }
 };

@@ -17,7 +17,6 @@
     "cache-loader": "^4.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^4.0.0",
-    "eslint-config-prettier": "^6.11.0",
     "extract-plugin": "^0.2.1",
     "file-loader": "^6.0.0",
     "hard-source-webpack-plugin": "^0.13.1",
@@ -32,7 +31,13 @@
     "thread-loader": "^2.1.3",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.0.1"
   },
   "dependencies": {
     "@tensorflow/tfjs": "^2.0.1",

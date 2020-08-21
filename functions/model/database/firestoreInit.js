@@ -1,11 +1,26 @@
 const admin = require('firebase-admin');
-const functions = require('firebase-functions');
+const serviceAccount = require('./serviceAccountKey.json');
 
-var serviceAccount = require("./serviceAccountKey.json");
+class FirestoreInit {
+  constructor() {
+    this.admin = admin;
+    this.serviceAccount = serviceAccount;
+    this.databaseURL = 'https://brother-bet.firebaseio.com';
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://brother-bet.firebaseio.com"
-});
+    this.initialize();
+    this.configFirestore();
+  }
 
-admin.firestore().settings({ timestampsInSnapshots: true });
+  initialize() {
+    this.admin.initializeApp({
+      credential: admin.credential.cert(this.serviceAccount),
+      databaseURL: this.databaseURL,
+    });
+  }
+
+  configFirestore() {
+    this.admin.firestore().settings({ timestampsInSnapshots: true });
+  }
+}
+
+module.exports = new FirestoreInit().admin;
