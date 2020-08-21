@@ -95,9 +95,20 @@
   },
 
   "material-icon-theme.folders.associations": {
-    "customFolderName": "src",
-    "sample": "dist",
-    "firebase": "dist"
+    "infra": "app",
+    "entities": "class",
+    "schemas": "class",
+    "typeorm": "database",
+    "repositories": "mappings",
+    "http": "container",
+    "migrations": "tools",
+    "modules": "components",
+    "implementations": "core",
+    "dtos": "typescript",
+    "fakes": "mock",
+    "websockets": "pipe",
+    "protos": "pipe",
+    "grpc": "pipe"
   },
 
   "cSpell.words": [

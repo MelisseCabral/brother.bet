@@ -3,7 +3,6 @@ import * as tf from '@tensorflow/tfjs';
 // import $ from 'jquery';
 import * as firebase from 'firebase/app';
 import Typed from 'typed.js';
-import axios from 'axios';
 import $ from 'jquery';
 
 // Defining Modules JS
@@ -21,7 +20,7 @@ import '../css/styles.css';
 
 // My Modules
 import Environment from './environment';
-import Api from './api';
+import Api from '@brother.bet';
 import Database from './database';
 import FactoryUtil from './factoryUtil';
 import LocalDB from './localDB';
