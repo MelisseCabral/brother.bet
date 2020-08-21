@@ -2,24 +2,22 @@
   "terminal.integrated.fontSize": 11,
   "terminal.integrated.scrollback": 700000,
   "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "terminal.integrated.shell.osx": "/bin/zsh",
 
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile",
 
   "editor.tabSize": 2,
   "editor.fontSize": 10,
-  // "editor.lineHeight": 26,
+  "editor.lineHeight": 13,
   "editor.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
   "editor.formatOnSave": true,
-  // "editor.emptySelectionClipboard": false,
-
-  "prettier.eslintIntegration": true,
-
   "editor.rulers": [80, 120],
   "editor.renderWhitespace": "all",
   "editor.renderControlCharacters": true,
   "editor.renderIndentGuides": true,
+  "editor.renderLineHighlight": "gutter",
 
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
@@ -29,6 +27,14 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
+  "prettier.eslintIntegration": true,
+
+  "eslint.codeActionsOnSave ": false,
+  "eslint.validate": [
+    { "language": "javascript", "autoFix": true },
+    { "language": "javascriptreact", "autoFix": true }
+  ],
 
   "files.eol": "\n",
 
@@ -41,8 +47,7 @@
     "node_modules": true
   },
 
-  "explorer.compactFolders": false,
-  "editor.renderLineHighlight": "gutter",
+  "explorer.compactFolders": true,
   "workbench.editor.labelFormat": "short",
   "workbench.colorTheme": "Dracula",
   "extensions.ignoreRecommendations": false,
@@ -70,12 +75,10 @@
   "gitlens.codeLens.authors.enabled": false,
   "gitlens.currentLine.enabled": false,
   "gitlens.codeLens.enabled": false,
-
   "gitlens.blame.line.enabled": false,
 
   "git.enableSmartCommit": true,
 
-  "terminal.integrated.shell.osx": "/bin/zsh",
   "liveshare.featureSet": "insiders",
 
   "typescript.tsserver.log": "verbose",
@@ -92,20 +95,9 @@
   },
 
   "material-icon-theme.folders.associations": {
-    "infra": "app",
-    "entities": "class",
-    "schemas": "class",
-    "typeorm": "database",
-    "repositories": "mappings",
-    "http": "container",
-    "migrations": "tools",
-    "modules": "components",
-    "implementations": "core",
-    "dtos": "typescript",
-    "fakes": "mock",
-    "websockets": "pipe",
-    "protos": "pipe",
-    "grpc": "pipe"
+    "customFolderName": "src",
+    "sample": "dist",
+    "firebase": "dist"
   },
 
   "cSpell.words": [
@@ -114,6 +106,7 @@
     "Fifa",
     "btns",
     "firestore",
+    "juloko",
     "middlewares",
     "plusplus",
     "tchan",

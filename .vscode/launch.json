@@ -5,20 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Chrome",
-      "request": "launch",
-      "type": "pwa-chrome",
-      "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}\\functions\\views\\dist"
-    },
-    {
       "type": "node",
-      "request": "launch",
+      "request": "attach",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}\\functions\\views\\dist\\index.html"
+      "skipFiles": ["<node_internals>/**"],
+      "protocol": "inspector",
+      "restart": true
     }
   ]
 }
