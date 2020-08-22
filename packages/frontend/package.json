@@ -5,8 +5,8 @@
   "private": "true",
   "scripts": {
     "serve": "rm -r dev/  & webpack-dev-server --env.development",
-    "test": "               webpack            --env.production  --env.clean  --watch",
     "build": "              webpack            --env.production  --env.clean",
+    "test": "               webpack            --env.production  --env.clean  --watch",
     "deploy": "             webpack            --env.production  --env.clean & firebase deploy",
     "hosting": "            webpack            --env.production  --env.clean & firebase deploy --only hosting",
     "hide": "               webpack            --env.production  --env.hide"

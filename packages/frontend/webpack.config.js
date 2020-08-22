@@ -13,7 +13,7 @@ module.exports = (env) => {
   const mode = env.production ? 'production' : 'development';
   const devtool = env.production ? false : 'source-map';
   const hash = env.production ? '.[contenthash:8]' : '';
-  const outputDir = env.production ? 'dist' : 'dev';
+  const outputDir = env.production ? '../firebase/functions/views' : 'dev';
   const developmentMode = !env.production;
   const clean = env.clean ? new CleanWebpackPlugin() : () => {};
   let stats = env.production ? 'verbose' : 'errors-only';
@@ -54,22 +54,21 @@ module.exports = (env) => {
         },
       },
       minimize: !developmentMode,
-      minimizer: [new TerserJSPlugin({
-        terserOptions: {
-          output: {
-            comments: false,
+      minimizer: [
+        new TerserJSPlugin({
+          terserOptions: {
+            output: {
+              comments: false,
+            },
           },
-        },
-        extractComments: false,
-      }),
-      new OptimizeCSSAssetsPlugin({})],
+          extractComments: false,
+        }),
+        new OptimizeCSSAssetsPlugin({}),
+      ],
     },
     devServer: {
       hot: developmentMode,
-      allowedHosts: [
-        'localhost:8080',
-        'localhost:5000',
-      ],
+      allowedHosts: ['localhost:8080', 'localhost:5000'],
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -130,7 +129,6 @@ module.exports = (env) => {
               },
             },
             'css-loader',
-
           ],
         },
         {
