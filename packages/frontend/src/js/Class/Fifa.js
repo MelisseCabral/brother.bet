@@ -53,7 +53,7 @@ export default class Fifa {
     data.forEach((each) =>
       each.data.forEach((each2) => {
         arr = [...arr, each2];
-      }),
+      })
     );
     return arr;
   }

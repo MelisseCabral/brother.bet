@@ -34,8 +34,10 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@brother.bet/Api": "*",
     "@tensorflow/tfjs": "^2.0.1",
     "animate.css": "^4.1.0",
+    "firebase": "^7.19.0",
     "getmdl-select": "^2.0.1",
     "jquery": "^3.5.1",
     "typed.js": "^2.0.11"

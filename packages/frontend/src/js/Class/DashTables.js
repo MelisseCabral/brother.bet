@@ -78,9 +78,9 @@ export default class DashTables {
               <li >${game.teamA.firstHalf} - ${game.teamB.firstHalf}</li>
               <li >${game.teamA.secondHalf} - ${game.teamB.secondHalf}</li>
               <li class="link">
-              ${parseInt(game.teamA.firstHalf) + parseInt(game.teamA.secondHalf)}
+              ${parseInt(game.teamA.firstHalf, 10) + parseInt(game.teamA.secondHalf, 10)}
               -
-              ${parseInt(game.teamB.firstHalf) + parseInt(game.teamB.secondHalf)}</li>
+              ${parseInt(game.teamB.firstHalf, 10) + parseInt(game.teamB.secondHalf, 10)}</li>
             </ul>
           </th>
           <th class="flex-down">${game.teamB.user}</th>
@@ -91,7 +91,7 @@ export default class DashTables {
             </a>
           </th>
         </tr>
-      `,
+      `
       );
     });
 
@@ -116,7 +116,7 @@ export default class DashTables {
         .find('table')
         .find('tbody')
         .append(
-        `
+          `
           <tr>
             <th class="link" id="${idTh}">${team.name}</th>
             <th class="gold">${indexof + 1}</th>
@@ -138,7 +138,7 @@ export default class DashTables {
             <th >${(team.overThreeAndHalf * 100).toFixed(fixed)}%</th>
             <th >${(team.overFourAndHalf * 100).toFixed(fixed)}%</th>
           </tr>
-        `,
+        `
         );
     });
   }

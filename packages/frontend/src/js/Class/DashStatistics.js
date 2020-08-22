@@ -1,7 +1,5 @@
 export default class DashStatistics {
-  constructor({
-    $, getStructure, developerMode, statistics,
-  }) {
+  constructor({ $, getStructure, developerMode, statistics }) {
     // Variables
     this.developerMode = developerMode;
 
@@ -37,7 +35,15 @@ export default class DashStatistics {
     const arrUsers = ['cmbUserA', 'cmbUserB'];
     const arrTeams = ['cmbTeamA', 'cmbTeamB'];
 
-    users.forEach((each) => arrUsers.forEach((eachSel) => this.$(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
-    teams.forEach((each) => arrTeams.forEach((eachSel) => this.$(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)));
+    users.forEach((each) =>
+      arrUsers.forEach((eachSel) =>
+        this.$(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)
+      )
+    );
+    teams.forEach((each) =>
+      arrTeams.forEach((eachSel) =>
+        this.$(`#${eachSel}`).append(`<option value="${each}">${each}</option>`)
+      )
+    );
   }
 }

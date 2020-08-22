@@ -1,48 +1,9 @@
-// Calling Modules JS
-import * as tf from '@tensorflow/tfjs';
-// import $ from 'jquery';
-import * as firebase from 'firebase/app';
-import Typed from 'typed.js';
-import $ from 'jquery';
-
-// Defining Modules JS
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/analytics';
-
-// Library CSS
-import 'animate.css';
-
-// My Css
-import '../css/timeline.css';
-import '../css/loader.css';
-import '../css/styles.css';
-
-// My Modules
-import Environment from './environment';
-import Api from '@brother.bet/Api';
-import Database from './database';
-import FactoryUtil from './factoryUtil';
-import LocalDB from './localDB';
-import Fifa from './fifa';
-import DashTables from './dashTables';
-import DashStatistics from './dashStatistics';
-import DashTimelines from './dashTimelines';
-import Dashboard from './dashboard';
-
-// Static Components
-import tableRanking from '../components/tableRanking.hbs';
-import statistics from '../components/statistics.hbs';
-import timeline from '../components/timeline.hbs';
-import tableLastGames from '../components/tableLastGames.hbs';
-
-class Main {
+export default class Main {
   constructor({
     window,
     tf,
     firebase,
     Typed,
-    axios,
     $,
     Environment,
     Api,
@@ -85,7 +46,6 @@ class Main {
     this.tf = tf;
     this.firebase = firebase;
     this.Typed = Typed;
-    this.axios = axios;
     this.$ = $;
     this.Environment = Environment;
     this.Api = Api;
@@ -172,26 +132,3 @@ class Main {
     return dashboard;
   }
 }
-
-new Main({
-  window,
-  tf,
-  firebase,
-  Typed,
-  axios,
-  $,
-  Environment,
-  Api,
-  Database,
-  FactoryUtil,
-  LocalDB,
-  Fifa,
-  DashTables,
-  DashStatistics,
-  DashTimelines,
-  Dashboard,
-  tableRanking,
-  statistics,
-  timeline,
-  tableLastGames,
-});

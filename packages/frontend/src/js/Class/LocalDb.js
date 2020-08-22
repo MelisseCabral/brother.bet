@@ -42,9 +42,7 @@ export default class LocalDB {
         const request = this.indexedDB.open(tableName, 2);
         request.onsuccess = (event) => {
           const database = event.target.result;
-          const objectStore = database
-            .transaction(tableName, 'readonly')
-            .objectStore(tableName);
+          const objectStore = database.transaction(tableName, 'readonly').objectStore(tableName);
 
           const allRecords = objectStore.getAll();
           allRecords.onsuccess = () => {
@@ -66,9 +64,7 @@ export default class LocalDB {
         const request = this.indexedDB.open(tableName, 2);
         request.onsuccess = (event) => {
           const database = event.target.result;
-          const objectStore = database
-            .transaction(tableName, 'readonly')
-            .objectStore(tableName);
+          const objectStore = database.transaction(tableName, 'readonly').objectStore(tableName);
           const allRecords = objectStore.index(indexName).getAll();
 
           allRecords.onsuccess = () => {

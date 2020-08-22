@@ -112,7 +112,7 @@ export default class Dashboard {
     this.processing();
     this.preloader();
     this.cloudDone(false);
-    const { aggregated, users, teams, data } = await this.fifa.initLocalDatabase();
+    const { users, teams, data } = await this.fifa.initLocalDatabase();
     this.localDB.setConsistency(data);
     this.DashTimelines.init(this.$, this.timeline);
     this.timeFilterRank('users', '0', 'name', users, 'filter_alt', false, 'y-1990');
@@ -185,7 +185,7 @@ export default class Dashboard {
     const btn = this.$(e.target).html();
     const tgBtn = true;
     const nameScope = this.$(
-      `#${this.$(e.target).parents()[5].id} .page-content tbody th:first-child`,
+      `#${this.$(e.target).parents()[5].id} .page-content tbody th:first-child`
     ).html();
     const history = this.$(e.target).parents()[5].id.split('tabRank')[1].slice(5, 15);
     const time = this.$(e.target).parents().eq(5).find('ol .selected').attr('value');

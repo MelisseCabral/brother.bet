@@ -26,16 +26,14 @@ export default class FactoryUtil {
     const a = document.createElement('a');
     a.setAttribute(
       'href',
-      `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`,
+      `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`
     );
     a.setAttribute('download', 'filename.json');
     a.click();
   }
 
   static downloadJSON(data, name) {
-    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(
-      JSON.stringify(data),
-    )}`;
+    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`;
     const downloadAnchorNode = document.createElement('a');
     downloadAnchorNode.setAttribute('href', dataStr);
     downloadAnchorNode.setAttribute('download', `${name}.json`);
