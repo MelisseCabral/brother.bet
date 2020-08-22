@@ -1,7 +1,16 @@
 {
   "hosting": {
-    "public": "views",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "backend/**", "frontend/**",".vscode/**"],
+    "public": "functions/views",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "packages/backend/**",
+      "packages/frontend/**",
+      "packages/server/**",
+      "packages/shared/**",
+      ".vscode/**"
+    ],
     "rewrites": [
       {
         "source": "**",

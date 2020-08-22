@@ -1,4 +1,4 @@
-const Api = require('../../shared/axios/Api');
+const Api = require('@brother.bet/Api');
 const RobotFifaArena = require('./Class/RobotFifaArena');
 const UpdateFifaArena = require('./Class/UpdateFifaArena');
 

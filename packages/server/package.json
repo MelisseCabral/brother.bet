@@ -15,7 +15,7 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
-    "@brother.bet/"
+    "@brother.bet/Api":"*",
     "cheerio": "1.0.0-rc.2",
     "chromedriver": "84.0.1",
     "path": "^0.12.7",

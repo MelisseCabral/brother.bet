@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-class FirestoreInit {
+module.exports = class FirestoreInit {
   constructor(serviceAccount) {
     this.admin = admin;
     this.serviceAccount = serviceAccount;
@@ -21,6 +21,4 @@ class FirestoreInit {
   configFirestore() {
     this.admin.firestore().settings({ timestampsInSnapshots: true });
   }
-}
-
-module.exports = new FirestoreInit();
+};

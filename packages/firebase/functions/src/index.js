@@ -1,8 +1,9 @@
 const functions = require('firebase-functions');
 
-const App = require('./App');
+const routes = require('./routes');
+const App = require('./App.js');
 
-const app = new App().server;
+const app = new App(routes).server;
 
 exports.app = functions
   .runWith({

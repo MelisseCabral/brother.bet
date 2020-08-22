@@ -20,7 +20,7 @@ import '../css/styles.css';
 
 // My Modules
 import Environment from './environment';
-import Api from '@brother.bet';
+import Api from '@brother.bet/Api';
 import Database from './database';
 import FactoryUtil from './factoryUtil';
 import LocalDB from './localDB';

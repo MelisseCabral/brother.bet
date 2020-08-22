@@ -1,10 +1,9 @@
 const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
 
-const FirestoreInit = require('./database/firestoreInit');
-const serviceAccount = require('../model/serviceAccountKey.json');
-
-new FirestoreInit(serviceAccount).admin;
+const FirestoreInit = require('../model/FirestoreInit');
+const serviceAccountKey = require('../model/serviceAccountKey.json');
+new FirestoreInit(serviceAccountKey).admin;
 
 const FifaArenaController = require('../controller/FifaArenaController');
 const DatabaseConsistencyController = require('../controller/DatabaseConsistencyController');
