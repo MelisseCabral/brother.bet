@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 module.exports = class UpdateFifaArena {
   constructor(Api, RobotFifaArena) {
     this.baseUrl = 'https://brother.bet';
@@ -6,7 +7,7 @@ module.exports = class UpdateFifaArena {
     this.api = new Api(this.baseUrl).api;
     this.robot = new RobotFifaArena();
 
-    this.loop('2020-01-01', 600);
+    this.loop('2020-01-01', 60);
   }
 
   async loop(initDate, delay) {
@@ -74,6 +75,7 @@ module.exports = class UpdateFifaArena {
       let h = 0;
       const l = s.length;
       let i = 0;
+      // eslint-disable-next-line no-bitwise, no-plusplus
       if (l > 0) while (i < l) h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
       return label + h;
     };
@@ -92,6 +94,7 @@ module.exports = class UpdateFifaArena {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   delay(timeSeconds) {
     return new Promise((resolve) => {
       setTimeout(resolve, timeSeconds * 1000);

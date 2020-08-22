@@ -3,6 +3,8 @@ const { celebrate, Segments, Joi } = require('celebrate');
 
 const FirestoreInit = require('../model/FirestoreInit');
 const serviceAccountKey = require('../model/serviceAccountKey.json');
+
+// eslint-disable-next-line no-unused-expressions
 new FirestoreInit(serviceAccountKey).admin;
 
 const FifaArenaController = require('../controller/FifaArenaController');
