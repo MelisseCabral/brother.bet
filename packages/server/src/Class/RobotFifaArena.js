@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-unsafe-finally */
@@ -36,7 +37,7 @@ class RobotFifaArena {
     }
   }
 
-  getAvailableDays(daysNotAvailable, year, sinceDay) {
+  getAvailableDays(daysThatAreNotAvailable, actualYear, firstDay) {
     const getDaysOfYear = (year) => {
       const allDaysOfYear = [];
       for (let month = 1; month < 13; month += 1) {
@@ -50,8 +51,13 @@ class RobotFifaArena {
       return allDaysOfYear;
     };
 
+    const getToday = () => {
+      const today = new Date().toLocaleString('fr-CA', { timeZone: 'Europe/Moscow' }).slice(0, 10);
+      return today;
+    };
+
     const getSlicedDays = (sinceDay, days) => {
-      const today = new Date().toISOString().slice(0, 10);
+      const today = getToday();
       const distanceToSinceDay = days.indexOf(sinceDay);
       const distanceToToday = days.indexOf(today);
       const availableDays = days.slice(distanceToSinceDay, distanceToToday);
@@ -68,14 +74,14 @@ class RobotFifaArena {
     };
 
     const addToday = (days) => {
-      const today = new Date().toISOString().slice(0, 10);
+      const today = getToday();
       const daysAddedToday = [...days, today];
       return daysAddedToday;
     };
 
-    const daysYear = getDaysOfYear(year);
-    const daysSinceToYesterday = getSlicedDays(sinceDay, daysYear);
-    const filteredDays = getFilteredDays(daysNotAvailable, daysSinceToYesterday);
+    const daysYear = getDaysOfYear(actualYear);
+    const daysSinceToYesterday = getSlicedDays(firstDay, daysYear);
+    const filteredDays = getFilteredDays(daysThatAreNotAvailable, daysSinceToYesterday);
     const availableDays = addToday(filteredDays);
     return availableDays;
   }
@@ -159,13 +165,13 @@ class RobotFifaArena {
           } else {
             reject(err);
           }
-        },
+        }
       );
     });
   }
 
   build(day, id, data) {
-    const date = day.replace(/\-/g, '.');
+    const date = day.replace(/-/g, '.');
     return { date, id, data };
   }
 }
