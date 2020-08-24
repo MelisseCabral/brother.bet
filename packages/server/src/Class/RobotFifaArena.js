@@ -12,16 +12,13 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 
 class RobotFifaArena {
-  async main(daysNotAvailable, year, sinceDay) {
+  async mountDatabase(availableDays) {
     const url = 'http://stats.cyberarena.live/results.aspx?tab=fifa';
     const bundle = [];
 
     const driver = await new Builder().forBrowser('chrome').build();
     try {
       await driver.get(url);
-
-      const availableDays = this.getAvailableDays(daysNotAvailable, year, sinceDay);
-
       for (const day of availableDays) {
         const page = await this.getPage(day, driver);
         const gamesResult = this.getGamesResult(page);

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 module.exports = class UpdateFifaArena {
   constructor(Api, RobotFifaArena) {
@@ -6,8 +7,6 @@ module.exports = class UpdateFifaArena {
 
     this.api = new Api(this.baseUrl).api;
     this.robot = new RobotFifaArena();
-
-    this.loop('2020-01-01', 60);
   }
 
   async loop(initDate, delay) {
@@ -17,11 +16,30 @@ module.exports = class UpdateFifaArena {
     }
   }
 
+  async clean(year) {
+    const daysToFilter = await this.getDaysToFilter(year);
+    for (const day of daysToFilter) {
+      const dataDay = await this.getDataDay(day);
+      const { length } = dataDay.data;
+      const { date } = dataDay;
+
+      if (!length) {
+        console.log('Deleting day ', date, ', with length of:', length);
+        this.delay(5);
+        const response = await this.deleteDataDay(date);
+        console.log(response);
+      }
+    }
+  }
+
   async main(initDate = '2020-01-01') {
     try {
       const year = initDate.split('-')[0];
       const daysToFilter = await this.getDaysToFilter(year);
-      const database = await this.robot.main(daysToFilter, year, initDate);
+      console.log(daysToFilter);
+      const availableDays = this.robot.getAvailableDays(daysToFilter, year, initDate);
+      console.log(availableDays);
+      const database = await this.robot.mountDatabase(availableDays);
       await this.updateCloud(year, database);
       const bundle = await this.getBundleCloud(year);
       return this.updateConsistency(bundle);
@@ -54,6 +72,30 @@ module.exports = class UpdateFifaArena {
       console.log('Error in update cloud.');
       this.delay(10);
       return this.updateCloud(year);
+    }
+  }
+
+  async deleteDataDay(date) {
+    try {
+      const response = await this.api.delete(`/fifaArena?date=${date}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      console.log('Error in delete data day.');
+      this.delay(10);
+      return this.deleteDataDay(date);
+    }
+  }
+
+  async getDataDay(date) {
+    try {
+      const response = await this.api.get(`/fifaArenaByDate?date=${date}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      console.log('Error in delete data day.');
+      this.delay(10);
+      return this.getDataDay(date);
     }
   }
 

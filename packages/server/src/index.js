@@ -2,5 +2,6 @@ const Api = require('@brother.bet/Api');
 const RobotFifaArena = require('./Class/RobotFifaArena');
 const UpdateFifaArena = require('./Class/UpdateFifaArena');
 
-// eslint-disable-next-line no-new
-new UpdateFifaArena(Api, RobotFifaArena);
+const fifaArena = new UpdateFifaArena(Api, RobotFifaArena);
+// fifaArena.loop('2020-01-01', 60);
+fifaArena.clean(2020);
