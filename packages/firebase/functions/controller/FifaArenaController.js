@@ -1,3 +1,7 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-useless-catch */
+/* eslint-disable class-methods-use-this */
 const admin = require('firebase-admin');
 
 const db = admin.firestore();

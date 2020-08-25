@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable array-callback-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 module.exports = class UpdateFifaArena {
@@ -10,9 +13,27 @@ module.exports = class UpdateFifaArena {
   }
 
   async loop(initDate, delay) {
+    let count = 0;
     while (true) {
       await this.main(initDate);
-      this.delay(delay);
+      await this.delay(delay);
+      count += 1;
+      console.log(count);
+    }
+  }
+
+  async main(initDate = '2020-01-01') {
+    try {
+      const year = initDate.split('-')[0];
+      // const daysToFilter = await this.getDaysToFilter(year);
+      const availableDays = this.robot.getAvailableDays('', year, initDate);
+      const database = await this.robot.mountDatabase(availableDays);
+      await this.updateCloud(year, database);
+    } catch (error) {
+      console.log(error);
+      console.log('Error in main.');
+      await this.delay(10);
+      return this.main(initDate);
     }
   }
 
@@ -25,29 +46,10 @@ module.exports = class UpdateFifaArena {
 
       if (!length) {
         console.log('Deleting day ', date, ', with length of:', length);
-        this.delay(5);
+        await this.delay(5);
         const response = await this.deleteDataDay(date);
         console.log(response);
       }
-    }
-  }
-
-  async main(initDate = '2020-01-01') {
-    try {
-      const year = initDate.split('-')[0];
-      const daysToFilter = await this.getDaysToFilter(year);
-      console.log(daysToFilter);
-      const availableDays = this.robot.getAvailableDays(daysToFilter, year, initDate);
-      console.log(availableDays);
-      const database = await this.robot.mountDatabase(availableDays);
-      await this.updateCloud(year, database);
-      const bundle = await this.getBundleCloud(year);
-      return this.updateConsistency(bundle);
-    } catch (error) {
-      console.log(error);
-      console.log('Error in main.');
-      this.delay(10);
-      return this.main(initDate);
     }
   }
 
@@ -58,7 +60,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in get days.');
-      this.delay(10);
+      await this.delay(10);
       return this.getDaysToFilter(year);
     }
   }
@@ -70,7 +72,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in update cloud.');
-      this.delay(10);
+      await this.delay(10);
       return this.updateCloud(year);
     }
   }
@@ -82,7 +84,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in delete data day.');
-      this.delay(10);
+      await this.delay(10);
       return this.deleteDataDay(date);
     }
   }
@@ -93,8 +95,8 @@ module.exports = class UpdateFifaArena {
       return response.data;
     } catch (error) {
       console.log(error);
-      console.log('Error in delete data day.');
-      this.delay(10);
+      console.log('Error in get data day.');
+      await this.delay(10);
       return this.getDataDay(date);
     }
   }
@@ -106,7 +108,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in get bundle.');
-      this.delay(10);
+      await this.delay(10);
       return this.getBundleCloud(year);
     }
   }
@@ -131,7 +133,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log('Error in database consistency.');
       console.log(error);
-      this.delay(10);
+      await this.delay(10);
       return this.updateConsistency(bundle);
     }
   }

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
@@ -30,26 +31,39 @@ class RobotFifaArena {
     } finally {
       // await this.writeJSON(bundle);
       await driver.quit();
-      return bundle;
+      const filteredDatabase = this.filterDatabase(bundle);
+      return filteredDatabase;
     }
   }
 
-  getAvailableDays(daysThatAreNotAvailable, actualYear, firstDay) {
-    const getDaysOfYear = (year) => {
-      const allDaysOfYear = [];
-      for (let month = 1; month < 13; month += 1) {
-        const daysOfMonth = new Date(year, month, 0).getDate();
-        for (let day = 1; day < daysOfMonth + 1; day += 1) {
-          const dateWithoutZeros = `${year}/${month}/${day}`;
-          const newDay = new Date(dateWithoutZeros).toISOString().slice(0, 10);
-          allDaysOfYear.push(newDay);
-        }
+  filterDatabase(database) {
+    const filteredDatabase = database.filter((each) => {
+      if (each.data) {
+        return each.data.length > 0;
       }
-      return allDaysOfYear;
-    };
+    });
+    return filteredDatabase;
+  }
 
+  getDaysOfYear(year) {
+    const allDaysOfYear = [];
+    for (let month = 1; month < 13; month += 1) {
+      const daysOfMonth = new Date(year, month, 0).getDate();
+      for (let day = 1; day < daysOfMonth + 1; day += 1) {
+        const dateWithoutZeros = `${year}/${month}/${day}`;
+        const newDay = new Date(dateWithoutZeros).toISOString().slice(0, 10);
+        allDaysOfYear.push(newDay);
+      }
+    }
+    return allDaysOfYear;
+  }
+
+  getAvailableDays(daysThatAreNotAvailable, actualYear, firstDay) {
     const getToday = () => {
-      const today = new Date().toLocaleString('fr-CA', { timeZone: 'Europe/Moscow' }).slice(0, 10);
+      const d = new Date();
+      const myTZO = -180;
+      const myNewDate = new Date(d.getTime() + 60000 * (d.getTimezoneOffset() - myTZO));
+      const today = myNewDate.toISOString().slice(0, 10);
       return today;
     };
 
@@ -76,7 +90,7 @@ class RobotFifaArena {
       return daysAddedToday;
     };
 
-    const daysYear = getDaysOfYear(actualYear);
+    const daysYear = this.getDaysOfYear(actualYear);
     const daysSinceToYesterday = getSlicedDays(firstDay, daysYear);
     const filteredDays = getFilteredDays(daysThatAreNotAvailable, daysSinceToYesterday);
     const availableDays = addToday(filteredDays);
