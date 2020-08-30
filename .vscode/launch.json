@@ -8,8 +8,17 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "nodemon",
-      "name": "Nodemon",
+      "name": "Server",
       "program": "${workspaceFolder}\\packages\\server\\src\\index.js",
+      "restart": true,
+      // "console": "integratedTerminal",
+      // "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "type": "node",
+      "request": "attach",  
+      "name": "Firebase",
+      "port": 9229,
       "restart": true,
       // "console": "integratedTerminal",
       // "internalConsoleOptions": "neverOpen"

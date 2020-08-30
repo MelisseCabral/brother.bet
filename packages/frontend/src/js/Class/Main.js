@@ -72,8 +72,7 @@ export default class Main {
   init() {
     const { indexedDB, localStorage, origin } = this.window;
     const { newOrigin, developerMode } = new this.Environment(origin);
-    const { api } = new this.Api(this.axios, newOrigin);
-    const database = new this.Database(api);
+    const { api } = new this.Api(newOrigin);
     const {
       hash,
       generateDaysOfYear,
@@ -82,6 +81,7 @@ export default class Main {
       getRegisteredDays,
       debugTime,
     } = this.FactoryUtil;
+    const database = new this.Database(api, delay);
     const localDB = new this.LocalDB({
       hash,
       indexedDB,
@@ -93,7 +93,6 @@ export default class Main {
       localDB,
       database,
       debugTime,
-      delay,
       hash,
     });
     const dashTables = new this.DashTables({

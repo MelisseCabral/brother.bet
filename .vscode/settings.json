@@ -13,7 +13,7 @@
   "editor.fontFamily": "Fira Code",
   "editor.fontLigatures": true,
   "editor.formatOnSave": true,
-  "editor.rulers": [80, 120],
+  "editor.rulers": [100],
   "editor.renderWhitespace": "all",
   "editor.renderControlCharacters": true,
   "editor.renderIndentGuides": true,

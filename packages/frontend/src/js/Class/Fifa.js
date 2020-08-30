@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 export default class Fifa {
-  constructor({ developerMode, tf, localDB, database, debugTime, delay, hash }) {
+  constructor({ developerMode, tf, localDB, database, debugTime, hash }) {
     // Constants
     this.developerMode = developerMode;
     this.nameTables = [
@@ -30,22 +30,20 @@ export default class Fifa {
       saveEvery: 1000,
     };
 
+    // Database
+    this.aggregated = [];
+    this.users = [];
+    this.teams = [];
+    this.data = [];
+
     // Functions
     this.debugTime = debugTime;
-    this.delay = delay;
     this.hash = hash;
 
     // Object
     this.tf = tf;
     this.localDB = localDB;
     this.database = database;
-  }
-
-  async getFifaDatabase(year) {
-    const data = await this.database.getBundle(year);
-    if (data) return data;
-    await this.delay(2);
-    return this.getFifaDatabase(year);
   }
 
   static getJustData(data) {
@@ -56,6 +54,19 @@ export default class Fifa {
       })
     );
     return arr;
+  }
+
+  static sortByDay(data) {
+    data.map((each) => {
+      const { date } = each;
+      const time = new Date(date).getTime();
+      each.time = time;
+      return each;
+    });
+
+    data.sort((a, b) => a.time - b.time);
+
+    return data;
   }
 
   static getGameOutput(game) {
@@ -270,43 +281,44 @@ export default class Fifa {
     return { input, output };
   }
 
-  dataTooler(data) {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve) => {
-      const datedSet = await this.saveGetDataSet(data);
-      const gamesSet = Fifa.getJustData(datedSet);
-      const teamsSet = Fifa.getRankTeams(gamesSet);
-      const { agg: aggregatedSet, users: usersSet } = await Fifa.aggTrain(gamesSet, teamsSet);
-
-      resolve({ aggregated: aggregatedSet, users: usersSet, teams: teamsSet });
-
-      const trainSet = Fifa.splitInputOutput(aggregatedSet);
-      this.localDB.createTableDB({ gamesSet });
-      this.localDB.createTableDB({ aggregatedSet });
-      this.localDB.createTableDB({ trainSet });
-      this.localDB.createTableDB({ teamsSet });
-      this.localDB.createTableDB({ usersSet });
-      this.saveTrainAddedSet(trainSet);
-      this.saveResultSet(trainSet);
-      this.saveGoalsSet(trainSet);
-      this.saveTrainValidationSet(trainSet);
-    });
-  }
-
   async timeFilterRank(context, date) {
-    const set = await this.localDB.getIndexed('dataSet', 'date');
-    const initDate = new Date(date).getTime();
-    const timedSet = set.filter((s) => new Date(s.date.split('.').join('-')).getTime() > initDate);
+    const time = new Date(date).getTime();
+    const timedSet = this.data.filter(
+      (each) => new Date(each.date.split('.').join('-')).getTime() > time
+    );
     const gamesSet = Fifa.getJustData(timedSet);
     const teamsSet = Fifa.getRankTeams(gamesSet);
     if (context === 'teams') return teamsSet;
     return Fifa.getRankUsers(gamesSet, teamsSet);
   }
 
-  saveGetDataSet(data) {
-    const dataSet = data.filter((each) => each.data.length);
+  dataTooler(data) {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve) => {
+      const dataFiltered = data.filter((each) => each.data.length);
+      const dataSet = await Fifa.sortByDay(dataFiltered);
+      const gamesSet = Fifa.getJustData(dataSet);
+      const teamsSet = Fifa.getRankTeams(gamesSet);
+      const { agg: aggregatedSet, users: usersSet } = await Fifa.aggTrain(gamesSet, teamsSet);
+
+      resolve({ aggregated: aggregatedSet, users: usersSet, teams: teamsSet, data: dataSet });
+
+      const trainSet = Fifa.splitInputOutput(aggregatedSet);
+      this.indexDBser(dataSet, gamesSet, aggregatedSet, trainSet, teamsSet, usersSet);
+    });
+  }
+
+  indexDBser(dataSet, gamesSet, aggregatedSet, trainSet, teamsSet, usersSet) {
     this.localDB.createTableDB({ dataSet }, 'date', 'id');
-    return this.localDB.getIndexed('dataSet', 'date');
+    this.localDB.createTableDB({ gamesSet });
+    this.localDB.createTableDB({ aggregatedSet });
+    this.localDB.createTableDB({ trainSet });
+    this.localDB.createTableDB({ teamsSet });
+    this.localDB.createTableDB({ usersSet });
+    this.saveTrainAddedSet(trainSet);
+    this.saveResultSet(trainSet);
+    this.saveGoalsSet(trainSet);
+    this.saveTrainValidationSet(trainSet);
   }
 
   saveTrainAddedSet(data) {
@@ -394,64 +406,20 @@ export default class Fifa {
     return 'Error: There is no valid dataSet.';
   }
 
-  async databaseIsConsistent() {
-    const dbs = await this.localDB.getAllDBNames();
-    const names = dbs.map((each) => each.name);
-    if (this.nameTables.filter((table) => !names.includes(table)).length) return false;
-    const nowConsistency = this.localDB.getConsistency();
-    if (this.developerMode) return nowConsistency;
-    const oldConsistency = await this.database.getConsistency();
-    if (oldConsistency.aggregatedSet === nowConsistency) return nowConsistency;
+  async init() {
+    const dataSet = await this.database.getBundle();
+    const dataTooled = await this.dataTooler(dataSet);
+    const { aggregated, users, teams, data } = dataTooled;
 
-    return false;
-  }
-
-  async setDatabaseConsistency() {
-    const dataSet = await this.getFifaDatabase();
-    const { aggregated } = await this.dataTooler(dataSet);
-    const newConsistency = this.hash(aggregated);
-    await this.database.postConsistency({ aggregatedSet: newConsistency });
-  }
-
-  async forceDatabaseConsistency() {
-    const newConsistency = await this.localDB.getConsistency();
-    await this.database.postConsistency({ aggregatedSet: newConsistency });
-  }
-
-  async initLocalDatabase(aggregated, users, teams, data) {
-    if (!aggregated) {
-      const status = await this.databaseIsConsistent();
-      this.debugTime('databaseIsConsistent');
-      if (!status) {
-        await this.localDB.deleteAllDB();
-        this.debugTime('deleteAllDB');
-        const datedSet = await this.getFifaDatabase();
-        this.debugTime('getFifaDatabase');
-        const tooler = await this.dataTooler(datedSet);
-        this.debugTime('dataTooler');
-        return this.initLocalDatabase(tooler.aggregated, tooler.users, tooler.teams, datedSet);
-      }
-      try {
-        const aggregatedSet = await this.localDB.getTable('aggregatedSet');
-        const usersSet = await this.localDB.getTable('usersSet');
-        const teamsSet = await this.localDB.getTable('teamsSet');
-        const dataSet = await this.localDB.getIndexed('dataSet', 'date');
-        this.debugTime('indexedDB');
-        return this.initLocalDatabase(aggregatedSet, usersSet, teamsSet, dataSet);
-      } catch (error) {
-        this.debugTime(`Catch error${JSON.stringify(error)}`);
-        this.localDB.setConsistency(new Date());
-        return this.initLocalDatabase();
-      }
-    }
     this.defaultML.end = aggregated.length;
     this.defaultML.max = aggregated.length;
     this.defaultML.step = aggregated.length;
-    return {
-      aggregated,
-      users,
-      teams,
-      data,
-    };
+
+    this.aggregated = aggregated;
+    this.users = users;
+    this.teams = teams;
+    this.data = data;
+
+    return { aggregated, users, teams, data };
   }
 }
