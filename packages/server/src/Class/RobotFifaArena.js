@@ -110,8 +110,11 @@ class RobotFifaArena {
   async getPage(day = '2020-06-18', driver) {
     const id = 'tb_date';
     try {
-      driver.executeScript(`document.getElementById('${id}').value='${day}'`);
-      await driver.findElement(By.name(id)).sendKeys(Key.RETURN);
+      const datePage = await driver.findElement(By.name(id)).getAttribute('value');
+      if (datePage !== day) {
+        driver.executeScript(`document.getElementById('${id}').value='${day}'`);
+        await driver.findElement(By.name(id)).sendKeys(Key.RETURN);
+      }
     } finally {
       return driver.getPageSource();
     }

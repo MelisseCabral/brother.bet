@@ -15,25 +15,32 @@ module.exports = class UpdateFifaArena {
   }
 
   async loop({ secondsOfDelay }) {
-    while (true) {
-      const dataLastDayLocalDatabase = this.localDatabase[this.localDatabase.length - 1];
+    try {
+      while (true) {
+        const dataLastDayLocalDatabase = this.localDatabase[this.localDatabase.length - 1];
 
-      const today = this.robot.getToday();
-      const lastDayLocalDatabase = dataLastDayLocalDatabase.date.replace(/\./g, '-');
-      const timeToday = new Date(today).getTime();
-      const timeLastDayLocalDatabase = new Date(lastDayLocalDatabase).getTime();
+        const today = this.robot.getToday();
+        const lastDayLocalDatabase = dataLastDayLocalDatabase.date.replace(/\./g, '-');
+        const timeToday = new Date(today).getTime();
+        const timeLastDayLocalDatabase = new Date(lastDayLocalDatabase).getTime();
 
-      const [database] = await this.getDatabase(today);
-      const sizeTodayDatabase = database.data.length;
-      const sizeLastDayLocalDatabase = dataLastDayLocalDatabase.data.length;
+        const [database] = await this.getDatabase(today);
+        const sizeTodayDatabase = database.data.length;
+        const sizeLastDayLocalDatabase = dataLastDayLocalDatabase.data.length;
 
-      if (timeToday > timeLastDayLocalDatabase || sizeTodayDatabase > sizeLastDayLocalDatabase) {
-        const year = today.split('-')[0];
-        await this.updateCloud(year, database);
-        this.localDatabase = [...this.localDatabase, ...database];
+        if (timeToday > timeLastDayLocalDatabase || sizeTodayDatabase > sizeLastDayLocalDatabase) {
+          const year = today.split('-')[0];
+          await this.updateCloud(year, database);
+          this.localDatabase = [...this.localDatabase, ...database];
+        }
+
+        await this.delay(secondsOfDelay);
       }
-
-      await this.delay(secondsOfDelay);
+    } catch (error) {
+      console.log(error);
+      console.log('Error in loop.');
+      await this.delay();
+      return this.loop(secondsOfDelay);
     }
   }
 
@@ -51,7 +58,7 @@ module.exports = class UpdateFifaArena {
     }
   }
 
-  async updateLastWeek({ daysAgo }) {
+  async updateDaysAgo({ daysAgo }) {
     try {
       const manyDaysAgo = this.robot.getPastDays(daysAgo);
       const year = manyDaysAgo[0].split('-')[0];

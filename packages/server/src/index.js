@@ -4,8 +4,8 @@ const UpdateFifaArena = require('./Class/UpdateFifaArena');
 
 async function main() {
   const fifaArena = new UpdateFifaArena(Api, RobotFifaArena);
-  await fifaArena.updateLastWeek({ daysAgo: 0 });
-  return fifaArena.loop({ secondsOfDelay: 30 });
+  await fifaArena.updateDaysAgo({ daysAgo: 7 });
+  return fifaArena.loop({ secondsOfDelay: 600 });
 }
 
 const measure = async () => {
