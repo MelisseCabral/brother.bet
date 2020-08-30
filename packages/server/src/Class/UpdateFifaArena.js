@@ -8,32 +8,62 @@ module.exports = class UpdateFifaArena {
     this.baseUrl = 'https://brother.bet';
     // this.baseUrl = 'http://localhost:5000';
 
+    this.localDatabase = [];
+
     this.api = new Api(this.baseUrl).api;
     this.robot = new RobotFifaArena();
   }
 
-  async loop(initDate, delay) {
-    let count = 0;
+  async loop({ secondsOfDelay }) {
     while (true) {
-      await this.main(initDate);
-      await this.delay(delay);
-      count += 1;
-      console.log(count);
+      const dataLastDayLocalDatabase = this.localDatabase[this.localDatabase.length - 1];
+
+      const today = this.robot.getToday();
+      const lastDayLocalDatabase = dataLastDayLocalDatabase.date.replace(/\./g, '-');
+      const timeToday = new Date(today).getTime();
+      const timeLastDayLocalDatabase = new Date(lastDayLocalDatabase).getTime();
+
+      const [database] = await this.getDatabase(today);
+      const sizeTodayDatabase = database.data.length;
+      const sizeLastDayLocalDatabase = dataLastDayLocalDatabase.data.length;
+
+      if (timeToday > timeLastDayLocalDatabase || sizeTodayDatabase > sizeLastDayLocalDatabase) {
+        const year = today.split('-')[0];
+        await this.updateCloud(year, database);
+        this.localDatabase = [...this.localDatabase, ...database];
+      }
+
+      await this.delay(secondsOfDelay);
     }
   }
 
-  async main(initDate = '2020-01-01') {
+  async getDatabase(initDate) {
     try {
       const year = initDate.split('-')[0];
-      // const daysToFilter = await this.getDaysToFilter(year);
       const availableDays = this.robot.getAvailableDays('', year, initDate);
       const database = await this.robot.mountDatabase(availableDays);
-      await this.updateCloud(year, database);
+      return database;
     } catch (error) {
       console.log(error);
-      console.log('Error in main.');
-      await this.delay(10);
-      return this.main(initDate);
+      console.log('Error in getDatabase.');
+      await this.delay();
+      return this.getDatabase(initDate);
+    }
+  }
+
+  async updateLastWeek({ daysAgo }) {
+    try {
+      const manyDaysAgo = this.robot.getPastDays(daysAgo);
+      const year = manyDaysAgo[0].split('-')[0];
+      const database = await this.getDatabase(manyDaysAgo);
+      await this.updateCloud(year, database);
+      this.localDatabase = [...this.localDatabase, ...database];
+      return database;
+    } catch (error) {
+      console.log(error);
+      console.log('Error in updateLastWeek.');
+      await this.delay();
+      return this.updateLastWeek(daysAgo);
     }
   }
 
@@ -46,7 +76,7 @@ module.exports = class UpdateFifaArena {
 
       if (!length) {
         console.log('Deleting day ', date, ', with length of:', length);
-        await this.delay(5);
+        await this.delay();
         const response = await this.deleteDataDay(date);
         console.log(response);
       }
@@ -60,7 +90,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in get days.');
-      await this.delay(10);
+      await this.delay();
       return this.getDaysToFilter(year);
     }
   }
@@ -72,7 +102,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in update cloud.');
-      await this.delay(10);
+      await this.delay();
       return this.updateCloud(year);
     }
   }
@@ -84,7 +114,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in delete data day.');
-      await this.delay(10);
+      await this.delay();
       return this.deleteDataDay(date);
     }
   }
@@ -96,7 +126,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in get data day.');
-      await this.delay(10);
+      await this.delay();
       return this.getDataDay(date);
     }
   }
@@ -108,7 +138,7 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log(error);
       console.log('Error in get bundle.');
-      await this.delay(10);
+      await this.delay();
       return this.getBundleCloud(year);
     }
   }
@@ -133,13 +163,13 @@ module.exports = class UpdateFifaArena {
     } catch (error) {
       console.log('Error in database consistency.');
       console.log(error);
-      await this.delay(10);
+      await this.delay();
       return this.updateConsistency(bundle);
     }
   }
 
   // eslint-disable-next-line class-methods-use-this
-  delay(timeSeconds) {
+  delay(timeSeconds = 10) {
     return new Promise((resolve) => {
       setTimeout(resolve, timeSeconds * 1000);
     });

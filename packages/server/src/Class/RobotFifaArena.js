@@ -38,9 +38,8 @@ class RobotFifaArena {
 
   filterDatabase(database) {
     const filteredDatabase = database.filter((each) => {
-      if (each.data) {
-        return each.data.length > 0;
-      }
+      if (each.data) return each.data.length > 0;
+      return false;
     });
     return filteredDatabase;
   }
@@ -58,17 +57,28 @@ class RobotFifaArena {
     return allDaysOfYear;
   }
 
-  getAvailableDays(daysThatAreNotAvailable, actualYear, firstDay) {
-    const getToday = () => {
-      const d = new Date();
-      const myTZO = -180;
-      const myNewDate = new Date(d.getTime() + 60000 * (d.getTimezoneOffset() - myTZO));
-      const today = myNewDate.toISOString().slice(0, 10);
-      return today;
-    };
+  getPastDays(daysAgo = 7) {
+    const today = new Date();
+    const pastDay = new Date(today);
+    const offsetDay = pastDay.getDate() - daysAgo;
 
+    pastDay.setDate(offsetDay);
+
+    const formatedPastDay = pastDay.toISOString().slice(0, 10);
+    return formatedPastDay;
+  }
+
+  getToday() {
+    const d = new Date();
+    const myTZO = -180;
+    const myNewDate = new Date(d.getTime() + 60000 * (d.getTimezoneOffset() - myTZO));
+    const today = myNewDate.toISOString().slice(0, 10);
+    return today;
+  }
+
+  getAvailableDays(daysThatAreNotAvailable, actualYear, firstDay) {
     const getSlicedDays = (sinceDay, days) => {
-      const today = getToday();
+      const today = this.getToday();
       const distanceToSinceDay = days.indexOf(sinceDay);
       const distanceToToday = days.indexOf(today);
       const availableDays = days.slice(distanceToSinceDay, distanceToToday);
@@ -85,7 +95,7 @@ class RobotFifaArena {
     };
 
     const addToday = (days) => {
-      const today = getToday();
+      const today = this.getToday();
       const daysAddedToday = [...days, today];
       return daysAddedToday;
     };

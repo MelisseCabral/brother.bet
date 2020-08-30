@@ -12,7 +12,8 @@
     ]
   },
   "devDependencies": {
-    "@brother.bet/eslint-config": "*"
+    "@brother.bet/eslint-config": "*",
+    "nodemon": "^2.0.4"
   },
   "private": true
 }

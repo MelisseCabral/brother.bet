@@ -7,11 +7,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}\\packages\\server\\src\\index.js"
+      "runtimeExecutable": "nodemon",
+      "name": "Nodemon",
+      "program": "${workspaceFolder}\\packages\\server\\src\\index.js",
+      "restart": true,
+      // "console": "integratedTerminal",
+      // "internalConsoleOptions": "neverOpen"
     }
   ]
 }
