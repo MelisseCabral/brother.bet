@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 // Calling Modules JS
 import * as tf from '@tensorflow/tfjs';
 // import $ from 'jquery';
@@ -18,13 +20,16 @@ import '../css/timeline.css';
 import '../css/loader.css';
 import '../css/styles.css';
 
-// My Clases
+// My Clases Shared
 import Api from '@brother.bet/Api';
+import Database from '@brother.bet/Database';
+import Util from '@brother.bet/Util';
+import Fifa from '@brother.bet/Fifa';
+
+// My Clases Frontend
+import IData from './Class/IData';
 import Environment from './Class/Environment';
-import Database from './Class/Database';
-import FactoryUtil from './Class/FactoryUtil';
 import LocalDB from './Class/LocalDb';
-import Fifa from './Class/Fifa';
 import DashTables from './Class/DashTables';
 import DashStatistics from './Class/DashStatistics';
 import DashTimelines from './Class/DashTimelines';
@@ -37,19 +42,21 @@ import statistics from '../components/statistics.hbs';
 import timeline from '../components/timeline.hbs';
 import tableLastGames from '../components/tableLastGames.hbs';
 
-// eslint-disable-next-line no-new
-new Main({
+// eslint-disable-next-line no-unused-vars
+
+window.main = new Main({
   window,
   tf,
   firebase,
   Typed,
   $,
-  Environment,
   Api,
   Database,
-  FactoryUtil,
-  LocalDB,
+  Util,
   Fifa,
+  IData,
+  Environment,
+  LocalDB,
   DashTables,
   DashStatistics,
   DashTimelines,

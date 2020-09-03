@@ -1,4 +1,4 @@
-export default class FactoryUtil {
+export default class Util {
   static hash(data, label = '') {
     const s = JSON.stringify(data) || '';
     let h = 0;
@@ -52,7 +52,7 @@ export default class FactoryUtil {
       }, {});
   }
 
-  static delay(timeSeconds) {
+  static delay(timeSeconds = 10) {
     return new Promise((resolve) => {
       setTimeout(resolve, timeSeconds * 1000);
     });

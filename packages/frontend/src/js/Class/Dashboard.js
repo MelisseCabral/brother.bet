@@ -7,7 +7,7 @@ export default class Dashboard {
     filterRankByTarget,
     hash,
     localDB,
-    fifa,
+    middleware,
     dashTables,
     dashStatistics,
     DashTimelines,
@@ -33,12 +33,12 @@ export default class Dashboard {
 
     // Objects
     this.window = window;
+    this.Typed = Typed;
     this.localDB = localDB;
+    this.middleware = middleware;
     this.dashTables = dashTables;
     this.dashStatistics = dashStatistics;
     this.DashTimelines = DashTimelines;
-    this.fifa = fifa;
-    this.Typed = Typed;
     this.timeline = timeline;
 
     this.$ = $;
@@ -112,22 +112,20 @@ export default class Dashboard {
     this.processing();
     this.preloader();
     this.cloudDone(false);
-    const { users, teams, data } = await this.fifa.init();
     this.DashTimelines.init(this.$, this.timeline);
-    this.timeFilterRank('users', '0', 'name', users, 'filter_alt', false, 'y-1990');
-    this.timeFilterRank('teams', '0', 'name', teams, 'filter_alt', false, 'y-1990');
-    this.dashTables.tableResultGamesCheck(2020, data);
-    this.dashTables.addLastGames(data);
-    this.dashStatistics.initStatistics(users, teams);
+    const local = await this.middleware.local();
+    this.fillDashboard(local);
     this.initStorage();
     this.initTrain();
-    this.cloudDone();
     this.views();
     this.typed();
     this.processing(false);
     this.updateDOM();
     this.registerHandlers();
     this.debugTime('end');
+    const promiseCloud = this.middleware.cloud();
+    this.fillDashboardByCloud(promiseCloud);
+    this.cloudDone();
   }
 
   openNeuralFactory(e) {
@@ -371,6 +369,20 @@ export default class Dashboard {
     obj.normalization = this.getBtnsState('#btnsNormalization');
 
     return obj;
+  }
+
+  fillDashboard({ users, teams, data }) {
+    this.timeFilterRank('users', '0', 'name', users, 'filter_alt', false, 'y-1990');
+    this.timeFilterRank('teams', '0', 'name', teams, 'filter_alt', false, 'y-1990');
+    this.dashTables.tableResultGamesCheck(2020, data);
+    this.dashTables.addLastGames(data);
+    this.dashStatistics.initStatistics(users, teams);
+  }
+
+  fillDashboardByCloud(promiseCloud) {
+    Promise.all(promiseCloud).then((cloud) => {
+      if (!cloud) this.fillDashboard(cloud);
+    });
   }
 
   initTrain() {

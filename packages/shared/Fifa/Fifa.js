@@ -1,34 +1,10 @@
 /* eslint-disable no-param-reassign */
-export default class Fifa {
-  constructor({ developerMode, tf, localDB, database, debugTime, hash }) {
-    // Constants
-    this.developerMode = developerMode;
-    this.nameTables = [
-      'dataSet',
-      'gamesSet',
-      'teamsSet',
-      'aggregatedSet',
-      'usersSet',
-      'trainSet',
-      'addedTrainSet',
-      'trainResultSet',
-      'trainGoalsSet',
-      'trainValidationSets',
-    ];
+const tf = require('@tensorflow/tfjs');
 
+export default class Fifa {
+  constructor({ iData, percentSplitMachineLearning }) {
     // Variables
-    this.defaultML = {
-      nameDataSet: 'trainSet',
-      validationSet: '',
-      batches: 1000,
-      learningRate: 0.001,
-      start: 0,
-      randomize: true,
-      normalization: true,
-      validationPercent: 0.3,
-      plotPercent: 1,
-      saveEvery: 1000,
-    };
+    this.percentSplitMachineLearning = percentSplitMachineLearning || 0.7;
 
     // Database
     this.aggregated = [];
@@ -36,14 +12,9 @@ export default class Fifa {
     this.teams = [];
     this.data = [];
 
-    // Functions
-    this.debugTime = debugTime;
-    this.hash = hash;
-
     // Object
     this.tf = tf;
-    this.localDB = localDB;
-    this.database = database;
+    this.iData = iData;
   }
 
   static getJustData(data) {
@@ -64,7 +35,29 @@ export default class Fifa {
       return each;
     });
 
+    data.forEach((eachDay) => {
+      const date = eachDay.date.split('.');
+      eachDay.data.map((each) => {
+        const sheduled = (each.time || '00:00').split(':');
+        const timed = new Date(
+          date[0],
+          date[1] - 1,
+          date[2],
+          sheduled[0],
+          sheduled[1],
+          0,
+          0
+        ).getTime();
+        each.timed = timed;
+        return each;
+      });
+    });
+
     data.sort((a, b) => a.time - b.time);
+
+    data.forEach((eachDay) => {
+      eachDay.data.sort((a, b) => a.timed - b.timed);
+    });
 
     return data;
   }
@@ -292,53 +285,118 @@ export default class Fifa {
     return Fifa.getRankUsers(gamesSet, teamsSet);
   }
 
-  dataTooler(data) {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve) => {
+  async getData(frontData) {
+    let bundle = frontData;
+    if (!frontData) bundle = await this.iData.get();
+    return bundle;
+  }
+
+  async dataTooler(data) {
+    return new Promise((resolve) => {
       const dataFiltered = data.filter((each) => each.data.length);
-      const dataSet = await Fifa.sortByDay(dataFiltered);
+      const dataSet = Fifa.sortByDay(dataFiltered);
       const gamesSet = Fifa.getJustData(dataSet);
       const teamsSet = Fifa.getRankTeams(gamesSet);
-      const { agg: aggregatedSet, users: usersSet } = await Fifa.aggTrain(gamesSet, teamsSet);
+      const { agg: aggregatedSet, users: usersSet } = Fifa.aggTrain(gamesSet, teamsSet);
 
-      resolve({ aggregated: aggregatedSet, users: usersSet, teams: teamsSet, data: dataSet });
+      resolve({
+        dataSet,
+        gamesSet,
+        aggregatedSet,
+        teamsSet,
+        usersSet,
+      });
 
       const trainSet = Fifa.splitInputOutput(aggregatedSet);
-      this.indexDBser(dataSet, gamesSet, aggregatedSet, trainSet, teamsSet, usersSet);
+      const addedTrainSet = this.addedTrain(trainSet);
+      const trainResultSet = Fifa.spliceResultOutput(trainSet);
+      const trainGoalsSet = Fifa.spliceGoalsOutput(trainSet);
+      const trainValidationSets = Fifa.getTrainValidation(
+        trainSet,
+        this.percentSplitMachineLearning
+      );
+
+      this.saveDB({
+        dataSet,
+        gamesSet,
+        aggregatedSet,
+        trainSet,
+        teamsSet,
+        usersSet,
+        addedTrainSet,
+        trainResultSet,
+        trainGoalsSet,
+        trainValidationSets,
+      });
     });
   }
 
-  indexDBser(dataSet, gamesSet, aggregatedSet, trainSet, teamsSet, usersSet) {
-    this.localDB.createTableDB({ dataSet }, 'date', 'id');
-    this.localDB.createTableDB({ gamesSet });
-    this.localDB.createTableDB({ aggregatedSet });
-    this.localDB.createTableDB({ trainSet });
-    this.localDB.createTableDB({ teamsSet });
-    this.localDB.createTableDB({ usersSet });
-    this.saveTrainAddedSet(trainSet);
-    this.saveResultSet(trainSet);
-    this.saveGoalsSet(trainSet);
-    this.saveTrainValidationSet(trainSet);
+  async dataToolerMachineLearning(data) {
+    return new Promise((resolve) => {
+      const dataFiltered = data.filter((each) => each.data.length);
+      const dataSet = Fifa.sortByDay(dataFiltered);
+      const gamesSet = Fifa.getJustData(dataSet);
+      const teamsSet = Fifa.getRankTeams(gamesSet);
+      const { agg: aggregatedSet, users: usersSet } = Fifa.aggTrain(gamesSet, teamsSet);
+      const trainSet = Fifa.splitInputOutput(aggregatedSet);
+      const addedTrainSet = this.addedTrain(trainSet);
+      const trainResultSet = Fifa.spliceResultOutput(trainSet);
+      const trainGoalsSet = Fifa.spliceGoalsOutput(trainSet);
+      const trainValidationSets = Fifa.getTrainValidation(
+        trainSet,
+        this.percentSplitMachineLearning
+      );
+
+      resolve({
+        dataSet,
+        gamesSet,
+        aggregatedSet,
+        trainSet,
+        teamsSet,
+        usersSet,
+        addedTrainSet,
+        trainResultSet,
+        trainGoalsSet,
+        trainValidationSets,
+      });
+
+      this.saveDB({
+        dataSet,
+        gamesSet,
+        aggregatedSet,
+        trainSet,
+        teamsSet,
+        usersSet,
+        addedTrainSet,
+        trainResultSet,
+        trainGoalsSet,
+        trainValidationSets,
+      });
+    });
   }
 
-  saveTrainAddedSet(data) {
-    const addedTrainSet = this.addedTrain(data);
-    this.localDB.createTableDB({ addedTrainSet });
-  }
-
-  saveResultSet(data) {
-    const trainResultSet = Fifa.spliceResultOutput(data);
-    this.localDB.createTableDB({ trainResultSet });
-  }
-
-  saveGoalsSet(data) {
-    const trainGoalsSet = Fifa.spliceGoalsOutput(data);
-    this.localDB.createTableDB({ trainGoalsSet });
-  }
-
-  saveTrainValidationSet(data) {
-    const trainValidationSets = Fifa.getTrainValidation(data, 0.7);
-    this.localDB.createTableDB({ trainValidationSets });
+  async saveDB({
+    dataSet,
+    gamesSet,
+    aggregatedSet,
+    trainSet,
+    teamsSet,
+    usersSet,
+    addedTrainSet,
+    trainResultSet,
+    trainGoalsSet,
+    trainValidationSets,
+  }) {
+    this.iData.set({ dataSet });
+    this.iData.set({ gamesSet });
+    this.iData.set({ aggregatedSet });
+    this.iData.set({ trainSet });
+    this.iData.set({ teamsSet });
+    this.iData.set({ usersSet });
+    this.iData.set({ addedTrainSet });
+    this.iData.set({ trainResultSet });
+    this.iData.set({ trainGoalsSet });
+    this.iData.set({ trainValidationSets });
   }
 
   static isTruncated(data) {
@@ -385,41 +443,64 @@ export default class Fifa {
     return truncatedLogs;
   }
 
-  async registerGid(sheetId) {
-    const key = '1DzPBoZzRx1JraO48IaiRsTCML75XXLFMj0ZItfaI8-A';
-    const data = await this.database.getSource(key, sheetId);
-    const today = `${new Date().getYear() + 1900}.${
-      new Date().getMonth() + 1
-    }.${new Date().getDate()}`;
+  async initMachineLearning(frontData) {
+    const bundle = await this.getData(frontData);
 
-    if (data) {
-      if (data.date !== today) {
-        const maybeTruncated = Fifa.isTruncated([data]);
-        if (!maybeTruncated.length) {
-          await this.database.postData(data);
-          return true;
-        }
-        return maybeTruncated;
-      }
-      return 'Error: Wait to pass the day to add the gId.';
-    }
-    return 'Error: There is no valid dataSet.';
+    return new Promise((resolve) => {
+      const {
+        dataSet,
+        gamesSet,
+        aggregatedSet,
+        trainSet,
+        teamsSet,
+        usersSet,
+        addedTrainSet,
+        trainResultSet,
+        trainGoalsSet,
+        trainValidationSets,
+      } = this.dataToolerMachineLearning(bundle);
+
+      resolve({
+        data: dataSet,
+        games: gamesSet,
+        aggregated: aggregatedSet,
+        train: trainSet,
+        teams: teamsSet,
+        users: usersSet,
+        addedTrain: addedTrainSet,
+        trainResult: trainResultSet,
+        trainGoals: trainGoalsSet,
+        trainValidation: trainValidationSets,
+      });
+
+      this.saveDB({
+        dataSet,
+        gamesSet,
+        aggregatedSet,
+        trainSet,
+        teamsSet,
+        usersSet,
+        addedTrainSet,
+        trainResultSet,
+        trainGoalsSet,
+        trainValidationSets,
+      });
+    });
   }
 
-  async init() {
-    const dataSet = await this.database.getBundle();
-    const dataTooled = await this.dataTooler(dataSet);
-    const { aggregated, users, teams, data } = dataTooled;
+  async init(frontData) {
+    const bundle = await this.getData(frontData);
 
-    this.defaultML.end = aggregated.length;
-    this.defaultML.max = aggregated.length;
-    this.defaultML.step = aggregated.length;
+    return new Promise((resolve) => {
+      const { dataSet, gamesSet, aggregatedSet, teamsSet, usersSet } = this.dataTooler(bundle);
 
-    this.aggregated = aggregated;
-    this.users = users;
-    this.teams = teams;
-    this.data = data;
-
-    return { aggregated, users, teams, data };
+      resolve({
+        data: dataSet,
+        games: gamesSet,
+        aggregated: aggregatedSet,
+        teams: teamsSet,
+        users: usersSet,
+      });
+    });
   }
 }

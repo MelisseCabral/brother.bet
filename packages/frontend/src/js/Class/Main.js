@@ -5,16 +5,18 @@ export default class Main {
     firebase,
     Typed,
     $,
-    Environment,
     Api,
     Database,
-    FactoryUtil,
-    LocalDB,
+    Util,
     Fifa,
+    IData,
+    Environment,
+    LocalDB,
     DashTables,
     DashStatistics,
     DashTimelines,
     Dashboard,
+    Middleware,
     tableRanking,
     statistics,
     timeline,
@@ -50,13 +52,15 @@ export default class Main {
     this.Environment = Environment;
     this.Api = Api;
     this.Database = Database;
-    this.FactoryUtil = FactoryUtil;
+    this.Util = Util;
     this.LocalDB = LocalDB;
+    this.IData = IData;
     this.Fifa = Fifa;
     this.DashTables = DashTables;
     this.DashStatistics = DashStatistics;
     this.DashTimelines = DashTimelines;
     this.Dashboard = Dashboard;
+    this.Middleware = Middleware;
 
     // Globals
     this.window.developerMode = { status: false };
@@ -76,24 +80,22 @@ export default class Main {
     const {
       hash,
       generateDaysOfYear,
-      delay,
       filterRankByTarget,
       getRegisteredDays,
       debugTime,
-    } = this.FactoryUtil;
-    const database = new this.Database(api, delay);
+    } = this.Util;
+    const database = new this.Database(api);
     const localDB = new this.LocalDB({
       hash,
       indexedDB,
       localStorage,
     });
-    const fifa = new this.Fifa({
-      developerMode,
-      tf: this.tf,
-      localDB,
+    const iData = new this.IData({
       database,
-      debugTime,
-      hash,
+      localDB,
+    });
+    const fifa = new this.Fifa({
+      iData,
     });
     const dashTables = new this.DashTables({
       $: this.$,
@@ -108,6 +110,11 @@ export default class Main {
       developerMode,
       statistics: this.statistics,
     });
+    const middleware = new this.Middleware({
+      fifa,
+      database,
+      localDB,
+    });
     const dashboard = new this.Dashboard({
       Typed: this.Typed,
       $: this.$,
@@ -116,7 +123,7 @@ export default class Main {
       filterRankByTarget,
       hash,
       localDB,
-      fifa,
+      middleware,
       dashTables,
       dashStatistics,
       DashTimelines: this.DashTimelines,

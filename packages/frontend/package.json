@@ -34,7 +34,10 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@brother.bet/Api": "*",
+    "@brother.bet/Api":"*",
+    "@brother.bet/Database":"*",
+    "@brother.bet/Fifa":"*",
+    "@brother.bet/Util":"*",
     "@tensorflow/tfjs": "^2.0.1",
     "animate.css": "^4.1.0",
     "firebase": "^7.19.0",

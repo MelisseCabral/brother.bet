@@ -1,9 +1,23 @@
+const Util = require('@brother.bet/Util');
+
 export default class Database {
-  constructor(api, delay) {
+  constructor(api) {
     // Functions
-    this.delay = delay;
+    this.delay = Util.delay;
 
     this.api = api;
+  }
+
+  async setData(year, database) {
+    try {
+      const response = await this.api.post(`/fifaArena?year=${year}`, database);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      console.log('Error in update cloud.');
+      await this.delay();
+      return this.updateCloud(year);
+    }
   }
 
   async getBundle(year = '2020') {
@@ -34,6 +48,18 @@ export default class Database {
       return response.data;
     } catch (error) {
       return console.log(error);
+    }
+  }
+
+  async deleteData(date) {
+    try {
+      const response = await this.api.delete(`/fifaArena?date=${date}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      console.log('Error in delete data day.');
+      await this.delay();
+      return this.deleteDataDay(date);
     }
   }
 
