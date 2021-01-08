@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import Test from '../assets/betfair.svg';
-import { Container } from '../../styles/pages/Home';
+import { Container, Logo } from '../../styles/pages/Home';
 
 const Home: React.FC = () => {
   return (
@@ -9,9 +8,9 @@ const Home: React.FC = () => {
         <title>Homepage</title>
       </Head>
 
-      <Test />
+      <Logo />
       <h1>ReactJS Structure</h1>
-      <p>A ReactJS + Next.js structure made by Rockerseat.</p>
+      <p>A ReactJS + Next.js structure made by Brother Bet.</p>
     </Container>
   );
 };
