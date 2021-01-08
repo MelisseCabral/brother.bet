@@ -1,4 +1,7 @@
 # .eslintrc.js
 # packages/**/*.js
 node_modules
+**/node_modules
 dist
+**/.next
+packages/mobile/*.js

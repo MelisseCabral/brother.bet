@@ -4,6 +4,9 @@
 #-->Backend
 #-->Frontend
 
+#Vercel
+packages/mobile/.next/
+
 # Logs
 logs
 *.log
@@ -20,7 +23,13 @@ firebase-debug.*.log*
 **/node_modules/**
 node_modules/.bin
 node_modules/*
+node_modules/
 jspm_packages/
 
 # dotenv environment variables file
 .env
+
+#Yarn
+./yarn.lock
+packages/mobile/yarn.lock
+

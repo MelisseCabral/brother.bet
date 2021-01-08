@@ -1,7 +1,3 @@
-let count = 0;
-
-count++;
-
 module.exports = {
   env: {
     browser: true,
@@ -17,7 +13,8 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'airbnb',
-    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
     'prettier/standard',
     'prettier/react',
   ],
@@ -25,12 +22,14 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 11,
+    ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', , 'prettier'],
+  plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
     'prettier/prettier': 'error',
+    'space-before-function-paren': 'off',
+    'react/prop-types': 'off',
   },
   settings: {
     'import/resolver': {},

@@ -1,3 +1,3 @@
-config = require('@brother.bet/eslint-config');
+import config from '@brother.bet/eslint-config';
 
-module.exports = config;
+export default config;

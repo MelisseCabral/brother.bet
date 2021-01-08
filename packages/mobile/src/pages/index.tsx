@@ -1,36 +1,19 @@
-import Link from 'next/link'
-import { getAllPosts } from './api/posts'
+import Head from 'next/head';
+import Test from '../assets/betfair.svg';
+import { Container } from '../../styles/pages/Home';
 
-interface HomeProps {
-  posts: Array<{
-    slug: string
-    title: string
-  }>
-}
-
-export default function Home(props: HomeProps) {
+const Home: React.FC = () => {
   return (
-    <div>
-      <h1>Blog do Diego</h1>
-      <ul>
-        {props.posts.map((post, idx) => (
-          <li key={idx}>
-            <Link href={post.slug}>
-              <a>{post.title}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
+    <Container>
+      <Head>
+        <title>Homepage</title>
+      </Head>
 
-export async function getStaticProps() {
-  const allPosts = await getAllPosts()
+      <Test />
+      <h1>ReactJS Structure</h1>
+      <p>A ReactJS + Next.js structure made by Rockerseat.</p>
+    </Container>
+  );
+};
 
-  return {
-    props: {
-      posts: allPosts,
-    }
-  }
-}
+export default Home;
