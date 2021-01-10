@@ -1,5 +1,14 @@
 import Head from 'next/head'
-import { Container, Logo } from '../../styles/pages/Home'
+import {
+  Container,
+  HeaderContainer,
+  HeaderImage,
+  HeaderTitle,
+  HeaderSubtitle,
+  HeaderContainerTitle,
+  FeaturesListContainer,
+  FeaturesListItem,
+} from '../../styles/pages/Home'
 
 const Home: React.FC = () => {
   return (
@@ -8,9 +17,21 @@ const Home: React.FC = () => {
         <title>Homepage</title>
       </Head>
 
-      <Logo />
-      <h1>ReactJS Structure</h1>
-      <p>A ReactJS + Next.js structure made by Brother Bet.</p>
+      <HeaderContainer>
+        <HeaderImage />
+
+        <HeaderContainerTitle>
+          <HeaderTitle>Brother Bet</HeaderTitle>
+          <HeaderSubtitle>Potencialize seus resultados já!</HeaderSubtitle>
+        </HeaderContainerTitle>
+
+        <FeaturesListContainer>
+          <FeaturesListItem>Estatísticas</FeaturesListItem>
+          <FeaturesListItem>Previsões</FeaturesListItem>
+          <FeaturesListItem>Gestor de resultados</FeaturesListItem>
+          <FeaturesListItem>Inteligência Artificial</FeaturesListItem>
+        </FeaturesListContainer>
+      </HeaderContainer>
     </Container>
   )
 }

@@ -1,14 +1,13 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import logo from '../../src/assets/logo.png';
+import logo from '../../src/assets/logo.png'
+import stadium from '../../src/assets/stadium.jpg'
 
 export const Container = styled.div`
   width: 100vw;
-  height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   h1 {
     font-size: 54px;
     color: ${(props) => props.theme.colors.primary};
@@ -20,11 +19,86 @@ export const Container = styled.div`
     line-height: 32px;
     color: ${(props) => props.theme.colors.text};
   }
-`;
+`
 
 export const Logo = styled.img.attrs({
   src: `${logo}`,
 })`
   width: 400px;
   height: 350px;
-`;
+`
+
+export const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+`
+
+export const HeaderImage = styled.img.attrs({
+  src: stadium,
+})`
+  background-image: url(${stadium});
+  display: flex;
+  align-self: center;
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(60deg);
+`
+
+export const HeaderContainerTitle = styled.div`
+  background-color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  z-index: 1;
+  padding: 20px;
+  left: 10%;
+  right: 10%;
+  top: 30%;
+  @media (min-width: 1200px) {
+    left: 30%;
+    right: 30%;
+  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+export const HeaderTitle = styled.strong`
+  font-weight: bold;
+  font-size: 30px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  margin: 30px 0px;
+`
+
+export const HeaderSubtitle = styled.a`
+  align-self: center;
+  font-family: 'Courier New', Courier, monospace;
+  text-decoration: underline;
+  text-align: center;
+  font-size: 20px;
+`
+
+export const FeaturesListContainer = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  width: 100%;
+  text-transform: uppercase;
+  background-color: ${(props) => props.theme.colors.secondaryBackground};
+  color: ${(props) => props.theme.colors.text};
+`
+
+export const FeaturesListItem = styled.li`
+  &:first-child {
+    list-style-type: none;
+  }
+  color: ${(props) => props.theme.colors.primary};
+  float: left;
+  font-size: 20px;
+  margin-right: 35px;
+`
