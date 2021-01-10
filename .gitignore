@@ -5,7 +5,7 @@
 #-->Frontend
 
 #Vercel
-packages/mobile/.next/
+packages/web/.next/
 
 # Logs
 logs
@@ -31,5 +31,5 @@ jspm_packages/
 
 #Yarn
 ./yarn.lock
-packages/mobile/yarn.lock
+packages/web/yarn.lock
 

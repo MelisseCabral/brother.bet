@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import { Container, Logo } from '../../styles/pages/Home';
+import Head from 'next/head'
+import { Container, Logo } from '../../styles/pages/Home'
 
 const Home: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const Home: React.FC = () => {
       <h1>ReactJS Structure</h1>
       <p>A ReactJS + Next.js structure made by Brother Bet.</p>
     </Container>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

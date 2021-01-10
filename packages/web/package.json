@@ -1,7 +1,7 @@
 {
-  "name": "@brother.bet/mobile",
+  "name": "@brother.bet/web",
   "version": "1.0.0",
-  "description": "Brother Bet Mobile",
+  "description": "Brother Bet Web",
   "private": "true",
   "main": "./src/index.js",
   "scripts": {
