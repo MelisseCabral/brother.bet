@@ -1,4 +1,3 @@
-import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 
@@ -30,9 +29,9 @@ const Home: React.FC = () => {
         </HeaderContainerTitle>
 
         <FeaturesListContainer>
-          {/* <Link href="/rank/[type]" as={`/rank/${'users'}?from=01-01-2020&to=01-04-2020`}>
+          <Link href="/rank/[type]/[from]" as={`/rank/${'users'}/${'01-01-2020'}`}>
             <FeaturesListItem>Rank Users</FeaturesListItem>
-          </Link> */}
+          </Link>
           <FeaturesListItem>Estatísticas</FeaturesListItem>
           <FeaturesListItem>Previsões</FeaturesListItem>
           <FeaturesListItem>Gestor de resultados</FeaturesListItem>
@@ -41,18 +40,6 @@ const Home: React.FC = () => {
       </HeaderContainer>
     </Container>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch('https://api.github.com/orgs/rocketseat')
-  const data = await response.json()
-
-  return {
-    props: {
-      org: data,
-    },
-    revalidate: 10,
-  }
 }
 
 export default Home

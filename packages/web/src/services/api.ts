@@ -1,9 +1,9 @@
-// import axios from 'axios'
+import axios from 'axios'
 
-// const api = axios.create({
-//   baseURL: 'https://brother.bet',
-// })
+const api = axios.create({
+  baseURL: 'https://brother.bet',
+})
 
-// // https://brother.bet/fifaArena?year=2020
+// https://brother.bet/fifaArena?year=2020
 
-// export default api
+export default api
