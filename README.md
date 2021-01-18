@@ -3,6 +3,7 @@
 ## Important links.
 
 [Images](https://drive.google.com/drive/folders/1O4EeYF0FWwdIEgF2DcVxS53I7MqnG68s)
+[Design to tables and filters](https://codepen.io/jennieji/pen/BajWypp)
 
 ## Layout
 ![2](https://user-images.githubusercontent.com/38090475/90765906-1cebc380-e2c1-11ea-9101-2196444ede05.png)
