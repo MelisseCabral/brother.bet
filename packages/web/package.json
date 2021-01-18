@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "next": "9.5.2",
     "next-images": "^1.6.2",
     "nodemon": "^2.0.4",

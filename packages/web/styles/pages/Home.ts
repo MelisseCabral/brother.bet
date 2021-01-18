@@ -10,14 +10,14 @@ export const Container = styled.div`
   align-items: center;
   h1 {
     font-size: 54px;
-    color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.one};
     margin-top: 40px;
   }
   p {
     margin-top: 24px;
     font-size: 24px;
     line-height: 32px;
-    color: ${(props) => props.theme.colors.text};
+    color: ${(props) => props.theme.colors.one};
   }
 `
 
@@ -32,7 +32,7 @@ export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: auto;
+  width: 100%;
   height: auto;
 `
 
@@ -43,7 +43,7 @@ export const HeaderImage = styled.img.attrs({
   display: flex;
   align-self: center;
   width: 100%;
-  height: 600px;
+  height: 70vh;
   object-fit: cover;
   filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(60deg);
 `
@@ -84,21 +84,19 @@ export const HeaderSubtitle = styled.a`
 
 export const FeaturesListContainer = styled.ul`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
   width: 100%;
+  height: 30vh;
   text-transform: uppercase;
-  background-color: ${(props) => props.theme.colors.secondaryBackground};
-  color: ${(props) => props.theme.colors.text};
+  background-color: ${(props) => props.theme.colors.background.primary.one};
+  color: ${(props) => props.theme.colors.primary.one};
 `
 
 export const FeaturesListItem = styled.li`
-  &:first-child {
-    list-style-type: none;
-  }
   color: ${(props) => props.theme.colors.primary};
   float: left;
   font-size: 20px;
-  margin-right: 35px;
 `
