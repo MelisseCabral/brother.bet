@@ -1,21 +1,21 @@
-const express = require('express');
-const { celebrate, Segments, Joi } = require('celebrate');
+const express = require('express')
+const { celebrate, Segments, Joi } = require('celebrate')
 
-const FirestoreInit = require('../model/FirestoreInit');
-const serviceAccountKey = require('../model/serviceAccountKey.json');
+const FirestoreInit = require('../model/FirestoreInit')
+const serviceAccountKey = require('../model/serviceAccountKey.json')
 
 // eslint-disable-next-line no-unused-expressions
-new FirestoreInit(serviceAccountKey).admin;
+new FirestoreInit(serviceAccountKey).admin
 
-const FifaArenaController = require('../controller/FifaArenaController');
-const DatabaseConsistencyController = require('../controller/DatabaseConsistencyController');
-const NeuralNetworkController = require('../controller/NeuralNetworkController');
+const FifaArenaController = require('../controller/FifaArenaController')
+const DatabaseConsistencyController = require('../controller/DatabaseConsistencyController')
+const NeuralNetworkController = require('../controller/NeuralNetworkController')
 
-const fifaArenaController = new FifaArenaController();
-const databaseConsistencyController = new DatabaseConsistencyController();
-const neuralNetworkController = new NeuralNetworkController();
+const fifaArenaController = new FifaArenaController()
+const databaseConsistencyController = new DatabaseConsistencyController()
+const neuralNetworkController = new NeuralNetworkController()
 
-const routes = express.Router();
+const routes = express.Router()
 
 routes.get(
   '/fifaArena',
@@ -25,7 +25,13 @@ routes.get(
     }),
   }),
   fifaArenaController.index
-);
+)
+
+const test = (req, res) => {
+  console.log(req)
+}
+
+routes.get('/fifaArena/since', fifaArenaController.since)
 
 routes.get(
   '/fifaArenaByDate',
@@ -35,7 +41,7 @@ routes.get(
     }),
   }),
   fifaArenaController.show
-);
+)
 
 routes.get(
   '/fifaArenaDates',
@@ -45,7 +51,7 @@ routes.get(
     }),
   }),
   fifaArenaController.indexDates
-);
+)
 
 routes.post(
   '/fifaArena',
@@ -56,7 +62,7 @@ routes.post(
     [Segments.BODY]: Joi.array().required(),
   }),
   fifaArenaController.create
-);
+)
 
 routes.delete(
   '/fifaArena',
@@ -66,7 +72,7 @@ routes.delete(
     }),
   }),
   fifaArenaController.delete
-);
+)
 
 routes.get(
   '/databaseConsistency',
@@ -76,7 +82,7 @@ routes.get(
     }),
   }),
   databaseConsistencyController.index
-);
+)
 
 routes.post(
   '/databaseConsistency',
@@ -89,7 +95,7 @@ routes.post(
     }),
   }),
   databaseConsistencyController.create
-);
+)
 
 routes.get(
   '/neuralNetwork',
@@ -99,7 +105,7 @@ routes.get(
     }),
   }),
   neuralNetworkController.index
-);
+)
 
 routes.post(
   '/neuralNetwork',
@@ -109,6 +115,6 @@ routes.post(
     }),
   }),
   neuralNetworkController.create
-);
+)
 
-module.exports = routes;
+module.exports = routes
