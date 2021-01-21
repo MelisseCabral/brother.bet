@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import api from '../../../services/api'
 
-const Comment = ({ data, type, from }) => {
+const Comment = ({ data, type, date }) => {
   const { isFallback } = useRouter()
 
   if (isFallback) {
@@ -16,21 +16,21 @@ const Comment = ({ data, type, from }) => {
       <h1>You want the type: {type}</h1>
       <h1>You neet the dates: </h1>
       <ul>
-        <li>from:{from}</li>
+        <li>from:{date}</li>
       </ul>
     </>
   ))
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data = ['01-01-2020']
+  const data = ['01-08-2020']
 
   const paths = data.map((item) => {
     return {
       params: {
         data: data,
         type: 'users',
-        from: item,
+        date: item,
       },
     }
   })
@@ -42,17 +42,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const { type, from } = context.params
+  const { type, date } = context.params
 
-  const year = 2020
-
-  const { data } = await api.get(`/fifaArena?year=${year}`)
+  const { data } = await api.get(`/fifaArena/since?date=${date}`)
 
   return {
     props: {
       data: data,
       type,
-      from,
+      date,
     },
     revalidate: 3600,
   }

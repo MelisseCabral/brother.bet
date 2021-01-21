@@ -29,8 +29,10 @@ const Home: React.FC = () => {
         </HeaderContainerTitle>
 
         <FeaturesListContainer>
-          <Link href="/rank/[type]/[from]" as={`/rank/${'users'}/${'01-01-2020'}`}>
-            <FeaturesListItem>Rank Users</FeaturesListItem>
+          <Link href="/rank/[type]/[date]" as={`/rank/${'users'}/${'01-08-2020'}`}>
+            <a>
+              <FeaturesListItem>Rank Users</FeaturesListItem>
+            </a>
           </Link>
           <FeaturesListItem>Estatísticas</FeaturesListItem>
           <FeaturesListItem>Previsões</FeaturesListItem>
