@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 
-import api from '../../../../services/api'
+import api from '../../../services/api'
 
 const Comment = ({ data, type, date }) => {
   const { isFallback } = useRouter()

@@ -4,6 +4,7 @@ import logo from '../../src/assets/logo.png'
 import stadium from '../../src/assets/stadium.jpg'
 import arrows from '../../src/assets/arrows.png'
 import data from '../../src/assets/data.png'
+import field from '../../src/assets/field.png'
 import goal from '../../src/assets/goal.png'
 
 export const Container = styled.div`

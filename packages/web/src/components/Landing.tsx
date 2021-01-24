@@ -16,27 +16,25 @@ import {
 
 export const Landing = () => {
   const { t } = useTranslation()
-  const context = t('about')
+  const presentation = t('presentation')
 
   return (
     <Container>
       <Head>
         <title>Brother Bet</title>
       </Head>
-      <h1>{t('hello')}</h1>
-      <h2>{context.paragraph.one}</h2>
-
-      {/* <AboutContainer>
+      <AboutContainer>
         <Page>
           <ArrowsImage />
-          <Slogan>Decision based on data</Slogan>
-          <SubSlogan>Your tips more acertives</SubSlogan>
+          <Slogan>{presentation.slogan}</Slogan>
+          <SubSlogan>{presentation.sub_slogan}</SubSlogan>
+          <GoalImage />
         </Page>
         <Page>
           <ArrowsImage />
           <GoalImage />
         </Page>
-      </AboutContainer> */}
+      </AboutContainer>
     </Container>
   )
 }
