@@ -6,8 +6,6 @@ const admin = require('firebase-admin')
 
 const db = admin.firestore()
 
-const Fifa = require('@brother.bet/Fifa')
-
 const nameCollection = 'fifaChamptionship'
 
 module.exports = class FifaArenaController {
@@ -34,17 +32,22 @@ module.exports = class FifaArenaController {
     }
   }
 
-  async since(req, res) {
-    const { date } = req.query
+  async interval(req, res) {
+    const { from, to } = req.query
     const files = []
     const snapshots = []
-    const year = '2020'
     try {
       const collections = await db.collection(nameCollection).doc(year).listCollections()
       const dates = collections.map((col) => col.id)
 
-      const limiteDateTime = new Date(date).getTime()
-      const filteredDates = dates.filter((oldDate) => new Date(oldDate).getTime() >= limiteDateTime)
+      const nitialDateTime = new Date(from).getTime()
+      const limiteDateTime = new Date(to).getTime()
+
+      const filteredDates = dates.filter(
+        (oldDate) =>
+          new Date(oldDate).getTime() <= nitialDateTime &&
+          new Date(oldDate).getTime() >= limiteDateTime
+      )
 
       for (const date of filteredDates) {
         snapshots.push(db.collection(nameCollection).doc(year).collection(date).get())
@@ -54,11 +57,6 @@ module.exports = class FifaArenaController {
       results.forEach((snapshot) => {
         snapshot.forEach((doc) => files.push(doc.data()))
       })
-
-      // console.log(JSON.stringify(files))
-
-      // const data = await new Fifa().dataTootlerSync(files)
-      // console.log(JSON.stringify(data))
 
       res.send(files)
     } catch (error) {

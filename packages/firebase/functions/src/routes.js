@@ -27,11 +27,16 @@ routes.get(
   fifaArenaController.index
 )
 
-const test = (req, res) => {
-  console.log(req)
-}
-
-routes.get('/fifaArena/since', fifaArenaController.since)
+routes.get(
+  '/fifaArenaByDate',
+  celebrate({
+    [Segments.QUERY]: Joi.object().keys({
+      from: Joi.string().required(),
+      to: Joi.string().required(),
+    }),
+  }),
+  fifaArenaController.interval
+)
 
 routes.get(
   '/fifaArenaByDate',
