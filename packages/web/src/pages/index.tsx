@@ -1,46 +1,17 @@
-import Link from 'next/link'
+import { getInitialLocale } from '../translations/getInitialLocale'
 import Head from 'next/head'
 
-import React from 'react'
-import {
-  Container,
-  HeaderContainer,
-  HeaderImage,
-  HeaderTitle,
-  HeaderSubtitle,
-  HeaderContainerTitle,
-  FeaturesListContainer,
-  FeaturesListItem,
-} from '../../styles/pages/Home'
+import React, { useEffect } from 'react'
 
 const Home: React.FC = () => {
+  useEffect(() => {
+    window.location.replace(`/${getInitialLocale()}`)
+  })
+
   return (
-    <Container>
-      <Head>
-        <title>Brother Bet</title>
-      </Head>
-
-      <HeaderContainer>
-        <HeaderImage />
-
-        <HeaderContainerTitle>
-          <HeaderTitle>Brother Bet</HeaderTitle>
-          <HeaderSubtitle>Potencialize seus resultados já!</HeaderSubtitle>
-        </HeaderContainerTitle>
-
-        <FeaturesListContainer>
-          <Link href="/rank/[type]/[date]" as={`/rank/${'users'}/${'01-08-2020'}`}>
-            <a>
-              <FeaturesListItem>Rank Users</FeaturesListItem>
-            </a>
-          </Link>
-          <FeaturesListItem>Estatísticas</FeaturesListItem>
-          <FeaturesListItem>Previsões</FeaturesListItem>
-          <FeaturesListItem>Gestor de resultados</FeaturesListItem>
-          <FeaturesListItem>Inteligência Artificial</FeaturesListItem>
-        </FeaturesListContainer>
-      </HeaderContainer>
-    </Container>
+    <Head>
+      <meta name="robots" content="noindex, nofollow" />
+    </Head>
   )
 }
 
