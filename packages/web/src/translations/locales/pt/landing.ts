@@ -9,7 +9,7 @@ const landing = {
     paragraph: {
       one: {
         part: {
-          one: 'Somos uma empresa de data science em apostas esportivas especializada em ',
+          one: 'Somos uma empresa de DATA SCIENCE, em apostas esportivas especializada em ',
           two: 'FIFA ',
           three: 'do ',
           four: 'CyberLive Arena',
@@ -19,7 +19,7 @@ const landing = {
       two: {
         part: {
           one: 'Nosso objetivo é potencializar os resultados de ',
-          two: 'apostadores ',
+          two: 'apostadores, ',
           three: 'usando dados e as tecnologias mais avançadas existentes no mercado hoje.',
         },
       },
@@ -32,10 +32,10 @@ const landing = {
       one:
         'Trata-se mercado onde mesmo apostadores profissionais tem dificuldades para manter consistência.',
       two:
-        'Por ser um mercado onde os players evoluem rápido, observações baseadas no feeling passam por ciclos. Ou seja, sempre vão ter épocas boas e épocas que as análises estarão completamente enviesadas, impossibilitando a consistência.',
-      three: 'Você provavelmente já passou pro isso não é mesmo?',
+        'Por ser um mercado onde os players evoluem rápido, observações baseadas no "feeling" passam por ciclos. Ou seja, sempre vão ter épocas boas e épocas que as análises estarão completamente enviesadas, impossibilitando a consistência.',
+      three: 'Você provavelmente já passou pro isso, não é mesmo?',
       four:
-        'O E-Sport FIFA é um mercado onde as informações ainda são escassas  e muitas vezes apostar pelo felling é estressante, pois é um mercado onde tudo pode acontecer.',
+        'O E-Sport FIFA é um mercado onde as informações ainda são escassas e muitas vezes apostar pelo "felling" é estressante, pois este é um mercado onde tudo pode acontecer.',
       five: {
         part: {
           one: 'Esses acontecimentos são considerados por muitos até mesmo ',
@@ -68,13 +68,13 @@ const landing = {
 
   cta: {
     button: {
-      one: 'gratis',
+      one: 'grátis',
       two: 'completo',
     },
     paragraph: {
-      one: '+ Acesso ao histórico de partidas e ranking dos jogadores e times.',
-      two: '+  Acesso com publicidade.',
-      three: '+  Acesso a estatísticas de jogos, recebendo a probabilidade de:',
+      one: '+ Acesso ao histórico de partidas e rank dos jogadores e times.',
+      two: '+ Acesso com publicidade.',
+      three: '+ Acesso a estatísticas de jogos, recebendo a probabilidade de:',
       four: '+ Acesso aos recursos grátis sem publicidade.',
     },
     table: {
@@ -89,12 +89,12 @@ const landing = {
 
   buy: {
     paragraph: {
-      one: '+ Bonus',
+      one: '+ Bônus',
       two: {
         part: {
-          one: '+Acesso ao grupo do ',
+          one: '+ Acesso ao grupo do ',
           two: 'Whatsapp',
-          three: ' para interação e  dúvidas.',
+          three: ' para interação e dúvidas.',
         },
       },
       three: {
@@ -106,7 +106,7 @@ const landing = {
       },
       four: {
         part: {
-          one: 'de ',
+          one: 'por ',
           two: 'R$ 99,00',
           three: '/mês',
         },

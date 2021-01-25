@@ -9,7 +9,7 @@ const landing = {
     paragraph: {
       one: {
         part: {
-          one: 'We are a company of data science in sportive bets, specialized in ',
+          one: 'We are a company of DATA SCIENCE, in sportive bets, specialized in ',
           two: 'FIFA ',
           three: 'from ',
           four: 'CyberLive Arena',
@@ -27,7 +27,7 @@ const landing = {
   },
 
   market: {
-    slogan: 'O mercado',
+    slogan: 'the market',
     paragraph: {
       one: 'It is a market where even professional tipsters have problems being consistent.',
       two:
@@ -50,39 +50,38 @@ const landing = {
   increase: {
     slogan: {
       part: {
-        one: 'aumento em',
-        two: 'de',
-        three: '',
-        four: '270%',
-        five: 'nos',
-        six: 'lucros',
+        one: 'increase by',
+        two: 'than',
+        three: '270%',
+        four: 'in',
+        five: 'profit',
       },
     },
     paragraph: {
       one:
-        'Essa é a taxa média de aumento nos rendimentos dos apostadores que utilizaram os recursos da brother.bet.',
-      two: 'Veja o que estão falando da brother',
+        'This is the average tax of increasing income of tipters that that uses the resources of Brother Bet.',
+      two: 'See what they are talking about Brother Bet.',
     },
   },
 
   cta: {
     button: {
-      one: 'gratis',
-      two: 'completo',
+      one: 'free',
+      two: 'full',
     },
     paragraph: {
-      one: '+ Acesso ao histórico de partidas e ranking dos jogadores e times.',
-      two: '+  Acesso com publicidade.',
-      three: '+  Acesso a estatísticas de jogos, recebendo a probabilidade de:',
-      four: '+ Acesso aos recursos grátis sem publicidade.',
+      one: '+ Access to historic of matches and rank of players ans teams.',
+      two: '+  Access with ads.',
+      three: '+  Access to statistics of games, receiving the probability of:',
+      four: '+ Access to free resources without ads.',
     },
     table: {
-      one: 'Jogador A + Time A',
-      two: 'Jogador B + Time B',
-      three: 'Jogador A',
-      four: 'Jogador B',
-      five: 'Time A',
-      six: 'Time B',
+      one: 'Player A + Team A',
+      two: 'Player B + Team B',
+      three: 'Player A',
+      four: 'Player B',
+      five: 'Team A',
+      six: 'Team B',
     },
   },
 
@@ -91,33 +90,33 @@ const landing = {
       one: '+ Bonus',
       two: {
         part: {
-          one: '+Acesso ao grupo do ',
+          one: '+ Access to',
           two: 'Whatsapp',
-          three: ' para interação e  dúvidas.',
+          three: 'group for interaction and doubts.',
         },
       },
       three: {
         part: {
-          one: 'de ',
-          two: 'R$ 299,00',
-          three: '/mês',
+          one: 'from ',
+          two: 'U$ 30,00',
+          three: '/month',
         },
       },
       four: {
         part: {
-          one: 'de ',
-          two: 'R$ 99,00',
-          three: '/mês',
+          one: 'to ',
+          two: 'U$ 10,00',
+          three: '/month',
         },
       },
     },
-    button: 'comprar',
+    button: 'purchase',
     bagde: {
       paragraph: {
-        one: 'satisfação garantida',
-        two: 'risco zero',
+        one: 'satisfaction guaranteed',
+        two: 'zero risk',
         three: '7',
-        four: 'dias de garantia',
+        four: 'days of warranty',
       },
     },
   },
