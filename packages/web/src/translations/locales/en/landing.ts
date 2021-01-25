@@ -5,21 +5,22 @@ const landing = {
   },
 
   about: {
-    slogan: 'Sobre Nós',
+    slogan: 'about us',
     paragraph: {
       one: {
         part: {
-          one: 'Somos uma empresa de data science em apostas esportivas especializada em ',
+          one: 'We are a company of data science in sportive bets, specialized in ',
           two: 'FIFA ',
-          three: 'CyberLive Arena',
-          four: '.',
+          three: 'from ',
+          four: 'CyberLive Arena',
+          five: '.',
         },
       },
       two: {
         part: {
-          one: 'Nosso objetivo é potencializar os resultados de ',
-          two: 'apostadores',
-          three: 'usando dados e as tecnologias mais avançadas existentes no mercado hoje.',
+          one: 'Our objective is to potentialize ',
+          two: 'tipsters ',
+          three: 'results, using data and the most advanced technologies existing in the market.',
         },
       },
     },
@@ -28,22 +29,21 @@ const landing = {
   market: {
     slogan: 'O mercado',
     paragraph: {
-      one:
-        'Trata-se mercado onde mesmo apostadores profissionais tem dificuldades para manter consistência.',
+      one: 'It is a market where even professional tipsters have problems being consistent.',
       two:
-        'Por ser um mercado onde os players evoluem rápido, observações baseadas no feeling passam por ciclos. Ou seja, sempre vão ter épocas boas e épocas que as análises estarão completamente enviesadas, impossibilitando a consistência.',
-      three: 'Você provavelmente já passou pro isso não é mesmo?',
+        'Being a market that the players evolute so fast, observations based on feeling will to past for cycles. In other words, going to have good times and times that every analysis will be completely skewed, avoiding consistency.',
+      three: "You probably already went past through this, didn't you?",
       four:
-        'O E-Sport FIFA é um mercado onde as informações ainda são escassas  e muitas vezes apostar pelo felling é estressante, pois é um mercado onde tudo pode acontecer.',
+        'The E-Sport FIFA is a market where the information is still scarce, and most of the time, bet by feeling is stressful because this is a market where everything could happen.',
       five: {
         part: {
-          one: 'Esses acontecimentos são considerados por muitos até mesmo ',
-          two: 'roubos',
+          one: 'These events are considered by many like ',
+          two: 'robberies',
           three: '.',
         },
       },
-      six: 'mas a brother mudou isso!',
-      seven: 'Saiba como',
+      six: 'but the brother change it!',
+      seven: 'find how',
     },
   },
 

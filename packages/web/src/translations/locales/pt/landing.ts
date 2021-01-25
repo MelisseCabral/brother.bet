@@ -11,14 +11,15 @@ const landing = {
         part: {
           one: 'Somos uma empresa de data science em apostas esportivas especializada em ',
           two: 'FIFA ',
-          three: 'CyberLive Arena',
-          four: '.',
+          three: 'do ',
+          four: 'CyberLive Arena',
+          five: '.',
         },
       },
       two: {
         part: {
           one: 'Nosso objetivo é potencializar os resultados de ',
-          two: 'apostadores',
+          two: 'apostadores ',
           three: 'usando dados e as tecnologias mais avançadas existentes no mercado hoje.',
         },
       },

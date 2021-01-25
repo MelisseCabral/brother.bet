@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { getLocalizationProps, LanguageProvider } from '../../context/LanguageContext'
 import { Localization } from '../../translations/types'
-import { Landing } from '../../components/Landing'
+import { Landing } from '../../layouts/Landing'
 
 const IndexPage: NextPage<{
   localization: Localization

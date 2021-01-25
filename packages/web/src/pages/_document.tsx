@@ -48,6 +48,8 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
 
+          <link href="http://tilomitra.github.io/infinite/infinite.css" rel="stylesheet" />
+
           <link rel="icon" href={brotherbetLogo} />
         </Head>
         <body>
