@@ -43,6 +43,7 @@ jspm_packages/
 **/.env.production.local
 
 # Yarn
+./yarn.lock
 **/yarn.lock
 **/yarn-debug.log*
 **/yarn-error.log*
