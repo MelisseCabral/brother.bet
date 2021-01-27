@@ -7,9 +7,10 @@ import data from '../../src/assets/data.png'
 import player from '../../src/assets/player.png'
 import goal from '../../src/assets/goal.png'
 import money from '../../src/assets/money.jpg'
+import playerKick from '../../src/assets/player_kick.jpg'
 import { ReactComponent as Bet365White } from '../../src/assets/bet365-white.svg'
 import { ReactComponent as FifaWhite } from '../../src/assets/fifa-white.svg'
-import { FiChevronsDown } from 'react-icons/fi'
+import { FiChevronsDown, FiPlus } from 'react-icons/fi'
 
 import { slideBottom } from '../animations'
 
@@ -18,7 +19,7 @@ export const TextGreen = styled.span`
 `
 
 export const TextBlue = styled.span`
-  color: ${(props) => props.theme.colors.primary.four};
+  color: ${(props) => props.theme.colors.quinary.one};
 `
 
 export const TextYellow = styled.span`
@@ -60,13 +61,20 @@ export const Logo = styled.img.attrs({
   height: 350px;
 `
 
-export const AboutContainer = styled.div`
+export const ContainerAbout = styled.div`
   background-image: url(${data});
   background-attachment: fixed;
 `
 
-export const MoneyContainer = styled.div`
+export const ContainerMoney = styled.div`
   background-image: url(${money});
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+`
+
+export const ContainerCTA = styled.div`
+  background-image: url(${playerKick});
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
@@ -85,6 +93,15 @@ export const Title = styled.h2`
   bottom: 3rem;
   left: 2rem;
   z-index: 4;
+`
+
+export const TitleIncrease = styled(Title)`
+  font-size: 1.2rem;
+`
+
+export const TitleIncreaseSpotlight = styled.h2`
+  font-size: 5rem;
+  color: ${(props) => props.theme.colors.primary.two};
 `
 
 export const BoxTitleAbout = styled.div`
@@ -109,20 +126,50 @@ export const BoxTitleMarket = styled.div`
   background-attachment: fixed;
   z-index: 3;
 `
-export const ContainerTitleMarket = styled.div`
-  z-index: 2;
-  position: relative;
-  left: -2rem;
+export const BoxTitleIncrease = styled.div`
+  background-color: ${(props) => props.theme.colors.primary.one};
+  position: absolute;
+  width: 5rem;
+  top: -4rem;
+  left: 1rem;
+  height: 20rem;
+  background-attachment: fixed;
+  z-index: 3;
+  transform-origin: top right;
 `
+
 export const ContainerTitleAbout = styled.div`
   z-index: 2;
   position: relative;
   left: -2rem;
-  top: 5.3rem;
+  top: 3rem;
   height: 5rem;
 `
+
+export const ContainerTitleMarket = styled.div`
+  z-index: 2;
+  position: relative;
+  top: -0.5rem;
+  left: -2rem;
+  height: 7rem;
+`
+
+export const ContainerTitleIncrease = styled.div`
+  z-index: 2;
+  position: relative;
+  right: 2rem;
+  top: 2rem;
+  height: 5rem;
+`
+
 export const ContainerParagraphAbout = styled.div`
-  padding-right: 8rem;
+  padding-right: 10rem;
+  z-index: 2;
+`
+
+export const ContainerParagraphIncrease = styled.div`
+  padding-top: 4rem;
+  padding-left: 10rem;
   z-index: 2;
 `
 
@@ -169,31 +216,80 @@ export const SubSlogan = styled.h4`
   z-index: 2;
 `
 
+export const Video = styled.iframe`
+  border: none;
+  height: fit-content;
+  width: 80%;
+  z-index: 4;
+  margin-bottom: 6rem;
+  border-radius: 1rem;
+  box-shadow: 0px 3px 16px ${(props) => props.theme.colors.quinary.one}, 0px -4px 10px #1c1c1e00;
+`
+
 export const Page = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 400%;
-    background-color: ${(props) => props.theme.colors.background.primary.four};
-    background-attachment: fixed;
-
-    opacity: 0.7;
-    z-index: 1;
-  }
+`
+export const CardFree = styled.div`
+  border: none;
+  height: 35vh;
+  width: 80%;
+  margin-top: 2rem;
+  z-index: 4;
+  border-radius: 1rem;
+  opacity: 0.7;
+  padding: 1rem;
+  background-color: white;
+`
+export const CardFull = styled.div`
+  border: none;
+  height: 35vh;
+  width: 80%;
+  margin-bottom: 2rem;
+  z-index: 4;
+  border-radius: 1rem;
+  box-shadow: 0px 3px 30px ${(props) => props.theme.colors.primary.one}, 0px -4px 10px #1c1c1e00;
+  opacity: 1;
+  padding: 1rem;
+  background-color: white;
 `
 
-export const Bet365WhiteImage = styled(Bet365White)`
+export const OverlayDark = styled.div`
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  opacity: 0.92;
+  z-index: 1;
+  background-color: ${(props) => props.theme.colors.background.primary.four};
+`
+
+export const OverlayGrey = styled.div`
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  opacity: 0.85;
+  z-index: 1;
+  background-color: ${(props) => props.theme.colors.background.primary.four};
+`
+
+export const OverlayLight = styled.div`
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  opacity: 0.25;
+  z-index: 1;
+  background-color: ${(props) => props.theme.colors.primary.four};
+`
+
+export const ImageBet365White = styled(Bet365White)`
   height: auto;
   width: 5rem;
   display: inline-block;
@@ -201,7 +297,7 @@ export const Bet365WhiteImage = styled(Bet365White)`
   z-index: 5;
 `
 
-export const FifaWhiteImage = styled(FifaWhite)`
+export const ImageFifaWhite = styled(FifaWhite)`
   height: auto;
   width: 7rem;
   display: inline-block;
@@ -209,7 +305,7 @@ export const FifaWhiteImage = styled(FifaWhite)`
   z-index: 5;
 `
 
-export const SeeImage = styled(FiChevronsDown)`
+export const ImageSee = styled(FiChevronsDown)`
   height: 3rem;
   width: 3rem;
   display: inline-block;
@@ -219,7 +315,16 @@ export const SeeImage = styled(FiChevronsDown)`
     backwards;
 `
 
-export const ArrowsImage = styled.img.attrs({
+export const ImagePlus = styled(FiPlus)`
+  display: inline-block;
+  margin: auto;
+  font-size: 2rem;
+  color: ${(props) => props.theme.colors.primary.two};
+  position: relative;
+  top: 0.5rem;
+`
+
+export const ImageArrows = styled.img.attrs({
   src: arrows,
 })`
   display: flex;
@@ -236,7 +341,7 @@ export const ArrowsImage = styled.img.attrs({
   z-index: 2;
 `
 
-export const GoalImage = styled.img.attrs({
+export const ImageGoal = styled.img.attrs({
   src: goal,
 })`
   opacity: 0.5;
@@ -253,7 +358,7 @@ export const GoalImage = styled.img.attrs({
   z-index: 2;
 `
 
-export const PlayerImage = styled.img.attrs({
+export const ImagePlayer = styled.img.attrs({
   src: player,
 })`
   display: flex;

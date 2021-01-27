@@ -6,29 +6,43 @@ import useTranslation from '../hooks/useTranslation'
 
 import {
   Container,
-  AboutContainer,
-  ArrowsImage,
-  GoalImage,
+  ContainerImages,
+  ContainerAbout,
+  ContainerMoney,
+  ContainerTitleAbout,
+  ContainerTitleMarket,
+  ContainerTitleIncrease,
+  ContainerParagraphAbout,
+  ContainerParagraphIncrease,
+  ImageArrows,
+  ImageGoal,
+  ImagePlayer,
+  ImageBet365White,
+  ImageFifaWhite,
+  ImageSee,
   Page,
   Slogan,
   SubSlogan,
   Paragraph,
   Title,
+  TitleIncrease,
+  TitleIncreaseSpotlight,
+  TextPink,
+  TextBlue,
   TextYellow,
   TextGreen,
-  PlayerImage,
-  MoneyContainer,
-  TextPink,
   Prove,
-  Bet365WhiteImage,
-  FifaWhiteImage,
-  ContainerImages,
-  SeeImage,
-  ContainerTitleAbout,
-  ContainerTitleMarket,
   BoxTitleMarket,
   BoxTitleAbout,
-  ContainerParagraphAbout,
+  ImagePlus,
+  Video,
+  BoxTitleIncrease,
+  ContainerCTA,
+  OverlayDark,
+  OverlayGrey,
+  OverlayLight,
+  CardFree,
+  CardFull,
 } from '../../styles/pages/Landing'
 
 import FifaWhite from '../../src/assets/fifa-white.svg'
@@ -38,22 +52,26 @@ export const Landing = () => {
   const presentation = t('presentation')
   const about = t('about')
   const market = t('market')
+  const increase = t('increase')
+  const cta = t('cta')
 
   return (
     <Container>
       <Head>
         <title>Brother Bet</title>
       </Head>
-      <AboutContainer>
+      <ContainerAbout>
         <Page>
-          <ArrowsImage />
+          <OverlayGrey />
+          <ImageArrows />
           <Slogan>{presentation.slogan}</Slogan>
           <SubSlogan>
             <TextYellow>{presentation.sub_slogan}</TextYellow>
           </SubSlogan>
-          <GoalImage />
+          <ImageGoal />
         </Page>
         <Page>
+          <OverlayGrey />
           <ContainerTitleAbout>
             <BoxTitleAbout></BoxTitleAbout>
             <Title>{about.slogan}</Title>
@@ -74,13 +92,14 @@ export const Landing = () => {
             </Paragraph>
           </ContainerParagraphAbout>
 
-          <PlayerImage />
+          <ImagePlayer />
         </Page>
-      </AboutContainer>
-      <MoneyContainer>
+      </ContainerAbout>
+      <ContainerMoney>
         <Page>
+          <OverlayDark />
           <ContainerTitleMarket>
-            <BoxTitleMarket></BoxTitleMarket>
+            <BoxTitleMarket />
             <Title>{market.slogan}</Title>
           </ContainerTitleMarket>
           <Paragraph>{market.paragraph.one}</Paragraph>
@@ -95,8 +114,8 @@ export const Landing = () => {
             {market.paragraph.five.part.three}
           </Paragraph>
           <ContainerImages>
-            <FifaWhiteImage />
-            <Bet365WhiteImage />
+            <ImageFifaWhite />
+            <ImageBet365White />
           </ContainerImages>
           <Prove>
             <TextYellow>{market.paragraph.six}</TextYellow>
@@ -106,11 +125,71 @@ export const Landing = () => {
           </Prove>
           <Prove>
             <TextYellow>
-              <SeeImage />
+              <ImageSee />
             </TextYellow>
           </Prove>
         </Page>
-      </MoneyContainer>
+        <Page>
+          <OverlayDark />
+          <ContainerTitleIncrease>
+            <BoxTitleIncrease />
+            <TitleIncrease>
+              <div>{increase.slogan.one}</div>
+              <div>
+                <ImagePlus />
+                {increase.slogan.two}
+              </div>
+              <TitleIncreaseSpotlight>{increase.slogan.three}</TitleIncreaseSpotlight>
+              <div>
+                {increase.slogan.four}
+                <TextBlue>{increase.slogan.five}</TextBlue>
+              </div>
+            </TitleIncrease>
+          </ContainerTitleIncrease>
+          <ContainerParagraphIncrease>
+            <Paragraph>{increase.paragraph.one}</Paragraph>
+          </ContainerParagraphIncrease>
+
+          <Video
+            src="https://www.youtube-nocookie.com/embed/ukb4wVS4Nt8?controls=0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></Video>
+        </Page>
+      </ContainerMoney>
+      <ContainerCTA>
+        <Page>
+          <CardFree>
+            {cta.button.one}
+            {cta.button.two}
+            {cta.paragraph.one}
+            {cta.paragraph.two}
+            {cta.paragraph.three}
+            {cta.paragraph.four}
+            {cta.table.one}
+            {cta.table.two}
+            {cta.table.three}
+            {cta.table.four}
+            {cta.table.five}
+            {cta.table.six}
+          </CardFree>
+          <CardFull>
+            {cta.button.one}
+            {cta.button.two}
+            {cta.paragraph.one}
+            {cta.paragraph.two}
+            {cta.paragraph.three}
+            {cta.paragraph.four}
+            {cta.table.one}
+            {cta.table.two}
+            {cta.table.three}
+            {cta.table.four}
+            {cta.table.five}
+            {cta.table.six}
+          </CardFull>
+
+          <OverlayLight />
+        </Page>
+      </ContainerCTA>
     </Container>
   )
 }
