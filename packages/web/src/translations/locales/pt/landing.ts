@@ -50,14 +50,11 @@ const landing = {
 
   increase: {
     slogan: {
-      part: {
-        one: 'aumento em',
-        two: 'de',
-        three: '',
-        four: '270%',
-        five: 'nos',
-        six: 'lucros',
-      },
+      one: 'aumento em',
+      two: 'de',
+      three: '270%',
+      four: 'nos',
+      five: 'lucros',
     },
     paragraph: {
       one:
