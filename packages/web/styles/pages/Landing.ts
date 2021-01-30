@@ -414,7 +414,7 @@ export const ImagePlusFree = styled(ImagePlus)`
 `
 
 export const ImagePlusFull = styled(ImagePlusFree)`
-  color: ${(props) => props.theme.colors.primary.our};
+  color: ${(props) => props.theme.colors.primary.four};
 `
 
 export const ImageArrows = styled.img.attrs({
