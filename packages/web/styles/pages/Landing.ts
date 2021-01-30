@@ -284,7 +284,7 @@ export const Page = styled.div`
 `
 export const CardFree = styled.div`
   border: none;
-  min-height: 15rem;
+  min-height: 13rem;
   width: 80%;
   display: flex;
   align-items: center;
@@ -296,6 +296,7 @@ export const CardFree = styled.div`
   background-color: #ffffffe6;
 `
 export const CardFull = styled(CardFree)`
+  min-height: 15rem;
   margin-top: 0;
   box-shadow: 0px 3px 30px ${(props) => props.theme.colors.primary.one}, 0px -4px 10px #1c1c1e00;
   background-color: white;
@@ -384,7 +385,7 @@ export const ImageBarcode = styled(Barcode)`
   width: auto;
   display: inline-block;
   z-index: 5;
-  margin-top: 1rem;
+  margin: 1rem 0;
 `
 
 export const ImageSee = styled(FiChevronsDown)`

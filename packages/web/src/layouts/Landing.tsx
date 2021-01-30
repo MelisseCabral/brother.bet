@@ -191,10 +191,6 @@ export const Landing = () => {
               <ImagePlusFull />
               {cta.paragraph.three}
             </ParagraphCTA>
-            <ParagraphCTA>
-              <ImagePlusFull />
-              {cta.paragraph.four}
-            </ParagraphCTA>
             <Table>
               <tr>
                 <td>{cta.table.one}</td>
@@ -212,6 +208,11 @@ export const Landing = () => {
                 <td> {cta.table.six}</td>
               </tr>
             </Table>
+            <ParagraphCTA>
+              <ImagePlusFull />
+              {cta.paragraph.four}
+            </ParagraphCTA>
+
             <ButtonFull>{cta.button.two}</ButtonFull>
           </CardFull>
           <OverlayLight />
