@@ -68,10 +68,10 @@ const landing = {
       two: 'full',
     },
     paragraph: {
-      one: '+ Access to historic of matches and rank of players ans teams.',
-      two: '+  Access with ads.',
-      three: '+  Access to statistics of games, receiving the probability of:',
-      four: '+ Access to free resources without ads.',
+      one: 'Access to historic of matches and rank of players an teams.',
+      two: 'Access with ads.',
+      three: 'Access to statistics of games, receiving the probability of:',
+      four: 'Access to free resources without ads.',
     },
     table: {
       one: 'Player A + Team A',
@@ -85,10 +85,10 @@ const landing = {
 
   buy: {
     paragraph: {
-      one: '+ Bonus',
+      one: 'Bonus',
       two: {
         part: {
-          one: '+ Access to',
+          one: 'Access to',
           two: 'Whatsapp',
           three: 'group for interaction and doubts.',
         },

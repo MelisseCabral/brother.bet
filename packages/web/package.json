@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.0.0",
     "@next/bundle-analyzer": "^10.0.5",
     "axios": "^0.21.1",
     "next": "9.5.2",

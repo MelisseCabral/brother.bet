@@ -53,7 +53,7 @@ const landing = {
       one: 'aumento em',
       two: 'de',
       three: '270%',
-      four: 'nos',
+      four: 'nos ',
       five: 'lucros',
     },
     paragraph: {
@@ -69,10 +69,10 @@ const landing = {
       two: 'completo',
     },
     paragraph: {
-      one: '+ Acesso ao histórico de partidas e rank dos jogadores e times.',
-      two: '+ Acesso com publicidade.',
-      three: '+ Acesso a estatísticas de jogos, recebendo a probabilidade de:',
-      four: '+ Acesso aos recursos grátis sem publicidade.',
+      one: 'Acesso ao histórico de partidas e rank dos jogadores e times.',
+      two: 'Acesso com publicidade.',
+      three: 'Acesso a estatísticas de jogos, recebendo a probabilidade de:',
+      four: 'Acesso aos recursos grátis sem publicidade.',
     },
     table: {
       one: 'Jogador A + Time A',
@@ -86,10 +86,10 @@ const landing = {
 
   buy: {
     paragraph: {
-      one: '+ Bônus',
+      one: 'Bônus',
       two: {
         part: {
-          one: '+ Acesso ao grupo do ',
+          one: 'Acesso ao grupo do ',
           two: 'Whatsapp',
           three: ' para interação e dúvidas.',
         },

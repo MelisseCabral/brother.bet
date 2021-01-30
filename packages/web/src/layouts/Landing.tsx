@@ -2,6 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
 
+import { Player } from '@lottiefiles/react-lottie-player'
+
 import useTranslation from '../hooks/useTranslation'
 
 import {
@@ -43,9 +45,20 @@ import {
   OverlayLight,
   CardFree,
   CardFull,
+  ParagraphCTA,
+  ImageBarcode,
+  ButtonFree,
+  ButtonFull,
+  TextBlack,
+  ImagePlusFree,
+  ImagePlusFull,
+  Table,
 } from '../../styles/pages/Landing'
 
-import FifaWhite from '../../src/assets/fifa-white.svg'
+import barcode from '../../src/assets/animations/barcode.json'
+import gift from '../../src/assets/animations/gift.json'
+import love from '../../src/assets/animations/love.json'
+import rocket from '../../src/assets/animations/rocket.json'
 
 export const Landing = () => {
   const { t } = useTranslation()
@@ -159,34 +172,48 @@ export const Landing = () => {
       <ContainerCTA>
         <Page>
           <CardFree>
-            {cta.button.one}
-            {cta.button.two}
-            {cta.paragraph.one}
-            {cta.paragraph.two}
-            {cta.paragraph.three}
-            {cta.paragraph.four}
-            {cta.table.one}
-            {cta.table.two}
-            {cta.table.three}
-            {cta.table.four}
-            {cta.table.five}
-            {cta.table.six}
+            <ImageBarcode />
+            <ParagraphCTA>
+              <ImagePlusFree />
+              {cta.paragraph.one}
+            </ParagraphCTA>
+            <ParagraphCTA>
+              <ImagePlusFree />
+              {cta.paragraph.two}
+            </ParagraphCTA>
+            <ButtonFree>{cta.button.one}</ButtonFree>
           </CardFree>
           <CardFull>
-            {cta.button.one}
-            {cta.button.two}
-            {cta.paragraph.one}
-            {cta.paragraph.two}
-            {cta.paragraph.three}
-            {cta.paragraph.four}
-            {cta.table.one}
-            {cta.table.two}
-            {cta.table.three}
-            {cta.table.four}
-            {cta.table.five}
-            {cta.table.six}
+            {/* <Player autoplay loop src={love} style={{ height: '3rem', width: '3rem' }} /> */}
+            {/* <Player autoplay loop src={gift} style={{ height: '15rem', width: '15rem' }} /> */}
+            <Player autoplay loop src={rocket} style={{ height: '5rem', width: '5rem' }} />
+            <ParagraphCTA>
+              <ImagePlusFull />
+              {cta.paragraph.three}
+            </ParagraphCTA>
+            <ParagraphCTA>
+              <ImagePlusFull />
+              {cta.paragraph.four}
+            </ParagraphCTA>
+            <Table>
+              <tr>
+                <td>{cta.table.one}</td>
+                <td>vs</td>
+                <td> {cta.table.two}</td>
+              </tr>
+              <tr>
+                <td>{cta.table.three}</td>
+                <td>vs</td>
+                <td> {cta.table.four}</td>
+              </tr>
+              <tr>
+                <td>{cta.table.five}</td>
+                <td>vs</td>
+                <td> {cta.table.six}</td>
+              </tr>
+            </Table>
+            <ButtonFull>{cta.button.two}</ButtonFull>
           </CardFull>
-
           <OverlayLight />
         </Page>
       </ContainerCTA>

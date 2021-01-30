@@ -44,7 +44,7 @@ export default class MyDocument extends Document {
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;500;600;700;800&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100,200,300;500;600;700;800&display=swap"
             rel="stylesheet"
           />
 
