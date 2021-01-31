@@ -5,7 +5,7 @@ const theme = {
 
     secondary: { one: '#BDB1F7', two: '#9783FC', three: '#6547FF', four: '#502EFC' },
 
-    tertiary: { one: '#F8FCBE', two: '#F2F896', three: '#EEF777', four: '#EEFA2D' },
+    tertiary: { one: '#EEFA2D', two: '#FFF500', three: '#FFE14B', four: '#FFD60A' },
 
     quaternary: { one: '#F8C1DC', two: '#FF80BF', three: '#EC5D8D', four: '#F5447F' },
 

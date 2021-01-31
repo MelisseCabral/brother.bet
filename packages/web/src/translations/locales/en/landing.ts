@@ -88,9 +88,9 @@ const landing = {
       one: 'Bonus',
       two: {
         part: {
-          one: 'Access to',
+          one: 'Access to ',
           two: 'Whatsapp',
-          three: 'group for interaction and doubts.',
+          three: ' group for interaction and doubts.',
         },
       },
       three: {
@@ -108,15 +108,8 @@ const landing = {
         },
       },
     },
-    button: 'purchase',
-    bagde: {
-      paragraph: {
-        one: 'satisfaction guaranteed',
-        two: 'zero risk',
-        three: '7',
-        four: 'days of warranty',
-      },
-    },
+    button: 'buy',
+    bagde: 'en',
   },
 }
 

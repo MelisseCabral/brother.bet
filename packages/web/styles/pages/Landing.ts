@@ -8,6 +8,9 @@ import player from '../../src/assets/player.png'
 import goal from '../../src/assets/goal.png'
 import money from '../../src/assets/money.jpg'
 import playerKick from '../../src/assets/player_kick.jpg'
+import fieldPurple from '../../src/assets/field-purple.jpg'
+import zeroRisk from '../../src/assets/zero-risk.png'
+import zeroRisco from '../../src/assets/zero-risco.png'
 
 import { ReactComponent as Bet365White } from '../../src/assets/bet365-white.svg'
 import { ReactComponent as FifaWhite } from '../../src/assets/fifa-white.svg'
@@ -31,9 +34,14 @@ export const TextYellow = styled.span`
 export const TextPink = styled.span`
   color: ${(props) => props.theme.colors.quaternary.four};
 `
-
+export const TextPurple = styled.span`
+  color: ${(props) => props.theme.colors.secondary.two};
+`
 export const TextBlack = styled.span`
-  color: ${(props) => props.theme.colors.background.secondary.four};
+  color: ${(props) => props.theme.colors.background.primary.four};
+`
+export const TextGray = styled.span`
+  color: ${(props) => props.theme.colors.background.secondary.two};
 `
 
 export const Container = styled.div`
@@ -71,20 +79,22 @@ export const Logo = styled.img.attrs({
 export const ContainerAbout = styled.div`
   background-image: url(${data});
   background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
 `
 
-export const ContainerMoney = styled.div`
+export const ContainerMoney = styled(ContainerAbout)`
   background-image: url(${money});
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
 `
 
-export const ContainerCTA = styled.div`
+export const ContainerCTA = styled(ContainerAbout)`
   background-image: url(${playerKick});
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
+`
+export const ContainerBuy = styled(ContainerAbout)`
+  background-image: url(${fieldPurple});
+  background-size: auto fit-content;
+  background-position: center;
 `
 
 export const Title = styled.h2`
@@ -108,7 +118,7 @@ export const TitleIncrease = styled(Title)`
 
 export const TitleIncreaseSpotlight = styled.h2`
   font-size: 5rem;
-  color: ${(props) => props.theme.colors.primary.two};
+  color: ${(props) => props.theme.colors.primary};
 `
 
 export const BoxTitleAbout = styled.div`
@@ -133,6 +143,7 @@ export const BoxTitleMarket = styled.div`
   background-attachment: fixed;
   z-index: 3;
 `
+
 export const BoxTitleIncrease = styled.div`
   background-color: ${(props) => props.theme.colors.primary.one};
   position: absolute;
@@ -144,7 +155,11 @@ export const BoxTitleIncrease = styled.div`
   z-index: 3;
   transform-origin: top right;
 `
-
+export const BoxBadge = styled.div`
+  position: relative;
+  width: 0;
+  height: 0;
+`
 export const ContainerTitleAbout = styled.div`
   z-index: 2;
   position: relative;
@@ -218,18 +233,42 @@ export const Paragraph = styled.div`
   z-index: 2;
   text-indent: 1rem;
 `
-export const ParagraphCTA = styled.h4`
+
+export const ParagraphCard = styled.h4`
   align-self: center;
   font-family: 'Work Sans', Courier, monospace;
   color: ${(props) => props.theme.colors.background.primary.one};
   text-align: left;
   margin-bottom: 1rem;
   width: 100%;
-  font-size: 0.8rem;
-  line-height: 1rem;
   font-weight: 200;
   text-align: justify;
   z-index: 2;
+  font-size: 0.8em;
+`
+
+export const ParagraphCardSub = styled(ParagraphCard)`
+  line-height: 2rem;
+  font-size: 0.65em;
+  line-height: 0.7rem;
+  color: ${(props) => props.theme.colors.background.secondary.two};
+  padding-left: 0.6rem;
+`
+
+export const Price = styled.div`
+  font-size: 0.6rem;
+  line-height: 1rem;
+`
+
+export const PriceOld = styled.span`
+  font-size: 0.8rem;
+  text-decoration: line-through;
+  color: red;
+`
+
+export const PriceNew = styled.span`
+  font-size: 1.5rem;
+  line-height: 3.5rem;
 `
 
 export const Prove = styled.h3`
@@ -263,7 +302,7 @@ export const SubSlogan = styled.h4`
   z-index: 2;
 `
 
-export const Video = styled.iframe`
+export const VideoRecomendation = styled.iframe`
   border: none;
   height: fit-content;
   width: 80%;
@@ -271,6 +310,15 @@ export const Video = styled.iframe`
   margin-bottom: 6rem;
   border-radius: 1rem;
   box-shadow: 0px 3px 16px ${(props) => props.theme.colors.quinary.one}, 0px -4px 10px #1c1c1e00;
+`
+export const VideoBuy = styled(VideoRecomendation)`
+  border: none;
+  height: fit-content;
+  width: 80%;
+  z-index: 4;
+  margin-bottom: 6rem;
+  border-radius: 1rem;
+  box-shadow: 0px 3px 16px ${(props) => props.theme.colors.tertiary.one}, 0px -4px 10px #1c1c1e00;
 `
 
 export const Page = styled.div`
@@ -285,7 +333,7 @@ export const Page = styled.div`
 export const CardFree = styled.div`
   border: none;
   min-height: 13rem;
-  width: 80%;
+  width: 80% !important;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -295,7 +343,7 @@ export const CardFree = styled.div`
   padding: 0 0.5rem;
   background-color: #ffffffe6;
 `
-export const CardFull = styled(CardFree)`
+export const Card = styled(CardFree)`
   min-height: 15rem;
   margin-top: 0;
   box-shadow: 0px 3px 30px ${(props) => props.theme.colors.primary.one}, 0px -4px 10px #1c1c1e00;
@@ -332,6 +380,11 @@ export const ButtonFull = styled(ButtonFree)`
   background: ${(props) => props.theme.colors.primary.three};
   box-shadow: 4px 4px 15px ${(props) => props.theme.colors.secondary.four + '40'},
     -4px -4px 15px ${(props) => props.theme.colors.primary.four + '40'};
+`
+export const ButtonBuy = styled(ButtonFree)`
+  background: ${(props) => props.theme.colors.tertiary.four};
+  box-shadow: 4px 4px 15px ${(props) => props.theme.colors.tertiary.one + 'b3'},
+    -4px -4px 15px ${(props) => props.theme.colors.quaternary.four + '38'};
 `
 
 export const OverlayDark = styled.div`
@@ -406,15 +459,20 @@ export const ImagePlus = styled(FiPlus)`
   position: relative;
   top: 0.5rem;
 `
-export const ImagePlusFree = styled(ImagePlus)`
+export const ImagePlusParagraphFree = styled(ImagePlus)`
   font-size: 0.8rem;
   top: 0.1rem;
   margin-right: 0.5rem;
   color: ${(props) => props.theme.colors.background.primary.two};
 `
 
-export const ImagePlusFull = styled(ImagePlusFree)`
+export const ImagePlusParagraph = styled(ImagePlusParagraphFree)`
   color: ${(props) => props.theme.colors.primary.four};
+`
+
+export const ImagePlusParagraphSub = styled(ImagePlusParagraphFree)`
+  color: ${(props) => props.theme.colors.primary.four};
+  font-size: 0.6rem;
 `
 
 export const ImageArrows = styled.img.attrs({
@@ -467,14 +525,16 @@ export const ImagePlayer = styled.img.attrs({
   opacity: 0.6;
 `
 
-export const HeaderImage = styled.img.attrs({
-  src: stadium,
-})`
-  background-image: url(${stadium});
-  display: flex;
-  align-self: center;
-  width: 100%;
-  height: 70vh;
+export const ImageZeroRisk = styled.img.attrs((props) => ({
+  src: props.children === 'pt' ? zeroRisco : zeroRisk,
+}))`
+  width: 5rem;
+  height: auto;
+  background-repeat: no-repeat;
   object-fit: cover;
-  filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(60deg);
+  z-index: 4;
+  position: absolute;
+  left: 25vw;
+  bottom: 1.5rem;
+  transform: rotate(20deg);
 `

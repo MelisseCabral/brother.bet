@@ -110,14 +110,7 @@ const landing = {
       },
     },
     button: 'comprar',
-    bagde: {
-      paragraph: {
-        one: 'satisfação garantida',
-        two: 'risco zero',
-        three: '7',
-        four: 'dias de garantia',
-      },
-    },
+    bagde: 'pt',
   },
 }
 

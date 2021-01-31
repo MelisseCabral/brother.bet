@@ -11,6 +11,7 @@ import {
   ContainerImages,
   ContainerAbout,
   ContainerMoney,
+  ContainerBuy,
   ContainerTitleAbout,
   ContainerTitleMarket,
   ContainerTitleIncrease,
@@ -26,6 +27,7 @@ import {
   Slogan,
   SubSlogan,
   Paragraph,
+  ParagraphCard,
   Title,
   TitleIncrease,
   TitleIncreaseSpotlight,
@@ -33,26 +35,36 @@ import {
   TextBlue,
   TextYellow,
   TextGreen,
+  TextGray,
+  TextBlack,
+  TextPurple,
   Prove,
   BoxTitleMarket,
   BoxTitleAbout,
   ImagePlus,
-  Video,
+  ImagePlusParagraphFree,
+  ImagePlusParagraph,
+  ImagePlusParagraphSub,
+  ImageBarcode,
   BoxTitleIncrease,
   ContainerCTA,
   OverlayDark,
   OverlayGrey,
   OverlayLight,
   CardFree,
-  CardFull,
-  ParagraphCTA,
-  ImageBarcode,
+  Card,
   ButtonFree,
   ButtonFull,
-  TextBlack,
-  ImagePlusFree,
-  ImagePlusFull,
+  ButtonBuy,
   Table,
+  VideoBuy,
+  VideoRecomendation,
+  ParagraphCardSub,
+  Price,
+  PriceOld,
+  PriceNew,
+  ImageZeroRisk,
+  BoxBadge,
 } from '../../styles/pages/Landing'
 
 import barcode from '../../src/assets/animations/barcode.json'
@@ -67,6 +79,7 @@ export const Landing = () => {
   const market = t('market')
   const increase = t('increase')
   const cta = t('cta')
+  const buy = t('buy')
 
   return (
     <Container>
@@ -162,35 +175,32 @@ export const Landing = () => {
           <ContainerParagraphIncrease>
             <Paragraph>{increase.paragraph.one}</Paragraph>
           </ContainerParagraphIncrease>
-
-          <Video
+          <VideoRecomendation
             src="https://www.youtube-nocookie.com/embed/ukb4wVS4Nt8?controls=0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          ></Video>
+          />
         </Page>
       </ContainerMoney>
       <ContainerCTA>
         <Page>
           <CardFree>
             <ImageBarcode />
-            <ParagraphCTA>
-              <ImagePlusFree />
+            <ParagraphCard>
+              <ImagePlusParagraphFree />
               {cta.paragraph.one}
-            </ParagraphCTA>
-            <ParagraphCTA>
-              <ImagePlusFree />
+            </ParagraphCard>
+            <ParagraphCard>
+              <ImagePlusParagraphFree />
               {cta.paragraph.two}
-            </ParagraphCTA>
+            </ParagraphCard>
             <ButtonFree>{cta.button.one}</ButtonFree>
           </CardFree>
-          <CardFull>
-            {/* <Player autoplay loop src={love} style={{ height: '3rem', width: '3rem' }} /> */}
-            {/* <Player autoplay loop src={gift} style={{ height: '15rem', width: '15rem' }} /> */}
+          <Card>
             <Player autoplay loop src={rocket} style={{ height: '5rem', width: '5rem' }} />
-            <ParagraphCTA>
-              <ImagePlusFull />
+            <ParagraphCard>
+              <ImagePlusParagraph />
               {cta.paragraph.three}
-            </ParagraphCTA>
+            </ParagraphCard>
             <Table>
               <tr>
                 <td>{cta.table.one}</td>
@@ -208,16 +218,71 @@ export const Landing = () => {
                 <td> {cta.table.six}</td>
               </tr>
             </Table>
-            <ParagraphCTA>
-              <ImagePlusFull />
+            <ParagraphCard>
+              <ImagePlusParagraph />
               {cta.paragraph.four}
-            </ParagraphCTA>
+            </ParagraphCard>
 
             <ButtonFull>{cta.button.two}</ButtonFull>
-          </CardFull>
+          </Card>
           <OverlayLight />
         </Page>
       </ContainerCTA>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignContent: 'center',
+        }}
+      >
+        <ContainerBuy>
+          <Page>
+            <VideoBuy
+              src="https://www.youtube-nocookie.com/embed/rc6_W8NfCtA?controls=0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+            <Card>
+              <Player
+                autoplay
+                loop
+                src={love}
+                style={{ margin: '1rem', height: '3rem', width: '3rem' }}
+              />
+              {/* <Player autoplay loop src={gift} style={{ height: '15rem', width: '15rem' }} /> */}
+              <BoxBadge>
+                <ImageZeroRisk>{buy.badge}</ImageZeroRisk>
+              </BoxBadge>
+              <ParagraphCard>
+                <ImagePlusParagraph />
+                {buy.paragraph.one}
+              </ParagraphCard>
+              <ParagraphCardSub>
+                <ImagePlusParagraphSub />
+                {buy.paragraph.two.part.one}
+                <TextGreen>{buy.paragraph.two.part.two}</TextGreen>
+                {buy.paragraph.two.part.three}
+              </ParagraphCardSub>
+              <Price>
+                <TextGray>{buy.paragraph.three.part.one}</TextGray>
+                <PriceOld>
+                  <TextPink>{buy.paragraph.three.part.two}</TextPink>
+                </PriceOld>
+                <TextGray>{buy.paragraph.three.part.three}</TextGray>
+              </Price>
+              <Price>
+                <TextBlack>{buy.paragraph.four.part.one}</TextBlack>
+                <PriceNew>
+                  <TextPurple>{buy.paragraph.four.part.two}</TextPurple>
+                </PriceNew>
+                <TextBlack>{buy.paragraph.four.part.three}</TextBlack>
+              </Price>
+              <ButtonBuy>{buy.button}</ButtonBuy>
+            </Card>
+            <OverlayLight />
+          </Page>
+        </ContainerBuy>
+      </div>
     </Container>
   )
 }
