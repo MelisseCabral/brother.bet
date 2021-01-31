@@ -211,7 +211,7 @@ export const Table = styled.table`
   }
 
   & tr td:nth-child(2) {
-    color: ${(props) => props.theme.colors.primary.three};
+    color: ${(props) => props.theme.colors.background.secondary.two};
     text-align: center;
     padding: 0 0.5rem;
   }
