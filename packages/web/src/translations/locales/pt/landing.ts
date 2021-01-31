@@ -110,7 +110,7 @@ const landing = {
       },
     },
     button: 'comprar',
-    bagde: 'pt',
+    badge: 'pt',
   },
 }
 

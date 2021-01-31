@@ -525,8 +525,12 @@ export const ImagePlayer = styled.img.attrs({
   opacity: 0.6;
 `
 
-export const ImageZeroRisk = styled.img.attrs((props) => ({
-  src: props.children === 'pt' ? zeroRisco : zeroRisk,
+interface IImageZeroRisk {
+  language: string
+}
+
+export const ImageZeroRisk = styled.img.attrs<IImageZeroRisk>((props) => ({
+  src: props.language === 'en' ? zeroRisk : zeroRisco,
 }))`
   width: 5rem;
   height: auto;

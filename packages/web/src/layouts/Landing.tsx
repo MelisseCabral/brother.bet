@@ -45,6 +45,7 @@ import {
   ImagePlusParagraphFree,
   ImagePlusParagraph,
   ImagePlusParagraphSub,
+  ImageZeroRisk,
   ImageBarcode,
   BoxTitleIncrease,
   ContainerCTA,
@@ -63,7 +64,6 @@ import {
   Price,
   PriceOld,
   PriceNew,
-  ImageZeroRisk,
   BoxBadge,
 } from '../../styles/pages/Landing'
 
@@ -251,7 +251,7 @@ export const Landing = () => {
               />
               {/* <Player autoplay loop src={gift} style={{ height: '15rem', width: '15rem' }} /> */}
               <BoxBadge>
-                <ImageZeroRisk>{buy.badge}</ImageZeroRisk>
+                <ImageZeroRisk language={buy.badge} />
               </BoxBadge>
               <ParagraphCard>
                 <ImagePlusParagraph />
