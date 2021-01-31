@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 
 import logo from '../../src/assets/logo.png'
@@ -541,4 +542,4 @@ export const ImageZeroRisk = styled.img.attrs<IImageZeroRisk>((props) => ({
   left: 25vw;
   bottom: 1.5rem;
   transform: rotate(20deg);
-`
+` as React.FC<IImageZeroRisk>
