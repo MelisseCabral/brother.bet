@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 import { Player } from '@lottiefiles/react-lottie-player'
 
-import useTranslation from '../hooks/useTranslation'
+import useTranslation from '../../hooks/useTranslation'
 
 import {
   Container,
@@ -68,12 +68,11 @@ import {
   TextGreenLight,
   FillNavigation,
   FillNavigationContent,
-} from '../../styles/pages/Landing'
+} from '../../../styles/pages/Landing'
 
-import barcode from '../../src/assets/animations/barcode.json'
-import gift from '../../src/assets/animations/gift.json'
-import love from '../../src/assets/animations/love.json'
-import rocket from '../../src/assets/animations/rocket.json'
+import gift from '../../../src/assets/animations/gift.json'
+import love from '../../../src/assets/animations/love.json'
+import rocket from '../../../src/assets/animations/rocket.json'
 
 export const Landing = () => {
   const { t } = useTranslation()

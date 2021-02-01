@@ -31,7 +31,6 @@ export const fade = (primaryColor, secondaryColor) => keyframes`
 export const liquid = (finalPosition) => keyframes`
   0% {
     transition: all .1s cubic-bezier(0,-0.86, 0.98,-0.02);
-
   }
   50%{
     top: -7rem;

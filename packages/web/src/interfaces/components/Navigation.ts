@@ -10,7 +10,3 @@ export interface IButton {
   onClick: () => void
   animate: boolean
 }
-
-export interface IImageZeroRisk {
-  language: string
-}

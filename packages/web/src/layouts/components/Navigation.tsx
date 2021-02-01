@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { IButtonsAnimate } from '../../src/interfaces'
+import { IButtonsAnimate } from '../../../src/interfaces/components/Navigation'
 
 import {
   Button,
@@ -13,13 +13,13 @@ import {
   ContainerVirtualButtons,
   IconVip,
   IconSign,
-} from '../../styles/components/Navigation'
+} from '../../../styles/components/Navigation'
 
 export const Navigation = () => {
   const [animate, setAnimate] = useState<IButtonsAnimate>({
     vip: false,
     team: false,
-    home: false,
+    home: true,
     users: false,
     sign: false,
   })

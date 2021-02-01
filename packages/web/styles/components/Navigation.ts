@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-import { IButton } from '../../src/interfaces'
+import { IButton } from '../../src/interfaces/components/Navigation'
 
 import { ReactComponent as Tab } from '../../src/assets/svg/intersect.svg'
 

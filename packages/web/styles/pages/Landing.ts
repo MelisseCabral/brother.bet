@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { IImageZeroRisk } from '../../src/interfaces'
+import { IImageZeroRisk } from '../../src/interfaces/pages/Landing'
 
 import logo from '../../src/assets/tiny/logo.png'
 import arrows from '../../src/assets/tiny/arrows.png'
