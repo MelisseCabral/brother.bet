@@ -65,6 +65,9 @@ import {
   PriceOld,
   PriceNew,
   BoxBadge,
+  TextGreenLight,
+  FillNavigation,
+  FillNavigationContent,
 } from '../../styles/pages/Landing'
 
 import barcode from '../../src/assets/animations/barcode.json'
@@ -82,160 +85,155 @@ export const Landing = () => {
   const buy = t('buy')
 
   return (
-    <Container>
-      <Head>
-        <title>Brother Bet</title>
-      </Head>
-      <ContainerAbout>
-        <Page>
-          <OverlayGrey />
-          <ImageArrows />
-          <Slogan>{presentation.slogan}</Slogan>
-          <SubSlogan>
-            <TextYellow>{presentation.sub_slogan}</TextYellow>
-          </SubSlogan>
-          <ImageGoal />
-        </Page>
-        <Page>
-          <OverlayGrey />
-          <ContainerTitleAbout>
-            <BoxTitleAbout></BoxTitleAbout>
-            <Title>{about.slogan}</Title>
-          </ContainerTitleAbout>
-          <ContainerParagraphAbout>
-            <Paragraph>
-              {about.paragraph.one.part.one}
-              <TextGreen>{about.paragraph.one.part.two}</TextGreen>
-              {about.paragraph.one.part.three}
-              <TextYellow>{about.paragraph.one.part.four}</TextYellow>
-              {about.paragraph.one.part.five}
-            </Paragraph>
-            <br />
-            <Paragraph>
-              {about.paragraph.two.part.one}
-              <TextGreen>{about.paragraph.two.part.two}</TextGreen>
-              {about.paragraph.two.part.three}
-            </Paragraph>
-          </ContainerParagraphAbout>
+    <>
+      <Container>
+        <Head>
+          <title>Brother Bet</title>
+        </Head>
+        <ContainerAbout>
+          <Page>
+            <OverlayGrey />
+            <ImageArrows />
+            <Slogan>{presentation.slogan}</Slogan>
+            <SubSlogan>
+              <TextYellow>{presentation.sub_slogan}</TextYellow>
+            </SubSlogan>
+            <ImageGoal />
+          </Page>
+          <Page>
+            <OverlayGrey />
+            <ContainerTitleAbout>
+              <BoxTitleAbout />
+              <Title>{about.slogan}</Title>
+            </ContainerTitleAbout>
+            <ContainerParagraphAbout>
+              <Paragraph>
+                {about.paragraph.one.part.one}
+                <TextGreen>{about.paragraph.one.part.two}</TextGreen>
+                {about.paragraph.one.part.three}
+                <TextYellow>{about.paragraph.one.part.four}</TextYellow>
+                {about.paragraph.one.part.five}
+              </Paragraph>
+              <br />
+              <Paragraph>
+                {about.paragraph.two.part.one}
+                <TextGreen>{about.paragraph.two.part.two}</TextGreen>
+                {about.paragraph.two.part.three}
+              </Paragraph>
+            </ContainerParagraphAbout>
 
-          <ImagePlayer />
-        </Page>
-      </ContainerAbout>
-      <ContainerMoney>
-        <Page>
-          <OverlayDark />
-          <ContainerTitleMarket>
-            <BoxTitleMarket />
-            <Title>{market.slogan}</Title>
-          </ContainerTitleMarket>
-          <Paragraph>{market.paragraph.one}</Paragraph>
-          <Paragraph>{market.paragraph.two}</Paragraph>
-          <Paragraph>
-            <TextGreen>{market.paragraph.three}</TextGreen>
-          </Paragraph>
-          <Paragraph>{market.paragraph.four}</Paragraph>
-          <Paragraph>
-            {market.paragraph.five.part.one}
-            <TextPink>{market.paragraph.five.part.two}</TextPink>
-            {market.paragraph.five.part.three}
-          </Paragraph>
-          <ContainerImages>
-            <ImageFifaWhite />
-            <ImageBet365White />
-          </ContainerImages>
-          <Prove>
-            <TextYellow>{market.paragraph.six}</TextYellow>
-          </Prove>
-          <Prove>
-            <TextYellow>{market.paragraph.seven}</TextYellow>
-          </Prove>
-          <Prove>
-            <TextYellow>
-              <ImageSee />
-            </TextYellow>
-          </Prove>
-        </Page>
-        <Page>
-          <OverlayDark />
-          <ContainerTitleIncrease>
-            <BoxTitleIncrease />
-            <TitleIncrease>
-              <div>{increase.slogan.one}</div>
-              <div>
-                <ImagePlus />
-                {increase.slogan.two}
-              </div>
-              <TitleIncreaseSpotlight>{increase.slogan.three}</TitleIncreaseSpotlight>
-              <div>
-                {increase.slogan.four}
-                <TextBlue>{increase.slogan.five}</TextBlue>
-              </div>
-            </TitleIncrease>
-          </ContainerTitleIncrease>
-          <ContainerParagraphIncrease>
-            <Paragraph>{increase.paragraph.one}</Paragraph>
-          </ContainerParagraphIncrease>
-          <VideoRecomendation
-            src="https://www.youtube-nocookie.com/embed/ukb4wVS4Nt8?controls=0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          />
-        </Page>
-      </ContainerMoney>
-      <ContainerCTA>
-        <Page>
-          <CardFree>
-            <ImageBarcode />
-            <ParagraphCard>
-              <ImagePlusParagraphFree />
-              {cta.paragraph.one}
-            </ParagraphCard>
-            <ParagraphCard>
-              <ImagePlusParagraphFree />
-              {cta.paragraph.two}
-            </ParagraphCard>
-            <ButtonFree>{cta.button.one}</ButtonFree>
-          </CardFree>
-          <Card>
-            <Player autoplay loop src={rocket} style={{ height: '5rem', width: '5rem' }} />
-            <ParagraphCard>
-              <ImagePlusParagraph />
-              {cta.paragraph.three}
-            </ParagraphCard>
-            <Table>
-              <tr>
-                <td>{cta.table.one}</td>
-                <td>vs</td>
-                <td> {cta.table.two}</td>
-              </tr>
-              <tr>
-                <td>{cta.table.three}</td>
-                <td>vs</td>
-                <td> {cta.table.four}</td>
-              </tr>
-              <tr>
-                <td>{cta.table.five}</td>
-                <td>vs</td>
-                <td> {cta.table.six}</td>
-              </tr>
-            </Table>
-            <ParagraphCard>
-              <ImagePlusParagraph />
-              {cta.paragraph.four}
-            </ParagraphCard>
+            <ImagePlayer />
+          </Page>
+        </ContainerAbout>
+        <ContainerMoney>
+          <Page>
+            <OverlayDark />
+            <ContainerTitleMarket>
+              <BoxTitleMarket />
+              <Title>{market.slogan}</Title>
+            </ContainerTitleMarket>
+            <Paragraph>{market.paragraph.one}</Paragraph>
+            <Paragraph>{market.paragraph.two}</Paragraph>
+            <Paragraph>
+              <TextGreen>{market.paragraph.three}</TextGreen>
+            </Paragraph>
+            <Paragraph>{market.paragraph.four}</Paragraph>
+            <Paragraph>
+              {market.paragraph.five.part.one}
+              <TextPink>{market.paragraph.five.part.two}</TextPink>
+              {market.paragraph.five.part.three}
+            </Paragraph>
+            <ContainerImages>
+              <ImageFifaWhite />
+              <ImageBet365White />
+            </ContainerImages>
+            <Prove>
+              <TextYellow>{market.paragraph.six}</TextYellow>
+            </Prove>
+            <Prove>
+              <TextYellow>{market.paragraph.seven}</TextYellow>
+            </Prove>
+            <Prove>
+              <TextYellow>
+                <ImageSee />
+              </TextYellow>
+            </Prove>
+          </Page>
+          <Page>
+            <OverlayDark />
+            <ContainerTitleIncrease>
+              <BoxTitleIncrease />
+              <TitleIncrease>
+                <div>{increase.slogan.one}</div>
+                <div>
+                  <ImagePlus />
+                  {increase.slogan.two}
+                </div>
+                <TextGreenLight>
+                  <TitleIncreaseSpotlight>{increase.slogan.three}</TitleIncreaseSpotlight>
+                </TextGreenLight>
+                <div>
+                  {increase.slogan.four}
+                  <TextBlue>{increase.slogan.five}</TextBlue>
+                </div>
+              </TitleIncrease>
+            </ContainerTitleIncrease>
+            <ContainerParagraphIncrease>
+              <Paragraph>{increase.paragraph.one}</Paragraph>
+            </ContainerParagraphIncrease>
+            <VideoRecomendation
+              src="https://www.youtube-nocookie.com/embed/ukb4wVS4Nt8?controls=0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          </Page>
+        </ContainerMoney>
+        <ContainerCTA>
+          <Page>
+            <CardFree>
+              <ImageBarcode />
+              <ParagraphCard>
+                <ImagePlusParagraphFree />
+                {cta.paragraph.one}
+              </ParagraphCard>
+              <ParagraphCard>
+                <ImagePlusParagraphFree />
+                {cta.paragraph.two}
+              </ParagraphCard>
+              <ButtonFree>{cta.button.one}</ButtonFree>
+            </CardFree>
+            <Card>
+              <Player autoplay loop src={rocket} style={{ height: '5rem', width: '5rem' }} />
+              <ParagraphCard>
+                <ImagePlusParagraph />
+                {cta.paragraph.three}
+              </ParagraphCard>
+              <Table>
+                <tr>
+                  <td>{cta.table.one}</td>
+                  <td>vs</td>
+                  <td> {cta.table.two}</td>
+                </tr>
+                <tr>
+                  <td>{cta.table.three}</td>
+                  <td>vs</td>
+                  <td> {cta.table.four}</td>
+                </tr>
+                <tr>
+                  <td>{cta.table.five}</td>
+                  <td>vs</td>
+                  <td> {cta.table.six}</td>
+                </tr>
+              </Table>
+              <ParagraphCard>
+                <ImagePlusParagraph />
+                {cta.paragraph.four}
+              </ParagraphCard>
 
-            <ButtonFull>{cta.button.two}</ButtonFull>
-          </Card>
-          <OverlayLight />
-        </Page>
-      </ContainerCTA>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          alignContent: 'center',
-        }}
-      >
+              <ButtonFull>{cta.button.two}</ButtonFull>
+            </Card>
+            <OverlayLight />
+          </Page>
+        </ContainerCTA>
         <ContainerBuy>
           <Page>
             <VideoBuy
@@ -282,7 +280,10 @@ export const Landing = () => {
             <OverlayLight />
           </Page>
         </ContainerBuy>
-      </div>
-    </Container>
+        <FillNavigation>
+          <FillNavigationContent />
+        </FillNavigation>
+      </Container>
+    </>
   )
 }

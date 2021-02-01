@@ -26,6 +26,9 @@ const theme = {
       },
     },
   },
+  navigation: {
+    height: '4rem',
+  },
 }
 
 export default theme

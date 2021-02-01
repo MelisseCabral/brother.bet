@@ -28,6 +28,22 @@ export const fade = (primaryColor, secondaryColor) => keyframes`
   }
 `
 
+export const liquid = keyframes`
+  0% {
+    top: -2.5rem;
+    transition: all .1s cubic-bezier(0,-0.86, 0.98,-0.02);
+
+  }
+  50%{
+    top: -7rem;
+    transform: scale(1.05) rotate(-135deg);
+    border-top-left-radius: 10%;
+  }
+  100%{
+    top: -2.5rem;
+  }
+`
+
 export const pulse = keyframes`
 0% {
   transform: scale(0);

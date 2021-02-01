@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { IImageZeroRisk } from '../../src/interfaces'
+
 import logo from '../../src/assets/tiny/logo.png'
 import arrows from '../../src/assets/tiny/arrows.png'
 import data from '../../src/assets/tiny/data.png'
@@ -22,6 +24,9 @@ import { slideBottom } from '../animations'
 
 export const TextGreen = styled.span`
   color: ${(props) => props.theme.colors.primary.one};
+`
+export const TextGreenLight = styled.span`
+  color: ${(props) => props.theme.colors.primary.two};
 `
 
 export const TextBlue = styled.span`
@@ -60,6 +65,8 @@ export const Container = styled.div`
     line-height: 32px;
     color: ${(props) => props.theme.colors.one};
   }
+  border-radius: 0 0 2rem 2rem;
+  height: calc(100vh - ${(props) => props.theme.navigation.height});
 `
 
 export const ContainerImages = styled.div`
@@ -133,28 +140,15 @@ export const BoxTitleAbout = styled.div`
   transform-origin: top right;
 `
 
-export const BoxTitleMarket = styled.div`
-  background-color: ${(props) => props.theme.colors.primary.one};
-  position: relative;
-  top: 1rem;
+export const BoxTitleMarket = styled(BoxTitleAbout)`
+  height: 4rem;
   left: 1rem;
-  width: 5rem;
-  height: 5rem;
-  background-attachment: fixed;
-  z-index: 3;
 `
 
-export const BoxTitleIncrease = styled.div`
-  background-color: ${(props) => props.theme.colors.primary.one};
-  position: absolute;
-  width: 5rem;
-  top: -4rem;
+export const BoxTitleIncrease = styled(BoxTitleAbout)`
   left: 1rem;
-  height: 20rem;
-  background-attachment: fixed;
-  z-index: 3;
-  transform-origin: top right;
 `
+
 export const BoxBadge = styled.div`
   position: relative;
   width: 0;
@@ -164,25 +158,13 @@ export const ContainerTitleAbout = styled.div`
   z-index: 2;
   position: relative;
   left: -2rem;
-  top: 3rem;
   height: 5rem;
+  margin-top: 5rem;
 `
 
-export const ContainerTitleMarket = styled.div`
-  z-index: 2;
-  position: relative;
-  top: -0.5rem;
-  left: -2rem;
-  height: 7rem;
-`
+export const ContainerTitleMarket = styled(ContainerTitleAbout)``
 
-export const ContainerTitleIncrease = styled.div`
-  z-index: 2;
-  position: relative;
-  right: 2rem;
-  top: 2rem;
-  height: 5rem;
-`
+export const ContainerTitleIncrease = styled(ContainerTitleAbout)``
 
 export const ContainerParagraphAbout = styled.div`
   padding-right: 10rem;
@@ -307,9 +289,10 @@ export const VideoRecomendation = styled.iframe`
   height: fit-content;
   width: 80%;
   z-index: 4;
-  margin-bottom: 6rem;
+  margin-bottom: 1rem;
   border-radius: 1rem;
   box-shadow: 0px 3px 16px ${(props) => props.theme.colors.quinary.one}, 0px -4px 10px #1c1c1e00;
+  margin: 1rem;
 `
 export const VideoBuy = styled(VideoRecomendation)`
   border: none;
@@ -325,11 +308,25 @@ export const Page = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - ${(props) => props.theme.navigation.height});
   overflow: hidden;
 `
+export const FillNavigation = styled.div`
+  width: 100%;
+`
+
+export const FillNavigationContent = styled.div`
+  width: 100%;
+  height: calc(${(props) => props.theme.navigation.height});
+  overflow: hidden;
+  position: absolute;
+  opacity: 0.92;
+  z-index: 1;
+  background-color: transparent;
+`
+
 export const CardFree = styled.div`
   border: none;
   min-height: 13rem;
@@ -342,6 +339,8 @@ export const CardFree = styled.div`
   border-radius: 1rem;
   padding: 0 0.5rem;
   background-color: #ffffffe6;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `
 export const Card = styled(CardFree)`
   min-height: 15rem;
@@ -389,7 +388,7 @@ export const ButtonBuy = styled(ButtonFree)`
 
 export const OverlayDark = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - ${(props) => props.theme.navigation.height});
   overflow: hidden;
   position: absolute;
   opacity: 0.92;
@@ -399,7 +398,7 @@ export const OverlayDark = styled.div`
 
 export const OverlayGrey = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - ${(props) => props.theme.navigation.height});
   overflow: hidden;
   position: absolute;
   opacity: 0.85;
@@ -409,7 +408,7 @@ export const OverlayGrey = styled.div`
 
 export const OverlayLight = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - ${(props) => props.theme.navigation.height});
   overflow: hidden;
   position: absolute;
   opacity: 0.25;
@@ -517,17 +516,14 @@ export const ImagePlayer = styled.img.attrs({
   width: 100%;
   height: 45%;
   background-repeat: round;
+  justify-content: end;
   object-fit: cover;
   position: relative;
   right: -4rem;
-  bottom: -1rem;
+  bottom: 0rem;
   z-index: 2;
   opacity: 0.6;
 `
-
-interface IImageZeroRisk {
-  language: string
-}
 
 export const ImageZeroRisk = styled.img.attrs<IImageZeroRisk>((props) => ({
   src: props.language === 'en' ? zeroRisk : zeroRisco,
