@@ -28,9 +28,8 @@ export const fade = (primaryColor, secondaryColor) => keyframes`
   }
 `
 
-export const liquid = keyframes`
+export const liquid = (finalPosition) => keyframes`
   0% {
-    top: -2.5rem;
     transition: all .1s cubic-bezier(0,-0.86, 0.98,-0.02);
 
   }
@@ -40,7 +39,8 @@ export const liquid = keyframes`
     border-top-left-radius: 10%;
   }
   100%{
-    top: -2.5rem;
+  background: linear-gradient(00deg, #50fa7b 0%, #00d58f 100%);
+    top: ${finalPosition};
   }
 `
 

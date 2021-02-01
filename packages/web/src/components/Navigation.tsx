@@ -28,26 +28,36 @@ export const Navigation = () => {
     console.log(animate)
   }, [animate])
 
+  const buttonAnimate = (nameButton) => {
+    if (!animate[nameButton]) {
+      setAnimate((state) => {
+        const stateFalsies = Object.keys(state).forEach((v) => (state[v] = false))
+        const updatedState = { ...(stateFalsies as any), [nameButton]: true }
+        return updatedState
+      })
+    }
+  }
+
   return (
     <>
       <ContainerTab>
         <ContainerButtons>
           <ContainerVirtualButtons>
-            <IconVip />
-            <IconTeam />
-            <Button
-              animate={animate.home}
-              onClick={() => {
-                setAnimate((state) => ({ ...state, home: true }))
-                setTimeout(() => {
-                  setAnimate((state) => ({ ...state, home: false }))
-                }, 1000)
-              }}
-            >
+            <Button animate={animate.vip} onClick={() => buttonAnimate('vip')}>
+              <IconVip />
+            </Button>
+            <Button animate={animate.team} onClick={() => buttonAnimate('team')}>
+              <IconTeam />
+            </Button>
+            <Button animate={animate.home} onClick={() => buttonAnimate('home')}>
               <IconHome />
             </Button>
-            <IconUsers />
-            <IconSign />
+            <Button animate={animate.users} onClick={() => buttonAnimate('users')}>
+              <IconUsers />
+            </Button>
+            <Button animate={animate.sign} onClick={() => buttonAnimate('sign')}>
+              <IconSign />
+            </Button>
           </ContainerVirtualButtons>
         </ContainerButtons>
         <TabBar />

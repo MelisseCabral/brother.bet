@@ -33,7 +33,8 @@ export const ContainerVirtualButtons = styled.span`
   width: 100vw;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding: 0 1rem;
   color: ${(props) => props.theme.colors.background.secondary.two} !important;
 `
 
@@ -41,26 +42,34 @@ export const Button = styled.span<IButton>`
   height: 3rem;
   width: 3rem;
   z-index: 2;
-  color: white;
   padding: 0.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   position: relative;
-  top: -2.5rem;
-  background: linear-gradient(00deg, #50fa7b 0%, #00d58f 100%);
-  box-shadow: 4px 4px 10px ${(props) => props.theme.colors.secondary.three + '33'},
-    -4px -4px 10px ${(props) => props.theme.colors.primary.one + '66'};
+  top: ${(props) => (props.animate ? ' -2.5rem' : '')};
+  color: ${(props) => (props.animate ? 'white' : '')};
 
-  /* Animation */
-  /* position: absolute; */
-  top: -2.5rem;
+  box-shadow: ${(props) =>
+    props.animate
+      ? css`
+          4px 4px 10px ${(props) => props.theme.colors.secondary.three + '33'},
+          -4px -4px 10px ${(props) => props.theme.colors.primary.one + '66'};
+        `
+      : ''};
+  background: ${(props) =>
+    props.animate
+      ? css`
+          linear-gradient(00deg, #50fa7b 0%, #00d58f 100%);
+        `
+      : ''};
   transform: rotate(-135deg);
+  /* transition: all ease 0.5s; */
 
   animation: ${(props) =>
     props.animate
       ? css`
-          ${liquid} ease-in-out 1s
+          ${liquid('-2.5rem')} ease-in-out 1s
         `
       : ''};
 ` as React.FC<IButton>
@@ -79,6 +88,7 @@ export const IconUsers = styled(FiUser)`
   display: inline-block;
   margin: auto;
   z-index: 5;
+  transform: rotate(-225deg);
 `
 export const IconTeam = styled(FiUsers)`
   height: auto;
@@ -86,6 +96,7 @@ export const IconTeam = styled(FiUsers)`
   display: inline-block;
   margin: auto;
   z-index: 5;
+  transform: rotate(-225deg);
 `
 
 export const IconVip = styled(FiLock)`
@@ -94,6 +105,7 @@ export const IconVip = styled(FiLock)`
   display: inline-block;
   margin: auto;
   z-index: 5;
+  transform: rotate(-225deg);
 `
 
 export const IconSign = styled(FiShield)`
@@ -102,4 +114,5 @@ export const IconSign = styled(FiShield)`
   display: inline-block;
   margin: auto;
   z-index: 5;
+  transform: rotate(-225deg);
 `
