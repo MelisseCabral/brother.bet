@@ -1,6 +1,6 @@
 const Util = require('@brother.bet/Util');
 
-export default class Database {
+module.exports = class Database {
   constructor(api) {
     // Functions
     this.delay = Util.delay;

@@ -14,15 +14,22 @@
   "dependencies": {
     "@lottiefiles/react-lottie-player": "^3.0.0",
     "@next/bundle-analyzer": "^10.0.5",
+    "@vercel/node": "^1.9.0",
     "axios": "^0.21.1",
-    "next": "9.5.2",
+    "cheerio": "^1.0.0-rc.5",
+    "next": "^9.5.2",
     "next-images": "^1.6.2",
     "nodemon": "^2.0.4",
+    "puppeteer": "^8.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-icons": "^4.1.0",
     "react-scripts": "2.0.3",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "@brother.bet/Api":"*",
+    "@brother.bet/Database":"*",
+    "@brother.bet/Fifa":"*",
+    "@brother.bet/Util":"*"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^10.0.5",

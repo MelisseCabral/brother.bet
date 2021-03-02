@@ -107,16 +107,14 @@ class RobotFifaArena {
     return availableDays;
   }
 
-  async getPage(day = '2020-06-18', driver) {
-    const id = 'tb_date';
+  async changeDate(date, page){
     try {
-      const datePage = await driver.findElement(By.name(id)).getAttribute('value');
-      if (datePage !== day) {
-        driver.executeScript(`document.getElementById('${id}').value='${day}'`);
-        await driver.findElement(By.name(id)).sendKeys(Key.RETURN);
-      }
-    } finally {
-      return driver.getPageSource();
+      await page.evaluate(() => {
+        const inputDate = document.getElementById("tb_date");
+        console.log(inputDate.value)
+      })
+    } catch (error) {
+
     }
   }
 
