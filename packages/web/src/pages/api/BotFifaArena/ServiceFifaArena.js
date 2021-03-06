@@ -2,7 +2,6 @@ import Scrapper from './Scrapper'
 import FactoryFifaArena from './FactoryFifaArena'
 const Database = require('@brother.bet/Database')
 const Api = require('@brother.bet/Api')
-const Util = require('@brother.bet/Util')
 
 export default class ServiceFifaArena {
   constructor() {
