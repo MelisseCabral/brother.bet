@@ -6,13 +6,7 @@ const chromeExecPaths = {
   darwin: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 }
 
-interface Options {
-  args: string[]
-  executablePath: string
-  headless: boolean
-}
-
-export async function getOptions(isDev: boolean): Promise<Options> {
+export async function getOptions(isDev): Promise {
   let options: Options
 
   options = {
