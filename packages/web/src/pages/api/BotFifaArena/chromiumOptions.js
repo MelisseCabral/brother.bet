@@ -6,7 +6,7 @@ const chromeExecPaths = {
   darwin: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 }
 
-export async function getOptions(isDev): Promise {
+export async function getOptions(isDev) {
   let options: Options
 
   options = {
