@@ -1,8 +1,6 @@
 import puppeteer,  { Page } from 'puppeteer-core'
 import { getOptions } from './chromeOptions'
 
-let _page: Page | null
-
 export default class Scrapper {
   constructor(){
     this.delay = this.delay()
