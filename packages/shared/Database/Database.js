@@ -1,7 +1,7 @@
 module.exports = class Database {
   constructor(api) {
     // Functions
-    this.delay = delay();
+    this.delay = this.delay();
 
     this.api = api;
   }
@@ -78,7 +78,7 @@ module.exports = class Database {
       return console.log(error);
     }
   }
-  static delay(timeSeconds = 10) {
+  delay(timeSeconds = 10) {
     return new Promise((resolve) => {
       setTimeout(resolve, timeSeconds * 1000);
     });
