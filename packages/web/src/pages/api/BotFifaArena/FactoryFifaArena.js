@@ -1,5 +1,4 @@
 const cheerio = require('cheerio')
-const { Builder, By, Key } = require('selenium-webdriver')
 
 export default class FactoryFifaArena {
   static async getGamesResult(data, date) {
@@ -66,16 +65,4 @@ export default class FactoryFifaArena {
     return { firstHalf, secondHalf }
   }
 
-  async getPage(day = '2020-06-18', driver) {
-    const id = 'tb_date'
-    try {
-      const datePage = await driver.findElement(By.name(id)).getAttribute('value')
-      if (datePage !== day) {
-        driver.executeScript(`document.getElementById('${id}').value='${day}'`)
-        await driver.findElement(By.name(id)).sendKeys(Key.RETURN)
-      }
-    } finally {
-      return driver.getPageSource()
-    }
-  }
 }

@@ -26,9 +26,10 @@
     "react-icons": "^4.1.0",
     "react-scripts": "2.0.3",
     "styled-components": "^5.2.1",
-    "@brother.bet/Api":"./../shared/api",
-    "@brother.bet/Database":"./../shared/Database",
-    "@brother.bet/Fifa":"./../shared/Fifa",
+    "@brother.bet/Api":"file:./../shared/api",
+    "@brother.bet/Database":"file:./../shared/Database",
+    "@brother.bet/Fifa":"file:./../shared/Fifa",
+    "@brother.bet/Util":"file:./../shared/Util"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^10.0.5",
