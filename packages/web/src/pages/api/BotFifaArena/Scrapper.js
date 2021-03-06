@@ -1,5 +1,5 @@
 import puppeteer,  { Page } from 'puppeteer-core'
-import { getOptions } from './chromeOptions'
+import { getOptions } from './chromiumOptions.js'
 
 export default class Scrapper {
   constructor(){
