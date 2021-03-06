@@ -7,7 +7,7 @@ const chromeExecPaths = {
 }
 
 export async function getOptions(isDev) {
-  let options: Options
+  let options
 
   options = {
       args: chrome.args,
