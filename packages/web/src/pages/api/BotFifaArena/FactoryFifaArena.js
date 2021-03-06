@@ -1,10 +1,16 @@
-const cheerio = require('cheerio');
+const cheerio = require('cheerio')
+const { Builder, By, Key } = require('selenium-webdriver')
 
 export default class FactoryFifaArena {
+  static async getGamesResult(data, date) {
+    const $ = cheerio.load(data)
+    const lines = []
 
-  static async getGamesResult(data) {
-    const $ =  cheerio.load(data);
-    const lines = [];
+    if (date) {
+      $('#tb_date').each(function (date) {
+        $(this).prop('value', date)
+      })
+    }
 
     $('table').each((i, element) => {
       if ($(element).find('caption').text().split('CLA').length - 1 === 1) {
@@ -34,29 +40,42 @@ export default class FactoryFifaArena {
             }
           })
       }
-    });
+    })
 
     return lines
   }
 
   static getInParentesis(line) {
-    const regExp = /\(([^)]+)\)/;
-    const matches = regExp.exec(line);
-    return matches[1];
+    const regExp = /\(([^)]+)\)/
+    const matches = regExp.exec(line)
+    return matches[1]
   }
 
   static getBeforeParentesis(line) {
-    const endFileNameIndex = line.indexOf('(');
-    return line.substring(0, endFileNameIndex);
+    const endFileNameIndex = line.indexOf('(')
+    return line.substring(0, endFileNameIndex)
   }
 
   static getScores(line) {
     const firstHalf = this.getInParentesis(line)
       .split(':')
-      .map((each) => Number.parseInt(each, 10));
+      .map((each) => Number.parseInt(each, 10))
     const secondHalf = this.getBeforeParentesis(line)
       .split(':')
-      .map((each) => Number.parseInt(each, 10));
-    return { firstHalf, secondHalf };
+      .map((each) => Number.parseInt(each, 10))
+    return { firstHalf, secondHalf }
+  }
+
+  async getPage(day = '2020-06-18', driver) {
+    const id = 'tb_date'
+    try {
+      const datePage = await driver.findElement(By.name(id)).getAttribute('value')
+      if (datePage !== day) {
+        driver.executeScript(`document.getElementById('${id}').value='${day}'`)
+        await driver.findElement(By.name(id)).sendKeys(Key.RETURN)
+      }
+    } finally {
+      return driver.getPageSource()
+    }
   }
 }
