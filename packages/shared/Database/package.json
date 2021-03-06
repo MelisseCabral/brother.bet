@@ -4,6 +4,6 @@
   "main": "Database.js",
   "license": "MIT",
   "dependencies": {
-    "@brother.bet/Database":"file:./../Util/Util.js"
+    "@brother.bet/Database":"file:./../Util"
   }
 }
