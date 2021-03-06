@@ -1,9 +1,7 @@
-const Util = require('@brother.bet/Util');
-
 module.exports = class Database {
   constructor(api) {
     // Functions
-    this.delay = Util.delay;
+    this.delay = delay();
 
     this.api = api;
   }
@@ -79,5 +77,10 @@ module.exports = class Database {
     } catch (error) {
       return console.log(error);
     }
+  }
+  static delay(timeSeconds = 10) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeSeconds * 1000);
+    });
   }
 }
