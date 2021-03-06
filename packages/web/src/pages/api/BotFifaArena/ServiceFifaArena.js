@@ -55,7 +55,7 @@ export default class ServiceFifaArena {
 
   async getDatabase(initDate) {
     try {
-      const year = Util.getToday().split('-')[0]
+      const year = new Date().getFullYear();
       const availableDays = this.robot.getAvailableDays('', year, initDate)
       const database = await this.robot.mountDatabase(availableDays)
       return database
