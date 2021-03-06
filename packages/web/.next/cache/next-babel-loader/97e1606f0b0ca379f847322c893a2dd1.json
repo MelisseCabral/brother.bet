@@ -1,0 +1,1 @@
+{"ast":null,"code":"const common = {};\nexport default common;","map":{"version":3,"sources":["/Users/mel/Desktop/brother.bet/packages/web/src/translations/locales/en/common.ts"],"names":["common"],"mappings":"AAAA,MAAMA,MAAM,GAAG,EAAf;AAEA,eAAeA,MAAf","sourcesContent":["const common = {}\n\nexport default common\n"]},"metadata":{},"sourceType":"module"}
