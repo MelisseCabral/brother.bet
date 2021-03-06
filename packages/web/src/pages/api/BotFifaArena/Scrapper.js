@@ -1,11 +1,15 @@
-import puppeteer from 'puppeteer'
+import puppeteer,  { Page } from 'puppeteer-core'
+import { getOptions } from './chromeOptions'
+
+let _page: Page | null
 
 export default class Scrapper {
   constructor(){
     this.delay = this.delay()
   }
   static async getPageHTML(url, date = null) {
-    const browser = await puppeteer.launch()
+    const options = await getOptions()
+    const browser = await puppeteer.launch(options)
     const page = await browser.newPage()
 
     await page.goto(url, { waitUntil: 'networkidle2' })
