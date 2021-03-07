@@ -9,7 +9,7 @@ export default async (request: NowRequest, response: NowResponse) => {
     response.status(200).json({ message: `${date || 'Dia anterior'} atualizado com sucesso` })
   } catch (error) {
     console.log(error)
-    response.status(200).json({
+    response.status(500).json({
       message: 'Estamos com indisponibilidade no momento, tente novamente mais tarde!',
       ...error,
     })
