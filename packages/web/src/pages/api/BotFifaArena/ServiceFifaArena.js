@@ -9,9 +9,11 @@ export default class ServiceFifaArena {
     this.getDatesSearch = getDatesSearch()
   }
 
-  static async updateFifaArena() {
+  static async updateFifaArena(date = null) {
     try {
-      const { lastDay, dateQuery } = this.getDatesSearch()
+      const { lastDay, dateQuery } = date
+        ? { lastDay: date.split('-').join('.'), dateQuery: date }
+        : this.getDatesSearch()
 
       const contentHTML = await Scrapper.getPageHTML(
         'http://stats.cyberarena.live/results.aspx?tab=fifa21',
@@ -23,22 +25,16 @@ export default class ServiceFifaArena {
       const api = new Api('https://brother.bet').api
       const database = new Database(api)
 
-      const obj = [{ date: dateQuery, data: data, id: 'noUniqueId' }]
+      const obj = [{ date: lastDay.split('-').join('.'), data: data, id: 'noUniqueId' }]
 
       await database
-        .setData('2021', obj)
+        .setData(dateQuery.split('-')[0], obj)
         .then((resp) => {
-          return { message: `Dados de ${lastDay} atualizados com sucesso.`, code: 200 }
+          return true
         })
         .catch((error) => {
           console.log(error)
-          return {
-            data: {
-              message: 'Estamos com indisponibilidade no momento, tente novamente mais tarde!',
-              ...error,
-            },
-            code: 500,
-          }
+          return false
         })
     } catch (error) {
       console.log(error)
@@ -54,7 +50,7 @@ export default class ServiceFifaArena {
 
   async getDatabase(initDate) {
     try {
-      const year = new Date().getFullYear();
+      const year = new Date().getFullYear()
       const availableDays = this.robot.getAvailableDays('', year, initDate)
       const database = await this.robot.mountDatabase(availableDays)
       return database

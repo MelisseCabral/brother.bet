@@ -1,17 +1,17 @@
 import { NowRequest, NowResponse } from '@vercel/node'
-import ServiceFifaArena from './BotFifaArena/ServiceFifaArena';
+import ServiceFifaArena from './BotFifaArena/ServiceFifaArena'
 
-export default async (resquest: NowRequest, response: NowResponse) => {
+export default async (request: NowRequest, response: NowResponse) => {
   try {
+    const { date } = request.query
+    const result = await ServiceFifaArena.updateFifaArena(date)
 
-    const result = await ServiceFifaArena.updateFifaArena()
-    response.status(result.code).json({message: result.message});
+    response.status(200).json({ message: `${date || 'Dia anterior'} atualizado com sucesso` })
   } catch (error) {
-    response
-      .status(500)
-      .json({
-        message: 'Estamos com indisponibilidade no momento, tente novamente mais tarde!',
-        ...error,
-      })
+    console.log(error)
+    response.status(200).json({
+      message: 'Estamos com indisponibilidade no momento, tente novamente mais tarde!',
+      ...error,
+    })
   }
 }

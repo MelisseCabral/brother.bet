@@ -1,8 +1,8 @@
-import puppeteer,  { Page } from 'puppeteer-core'
+import puppeteer from 'puppeteer'
 import { getOptions } from './chromiumOptions.js'
 
 export default class Scrapper {
-  constructor(){
+  constructor() {
     this.delay = this.delay()
   }
   static async getPageHTML(url, date = null) {
@@ -23,17 +23,17 @@ export default class Scrapper {
       await page.focus('body')
     }
 
-    await page.$eval('input[name=tb_date]', e => e.blur());
+    await page.$eval('input[name=tb_date]', (e) => e.blur())
     await this.delay(3000)
-    
-    const content = await page.content();
+
+    const content = await page.content()
     await browser.close()
     return content
   }
 
-  static delay(time){
-    return new Promise(function(resolve) { 
-       setTimeout(resolve, time)
-   });
+  static delay(time) {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, time)
+    })
   }
 }
