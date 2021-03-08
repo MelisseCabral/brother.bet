@@ -64,7 +64,9 @@ export default class ServiceFifaArena {
 
   static getDatesSearch() {
     const date = new Date()
+    date.setHours(date.getHours() + 2)
     date.setDate(date.getDate() - 1)
+
     const lastDay = `${date.getFullYear()}.${`0${date.getMonth() + 1}`.slice(
       -2
     )}.${`0${date.getDate()}`.slice(-2)}`
