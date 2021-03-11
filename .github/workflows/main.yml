@@ -14,3 +14,11 @@ jobs:
         run: |
           curl --request GET \
           --url 'https://brother-bet-mobile.vercel.app/api/fifa_arena' \
+      - name: Call our site
+        run: |
+          curl --request GET \
+          --url 'https://brother-bet-mobile.vercel.app/pt' \
+      - name: Call our API route
+        run: |
+          curl --request GET \
+          --url 'https://brother-bet-mobile.vercel.app/api/fifa_arena' \
