@@ -9,4 +9,4 @@ jobs:
       - name: Call our API route
         run: |
           curl --request GET \
-           -m 6000 --url 'https://brother-bet-mobile.vercel.app/api/fifa_arena' \
+           -m 60000 --url 'https://brother-bet-mobile.vercel.app/api/fifa_arena' \
